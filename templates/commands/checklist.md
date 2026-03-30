@@ -4,26 +4,28 @@ scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
-# Linguistic and Semantic Quality Assessment of Requirements
+# Requirement Quality Checklist Generation
 
-**CRITICAL CONCEPT**: Checklists aim to validate the quality, clarity, and completeness of requirements in a given domain.
+**CRITICAL CONCEPT**: Checklists validate the quality, clarity, and completeness of requirements.
 
-**NOT for verification/testing**:
+**❌ Incorrect Patterns (Implementation Testing)**:
 
-- ❌ NOT "Verify the button clicks correctly"
-- ❌ NOT "Test error handling works"
-- ❌ NOT "Confirm the API returns 200"
-- ❌ NOT checking if code/implementation matches the spec
+- ❌ "Verify the button clicks correctly"
+- ❌ "Test error handling works"
+- ❌ "Confirm the API returns 200"
+- ❌ "Does the implementation match the specification?"
 
-**FOR requirements quality validation**:
+**✅ Correct Patterns (Requirement Quality Validation)**:
 
-- ✅ "Are visual hierarchy requirements defined for all card types?" (completeness)
-- ✅ "Is 'prominent display' quantified with specific sizing/positioning?" (clarity)
-- ✅ "Are hover state requirements consistent across all interactive elements?" (consistency)
-- ✅ "Are accessibility requirements defined for keyboard navigation?" (coverage)
-- ✅ "Does the spec define what happens when logo image fails to load?" (edge cases)
+- ✅ **Completeness**: "Are visual hierarchy requirements defined for all card types?"
+- ✅ **Clarity**: "Is 'prominent display' quantified with specific sizing/positioning?"
+- ✅ **Consistency**: "Are hover state requirements consistent across all interactive elements?"
+- ✅ **Coverage**: "Are accessibility requirements defined for keyboard navigation?"
+- ✅ **Edge cases**: "Does the spec define what happens when logo image fails to load?"
 
-**Metaphor**: If your spec is code written in English, the checklist is its unit test suite. You're testing whether the requirements are well-written, complete, unambiguous, and ready for implementation - NOT whether the implementation works.
+## Conceptual Model
+  
+The checklist functions analogously to a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## User Input
 
@@ -123,7 +125,56 @@ Read from FEATURE_DIR:
        - For large source docs, generate interim summary items instead of embedding raw text
 
 ### 5. Generate Checklist
- 
+   
+Perform checklist generation using the rules defined below.  
+  
+Steps:  
+
+1. Initialize or append checklist file  
+2. Generate candidate items  
+3. Validate items against rules  
+4. Group items by category  
+5. Apply consolidation rules
+
+#### File Handling
+
+- Create `FEATURE_DIR/checklists/` directory if it does not exist
+- Filename:
+    - Use short, descriptive name `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
+- If file does NOT exist:
+    - Create new file
+    - Start numbering at CHK001
+- If file exists:
+    - Append new items
+    - Continue numbering following the last existing CHK ID
+- NEVER delete, overwrite, or renumber existing content
+
+#### Generation Rules
+
+Each checklist item MUST evaluate **requirement quality**, not system behavior.
+
+Each item MUST assess at least one of:
+
+- Completeness
+- Clarity
+- Consistency
+- Measurability
+- Coverage
+
+Each item MUST:
+
+- Be answerable using ONLY spec/plan/tasks
+- Refer to what is WRITTEN (or missing)
+- NOT reference implementation or runtime behavior
+- Use interrogative form (question)
+- Include:
+    - a quality dimension tag
+    - a traceability marker
+
+---
+---
+
+
 Create "Unit Tests for Requirements":
 
    - Create `FEATURE_DIR/checklists/` directory if it doesn't exist
@@ -246,10 +297,6 @@ Create "Unit Tests for Requirements":
 ### 6. Structure Reference
  
 Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
-
-If template is unavailable:
-
-- H1 title, purpose/created meta lines, `##` category sections containing `- [ ] CHK### <requirement item>` lines with globally incrementing IDs starting at CHK001.
 
 ### 7. Report
 
