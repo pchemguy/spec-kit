@@ -155,11 +155,11 @@ Each checklist item MUST evaluate **requirement quality**, not system behavior.
 
 Each item MUST assess at least one of:
 
-- Completeness
-- Clarity
-- Consistency
-- Measurability
-- Coverage
+- **Completeness**: Are all necessary requirements present?
+- **Clarity**: Are requirements unambiguous and specific?
+- **Consistency**: Do requirements align with each other?
+- **Measurability**: Can requirements be objectively verified?
+- **Coverage**: Are all scenarios/edge cases addressed?
 
 Each item MUST:
 
@@ -170,6 +170,34 @@ Each item MUST:
 - Include:
     - a quality dimension tag
     - a traceability marker
+
+#### Item Structure
+
+Each item MUST follow:
+
+```
+"Are/Is [requirement aspect] [quality condition] for [scope]?"
+```
+
+Each item MUST include:
+
+- Quality dimension  
+    `[Completeness | Clarity | Consistency | Coverage | Measurability | etc.]`
+- Traceability marker:
+    - `[Spec §X.Y]`, OR
+    - `[Gap]`, `[Ambiguity]`, `[Conflict]`, `[Assumption]`
+
+#### Category Model
+
+   - **Requirement Completeness** (Are all necessary requirements documented?)
+   - **Requirement Clarity** (Are requirements specific and unambiguous?)
+   - **Requirement Consistency** (Do requirements align without conflicts?)
+   - **Acceptance Criteria Quality** (Are success criteria measurable?)
+   - **Scenario Coverage** (Are all flows/cases addressed?)
+   - **Edge Case Coverage** (Are boundary conditions defined?)
+   - **Non-Functional Requirements** (Performance, Security, Accessibility, etc. - are they specified?)
+   - **Dependencies & Assumptions** (Are they documented and validated?)
+   - **Ambiguities & Conflicts** (What needs clarification?)
 
 ---
 ---
