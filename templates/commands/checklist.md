@@ -4,10 +4,9 @@ scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
+# Linguistic and Semantic Quality Assessment of Requirements
 
-## Checklist Purpose: "Unit Tests for English"
-
-**CRITICAL CONCEPT**: Checklists are **UNIT TESTS FOR REQUIREMENTS WRITING** - they validate the quality, clarity, and completeness of requirements in a given domain.
+**CRITICAL CONCEPT**: Checklists aim to validate the quality, clarity, and completeness of requirements in a given domain.
 
 **NOT for verification/testing**:
 
@@ -36,70 +35,107 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Execution Steps
 
-1. **Setup**: Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
-    - All file paths must be absolute.
-    - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
-2. **Clarify intent (dynamic)**: Derive up to THREE initial contextual clarifying questions (no pre-baked catalog). They MUST:
-   - Be generated from the user's phrasing + extracted signals from spec/plan/tasks
-   - Only ask about information that materially changes checklist content
-   - Be skipped individually if already unambiguous in `$ARGUMENTS`
-   - Prefer precision over breadth
+### 1. Setup
 
-   Generation algorithm:
-   1. Extract signals: feature domain keywords (e.g., auth, latency, UX, API), risk indicators ("critical", "must", "compliance"), stakeholder hints ("QA", "review", "security team"), and explicit deliverables ("a11y", "rollback", "contracts").
+Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
+
+- All file paths must be absolute.
+- For single quotes in args, like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+
+### 2. Clarify Intent via Focused Questions (Dynamic)
+
+Derive up to THREE (Q1-Q3) initial contextual clarifying questions (no pre-baked catalog):
+
+- derive from the user's phrasing and extracted signals from spec/plan/tasks for derivation;
+- focus on information that
+    - materially changes checklist content;
+    - is unclear or ambiguous based on context provided by `$ARGUMENTS`.
+- prefer precision over breadth.
+
+Up to two (Q4-Q5) follow-up questions can be asked as detailed below.
+
+#### Derivation Algorithm
+
+   1. Extract signals:
+       - feature domain keywords (e.g., auth, latency, UX, API),
+       - risk indicators (e.g., "critical", "must", "compliance"),
+       - stakeholder hints (e.g., "QA", "review", "security team"),
+       - explicit deliverables (e.g., "a11y", "rollback", "contracts").
    2. Cluster signals into candidate focus areas (max 4) ranked by relevance.
-   3. Identify probable audience & timing (author, reviewer, QA, release) if not explicit.
-   4. Detect missing dimensions: scope breadth, depth/rigor, risk emphasis, exclusion boundaries, measurable acceptance criteria.
+   3. Identify probable audience & timing (author, reviewer, QA, and release) if not explicit.
+   4. Detect missing dimensions:
+       - scope breadth,
+       - depth/rigor,
+       - risk emphasis,
+       - exclusion boundaries,
+       - measurable acceptance criteria.
    5. Formulate questions chosen from these archetypes:
       - Scope refinement (e.g., "Should this include integration touchpoints with X and Y or stay limited to local module correctness?")
       - Risk prioritization (e.g., "Which of these potential risk areas should receive mandatory gating checks?")
       - Depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
       - Audience framing (e.g., "Will this be used by the author only or peers during PR review?")
       - Boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
-      - Scenario class gap (e.g., "No recovery flows detected—are rollback / partial failure paths in scope?")
+      - Scenario class gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
 
-   Question formatting rules:
-   - If presenting options, generate a compact table with columns: Option | Candidate | Why It Matters
-   - Limit to A–E options maximum; omit table if a free-form answer is clearer
-   - Never ask the user to restate what they already said
-   - Avoid speculative categories (no hallucination). If uncertain, ask explicitly: "Confirm whether X belongs in scope."
+Use defaults, when interaction impossible:
 
-   Defaults when interaction impossible:
    - Depth: Standard
    - Audience: Reviewer (PR) if code-related; Author otherwise
    - Focus: Top 2 relevance clusters
 
-   Output the questions (label Q1/Q2/Q3). After answers: if ≥2 scenario classes (Alternate / Exception / Recovery / Non-Functional domain) remain unclear, you MAY ask up to TWO more targeted follow‑ups (Q4/Q5) with a one-line justification each (e.g., "Unresolved recovery path risk"). Do not exceed five total questions. Skip escalation if user explicitly declines more.
+#### Formatting Rules
 
-3. **Understand user request**: Combine `$ARGUMENTS` + clarifying answers:
+   - Use labels Q1/Q2/Q3
+   - If presenting options
+       - generate a compact table with columns: Option | Candidate | Why It Matters
+       - Limit to A–E options maximum; omit table if a free-form answer is clearer
+   - Never ask the user to restate what they already said
+   - Avoid speculative categories (no hallucination). If uncertain, ask explicitly: "Confirm whether X belongs in scope."
+
+#### Follow-up Questions
+
+   After answers: if at least 2 scenario classes (Alternate / Exception / Recovery / Non-Functional domain) remain unclear, you MAY ask up to TWO more targeted follow‑ups (Q4/Q5) with a one-line justification each (e.g., "Unresolved recovery path risk"). Do not exceed five total questions. Skip escalation if user explicitly declines more.
+
+### 3. Understand User Request
+
+Combine `$ARGUMENTS` + clarifying answers:
+
    - Derive checklist theme (e.g., security, review, deploy, ux)
    - Consolidate explicit must-have items mentioned by user
    - Map focus selections to category scaffolding
    - Infer any missing context from spec/plan/tasks (do NOT hallucinate)
 
-4. **Load feature context**: Read from FEATURE_DIR:
-   - spec.md: Feature requirements and scope
-   - plan.md (if exists): Technical details, dependencies
-   - tasks.md (if exists): Implementation tasks
+### 4. Load Feature Context
+ 
+Read from FEATURE_DIR:
+
+   - `spec.md`: Feature requirements and scope
+   - `plan.md` (if exists): Technical details, dependencies
+   - `tasks.md` (if exists): Implementation tasks
 
    **Context Loading Strategy**:
+   
    - Load only necessary portions relevant to active focus areas (avoid full-file dumping)
-   - Prefer summarizing long sections into concise scenario/requirement bullets
+    <!-- TODO: This point needs to be revised. The present formulation is not actionable. How can LLM decide what is relevant before loading the entire document? Possibly instruct it to analyzed heading first (need to consider document structure)? -->
    - Use progressive disclosure: add follow-on retrieval only if gaps detected
-   - If source docs are large, generate interim summary items instead of embedding raw text
+   - Compress large textual blocks, if appropriate:
+       - For long sections, preferably summarize into concise scenario/requirement bullets
+       - For large source docs, generate interim summary items instead of embedding raw text
 
-5. **Generate checklist** - Create "Unit Tests for Requirements":
+### 5. Generate Checklist
+ 
+Create "Unit Tests for Requirements":
+
    - Create `FEATURE_DIR/checklists/` directory if it doesn't exist
    - Generate unique checklist filename:
-     - Use short, descriptive name based on domain (e.g., `ux.md`, `api.md`, `security.md`)
-     - Format: `[domain].md`
+     - Use short, descriptive name `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
    - File handling behavior:
      - If file does NOT exist: Create new file and number items starting from CHK001
      - If file exists: Append new items to existing file, continuing from the last CHK ID (e.g., if last item is CHK015, start new items at CHK016)
    - Never delete or replace existing checklist content - always preserve and append
 
-   **CORE PRINCIPLE - Test the Requirements, Not the Implementation**:
-   Every checklist item MUST evaluate the REQUIREMENTS THEMSELVES for:
+   **CORE PRINCIPLE - Test the Requirements, Not the Implementation**. Every checklist item MUST evaluate the REQUIREMENTS for:
+   
    - **Completeness**: Are all necessary requirements present?
    - **Clarity**: Are requirements unambiguous and specific?
    - **Consistency**: Do requirements align with each other?
@@ -107,6 +143,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Coverage**: Are all scenarios/edge cases addressed?
 
    **Category Structure** - Group items by requirement quality dimensions:
+   
    - **Requirement Completeness** (Are all necessary requirements documented?)
    - **Requirement Clarity** (Are requirements specific and unambiguous?)
    - **Requirement Consistency** (Do requirements align without conflicts?)
@@ -206,9 +243,20 @@ You **MUST** consider the user input before proceeding (if not empty).
    - ✅ "Are [edge cases/scenarios] addressed in requirements?"
    - ✅ "Does the spec define [missing aspect]?"
 
-6. **Structure Reference**: Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting. If template is unavailable, use: H1 title, purpose/created meta lines, `##` category sections containing `- [ ] CHK### <requirement item>` lines with globally incrementing IDs starting at CHK001.
+### 6. Structure Reference
+ 
+Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
 
-7. **Report**: Output full path to checklist file, item count, and summarize whether the run created a new file or appended to an existing one. Summarize:
+If template is unavailable:
+
+- H1 title, purpose/created meta lines, `##` category sections containing `- [ ] CHK### <requirement item>` lines with globally incrementing IDs starting at CHK001.
+
+### 7. Report
+
+Output full path to checklist file, item count, and summarize whether the run created a new file or appended to an existing one.
+
+Summarize:
+
    - Focus areas selected
    - Depth level
    - Actor/timing
