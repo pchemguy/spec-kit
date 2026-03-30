@@ -39,7 +39,7 @@
 
 ```text
 specs/[###-feature]/
-├── plan.md              # This file (/speckit.plan command output)
+├── plan.md              # This file      (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
@@ -48,6 +48,7 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -57,13 +58,13 @@ specs/[###-feature]/
 
 ```text
 # [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
+[PACKAGE_NAME]/src/[PACKAGE_NAME]/
 ├── models/
 ├── services/
 ├── cli/
 └── lib/
 
-tests/
+[PACKAGE_NAME]/tests/
 ├── contract/
 ├── integration/
 └── unit/

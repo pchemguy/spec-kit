@@ -37,9 +37,8 @@ You **MUST** consider the user input before proceeding (if not empty).
 ## Execution Steps
 
 1. **Setup**: Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
-   - All file paths must be absolute.
-   - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
-
+    - All file paths must be absolute.
+    - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 2. **Clarify intent (dynamic)**: Derive up to THREE initial contextual clarifying questions (no pre-baked catalog). They MUST:
    - Be generated from the user's phrasing + extracted signals from spec/plan/tasks
    - Only ask about information that materially changes checklist content
@@ -225,9 +224,9 @@ To avoid clutter, use descriptive types and clean up obsolete checklists when do
 
 ## Example Checklist Types & Sample Items
 
-**UX Requirements Quality:** `ux.md`
+### UX Requirements Quality: `ux.md`
 
-Sample items (testing the requirements, NOT the implementation):
+Sample items *(testing the requirements, NOT the implementation)*:
 
 - "Are visual hierarchy requirements defined with measurable criteria? [Clarity, Spec §FR-1]"
 - "Is the number and positioning of UI elements explicitly specified? [Completeness, Spec §FR-1]"
@@ -236,7 +235,7 @@ Sample items (testing the requirements, NOT the implementation):
 - "Is fallback behavior defined when images fail to load? [Edge Case, Gap]"
 - "Can 'prominent display' be objectively measured? [Measurability, Spec §FR-4]"
 
-**API Requirements Quality:** `api.md`
+### API Requirements Quality: `api.md`
 
 Sample items:
 
@@ -246,7 +245,7 @@ Sample items:
 - "Are retry/timeout requirements defined for external dependencies? [Coverage, Gap]"
 - "Is versioning strategy documented in requirements? [Gap]"
 
-**Performance Requirements Quality:** `performance.md`
+### Performance Requirements Quality: `performance.md`
 
 Sample items:
 
@@ -256,7 +255,7 @@ Sample items:
 - "Can performance requirements be objectively measured? [Measurability]"
 - "Are degradation requirements defined for high-load scenarios? [Edge Case, Gap]"
 
-**Security Requirements Quality:** `security.md`
+### Security Requirements Quality: `security.md`
 
 Sample items:
 
