@@ -233,18 +233,13 @@ Recovery scenarios (state mutation):
 
 #### Traceability Requirements
 
-- ≥80% of items MUST include traceability
+- MINIMUM 80% of items MUST reference a specific requirement
+- Each item SHOULD include:
+    - [Spec §X.Y] — reference to a requirement via its ID or stable section
+    - [Gap] — no corresponding requirement exists
+- If no requirement identification scheme exists (IDs or stable section references), produce a traceability item:
+    "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 
-Each item MUST include at least one:
-
-- `[Spec §X.Y]`
-- `[Gap]`
-- `[Ambiguity]`
-- `[Conflict]`
-- `[Assumption]`
-
-If no ID system exists, include item:  
-    "Is a requirement and acceptance criteria ID scheme defined? [Traceability]"
 
 
 
