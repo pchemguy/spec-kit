@@ -8,6 +8,15 @@ scripts:
 
 **CRITICAL CONCEPT**: Checklists validate the quality, clarity, and completeness of requirements.
 
+**✅ Correct Patterns (Requirement Quality Validation)**:
+
+- ✅ **Completeness**: "Are visual hierarchy requirements defined for all card types?"
+- ✅ **Clarity**: "Is 'prominent display' quantified with specific sizing/positioning?"
+- ✅ **Consistency**: "Are hover state requirements consistent across all interactive elements?"
+- ✅ **Coverage**: "Are accessibility requirements defined for keyboard navigation?"
+- ✅ **Measurability**: "Can 'balanced visual weight' be objectively verified?"
+- ✅ **Edge cases**: "Does the spec define what happens when logo image fails to load?"
+
 **❌ Incorrect Patterns (Implementation Testing)**:
 
 - ❌ "Verify the button clicks correctly"
@@ -15,17 +24,15 @@ scripts:
 - ❌ "Confirm the API returns 200"
 - ❌ "Does the implementation match the specification?"
 
-**✅ Correct Patterns (Requirement Quality Validation)**:
-
-- ✅ **Completeness**: "Are visual hierarchy requirements defined for all card types?"
-- ✅ **Clarity**: "Is 'prominent display' quantified with specific sizing/positioning?"
-- ✅ **Consistency**: "Are hover state requirements consistent across all interactive elements?"
-- ✅ **Coverage**: "Are accessibility requirements defined for keyboard navigation?"
-- ✅ **Edge cases**: "Does the spec define what happens when logo image fails to load?"
+> - **Completeness**: Are all necessary requirements present?
+> - **Clarity**: Are requirements unambiguous and specific?
+> - **Consistency**: Do requirements align with each other?
+> - **Measurability**: Can requirements be objectively verified?
+> - **Coverage**: Are all scenarios/edge cases addressed?
 
 ## Conceptual Model
   
-The checklist functions analogously to a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
+The checklist functions as a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## User Input
 
@@ -42,7 +49,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
 
 - All file paths must be absolute.
-- For single quotes in args, like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+- For single quotes in args, like "I'm Groot", use escape syntax: e.g. 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
 ### 2. Clarify Intent via Focused Questions (Dynamic)
 
@@ -89,7 +96,7 @@ Use defaults, when interaction impossible:
 
    - Use labels Q1/Q2/Q3
    - If presenting options
-       - generate a compact table with columns: Option | Candidate | Why It Matters
+       - Generate a compact table with columns: Option | Candidate | Why It Matters
        - Limit to A–E options maximum; omit table if a free-form answer is clearer
    - Never ask the user to restate what they already said
    - Avoid speculative categories (no hallucination). If uncertain, ask explicitly: "Confirm whether X belongs in scope."
@@ -189,6 +196,8 @@ Each item MUST include:
 
 #### Category Model
 
+Group items by category:
+
    - **Requirement Completeness** (Are all necessary requirements documented?)
    - **Requirement Clarity** (Are requirements specific and unambiguous?)
    - **Requirement Consistency** (Do requirements align without conflicts?)
@@ -199,19 +208,22 @@ Each item MUST include:
    - **Dependencies & Assumptions** (Are they documented and validated?)
    - **Ambiguities & Conflicts** (What needs clarification?)
 
+#### Scenario Coverage and Classification
+
+Ensure coverage across scenario classes:
+
+- Primary
+- Alternate
+- Exception / Error
+- Recovery
+- Non-Functional
+
+
 ---
 ---
 
 
-Create "Unit Tests for Requirements":
 
-   - Create `FEATURE_DIR/checklists/` directory if it doesn't exist
-   - Generate unique checklist filename:
-     - Use short, descriptive name `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
-   - File handling behavior:
-     - If file does NOT exist: Create new file and number items starting from CHK001
-     - If file exists: Append new items to existing file, continuing from the last CHK ID (e.g., if last item is CHK015, start new items at CHK016)
-   - Never delete or replace existing checklist content - always preserve and append
 
    **CORE PRINCIPLE - Test the Requirements, Not the Implementation**. Every checklist item MUST evaluate the REQUIREMENTS for:
    
@@ -221,17 +233,7 @@ Create "Unit Tests for Requirements":
    - **Measurability**: Can requirements be objectively verified?
    - **Coverage**: Are all scenarios/edge cases addressed?
 
-   **Category Structure** - Group items by requirement quality dimensions:
-   
-   - **Requirement Completeness** (Are all necessary requirements documented?)
-   - **Requirement Clarity** (Are requirements specific and unambiguous?)
-   - **Requirement Consistency** (Do requirements align without conflicts?)
-   - **Acceptance Criteria Quality** (Are success criteria measurable?)
-   - **Scenario Coverage** (Are all flows/cases addressed?)
-   - **Edge Case Coverage** (Are boundary conditions defined?)
-   - **Non-Functional Requirements** (Performance, Security, Accessibility, etc. - are they specified?)
-   - **Dependencies & Assumptions** (Are they documented and validated?)
-   - **Ambiguities & Conflicts** (What needs clarification?)
+ 
 
    **HOW TO WRITE CHECKLIST ITEMS - "Unit Tests for English"**:
 
@@ -249,13 +251,6 @@ Create "Unit Tests for Requirements":
    - "Are loading states defined for asynchronous episode data?" [Completeness]
    - "Does the spec define visual hierarchy for competing UI elements?" [Clarity]
 
-   **ITEM STRUCTURE**:
-   Each item should follow this pattern:
-   - Question format asking about requirement quality
-   - Focus on what's WRITTEN (or not written) in the spec/plan
-   - Include quality dimension in brackets [Completeness/Clarity/Consistency/etc.]
-   - Reference spec section `[Spec §X.Y]` when checking existing requirements
-   - Use `[Gap]` marker when checking for missing requirements
 
    **EXAMPLES BY QUALITY DIMENSION**:
 
