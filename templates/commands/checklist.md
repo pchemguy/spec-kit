@@ -49,7 +49,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
 
 - All file paths must be absolute.
-- For single quotes in args, like "I'm Groot", use escape syntax: e.g. 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+- Handle single quotes in args:
+    - Prefer double quotes syntax, e.g., "I'm Groot"
+    - Fallback to escaping syntax, e.g., 'I'\''m Groot'
 
 ### 2. Clarify Intent via Focused Questions (Dynamic)
 
@@ -79,12 +81,12 @@ Up to two (Q4-Q5) follow-up questions can be asked as detailed below.
        - exclusion boundaries,
        - measurable acceptance criteria.
    5. Formulate questions chosen from these archetypes:
-      - Scope refinement (e.g., "Should this include integration touchpoints with X and Y or stay limited to local module correctness?")
-      - Risk prioritization (e.g., "Which of these potential risk areas should receive mandatory gating checks?")
-      - Depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
-      - Audience framing (e.g., "Will this be used by the author only or peers during PR review?")
-      - Boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
-      - Scenario class gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
+      - scope refinement (e.g., "Should this include integration touchpoints with X and Y or stay limited to local module correctness?")
+      - risk prioritization (e.g., "Which of these potential risk areas should receive mandatory gating checks?")
+      - depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
+      - audience framing (e.g., "Will this be used by the author only or peers during PR review?")
+      - boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
+      - scenario class gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
 
 Use defaults, when interaction impossible:
 
@@ -125,11 +127,11 @@ Read from FEATURE_DIR:
    **Context Loading Strategy**:
    
    - Load only necessary portions relevant to active focus areas (avoid full-file dumping)
-    <!-- TODO: This point needs to be revised. The present formulation is not actionable. How can LLM decide what is relevant before loading the entire document? Possibly instruct it to analyzed heading first (need to consider document structure)? -->
+    <!-- TODO: This point needs to be revised. The present formulation is not actionable. How can LLM decide what is relevant before loading the entire document? Possibly instruct it to analyzed heading first (need to consider document structure)? Can a script be used to extract the relevant portions? -->
    - Use progressive disclosure: add follow-on retrieval only if gaps detected
    - Compress large textual blocks, if appropriate:
-       - For long sections, preferably summarize into concise scenario/requirement bullets
-       - For large source docs, generate interim summary items instead of embedding raw text
+       - **long sections**: preferably summarize into concise scenario/requirement bullets
+       - **large source docs**: generate interim summary items instead of embedding raw text
 
 ### 5. Generate Checklist
    
@@ -146,14 +148,13 @@ Steps:
 #### File Handling
 
 - Create `FEATURE_DIR/checklists/` directory if it does not exist
-- Filename:
-    - Use short, descriptive name `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
-- If file does NOT exist:
-    - Create new file
-    - Start numbering at CHK001
-- If file exists:
-    - Append new items
-    - Continue numbering following the last existing CHK ID
+- Use short, descriptive filenames `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
+    - If file does NOT exist:
+        - Create new file
+        - Start numbering at CHK001
+    - If file exists:
+        - Append new items
+        - Continue numbering following the last existing CHK ID
 - NEVER delete, overwrite, or renumber existing content
 
 #### Generation Rules
@@ -180,7 +181,7 @@ Each item MUST:
 
 #### Item Structure
 
-Each item MUST follow:
+Each item MUST follow pattern:
 
 ```
 "Are/Is [requirement aspect] [quality condition] for [scope]?"
@@ -208,15 +209,28 @@ Group items by category:
    - **Dependencies & Assumptions** (Are they documented and validated?)
    - **Ambiguities & Conflicts** (What needs clarification?)
 
-#### Scenario Coverage and Classification
+#### Scenario Coverage
 
-Ensure coverage across scenario classes:
+Ensure coverage across scenario types:
 
 - Primary
 - Alternate
 - Exception / Error
 - Recovery
 - Non-Functional
+
+For EACH scenario type, at least ONE checklist item MUST be generated:
+
+- Requirement quality:
+  "Are [scenario type] requirements complete, clear, and consistent?"
+- If requirements are NOT defined:
+  "Are [scenario type] requirements intentionally excluded or missing? [Gap]"
+
+Recovery scenarios (state mutation):
+
+- If the feature involves state-changing operations (e.g., database writes, migrations, transactions):
+  "Are recovery/rollback requirements defined when state mutation fails? [Gap]"
+
 
 
 ---
@@ -277,11 +291,6 @@ Ensure coverage across scenario classes:
    - "Are visual hierarchy requirements measurable/testable? [Acceptance Criteria, Spec §FR-1]"
    - "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
 
-   **Scenario Classification & Coverage** (Requirements Quality Focus):
-   - Check if requirements exist for: Primary, Alternate, Exception/Error, Recovery, Non-Functional scenarios
-   - For each scenario class, ask: "Are [scenario type] requirements complete, clear, and consistent?"
-   - If scenario class missing: "Are [scenario type] requirements intentionally excluded or missing? [Gap]"
-   - Include resilience/rollback when state mutation occurs: "Are rollback requirements defined for migration failures? [Gap]"
 
    **Traceability Requirements**:
    - MINIMUM: ≥80% of items MUST include at least one traceability reference
