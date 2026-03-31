@@ -231,6 +231,22 @@ Recovery scenarios (state mutation):
 - If the feature involves state-changing operations (e.g., database writes, migrations, transactions):
   "Are recovery/rollback requirements defined when state mutation fails? [Gap]"
 
+#### Traceability Requirements
+
+- ≥80% of items MUST include traceability
+
+Each item MUST include at least one:
+
+- `[Spec §X.Y]`
+- `[Gap]`
+- `[Ambiguity]`
+- `[Conflict]`
+- `[Assumption]`
+
+If no ID system exists, include item:  
+    "Is a requirement and acceptance criteria ID scheme defined? [Traceability]"
+
+
 
 
 ---
@@ -292,10 +308,7 @@ Recovery scenarios (state mutation):
    - "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
 
 
-   **Traceability Requirements**:
-   - MINIMUM: ≥80% of items MUST include at least one traceability reference
-   - Each item should reference: spec section `[Spec §X.Y]`, or use markers: `[Gap]`, `[Ambiguity]`, `[Conflict]`, `[Assumption]`
-   - If no ID system exists: "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
+
 
    **Surface & Resolve Issues** (Requirements Quality Problems):
    Ask questions about the requirements themselves:
