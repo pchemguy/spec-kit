@@ -240,7 +240,27 @@ Recovery scenarios (state mutation):
 - If no requirement identification scheme exists (IDs or stable section references), produce a traceability item:
     "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 
+#### Validation Rules (MANDATORY)
 
+Reject any checklist item that:
+
+- Tests implementation behavior or details (frameworks, APIs, algorithms) instead of requirements
+- Refers to runtime execution, user interaction, or system behavior
+- Includes test procedures, test cases, or QA steps
+- Cannot be answered from specification text
+
+Heuristic red-flag keywords (require scrutiny, not automatic rejection):
+
+- "click", "render", "navigate", "execute", "load"
+- "works properly", "functions as expected"
+- "verify", "test", "confirm", "check"
+
+#### Consolidation Rules
+
+- If candidate items > 40, prioritize by risk and impact
+- Merge near-duplicate items
+- If many low-impact edge cases, combine into one item, e.g.:
+    "Are edge cases X, Y, Z addressed in requirements? [Coverage]"
 
 
 
@@ -313,18 +333,9 @@ Recovery scenarios (state mutation):
    - Dependencies: "Are external podcast API requirements documented? [Dependency, Gap]"
    - Missing definitions: "Is 'visual hierarchy' defined with measurable criteria? [Gap]"
 
-   **Content Consolidation**:
-   - Soft cap: If raw candidate items > 40, prioritize by risk/impact
-   - Merge near-duplicates checking the same requirement aspect
-   - If >5 low-impact edge cases, create one item: "Are edge cases X, Y, Z addressed in requirements? [Coverage]"
 
-   **🚫 ABSOLUTELY PROHIBITED** - These make it an implementation test, not a requirements test:
-   - ❌ Any item starting with "Verify", "Test", "Confirm", "Check" + implementation behavior
-   - ❌ References to code execution, user actions, system behavior
-   - ❌ "Displays correctly", "works properly", "functions as expected"
-   - ❌ "Click", "navigate", "render", "load", "execute"
-   - ❌ Test cases, test plans, QA procedures
-   - ❌ Implementation details (frameworks, APIs, algorithms)
+
+
 
    **✅ REQUIRED PATTERNS** - These test requirements quality:
    - ✅ "Are [requirement type] defined/specified/documented for [scenario]?"
