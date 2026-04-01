@@ -249,6 +249,14 @@ Reject any checklist item that:
 - Includes test procedures, test cases, or QA steps
 - Cannot be answered from specification text
 
+Checklist items SHOULD surface requirement quality issues using explicit markers:  
+  
+- [Ambiguity] — unclear or undefined terms  
+- [Conflict] — inconsistent or contradictory requirements  
+- [Assumption] — unstated dependencies or implicit conditions  
+- [Dependency] — external systems or requirements not specified  
+- [Gap] — missing requirement or scenario
+
 Heuristic red-flag keywords (require scrutiny, not automatic rejection):
 
 - "click", "render", "navigate", "execute", "load"
@@ -321,20 +329,6 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
    Measurability:
    - "Are visual hierarchy requirements measurable/testable? [Acceptance Criteria, Spec §FR-1]"
    - "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
-
-
-
-
-   **Surface & Resolve Issues** (Requirements Quality Problems):
-   Ask questions about the requirements themselves:
-   - Ambiguities: "Is the term 'fast' quantified with specific metrics? [Ambiguity, Spec §NFR-1]"
-   - Conflicts: "Do navigation requirements conflict between §FR-10 and §FR-10a? [Conflict]"
-   - Assumptions: "Is the assumption of 'always available podcast API' validated? [Assumption]"
-   - Dependencies: "Are external podcast API requirements documented? [Dependency, Gap]"
-   - Missing definitions: "Is 'visual hierarchy' defined with measurable criteria? [Gap]"
-
-
-
 
 
    **✅ REQUIRED PATTERNS** - These test requirements quality:
