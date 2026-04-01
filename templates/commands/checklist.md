@@ -13,9 +13,10 @@ scripts:
 - ✅ **Completeness**: "Are visual hierarchy requirements defined for all card types?"
 - ✅ **Clarity**: "Is 'prominent display' quantified with specific sizing/positioning?"
 - ✅ **Consistency**: "Are hover state requirements consistent across all interactive elements?"
-- ✅ **Coverage**: "Are accessibility requirements defined for keyboard navigation?"
+- ✅ **Coverage**:
+    - "Are accessibility requirements defined for keyboard navigation?"
+    - "Does the spec define what happens when logo image fails to load?"
 - ✅ **Measurability**: "Can 'balanced visual weight' be objectively verified?"
-- ✅ **Edge cases**: "Does the spec define what happens when logo image fails to load?"
 
 **❌ Incorrect Patterns (Implementation Testing)**:
 
@@ -23,12 +24,6 @@ scripts:
 - ❌ "Test error handling works"
 - ❌ "Confirm the API returns 200"
 - ❌ "Does the implementation match the specification?"
-
-> - **Completeness**: Are all necessary requirements present?
-> - **Clarity**: Are requirements unambiguous and specific?
-> - **Consistency**: Do requirements align with each other?
-> - **Measurability**: Can requirements be objectively verified?
-> - **Coverage**: Are all scenarios/edge cases addressed?
 
 ## Conceptual Model
   
@@ -161,13 +156,13 @@ Steps:
 
 Each checklist item MUST evaluate **requirement quality**, not system behavior.
 
-Each item MUST assess at least one of:
+Each item MUST assess at least one of quality dimensions:
 
 - **Completeness**: Are all necessary requirements present?
 - **Clarity**: Are requirements unambiguous and specific?
 - **Consistency**: Do requirements align with each other?
-- **Measurability**: Can requirements be objectively verified?
 - **Coverage**: Are all scenarios/edge cases addressed?
+- **Measurability**: Can requirements be objectively verified?
 
 Each item MUST:
 
@@ -197,17 +192,12 @@ Each item MUST include:
 
 #### Category Model
 
-Group items by category:
+Group items by requirement scope:
 
-   - **Requirement Completeness** (Are all necessary requirements documented?)
-   - **Requirement Clarity** (Are requirements specific and unambiguous?)
-   - **Requirement Consistency** (Do requirements align without conflicts?)
-   - **Acceptance Criteria Quality** (Are success criteria measurable?)
-   - **Scenario Coverage** (Are all flows/cases addressed?)
-   - **Edge Case Coverage** (Are boundary conditions defined?)
-   - **Non-Functional Requirements** (Performance, Security, Accessibility, etc. - are they specified?)
-   - **Dependencies & Assumptions** (Are they documented and validated?)
-   - **Ambiguities & Conflicts** (What needs clarification?)
+- **Functional Requirements**  
+- **Non-Functional Requirements** (Performance, Security, Accessibility, etc.)  
+- **Scenario Coverage**
+- **Dependencies & Assumptions**
 
 #### Scenario Coverage
 
@@ -280,11 +270,12 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
 
    **CORE PRINCIPLE - Test the Requirements, Not the Implementation**. Every checklist item MUST evaluate the REQUIREMENTS for:
    
-   - **Completeness**: Are all necessary requirements present?
-   - **Clarity**: Are requirements unambiguous and specific?
-   - **Consistency**: Do requirements align with each other?
-   - **Measurability**: Can requirements be objectively verified?
-   - **Coverage**: Are all scenarios/edge cases addressed?
+ - **Completeness**: Are all necessary requirements present?
+ - **Clarity**: Are requirements unambiguous and specific?
+ - **Consistency**: Do requirements align without conflict?
+ - **Measurability**: Can requirements be objectively verified?
+ - **Coverage**: Are all scenarios, including edge cases, addressed?
+
 
  
 
