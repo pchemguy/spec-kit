@@ -25,10 +25,6 @@ scripts:
 - ❌ "Confirm the API returns 200"
 - ❌ "Does the implementation match the specification?"
 
-## Conceptual Model
-  
-The checklist functions as a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
-
 ## User Input
 
 ```text
@@ -36,6 +32,10 @@ $ARGUMENTS
 ```
 
 You **MUST** consider the user input before proceeding (if not empty).
+
+## Conceptual Model
+  
+The checklist functions as a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## Execution Steps
 
