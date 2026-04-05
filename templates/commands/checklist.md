@@ -4,7 +4,7 @@ scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
-# Requirement Quality Checklist Generation
+# Requirement Quality Checklist Specification
 
 **CRITICAL CONCEPT**: Checklists validate the quality, clarity, and completeness of requirements.
 
@@ -34,7 +34,9 @@ $ARGUMENTS
 You **MUST** consider the user input before proceeding (if not empty).
 
 ## Conceptual Model
-  
+
+A requirement is a core item of specifications, a statement describing a condition, capability, or constraint that must be satisfied.
+
 The checklist functions as a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## Execution Steps
