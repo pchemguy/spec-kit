@@ -30,10 +30,8 @@
 
 ## Scenario Types
   
-> [!NOTE] Scenario Taxonomy
-> 
-> **Scenarios** describe _behavioral flows_ — sequences of actions/events that occur under some conditions.
-> They are _contextualized behaviors_, such as user journeys or system interactions.
+ **Scenarios** describe _behavioral flows_ — sequences of actions/events that occur under some conditions.
+They are _contextualized behaviors_, such as user journeys or system interactions.
 
   - Primary
   - Alternate
@@ -45,10 +43,18 @@
   - Dependencies
   - Assumptions
 
-## Requirement Quality
+## Quality
 
-- **Completeness**: Are all necessary requirements present?
+- **Completeness**: Are all required capabilities and qualities specified?
+  Requirement set completeness -  - applies to:
+    - Functional Requirements (FR)
+    - Non-Functional Requirements (NFR)
+    - Extended Functional Requirements (EFR)
 - **Clarity/Ambiguity**: Are requirements unambiguous and specific?
 - **Consistency/Conflict**: Do requirements align with each other?
-- **Coverage**: Are all scenarios/edge cases addressed?
+- **Coverage**: Are all relevant situations, flows, and conditions addressed by requirements?
+  Behavioral / state space coverage - applies to:
+    - scenarios (primary, alternate, error, recovery)
+    - edge cases
+    - state transitions
 - **Measurability**: Can requirements be objectively verified?
