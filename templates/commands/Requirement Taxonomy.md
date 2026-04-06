@@ -45,16 +45,28 @@ They are _contextualized behaviors_, such as user journeys or system interaction
 
 ## Quality
 
-- **Completeness**: Are all required capabilities and qualities specified?
-  Requirement set completeness - applies to:
+- **Completeness**: Are all required functional capabilities and non-functional qualities specified?  
+  Requirement set completeness — applies to:
     - Functional Requirements (FR)
     - Non-Functional Requirements (NFR)
-    - Extended Functional Requirements (EFR)
-- **Clarity/Ambiguity**: Are requirements unambiguous and specific?
-- **Consistency/Conflict**: Do requirements align with each other?
-- **Coverage**: Are all relevant situations, flows, and conditions addressed by requirements?
-  Behavioral / state space coverage - applies to:
+- **Clarity**: Are requirements unambiguous and specific?
+- **Consistency**: Do requirements align without contradiction?
+- **Coverage**: Are requirements defined for all relevant scenarios, flows, and conditions?  
+  Behavioral / state space coverage — applies to:
     - scenarios (primary, alternate, error, recovery)
     - edge cases
     - state transitions
-- **Measurability**: Can requirements be objectively verified?
+- **Measurability**: Can requirements be objectively measured or verified?
+- **Relevance**: Are all requirements necessary and within scope?
+
+Checklist items SHOULD surface specification quality issues using explicit markers:  
+  
+- [Ambiguity] — unclear, vague, or multi-interpretation statements  
+- [Conflict] — contradictory or inconsistent specification elements  
+- [Gap] — missing requirement, scenario, or constraint  
+- [Assumption] — implicit condition not explicitly stated  
+- [Dependency] — reliance on external or unspecified elements  
+- [Incorrect] — invalid or wrong requirement relative to context  
+- [Unverifiable] — cannot be objectively measured or tested  
+- [Superfluous] — unnecessary or redundant requirement (optional)
+
