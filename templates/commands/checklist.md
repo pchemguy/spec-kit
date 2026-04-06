@@ -36,22 +36,22 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 This document defines a protocol for evaluating the quality of specifications (produced by the `specify` command) by generating diagnostic checklist items. The generated checklist functions analogously to a "unit test suite" for a specification, targeting:
 
-* three critical components of specifications:
-    * scenarios
+* Three critical components of specifications:
+    * Scenarios
         - Primary
         - Alternate
         - Exception / Error
         - Recovery
-    * requirements
+    * Requirements
         * Functional
         * Non-Functional
-    * context constraints
+    * Context Constraints
         * Assumptions
         * Dependencies
-* component relationships, e.g.:
-    * Does the specification define all required capabilities and constraints for each scenario? [Completeness]
-    * Does the specification cover all relevant scenarios? [Coverage]
-    * Do assumptions conflict with requirements? [Consistency]
+* Component relationships, e.g.:
+    * Does the specification define all required capabilities and constraints for each scenario? (Completeness)
+    * Does the specification cover all relevant scenarios? (Coverage)
+    * Do assumptions conflict with requirements? (Consistency)
 
 The purpose of this protocol is to support iterative refinement of specifications before any implementation occurs. For this reason, implementation behavior and conformance are completely out of scope. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
