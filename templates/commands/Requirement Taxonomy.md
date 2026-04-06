@@ -19,8 +19,8 @@
     - **Scalability:** ability to handle growth
     - **Maintainability:** ease of updates and fixes
     - **Portability:** ability to run in different environments
-- **Extended**
-  Extended requirements define additional capabilities or considerations that enhance the system but are not part of the core functional features. These requirements help improve monitoring, reliability, and future expansion of the system.
+- **Cross-Cutting Concerns (CCC)**
+  Define system-wide capabilities and constraints that affect multiple features and components, e.g.:  
     - **Logging:** recording system activities and errors for debugging and analysis
     - **Monitoring & Alerting:** tracking system health, performance, and failures
     - **Analytics:** collecting usage data to understand user behavior and system performance
@@ -71,4 +71,3 @@ Checklist items SHOULD surface specification quality issues using explicit marke
 - [Incorrect] — invalid or wrong requirement relative to context  
 - [Unverifiable] — cannot be objectively measured or tested  
 - [Superfluous] — unnecessary or redundant requirement (optional)
-
