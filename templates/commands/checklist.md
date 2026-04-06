@@ -6,7 +6,7 @@ scripts:
 ---
 # Specification Quality Evaluation and Diagnostic Protocol
 
-**CRITICAL CONCEPT**: Generated checklists validate the quality, clarity, and completeness of specification items (scenarios / requirements / context constrains), not implementation.
+**CRITICAL CONCEPT**: Checklists produced by this protocol validate the internal quality (clarity, completeness, consistency, coverage) of specification artifacts (requirements, scenarios, and context constraints), not implementation.
 
 **✅ Correct Patterns (Specification Quality Validation)**:
 
@@ -34,15 +34,15 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Conceptual Model
 
-This document defines a protocol for evaluating the quality of specifications produced by the `specify` command by generating diagnostic checklist items. The generated checklist functions as a "unit test suite for specification" targeting
+This document defines a protocol for evaluating the quality of specifications produced by the `specify` command by generating diagnostic checklist items. The generated checklist functions analogous to a "unit test suite" for a specification targeting
 
 - three critical components of specifications
     - scenarios
     - requirements
-    - context constrains (assumptions and dependencies)
+    - context constraints (assumptions and dependencies)
 - component relationships, e.g.,:
-    - Does specification specifies all required capabilities and constraints for each defined scenario? [Completeness]
-    - Do specification cover all important scenarios? [Coverage]
+    - Does the specification define all required capabilities and constraints for each scenario? [Completeness]
+    - Does the specification cover all relevant scenarios? [Coverage]
     - Do assumptions conflict with requirements? [Consistency]
 
 The purpose of this protocol is to facilitate iterative development of  specifications *before* any implementation occurs. For this reason, quality and specifications adherence of implementation are completely out of scope and irrelevant in present context. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
