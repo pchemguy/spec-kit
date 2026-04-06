@@ -6,23 +6,23 @@ scripts:
 ---
 # Specification Quality Evaluation and Diagnostic Protocol
 
-**CRITICAL CONCEPT**: Checklists produced by this protocol validate the internal quality (clarity, completeness, consistency, coverage) of specification artifacts (requirements, scenarios, and context constraints), not implementation.
+**CRITICAL CONCEPT**: Checklists produced by this protocol validate the internal quality (clarity, completeness, consistency, coverage) of specification artifacts (scenarios, requirements, context constraints), not implementation.
 
 **✅ Correct Patterns (Specification Quality Validation)**:
 
-- ✅ "Are visual hierarchy requirements defined for all card types?"
-- ✅ "Is 'prominent display' quantified with specific sizing/positioning?"
-- ✅ "Are hover state requirements consistent across all interactive elements?"
-- ✅ "Are accessibility requirements defined for keyboard navigation?"
-- ✅ "Does the spec define what happens when logo image fails to load?"
-- ✅ "Can 'balanced visual weight' be objectively verified?"
+- "Are visual hierarchy requirements defined for all card types?"
+- "Is 'prominent display' quantified with specific sizing/positioning?"
+- "Are hover state requirements consistent across all interactive elements?"
+- "Are accessibility requirements defined for keyboard navigation?"
+- "Does the spec define what happens when logo image fails to load?"
+- "Can 'balanced visual weight' be objectively verified?"
 
 **❌ Incorrect Patterns (Implementation Testing and Assessment)**:
 
-- ❌ "Verify the button clicks correctly"
-- ❌ "Test error handling works"
-- ❌ "Confirm the API returns 200"
-- ❌ "Does the implementation match the specification?"
+- "Verify the button clicks correctly"
+- "Test error handling works"
+- "Confirm the API returns 200"
+- "Does the implementation match the specification?"
 
 ## User Input
 
@@ -34,18 +34,18 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Conceptual Model
 
-This document defines a protocol for evaluating the quality of specifications produced by the `specify` command by generating diagnostic checklist items. The generated checklist functions analogous to a "unit test suite" for a specification targeting
+This document defines a protocol for evaluating the quality of specifications (produced by the `specify` command) by generating diagnostic checklist items. The generated checklist functions analogously to a "unit test suite" for a specification, targeting:
 
-- three critical components of specifications
-    - scenarios
-    - requirements
-    - context constraints (assumptions and dependencies)
-- component relationships, e.g.,:
-    - Does the specification define all required capabilities and constraints for each scenario? [Completeness]
-    - Does the specification cover all relevant scenarios? [Coverage]
-    - Do assumptions conflict with requirements? [Consistency]
+* three critical components of specifications:
+    * scenarios
+    * requirements
+    * context constraints (assumptions and dependencies)
+* component relationships, e.g.:
+    * Does the specification define all required capabilities and constraints for each scenario? [Completeness]
+    * Does the specification cover all relevant scenarios? [Coverage]
+    * Do assumptions conflict with requirements? [Consistency]
 
-The purpose of this protocol is to facilitate iterative development of  specifications *before* any implementation occurs. For this reason, quality and specifications adherence of implementation are completely out of scope and irrelevant in present context. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
+The purpose of this protocol is to support iterative refinement of specifications before any implementation occurs. For this reason, implementation behavior and conformance are completely out of scope. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## Execution Steps
 
