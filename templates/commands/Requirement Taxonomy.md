@@ -43,6 +43,18 @@ They are _contextualized behaviors_, such as user journeys or system interaction
   - Dependencies
   - Assumptions
 
+
+| Quality Dimension | Implied Defect   | Key Question                                                                           | Problem                                  |
+| ----------------- | ---------------- | -------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Clarity           | `[Ambiguity]`    | Are requirements unambiguous and specific?                                             | unclear, vague, or multi-interpretation  |
+| Consistency       | `[Conflict]`     | Do requirements align without contradiction?                                           | contradictory or inconsistent            |
+| Coverage          | `[Gap]`          | Are requirements defined for all relevant scenarios, flows, and conditions?            | missing requirement, or constraint       |
+| Completeness      | `[Gap]`          | Are all required functional capabilities and non-functional qualities specified?       | missing scenario                         |
+| Measurability     | `[Unverifiable]` | Can requirements be objectively measured or verified?                                  | cannot be objectively measured or tested |
+| Correctness       | `[Incorrect]`    | Do specification elements accurately reflect intended behavior and domain constraints? | invalid or wrong relative to context     |
+| Feasibility       | `[Infeasible]`   | Can requirement be realistically implemented?                                          | cannot be realistically implemented      |
+| Relevance         | `[Redundant]`    | Are all requirements necessary and within scope?                                       | unnecessary or redundant                 |
+
 ## Quality
 
 - **Completeness**: Are all required functional capabilities and non-functional qualities specified?  
@@ -58,6 +70,8 @@ They are _contextualized behaviors_, such as user journeys or system interaction
     - state transitions
 - **Measurability**: Can requirements be objectively measured or verified?
 - **Relevance**: Are all requirements necessary and within scope?
+- **Correctness**: Do specification elements accurately reflect intended behavior and domain constraints?
+- **Feasibility**: Can requirement be realistically implemented?
 
 ## Defect Markers
 
@@ -70,4 +84,5 @@ Checklist items SHOULD surface specification quality issues using explicit marke
 - [Dependency] — reliance on external or unspecified elements  
 - [Incorrect] — invalid or wrong requirement relative to context  
 - [Unverifiable] — cannot be objectively measured or tested  
-- [Superfluous] — unnecessary or redundant requirement (optional)
+- [Infeasible] — requirement cannot be realistically implemented under constraints
+- [Redundant] — unnecessary or redundant
