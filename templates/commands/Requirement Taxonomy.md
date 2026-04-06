@@ -44,16 +44,17 @@ They are _contextualized behaviors_, such as user journeys or system interaction
   - Assumptions
 
 
-| Quality Dimension | Implied Defect   | Key Question                                                                           | Problem                                  |
-| ----------------- | ---------------- | -------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Clarity           | `[Ambiguity]`    | Are requirements unambiguous and specific?                                             | unclear, vague, or multi-interpretation  |
-| Consistency       | `[Conflict]`     | Do requirements align without contradiction?                                           | contradictory or inconsistent            |
-| Coverage          | `[Gap]`          | Are requirements defined for all relevant scenarios, flows, and conditions?            | missing requirement, or constraint       |
-| Completeness      | `[Gap]`          | Are all required functional capabilities and non-functional qualities specified?       | missing scenario                         |
-| Measurability     | `[Unverifiable]` | Can requirements be objectively measured or verified?                                  | cannot be objectively measured or tested |
-| Correctness       | `[Incorrect]`    | Do specification elements accurately reflect intended behavior and domain constraints? | invalid or wrong relative to context     |
-| Feasibility       | `[Infeasible]`   | Can requirement be realistically implemented?                                          | cannot be realistically implemented      |
-| Relevance         | `[Redundant]`    | Are all requirements necessary and within scope?                                       | unnecessary or redundant                 |
+
+| Quality Dimension | Defect Marker  | Key Question                                                                           | Problem                                 |
+| ----------------- | -------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
+| Clarity           | [Ambiguity]    | Are requirements unambiguous and specific?                                             | vague, unclear, or multi-interpretation |
+| Consistency       | [Conflict]     | Do specification elements align without contradiction?                                 | contradictory or inconsistent           |
+| Completeness      | [Gap]          | Are all required functional capabilities and non-functional qualities specified?       | missing requirement or constraint       |
+| Coverage          | [Gap]          | Are requirements defined for all relevant scenarios, flows, and conditions?            | missing scenario                        |
+| Measurability     | [Unverifiable] | Can requirements be objectively measured or verified?                                  | cannot be objectively verified          |
+| Correctness       | [Incorrect]    | Do specification elements accurately reflect intended behavior and domain constraints? | invalid or wrong relative to context    |
+| Feasibility       | [Infeasible]   | Can the requirement be realistically implemented?                                      | cannot be realistically implemented     |
+| Relevance         | [Redundant]    | Are all requirements necessary and within scope?                                       | unnecessary or duplicate                |
 
 ## Quality
 
