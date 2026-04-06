@@ -59,6 +59,8 @@ They are _contextualized behaviors_, such as user journeys or system interaction
 - **Measurability**: Can requirements be objectively measured or verified?
 - **Relevance**: Are all requirements necessary and within scope?
 
+## Defect Markers
+
 Checklist items SHOULD surface specification quality issues using explicit markers:  
   
 - [Ambiguity] — unclear, vague, or multi-interpretation statements  

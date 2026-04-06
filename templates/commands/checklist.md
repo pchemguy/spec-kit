@@ -38,8 +38,16 @@ This document defines a protocol for evaluating the quality of specifications (p
 
 * three critical components of specifications:
     * scenarios
+        - Primary
+        - Alternate
+        - Exception / Error
+        - Recovery
     * requirements
-    * context constraints (assumptions and dependencies)
+        * Functional
+        * Non-Functional
+    * context constraints
+        * Assumptions
+        * Dependencies
 * component relationships, e.g.:
     * Does the specification define all required capabilities and constraints for each scenario? [Completeness]
     * Does the specification cover all relevant scenarios? [Coverage]
