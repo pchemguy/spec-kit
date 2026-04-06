@@ -34,6 +34,55 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Conceptual Model
 
+This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines the system behavior, capabilities, and operating context via corresponding domains:
+
+- Scenarios (behavioral descriptions)
+- Requirements (functional and non-functional capabilities and constraints)
+- Context Constraints (assumptions and dependencies)
+
+The generated checklist functions analogously to a "unit test suite" for a specification and facilitates evaluation of the quality of components above and their relationships.
+
+## Specification Quality Model
+
+Specification quality is evaluated across three domains:
+
+- **Requirement Set** — functional and non-functional capabilities and constraints
+- **Scenario Space** — behavioral flows and state transitions
+    - Primary
+    - Alternate
+    - Exception / Error
+    - Recovery
+- **Context Constraints** — assumptions and external dependencies
+
+### Quality Dimensions
+
+| Dimension       | Defect Marker     | Key Question                                                                           | Problem                                   |
+|----------------|------------------|----------------------------------------------------------------------------------------|-------------------------------------------|
+| Clarity        | [Ambiguity]      | Are specification elements unambiguous and specific?                                   | vague, unclear, or multi-interpretation   |
+| Consistency    | [Conflict]       | Do specification elements align without contradiction?                                 | contradictory or inconsistent             |
+| Completeness   | [Gap]            | Are all required capabilities and constraints specified?                               | missing requirement or constraint         |
+| Coverage       | [Gap]            | Are all relevant scenarios, flows, and conditions defined?                             | missing scenario or condition             |
+| Measurability  | [Unverifiable]   | Can requirements be objectively verified?                                              | cannot be objectively verified            |
+| Correctness    | [Incorrect]      | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context      |
+| Feasibility    | [Infeasible]     | Can requirements be realistically implemented?                                         | cannot be realistically implemented       |
+| Relevance      | [Redundancy]     | Are all elements necessary and within scope?                                           | unnecessary or duplicate                  |
+
+### Component Relationships
+
+Checklist items MUST evaluate relationships between specification components, including:
+
+- Scenario → Requirements:
+  "Does the specification define required capabilities and constraints for each scenario?" [Completeness]
+
+- Scenario Coverage:
+  "Are all relevant scenarios defined?" [Coverage]
+
+- Cross-component consistency:
+  "Do assumptions conflict with requirements?" [Conflict]
+
+
+## Conceptual Model
+
 This document defines a protocol for evaluating the quality of specifications (produced by the `specify` command) by generating diagnostic checklist items. The generated checklist functions analogously to a "unit test suite" for a specification, targeting:
 
 * Three critical components of specifications:
