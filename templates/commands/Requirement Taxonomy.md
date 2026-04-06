@@ -12,7 +12,7 @@
         - report generation
   - **Non-Functional**
     Non-functional requirements (NFRs) define how a system should operate, focusing on performance, reliability, and user experience rather than specific features. They ensure the system is efficient, secure, and maintainable over time.
-    - ***Performance:** speed and responsiveness
+    - **Performance:** speed and responsiveness
     - **Security:** protection against unauthorized access
     - **Usability:** ease of use
     - **Reliability:** system stability and availability
@@ -30,7 +30,7 @@
 
 ## Scenario Types
   
- **Scenarios** describe _behavioral flows_ — sequences of actions/events that occur under some conditions.
+**Scenarios** describe _behavioral flows_ — sequences of actions/events that occur under some conditions.
 They are _contextualized behaviors_, such as user journeys or system interactions.
 
   - Primary
