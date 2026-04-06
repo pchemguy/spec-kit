@@ -53,7 +53,7 @@ This document defines a protocol for evaluating the quality of specifications (p
     * Does the specification cover all relevant scenarios? (Coverage)
     * Do assumptions conflict with requirements? (Consistency)
 
-The purpose of this protocol is to support iterative refinement of specifications before any implementation occurs. For this reason, implementation behavior and conformance are completely out of scope. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
+The purpose of this protocol is to support iterative refinement of specifications before any implementation occurs. For this reason, implementation behavior and conformance are completely out of scope.
 
 ## Execution Steps
 
