@@ -46,7 +46,7 @@ They are _contextualized behaviors_, such as user journeys or system interaction
 ## Quality
 
 - **Completeness**: Are all required capabilities and qualities specified?
-  Requirement set completeness -  - applies to:
+  Requirement set completeness - applies to:
     - Functional Requirements (FR)
     - Non-Functional Requirements (NFR)
     - Extended Functional Requirements (EFR)

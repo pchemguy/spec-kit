@@ -4,21 +4,20 @@ scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
-# Requirement Quality Checklist Specification
+# Specification Quality Evaluation and Diagnostic Protocol
 
-**CRITICAL CONCEPT**: Checklists validate the quality, clarity, and completeness of requirements.
+**CRITICAL CONCEPT**: Generated checklists validate the quality, clarity, and completeness of specification items (scenarios / requirements / context constrains), not implementation.
 
-**✅ Correct Patterns (Requirement Quality Validation)**:
+**✅ Correct Patterns (Specification Quality Validation)**:
 
-- ✅ **Completeness**: "Are visual hierarchy requirements defined for all card types?"
-- ✅ **Clarity**: "Is 'prominent display' quantified with specific sizing/positioning?"
-- ✅ **Consistency**: "Are hover state requirements consistent across all interactive elements?"
-- ✅ **Coverage**:
-    - "Are accessibility requirements defined for keyboard navigation?"
-    - "Does the spec define what happens when logo image fails to load?"
-- ✅ **Measurability**: "Can 'balanced visual weight' be objectively verified?"
+- ✅ "Are visual hierarchy requirements defined for all card types?"
+- ✅ "Is 'prominent display' quantified with specific sizing/positioning?"
+- ✅ "Are hover state requirements consistent across all interactive elements?"
+- ✅ "Are accessibility requirements defined for keyboard navigation?"
+- ✅ "Does the spec define what happens when logo image fails to load?"
+- ✅ "Can 'balanced visual weight' be objectively verified?"
 
-**❌ Incorrect Patterns (Implementation Testing)**:
+**❌ Incorrect Patterns (Implementation Testing and Assessment)**:
 
 - ❌ "Verify the button clicks correctly"
 - ❌ "Test error handling works"
@@ -35,9 +34,18 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Conceptual Model
 
-A requirement is a core item of specifications, a statement describing a condition, capability, or constraint that must be satisfied.
+This document defines a protocol for evaluating the quality of specifications produced by the `specify` command by generating diagnostic checklist items. The generated checklist functions as a "unit test suite for specification" targeting
 
-The checklist functions as a "unit test suite for requirements": it evaluates whether requirements are well-defined, complete, and unambiguous. Implementation is irrelevant in present context. This analogy is provided for intuition only. All operational rules are defined below and take precedence.
+- three critical components of specifications
+    - scenarios
+    - requirements
+    - context constrains (assumptions and dependencies)
+- component relationships, e.g.,:
+    - Does specification specifies all required capabilities and constraints for each defined scenario? [Completeness]
+    - Do specification cover all important scenarios? [Coverage]
+    - Do assumptions conflict with requirements? [Consistency]
+
+The purpose of this protocol is to facilitate iterative development of  specifications *before* any implementation occurs. For this reason, quality and specifications adherence of implementation are completely out of scope and irrelevant in present context. The "unit test" analogy is provided for intuition only. All operational rules are defined below and take precedence.
 
 ## Execution Steps
 
