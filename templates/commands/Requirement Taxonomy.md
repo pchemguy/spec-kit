@@ -87,3 +87,13 @@ Checklist items SHOULD surface specification quality issues using explicit marke
 - [Unverifiable] — cannot be objectively measured or tested  
 - [Infeasible] — requirement cannot be realistically implemented under constraints
 - [Redundant] — unnecessary or redundant
+
+
+
+Completeness: “Are success criteria defined for all critical user stories? [Gap]”
+Coverage: “Do success criteria cover primary and failure scenarios? [Coverage]”
+Consistency: “Do success criteria align with stated requirements? [Conflict]”
+Clarity: “Are success criteria free of subjective terms? [Ambiguity]”
+Measurability: “Can each success criterion be objectively verified? [Unverifiable]”
+Feasibility: “Are defined targets realistically achievable? [Infeasible]”
+Correctness: “Do success criteria reflect actual user/business outcomes? [Incorrect]”

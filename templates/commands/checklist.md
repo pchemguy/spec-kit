@@ -34,7 +34,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Specification Quality Model
 
-This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines the system behavior, capabilities, success criteria, and operating context via corresponding domains:
+This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines system behavior, capabilities, and operating context, along with measurable success criteria:
 
 - **Scenario Space** — behavioral flows and state transitions
     - Primary
@@ -44,10 +44,13 @@ This document defines a protocol for evaluating the quality of specifications by
 - **Requirement Set** — capabilities and system-level constraints
     * Functional
     * Non-Functional
-* **Success Criteria** — measurable outcomes
 - **Context** — external conditions and dependencies
     * Assumptions
-    * Dependencies (presently not defined explicitly)
+    * Dependencies
+
+Additionally, a specification defines:  
+  
+- **Success Criteria** — measurable outcomes used to evaluate system success
 
 The generated checklist enables systematic evaluation of both individual specification elements and their relationships.
 
@@ -59,7 +62,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 | Consistency       | [Conflict]     | Do specification elements align without contradiction?                                 | contradictory or inconsistent           |
 | Completeness      | [Gap]          | Are all required capabilities and constraints specified?                               | missing requirement or constraint       |
 | Coverage          | [Gap]          | Are all relevant scenarios, flows, and conditions defined?                             | missing scenario or condition           |
-| Measurability     | [Unverifiable] | Can requirements be objectively verified?                                              | cannot be objectively verified          |
+| Measurability     | [Unverifiable] | Can specification elements be objectively verified?                                    | cannot be objectively verified          |
 | Correctness       | [Incorrect]    | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context    |
 | Feasibility       | [Infeasible]   | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
 | Relevance         | [Redundancy]   | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
@@ -73,7 +76,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 - Requirements ↔ Context:
   "Do assumptions or dependencies conflict with requirements?"
 - Cross-component consistency:
-  "Do assumptions conflict with requirements?"
+  "Are specification elements consistent across scenarios, requirements, and context?"
 
 ## Execution Steps
 
