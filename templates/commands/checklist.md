@@ -54,7 +54,7 @@ Additionally, a specification defines:
 
 The generated checklist enables systematic evaluation of both individual specification elements and their relationships.
 
-**Quality Dimensions**
+### Quality Dimensions
 
 | Quality Dimension | Defect Marker  | Key Question                                                                           | Problem                                 |
 | ----------------- | -------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -67,7 +67,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 | Feasibility       | [Infeasible]   | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
 | Relevance         | [Redundancy]   | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
 
-**Component Relationships**
+### Component Relationships
 
 - Scenario → Requirements (Completeness):
   "Does the specification define required capabilities and constraints for each scenario?"
