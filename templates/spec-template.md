@@ -104,7 +104,12 @@
 
 <!--
   ACTION REQUIRED: Define measurable success criteria.
-  These must be technology-agnostic and measurable.
+
+  Success criteria MUST:    
+    - Define observable and measurable outcomes (no vague goals)  
+    - Be evaluable as true/false or threshold-based  
+    - Reflect user value, system performance, or business impact  
+    - Be independent of implementation details
 -->
 
 ### Measurable Outcomes

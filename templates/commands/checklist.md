@@ -34,7 +34,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Specification Quality Model
 
-This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines the system behavior, capabilities, and operating context via corresponding domains:
+This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines the system behavior, capabilities, success criteria, and operating context via corresponding domains:
 
 - **Scenario Space** — behavioral flows and state transitions
     - Primary
@@ -44,9 +44,10 @@ This document defines a protocol for evaluating the quality of specifications by
 - **Requirement Set** — capabilities and system-level constraints
     * Functional
     * Non-Functional
-- **Context** — external conditions and constraints affecting the system
+* **Success Criteria** — measurable outcomes
+- **Context** — external conditions and dependencies
     * Assumptions
-    * Dependencies
+    * Dependencies (presently not defined explicitly)
 
 The generated checklist enables systematic evaluation of both individual specification elements and their relationships.
 
