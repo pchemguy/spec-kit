@@ -36,14 +36,14 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines the system behavior, capabilities, and operating context via corresponding domains:
 
-- **Requirement Set** — capabilities and system-level constraints
-    * Functional
-    * Non-Functional
 - **Scenario Space** — behavioral flows and state transitions
     - Primary
     - Alternate
     - Exception / Error
     - Recovery
+- **Requirement Set** — capabilities and system-level constraints
+    * Functional
+    * Non-Functional
 - **Context** — external conditions and constraints affecting the system
     * Assumptions
     * Dependencies
