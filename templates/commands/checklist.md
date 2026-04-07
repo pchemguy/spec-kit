@@ -65,7 +65,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 | Measurability     | [Unverifiable] | Can specification elements be objectively verified?                                    | cannot be objectively verified          |
 | Correctness       | [Incorrect]    | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context    |
 | Feasibility       | [Infeasible]   | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
-| Relevance         | [Redundancy]   | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
+| Relevance         | [Redundant]    | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
 
 ### Component Relationships
 
@@ -195,18 +195,10 @@ Steps:
 
 #### Generation Rules
 
-Each checklist item MUST evaluate **requirement quality**, not system behavior.
+Each checklist item MUST:
 
-Each item MUST assess at least one of quality dimensions:
-
-- **Completeness**: Are all necessary requirements present?
-- **Clarity**: Are requirements unambiguous and specific?
-- **Consistency**: Do requirements align with each other?
-- **Coverage**: Are all scenarios/edge cases addressed?
-- **Measurability**: Can requirements be objectively verified?
-
-Each item MUST:
-
+- Evaluate **specification item quality**, not system behavior
+- Assess at least one of quality dimensions defined above
 - Be answerable using ONLY spec/plan/tasks
 - Refer to what is WRITTEN (or missing)
 - NOT reference implementation or runtime behavior
@@ -225,11 +217,10 @@ Each item MUST follow pattern:
 
 Each item MUST include:
 
-- Quality dimension  
-    `[Completeness | Clarity | Consistency | Coverage | Measurability | etc.]`
-- Traceability marker:
-    - `[Spec §X.Y]`, OR
-    - `[Gap]`, `[Ambiguity]`, `[Conflict]`, `[Assumption]`
+- Quality dimension tag, e.g.:
+    `[Completeness]`
+- Traceability marker, if available:
+    `[Spec §X.Y]`
 
 #### Category Model
 

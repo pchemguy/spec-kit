@@ -97,3 +97,12 @@ Clarity: “Are success criteria free of subjective terms? [Ambiguity]”
 Measurability: “Can each success criterion be objectively verified? [Unverifiable]”
 Feasibility: “Are defined targets realistically achievable? [Infeasible]”
 Correctness: “Do success criteria reflect actual user/business outcomes? [Incorrect]”
+
+
+Each item MUST assess at least one of quality dimensions:
+
+- **Completeness**: Are all necessary requirements present?
+- **Clarity**: Are requirements unambiguous and specific?
+- **Consistency**: Do requirements align with each other?
+- **Coverage**: Are all scenarios/edge cases addressed?
+- **Measurability**: Can requirements be objectively verified?
