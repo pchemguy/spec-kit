@@ -37,13 +37,14 @@ You **MUST** consider the user input before proceeding (if not empty).
 This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines system behavior, capabilities, and operating context, along with measurable success criteria:
 
 - **Scenario Space** — behavioral flows and state transitions
-    - Primary
-    - Alternate
-    - Exception / Error
-    - Recovery
+  Scenario types:
+    - **Primary** — main success/happy path  
+    - **Alternate** — valid variations of primary flow  
+    - **Exception / Error** — failure paths  
+    - **Recovery** — restoration after failure
 - **Requirement Set** — capabilities and system-level constraints
-    * Functional
-    * Non-Functional
+    * Functional (FR)
+    * Non-Functional (NFR)
 - **Context** — external conditions and dependencies
     * Assumptions
     * Dependencies
@@ -91,6 +92,8 @@ Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS 
 
 ### 2. Clarify Intent via Focused Questions (Dynamic)
 
+#### Initial Questions
+
 Derive up to THREE (Q1-Q3) initial contextual clarifying questions (no pre-baked catalog):
 
 - derive from the user's phrasing and extracted signals from spec/plan/tasks for derivation;
@@ -99,9 +102,7 @@ Derive up to THREE (Q1-Q3) initial contextual clarifying questions (no pre-baked
     - is unclear or ambiguous based on context provided by `$ARGUMENTS`.
 - prefer precision over breadth.
 
-Up to two (Q4-Q5) follow-up questions can be asked as detailed below.
-
-#### Derivation Algorithm
+##### Derivation Algorithm
 
    1. Extract signals:
        - feature domain keywords (e.g., auth, latency, UX, API),
@@ -130,7 +131,7 @@ Use defaults, when interaction impossible:
    - Audience: Reviewer (PR) if code-related; Author otherwise
    - Focus: Top 2 relevance clusters
 
-#### Formatting Rules
+##### Formatting Rules
 
    - Use labels Q1/Q2/Q3
    - If presenting options
@@ -141,7 +142,7 @@ Use defaults, when interaction impossible:
 
 #### Follow-up Questions
 
-   After answers: if at least 2 scenario classes (Alternate / Exception / Recovery / Non-Functional domain) remain unclear, you MAY ask up to TWO more targeted follow‑ups (Q4/Q5) with a one-line justification each (e.g., "Unresolved recovery path risk"). Do not exceed five total questions. Skip escalation if user explicitly declines more.
+If at least 2 scenario types remain unclear after collecting answers to the initial questions, you MAY ask up to TWO more targeted follow‑ups (Q4/Q5) with a one-line justification each (e.g., "Unresolved recovery path risk"). Do not exceed five total questions. Skip escalation if user explicitly declines further interrogation.
 
 ### 3. Understand User Request
 
