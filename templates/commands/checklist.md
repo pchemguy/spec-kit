@@ -161,7 +161,6 @@ Read from FEATURE_DIR:
 
    - `spec.md`: Feature requirements and scope
    - `plan.md` (if exists): Technical details, dependencies
-   - `tasks.md` (if exists): Implementation tasks
 
    **Context Loading Strategy**:
    
@@ -213,7 +212,7 @@ Each checklist item MUST:
 - Evaluate **specification item quality**, not system behavior
 - NOT reference implementation or runtime behavior
 - Assess at least one quality dimension defined above
-- Be answerable using ONLY spec/plan/tasks
+- Be answerable using ONLY spec/plan
 - Refer to what is WRITTEN (or missing)
 - Use interrogative form (question)
 - Include:
