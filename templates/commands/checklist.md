@@ -87,7 +87,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.
 
 - All file paths must be absolute.
-- Handle single quotes in args:
+- Handle single quotes in arguments:
     - Prefer double quotes syntax, e.g., "I'm Groot"
     - Fallback to escaping syntax, e.g., 'I'\''m Groot'
 
@@ -241,6 +241,15 @@ Recovery scenarios (state mutation):
 - If no requirement identification scheme exists (IDs or stable section references), produce a traceability item:
     "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 
+##### Sample Patterns
+
+   - "Are [requirement type] defined/specified/documented for [scenario]?"
+   - "Is [vague term] quantified/clarified with specific criteria?"
+   - "Are requirements consistent between [section A] and [section B]?"
+   - "Can [requirement] be objectively measured/verified?"
+   - "Are [edge cases/scenarios] addressed in requirements?"
+   - "Does the spec define [missing aspect]?"
+
 #### 6.3. Validate items against rules  
 
 Reject any checklist item that:
@@ -307,15 +316,6 @@ In addition to generating a checklist, return prompt output:
    Measurability:
    - "Are visual hierarchy requirements measurable/testable? [Acceptance Criteria, Spec §FR-1]"
    - "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
-
-
-   **✅ REQUIRED PATTERNS** - These test requirements quality:
-   - ✅ "Are [requirement type] defined/specified/documented for [scenario]?"
-   - ✅ "Is [vague term] quantified/clarified with specific criteria?"
-   - ✅ "Are requirements consistent between [section A] and [section B]?"
-   - ✅ "Can [requirement] be objectively measured/verified?"
-   - ✅ "Are [edge cases/scenarios] addressed in requirements?"
-   - ✅ "Does the spec define [missing aspect]?"
 
 
 ## Example Checklist Types & Sample Items
