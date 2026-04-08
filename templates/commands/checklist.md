@@ -58,16 +58,16 @@ The generated checklist enables systematic evaluation of both individual specifi
 
 ### Quality Dimensions
 
-| Quality Dimension | Defect Marker  | Key Question                                                                           | Problem                                 |
-| ----------------- | -------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
-| Clarity           | [Ambiguity]    | Are specification elements unambiguous and specific?                                   | vague, unclear, or multi-interpretation |
-| Consistency       | [Conflict]     | Do specification elements align without contradiction?                                 | contradictory or inconsistent           |
-| Completeness      | [Gap]          | Are all required capabilities and constraints specified for each defined scenario?     | missing requirement or constraint       |
-| Coverage          | [Gap]          | Are all relevant scenarios, flows, and conditions defined?                             | missing scenario or condition           |
-| Measurability     | [Unverifiable] | Can specification elements be objectively verified?                                    | cannot be objectively verified          |
-| Correctness       | [Incorrect]    | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context    |
-| Feasibility       | [Infeasible]   | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
-| Relevance         | [Redundant]    | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
+| Quality Dimension | Defect Marker | Key Question                                                                           | Problem                                 |
+| ----------------- | ------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
+| Clarity           | Ambiguity     | Are specification elements unambiguous and specific?                                   | vague, unclear, or multi-interpretation |
+| Consistency       | Conflict      | Do specification elements align without contradiction?                                 | contradictory or inconsistent           |
+| Completeness      | Gap           | Are all required capabilities and constraints specified for each defined scenario?     | missing requirement or constraint       |
+| Coverage          | Gap           | Are all relevant scenarios, flows, and conditions defined?                             | missing scenario or condition           |
+| Measurability     | Unverifiable  | Can specification elements be objectively verified?                                    | cannot be objectively verified          |
+| Correctness       | Incorrect     | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context    |
+| Feasibility       | Infeasible    | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
+| Relevance         | Redundant     | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
 
 ### Component Relationships
 
@@ -292,17 +292,28 @@ In addition to generating a checklist, return prompt output:
 ---
 ---
 
+|               |              |
+| ------------- | ------------ |
+| Clarity       | Ambiguity    |
+| Consistency   | Conflict     |
+| Completeness  | Gap          |
+| Coverage      | Gap          |
+| Measurability | Unverifiable |
+| Correctness   | Incorrect    |
+| Feasibility   | Infeasible   |
+| Relevance     | Redundant    |
+
    **EXAMPLES BY QUALITY DIMENSION**:
 
    Completeness:
-   - "Are error handling requirements defined for all API failure modes? [Gap]"
+   - "Are error handling requirements defined for all API failure modes? [Completeness]"
    - "Are accessibility requirements specified for all interactive elements? [Completeness]"
-   - "Are mobile breakpoint requirements defined for responsive layouts? [Gap]"
+   - "Are mobile breakpoint requirements defined for responsive layouts? [Completeness]"
 
    Clarity:
    - "Is 'fast loading' quantified with specific timing thresholds? [Clarity, Spec §NFR-2]"
    - "Are 'related episodes' selection criteria explicitly defined? [Clarity, Spec §FR-5]"
-   - "Is 'prominent' defined with measurable visual properties? [Ambiguity, Spec §FR-4]"
+   - "Is 'prominent' defined with measurable visual properties? [Clarity, Spec §FR-4]"
 
    Consistency:
    - "Do navigation requirements align across all pages? [Consistency, Spec §FR-10]"
@@ -310,7 +321,7 @@ In addition to generating a checklist, return prompt output:
 
    Coverage:
    - "Are requirements defined for zero-state scenarios (no episodes)? [Coverage, Edge Case]"
-   - "Are concurrent user interaction scenarios addressed? [Coverage, Gap]"
+   - "Are concurrent user interaction scenarios addressed? [Coverage]"
    - "Are requirements specified for partial data loading failures? [Coverage, Exception Flow]"
 
    Measurability:
@@ -325,8 +336,8 @@ In addition to generating a checklist, return prompt output:
 - "Are visual hierarchy requirements defined with measurable criteria? [Clarity, Spec §FR-1]"
 - "Is the number and positioning of UI elements explicitly specified? [Completeness, Spec §FR-1]"
 - "Are interaction state requirements (hover, focus, active) consistently defined? [Consistency]"
-- "Are accessibility requirements specified for all interactive elements? [Coverage, Gap]"
-- "Is fallback behavior defined when images fail to load? [Edge Case, Gap]"
+- "Are accessibility requirements specified for all interactive elements? [Completeness]"
+- "Is fallback behavior defined when images fail to load? [Edge Case, Coverage]"
 - "Can 'prominent display' be objectively measured? [Measurability, Spec §FR-4]"
 
 ### API Requirements Quality: `api.md`
@@ -334,24 +345,24 @@ In addition to generating a checklist, return prompt output:
 - "Are error response formats specified for all failure scenarios? [Completeness]"
 - "Are rate limiting requirements quantified with specific thresholds? [Clarity]"
 - "Are authentication requirements consistent across all endpoints? [Consistency]"
-- "Are retry/timeout requirements defined for external dependencies? [Coverage, Gap]"
-- "Is versioning strategy documented in requirements? [Gap]"
+- "Are retry/timeout requirements defined for external dependencies? [Completeness]"
+- "Is versioning strategy documented in requirements? [Coverage]"
 
 ### Performance Requirements Quality: `performance.md`
 
 - "Are performance requirements quantified with specific metrics? [Clarity]"
-- "Are performance targets defined for all critical user journeys? [Coverage]"
+- "Are performance targets defined for all critical user journeys? [Completeness]"
 - "Are performance requirements under different load conditions specified? [Completeness]"
 - "Can performance requirements be objectively measured? [Measurability]"
-- "Are degradation requirements defined for high-load scenarios? [Edge Case, Gap]"
+- "Are degradation requirements defined for high-load scenarios? [Edge Case, Completeness]"
 
 ### Security Requirements Quality: `security.md`
 
-- "Are authentication requirements specified for all protected resources? [Coverage]"
+- "Are authentication requirements specified for all protected resources? [Completeness]"
 - "Are data protection requirements defined for sensitive information? [Completeness]"
-- "Is the threat model documented and requirements aligned to it? [Traceability]"
+- "Is the threat model documented and requirements aligned to it? [Coverage, Consistency]"
 - "Are security requirements consistent with compliance obligations? [Consistency]"
-- "Are security failure/breach response requirements defined? [Gap, Exception Flow]"
+- "Are security failure/breach response requirements defined? [Coverage, Exception Flow]"
 
 ## Anti-Examples: What NOT To Do
 
@@ -370,8 +381,8 @@ In addition to generating a checklist, return prompt output:
 - [ ] CHK001 - Are the number and layout of featured episodes explicitly specified? [Completeness, Spec §FR-001]
 - [ ] CHK002 - Are hover state requirements consistently defined for all interactive elements? [Consistency, Spec §FR-003]
 - [ ] CHK003 - Are navigation requirements clear for all clickable brand elements? [Clarity, Spec §FR-010]
-- [ ] CHK004 - Is the selection criteria for related episodes documented? [Gap, Spec §FR-005]
-- [ ] CHK005 - Are loading state requirements defined for asynchronous episode data? [Gap]
+- [ ] CHK004 - Is the selection criteria for related episodes documented? [Completeness, Spec §FR-005]
+- [ ] CHK005 - Are loading state requirements defined for asynchronous episode data? [Coverage]
 - [ ] CHK006 - Can "visual hierarchy" requirements be objectively measured? [Measurability, Spec §FR-001]
 ```
 
@@ -385,10 +396,10 @@ In addition to generating a checklist, return prompt output:
 - Correct: "Is X clearly specified?"
 
 
-Completeness: “Are success criteria defined for all critical user stories? [Gap]”
-Coverage: “Do success criteria cover primary and failure scenarios? [Coverage]”
-Consistency: “Do success criteria align with stated requirements? [Conflict]”
-Clarity: “Are success criteria free of subjective terms? [Ambiguity]”
-Measurability: “Can each success criterion be objectively verified? [Unverifiable]”
-Feasibility: “Are defined targets realistically achievable? [Infeasible]”
-Correctness: “Do success criteria reflect actual user/business outcomes? [Incorrect]”
+Completeness: “Are success criteria defined for all critical user stories?”
+Coverage: “Do success criteria cover primary and failure scenarios?”
+Consistency: “Do success criteria align with stated requirements?”
+Clarity: “Are success criteria free of subjective terms?”
+Measurability: “Can each success criterion be objectively verified?”
+Feasibility: “Are defined targets realistically achievable?”
+Correctness: “Do success criteria reflect actual user/business outcomes?”
