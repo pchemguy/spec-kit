@@ -159,7 +159,7 @@ Combine `$ARGUMENTS` + clarifying answers:
  
 Read from FEATURE_DIR:
 
-   - `spec.md`: Feature requirements and scope
+   - `spec.md`: Feature requirements, scenarios, context, success criteria, and scope
    - `plan.md` (if exists): Technical details, dependencies
 
    **Context Loading Strategy**:
@@ -190,13 +190,15 @@ Perform checklist generation using the steps defined below.
 #### 6.1. Initialize or append checklist file
 
 - Create `FEATURE_DIR/checklists/` directory if it does not exist
-- Use short, descriptive filenames `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
-    - If file does NOT exist:
+- Create new or locate existing file:
+    - Use short, descriptive filenames `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
+    - If chosen `[domain].md` file does NOT exist:
         - Create new file
         - Start numbering at CHK001
     - If file exists:
         - Append new items
         - Continue numbering following the last existing CHK ID
+- Use `templates/checklist-template.md` as canonical template, filling title, metadata section, grouping category headings, and ID formatting.
 - NEVER delete, overwrite, or renumber existing content
 
 #### 6.2. Generate candidate items  
@@ -265,6 +267,17 @@ Group checklist items using quality dimension as grouping category.
 - If many low-impact edge cases, combine into one item, e.g.:
     "Are edge cases X, Y, Z addressed in requirements?"
 
+### 7. Reporting
+
+In addition to generating a checklist, return prompt output:
+
+- full checklist file path, indicating whether the run created a new checklist file or appended to an existing one
+- number of created checklist items
+- summary
+    - Focus areas selected
+    - Depth level
+    - Actor/timing
+    - Any explicit user-specified must-have items incorporated
 
 
 ---
@@ -335,22 +348,6 @@ Group checklist items using quality dimension as grouping category.
    - ✅ "Are [edge cases/scenarios] addressed in requirements?"
    - ✅ "Does the spec define [missing aspect]?"
 
-### 7. Reporting
-
-Use `templates/checklist-template.md` as canonical template
-
-Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
-
-
-Output
-
-- full checklist file path, indicating whether the run created a new checklist file or appended to an existing one
-- number of created checklist items
-- summary
-    - Focus areas selected
-    - Depth level
-    - Actor/timing
-    - Any explicit user-specified must-have items incorporated
 
 ## Example Checklist Types & Sample Items
 
