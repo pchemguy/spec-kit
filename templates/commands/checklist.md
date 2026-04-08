@@ -206,7 +206,7 @@ Perform checklist generation using the steps defined below.
 Each checklist item MUST follow pattern:
 
 ```
-"Are/Is [requirement aspect] [quality condition] for [scope]?" [<quality dimension>, <traceability marker>]
+"Are/Is [requirement aspect] [quality condition] for [scope]?" [<category tags>, <traceability markers>]
 ```
 
 Each checklist item MUST:
@@ -218,8 +218,11 @@ Each checklist item MUST:
 - Refer to what is WRITTEN (or missing)
 - Use interrogative form (question)
 - Include:
-    - Quality dimension tag, e.g., `Completeness`.
-    - Traceability marker, if available, e.g., `Spec §FR-005`.
+    - Category tag(s)
+        - Quality dimension, e.g., `Completeness`.
+        - Other appropriate categories, such as `Exception Flow`, `Edge Case`, `Traceability`, etc.
+    - Traceability marker(s), if available, e.g.,
+        - `Spec §FR-005`.
 
 ##### Scenario Coverage
 
@@ -288,48 +291,44 @@ In addition to generating a checklist, return prompt output:
     - Actor/timing
     - Any explicit user-specified must-have items incorporated
 
-
----
----
-
-|               |              |
-| ------------- | ------------ |
-| Clarity       | Ambiguity    |
-| Consistency   | Conflict     |
-| Completeness  | Gap          |
-| Coverage      | Gap          |
-| Measurability | Unverifiable |
-| Correctness   | Incorrect    |
-| Feasibility   | Infeasible   |
-| Relevance     | Redundant    |
-
-   **EXAMPLES BY QUALITY DIMENSION**:
-
-   Completeness:
-   - "Are error handling requirements defined for all API failure modes? [Completeness]"
-   - "Are accessibility requirements specified for all interactive elements? [Completeness]"
-   - "Are mobile breakpoint requirements defined for responsive layouts? [Completeness]"
-
-   Clarity:
-   - "Is 'fast loading' quantified with specific timing thresholds? [Clarity, Spec §NFR-2]"
-   - "Are 'related episodes' selection criteria explicitly defined? [Clarity, Spec §FR-5]"
-   - "Is 'prominent' defined with measurable visual properties? [Clarity, Spec §FR-4]"
-
-   Consistency:
-   - "Do navigation requirements align across all pages? [Consistency, Spec §FR-10]"
-   - "Are card component requirements consistent between landing and detail pages? [Consistency]"
-
-   Coverage:
-   - "Are requirements defined for zero-state scenarios (no episodes)? [Coverage, Edge Case]"
-   - "Are concurrent user interaction scenarios addressed? [Coverage]"
-   - "Are requirements specified for partial data loading failures? [Coverage, Exception Flow]"
-
-   Measurability:
-   - "Are visual hierarchy requirements measurable/testable? [Acceptance Criteria, Spec §FR-1]"
-   - "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
-
-
 ## Example Checklist Types & Sample Items
+
+Completeness:
+
+- "Are error handling requirements defined for all API failure modes? [Completeness]"
+- "Are accessibility requirements specified for all interactive elements? [Completeness]"
+- "Are mobile breakpoint requirements defined for responsive layouts? [Completeness]"
+- “Are success criteria defined for all critical user stories? [Completeness]”
+
+Clarity:
+
+- "Is 'fast loading' quantified with specific timing thresholds? [Clarity, Spec §NFR-2]"
+- "Are 'related episodes' selection criteria explicitly defined? [Clarity, Spec §FR-5]"
+- "Is 'prominent' defined with measurable visual properties? [Clarity, Spec §FR-4]"
+
+Consistency:
+
+- "Do navigation requirements align across all pages? [Consistency, Spec §FR-10]"
+- "Are card component requirements consistent between landing and detail pages? [Consistency]"
+
+Coverage:
+
+- "Are requirements defined for zero-state scenarios (no episodes)? [Coverage, Edge Case]"
+- "Are concurrent user interaction scenarios addressed? [Coverage]"
+- "Are requirements specified for partial data loading failures? [Coverage, Exception Flow]"
+
+Measurability:
+
+- "Are visual hierarchy requirements measurable/testable? [Acceptance Criteria, Spec §FR-1]"
+- "Can 'balanced visual weight' be objectively verified? [Measurability, Spec §FR-2]"
+
+Feasibility:
+
+- “Are defined targets realistically achievable? [Feasibility, Spec §FR-5]”
+
+Correctness:
+
+- “Do success criteria reflect actual user/business outcomes? [Correctness, Spec §FR-2]”
 
 ### UX Requirements Quality: `ux.md`
 
@@ -364,16 +363,7 @@ In addition to generating a checklist, return prompt output:
 - "Are security requirements consistent with compliance obligations? [Consistency]"
 - "Are security failure/breach response requirements defined? [Coverage, Exception Flow]"
 
-## Anti-Examples: What NOT To Do
-
-**❌ WRONG - These test implementation, not requirements:**
-
-```markdown
-- [ ] CHK001 - Verify landing page displays 3 episode cards [Spec §FR-001]
-- [ ] CHK002 - Test hover states work correctly on desktop [Spec §FR-003]
-- [ ] CHK003 - Confirm logo click navigates to home page [Spec §FR-010]
-- [ ] CHK004 - Check that related episodes section shows 3-5 items [Spec §FR-005]
-```
+### What Do and NOT To Do
 
 **✅ CORRECT - These test requirements quality:**
 
@@ -386,6 +376,15 @@ In addition to generating a checklist, return prompt output:
 - [ ] CHK006 - Can "visual hierarchy" requirements be objectively measured? [Measurability, Spec §FR-001]
 ```
 
+**❌ WRONG - These test implementation, not requirements:**
+
+```markdown
+- [ ] CHK001 - Verify landing page displays 3 episode cards [Spec §FR-001]
+- [ ] CHK002 - Test hover states work correctly on desktop [Spec §FR-003]
+- [ ] CHK003 - Confirm logo click navigates to home page [Spec §FR-010]
+- [ ] CHK004 - Check that related episodes section shows 3-5 items [Spec §FR-005]
+```
+
 **Key Differences:**
 
 - Wrong: Tests if the system works correctly
@@ -394,12 +393,3 @@ In addition to generating a checklist, return prompt output:
 - Correct: Validation of requirement quality
 - Wrong: "Does it do X?"
 - Correct: "Is X clearly specified?"
-
-
-Completeness: “Are success criteria defined for all critical user stories?”
-Coverage: “Do success criteria cover primary and failure scenarios?”
-Consistency: “Do success criteria align with stated requirements?”
-Clarity: “Are success criteria free of subjective terms?”
-Measurability: “Can each success criterion be objectively verified?”
-Feasibility: “Are defined targets realistically achievable?”
-Correctness: “Do success criteria reflect actual user/business outcomes?”
