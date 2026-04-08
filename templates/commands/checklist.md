@@ -166,6 +166,10 @@ Read from FEATURE_DIR:
 - `spec.md`: Feature requirements, scenarios, context, success criteria, and scope
 - `plan.md` (if exists): Technical details, dependencies
 
+<!-- TODO: Note to developer
+    checklist.md most likely is supposed to take `spec.md` only. References to `plan.md` probably should be removed.
+-->
+
 **Context Loading Strategy**:
    
 - Load only necessary portions relevant to active focus areas (avoid full-file dumping)
