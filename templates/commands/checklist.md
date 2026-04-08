@@ -41,7 +41,7 @@ This document defines a protocol for evaluating the quality of specifications by
   Scenario types:
     - **Primary** — main success/happy path  
     - **Alternate** — valid variations of primary flow  
-    - **Exception / Error** — failure paths  
+    - **Exception** — failure paths  
     - **Recovery** — restoration after failure
 - **Requirement Set** — capabilities and system-level constraints
     * Functional (FR)
@@ -210,7 +210,7 @@ Perform checklist generation using the steps defined below.
 Each checklist item MUST follow pattern:
 
 ```
-"Are/Is [requirement aspect] [quality condition] for [scope]?" [<category tags>, <traceability markers>]
+"Are/Is [requirement aspect] [quality condition] for [scope]?" [<classification tags>, <traceability markers>]
 ```
 
 Each checklist item MUST:
@@ -218,17 +218,17 @@ Each checklist item MUST:
 - Evaluate **specification item quality**, not system behavior
 - NOT reference implementation or runtime behavior
 - Assess at least one quality dimension defined above
-- Be answerable using ONLY spec/plan
+- Be answerable using specification artifacts (spec.md; plan.md only for contextual clarification)
 - Refer to what is WRITTEN (or missing)
 - Use interrogative form (question)
 - Include:
-    - Category tag(s)
-        - Quality dimension, e.g., `Completeness`.
-        - Other appropriate categories, such as `Exception Flow`, `Edge Case`, `Traceability`, etc.
+    - Classification tag(s)
+        - Primary tag = Quality Dimension
+        - Secondary tags = contextual classifiers (e.g., Edge Case, Exception Flow)
     - Traceability marker(s), if available, e.g.,
         - `Spec §FR-005`.
 
-##### Scenario Coverage
+##### Coverage
 
 For EACH scenario type, at least ONE checklist item MUST be generated:
 
@@ -241,6 +241,8 @@ Recovery scenarios (state mutation):
 
 - If the feature involves state-changing operations (e.g., database writes, migrations, transactions):
   "Are recovery/rollback requirements defined when state mutation fails?"
+
+At least ONE checklist item MUST evaluate Success Criteria quality (completeness, measurability, or alignment with scenarios).
 
 ##### Traceability Requirements
 
