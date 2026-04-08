@@ -61,7 +61,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 | ----------------- | -------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
 | Clarity           | [Ambiguity]    | Are specification elements unambiguous and specific?                                   | vague, unclear, or multi-interpretation |
 | Consistency       | [Conflict]     | Do specification elements align without contradiction?                                 | contradictory or inconsistent           |
-| Completeness      | [Gap]          | Are all required capabilities and constraints specified?                               | missing requirement or constraint       |
+| Completeness      | [Gap]          | Are all required capabilities and constraints specified for each defined scenario?     | missing requirement or constraint       |
 | Coverage          | [Gap]          | Are all relevant scenarios, flows, and conditions defined?                             | missing scenario or condition           |
 | Measurability     | [Unverifiable] | Can specification elements be objectively verified?                                    | cannot be objectively verified          |
 | Correctness       | [Incorrect]    | Do specification elements reflect intended behavior and domain constraints accurately? | invalid or wrong relative to context    |
@@ -123,7 +123,7 @@ Derive up to THREE (Q1-Q3) initial contextual clarifying questions (no pre-baked
       - depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
       - audience framing (e.g., "Will this be used by the author only or peers during PR review?")
       - boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
-      - scenario class gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
+      - scenario type gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
 
 Use defaults, when interaction impossible:
 
@@ -148,10 +148,11 @@ If at least 2 scenario types remain unclear after collecting answers to the init
 
 Combine `$ARGUMENTS` + clarifying answers:
 
-   - Derive checklist theme (e.g., security, review, deploy, ux)
+   - Derive checklist theme (e.g., security, review, deploy, UX)
+   - Extract and prioritize focus selections from user input, clarifications, and context signals (e.g., UX consistency, API reliability)
    - Consolidate explicit must-have items mentioned by user
-   - Map focus selections to category scaffolding
-   - Infer any missing context from spec/plan/tasks (do NOT hallucinate)
+   - Map focus selections to quality dimensions
+   - Infer preliminary context from $ARGUMENTS and clarifications only
 
 ### 4. Load Feature Context
  
@@ -170,7 +171,19 @@ Read from FEATURE_DIR:
        - **long sections**: preferably summarize into concise scenario/requirement bullets
        - **large source docs**: generate interim summary items instead of embedding raw text
 
-### 5. Generate Checklist
+### 5. Contextual Synthesis
+
+Combine user intent with loaded feature context:
+
+- Refine checklist theme based on actual specification content
+- Validate or adjust inferred focus areas
+- Identify:
+    - missing requirements
+    - missing scenarios
+    - inconsistencies between spec sections
+- Infer any identified context omissions (all inferences MUST be grounded in available user inputs and loaded content; do not introduce unsupported assumptions)
+
+### 6. Generate Checklist
    
 Perform checklist generation using the rules defined below.  
   
@@ -199,67 +212,42 @@ Steps:
 Each checklist item MUST:
 
 - Evaluate **specification item quality**, not system behavior
-- Assess at least one of quality dimensions defined above
+- NOT reference implementation or runtime behavior
+- Assess at least one quality dimension defined above
 - Be answerable using ONLY spec/plan/tasks
 - Refer to what is WRITTEN (or missing)
-- NOT reference implementation or runtime behavior
 - Use interrogative form (question)
-- Include:
-    - a quality dimension tag
-    - a traceability marker
 
 #### Item Structure
 
 Each item MUST follow pattern:
 
 ```
-"Are/Is [requirement aspect] [quality condition] for [scope]?"
+"Are/Is [requirement aspect] [quality condition] for [scope]?" [<quality dimension>, <traceability marker>]
 ```
 
 Each item MUST include:
 
-- Quality dimension tag, e.g.:
-    `[Completeness]`
-- Traceability marker, if available:
-    `[Spec §X.Y]`
-
-#### Category Model
-
-Group items by requirement scope:
-
-- **Functional Requirements**  
-- **Non-Functional Requirements** (Performance, Security, Accessibility, etc.)  
-- **Scenario Coverage**
-- **Dependencies & Assumptions**
+- Quality dimension tag, e.g., `Completeness`.
+- Traceability marker, if available, e.g., `Spec §FR-005`.
 
 #### Scenario Coverage
-
-Ensure coverage across scenario types:
-
-- Primary
-- Alternate
-- Exception / Error
-- Recovery
-- Non-Functional
 
 For EACH scenario type, at least ONE checklist item MUST be generated:
 
 - Requirement quality:
   "Are [scenario type] requirements complete, clear, and consistent?"
 - If requirements are NOT defined:
-  "Are [scenario type] requirements intentionally excluded or missing? [Gap]"
+  "Are [scenario type] requirements intentionally excluded or missing?"
 
 Recovery scenarios (state mutation):
 
 - If the feature involves state-changing operations (e.g., database writes, migrations, transactions):
-  "Are recovery/rollback requirements defined when state mutation fails? [Gap]"
+  "Are recovery/rollback requirements defined when state mutation fails?"
 
 #### Traceability Requirements
 
 - MINIMUM 80% of items MUST reference a specific requirement
-- Each item SHOULD include:
-    - [Spec §X.Y] — reference to a requirement via its ID or stable section
-    - [Gap] — no corresponding requirement exists
 - If no requirement identification scheme exists (IDs or stable section references), produce a traceability item:
     "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 
@@ -272,14 +260,6 @@ Reject any checklist item that:
 - Includes test procedures, test cases, or QA steps
 - Cannot be answered from specification text
 
-Checklist items SHOULD surface requirement quality issues using explicit markers:  
-  
-- [Ambiguity] — unclear or undefined terms  
-- [Conflict] — inconsistent or contradictory requirements  
-- [Assumption] — unstated dependencies or implicit conditions  
-- [Dependency] — external systems or requirements not specified  
-- [Gap] — missing requirement or scenario
-
 Heuristic red-flag keywords (require scrutiny, not automatic rejection):
 
 - "click", "render", "navigate", "execute", "load"
@@ -291,7 +271,7 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
 - If candidate items > 40, prioritize by risk and impact
 - Merge near-duplicate items
 - If many low-impact edge cases, combine into one item, e.g.:
-    "Are edge cases X, Y, Z addressed in requirements? [Coverage]"
+    "Are edge cases X, Y, Z addressed in requirements?"
 
 
 
@@ -363,11 +343,11 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
    - ✅ "Are [edge cases/scenarios] addressed in requirements?"
    - ✅ "Does the spec define [missing aspect]?"
 
-### 6. Structure Reference
+### 7. Structure Reference
  
 Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
 
-### 7. Report
+### 8. Report
 
 Output full path to checklist file, item count, and summarize whether the run created a new file or appended to an existing one.
 
