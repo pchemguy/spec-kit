@@ -283,37 +283,6 @@ In addition to generating a checklist, return prompt output:
 ---
 ---
 
-
-
-
-   **CORE PRINCIPLE - Test the Requirements, Not the Implementation**. Every checklist item MUST evaluate the REQUIREMENTS for:
-   
- - **Completeness**: Are all necessary requirements present?
- - **Clarity**: Are requirements unambiguous and specific?
- - **Consistency**: Do requirements align without conflict?
- - **Measurability**: Can requirements be objectively verified?
- - **Coverage**: Are all scenarios, including edge cases, addressed?
-
-
- 
-
-   **HOW TO WRITE CHECKLIST ITEMS - "Unit Tests for English"**:
-
-   ❌ **WRONG** (Testing implementation):
-   - "Verify landing page displays 3 episode cards"
-   - "Test hover states work on desktop"
-   - "Confirm logo click navigates home"
-
-   ✅ **CORRECT** (Testing requirements quality):
-   - "Are the exact number and layout of featured episodes specified?" [Completeness]
-   - "Is 'prominent display' quantified with specific sizing/positioning?" [Clarity]
-   - "Are hover state requirements consistent across all interactive elements?" [Consistency]
-   - "Are keyboard navigation requirements defined for all interactive UI?" [Coverage]
-   - "Is the fallback behavior specified when logo image fails to load?" [Edge Cases]
-   - "Are loading states defined for asynchronous episode data?" [Completeness]
-   - "Does the spec define visual hierarchy for competing UI elements?" [Clarity]
-
-
    **EXAMPLES BY QUALITY DIMENSION**:
 
    Completeness:
@@ -353,8 +322,6 @@ In addition to generating a checklist, return prompt output:
 
 ### UX Requirements Quality: `ux.md`
 
-Sample items *(testing the requirements, NOT the implementation)*:
-
 - "Are visual hierarchy requirements defined with measurable criteria? [Clarity, Spec §FR-1]"
 - "Is the number and positioning of UI elements explicitly specified? [Completeness, Spec §FR-1]"
 - "Are interaction state requirements (hover, focus, active) consistently defined? [Consistency]"
@@ -364,8 +331,6 @@ Sample items *(testing the requirements, NOT the implementation)*:
 
 ### API Requirements Quality: `api.md`
 
-Sample items:
-
 - "Are error response formats specified for all failure scenarios? [Completeness]"
 - "Are rate limiting requirements quantified with specific thresholds? [Clarity]"
 - "Are authentication requirements consistent across all endpoints? [Consistency]"
@@ -374,8 +339,6 @@ Sample items:
 
 ### Performance Requirements Quality: `performance.md`
 
-Sample items:
-
 - "Are performance requirements quantified with specific metrics? [Clarity]"
 - "Are performance targets defined for all critical user journeys? [Coverage]"
 - "Are performance requirements under different load conditions specified? [Completeness]"
@@ -383,8 +346,6 @@ Sample items:
 - "Are degradation requirements defined for high-load scenarios? [Edge Case, Gap]"
 
 ### Security Requirements Quality: `security.md`
-
-Sample items:
 
 - "Are authentication requirements specified for all protected resources? [Coverage]"
 - "Are data protection requirements defined for sensitive information? [Completeness]"
@@ -422,3 +383,12 @@ Sample items:
 - Correct: Validation of requirement quality
 - Wrong: "Does it do X?"
 - Correct: "Is X clearly specified?"
+
+
+Completeness: “Are success criteria defined for all critical user stories? [Gap]”
+Coverage: “Do success criteria cover primary and failure scenarios? [Coverage]”
+Consistency: “Do success criteria align with stated requirements? [Conflict]”
+Clarity: “Are success criteria free of subjective terms? [Ambiguity]”
+Measurability: “Can each success criterion be objectively verified? [Unverifiable]”
+Feasibility: “Are defined targets realistically achievable? [Infeasible]”
+Correctness: “Do success criteria reflect actual user/business outcomes? [Incorrect]”
