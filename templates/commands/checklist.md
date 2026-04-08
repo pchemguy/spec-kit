@@ -4,6 +4,7 @@ scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
+
 # Specification Quality Evaluation and Diagnostic Protocol
 
 **CRITICAL CONCEPT**: Checklists produced by this protocol validate the internal quality of specification artifacts, not implementation.
@@ -347,24 +348,17 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
  
 Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
 
-### 8. Report
+### 8. Reporting
 
-Output full path to checklist file, item count, and summarize whether the run created a new file or appended to an existing one.
+Output
 
-Summarize:
-
-   - Focus areas selected
-   - Depth level
-   - Actor/timing
-   - Any explicit user-specified must-have items incorporated
-
-**Important**: Each `/speckit.checklist` command invocation uses a short, descriptive checklist filename and either creates a new file or appends to an existing one. This allows:
-
-- Multiple checklists of different types (e.g., `ux.md`, `test.md`, `security.md`)
-- Simple, memorable filenames that indicate checklist purpose
-- Easy identification and navigation in the `checklists/` folder
-
-To avoid clutter, use descriptive types and clean up obsolete checklists when done.
+- full checklist file path, indicating whether the run created a new checklist file or appended to an existing one
+- number of created checklist items
+- summary
+    - Focus areas selected
+    - Depth level
+    - Actor/timing
+    - Any explicit user-specified must-have items incorporated
 
 ## Example Checklist Types & Sample Items
 
