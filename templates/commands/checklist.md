@@ -105,41 +105,41 @@ Derive up to THREE (Q1-Q3) initial contextual clarifying questions (no pre-baked
 
 ##### Derivation Algorithm
 
-   1. Extract signals:
-       - feature domain keywords (e.g., auth, latency, UX, API),
-       - risk indicators (e.g., "critical", "must", "compliance"),
-       - stakeholder hints (e.g., "QA", "review", "security team"),
-       - explicit deliverables (e.g., "a11y", "rollback", "contracts").
-   2. Cluster signals into candidate focus areas (max 4) ranked by relevance.
-   3. Identify probable audience & timing (author, reviewer, QA, and release) if not explicit.
-   4. Detect missing dimensions:
-       - scope breadth,
-       - depth/rigor,
-       - risk emphasis,
-       - exclusion boundaries,
-       - measurable acceptance criteria.
-   5. Formulate questions chosen from these archetypes:
-      - scope refinement (e.g., "Should this include integration touchpoints with X and Y or stay limited to local module correctness?")
-      - risk prioritization (e.g., "Which of these potential risk areas should receive mandatory gating checks?")
-      - depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
-      - audience framing (e.g., "Will this be used by the author only or peers during PR review?")
-      - boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
-      - scenario type gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
+1. Extract signals:
+    - feature domain keywords (e.g., auth, latency, UX, API),
+    - risk indicators (e.g., "critical", "must", "compliance"),
+    - stakeholder hints (e.g., "QA", "review", "security team"),
+    - explicit deliverables (e.g., "a11y", "rollback", "contracts").
+2. Cluster signals into candidate focus areas (max 4) ranked by relevance.
+3. Identify probable audience & timing (author, reviewer, QA, and release) if not explicit.
+4. Detect missing dimensions:
+    - scope breadth,
+    - depth/rigor,
+    - risk emphasis,
+    - exclusion boundaries,
+    - measurable acceptance criteria.
+5. Formulate questions chosen from these archetypes:
+    - scope refinement (e.g., "Should this include integration touchpoints with X and Y or stay limited to local module correctness?")
+    - risk prioritization (e.g., "Which of these potential risk areas should receive mandatory gating checks?")
+    - depth calibration (e.g., "Is this a lightweight pre-commit sanity list or a formal release gate?")
+    - audience framing (e.g., "Will this be used by the author only or peers during PR review?")
+    - boundary exclusion (e.g., "Should we explicitly exclude performance tuning items this round?")
+    - scenario type gap (e.g., "No recovery flows detected - are rollback / partial failure paths in scope?")
 
 Use defaults, when interaction impossible:
 
-   - Depth: Standard
-   - Audience: Reviewer (PR) if code-related; Author otherwise
-   - Focus: Top 2 relevance clusters
+- Depth: Standard
+- Audience: Reviewer (PR) if code-related; Author otherwise
+- Focus: Top 2 relevance clusters
 
 ##### Formatting Rules
 
-   - Use labels Q1/Q2/Q3
-   - If presenting options
-       - Generate a compact table with columns: Option | Candidate | Why It Matters
-       - Limit to A–E options maximum; omit table if a free-form answer is clearer
-   - Never ask the user to restate what they already said
-   - Avoid speculative categories (no hallucination). If uncertain, ask explicitly: "Confirm whether X belongs in scope."
+- Use labels Q1/Q2/Q3
+- If presenting options
+    - Generate a compact table with columns: Option | Candidate | Why It Matters
+    - Limit to A–E options maximum; omit table if a free-form answer is clearer
+- Never ask the user to restate what they already said
+- Avoid speculative categories (no hallucination). If uncertain, ask explicitly: "Confirm whether X belongs in scope."
 
 #### Follow-up Questions
 
@@ -149,27 +149,31 @@ If at least 2 scenario types remain unclear after collecting answers to the init
 
 Combine `$ARGUMENTS` + clarifying answers:
 
-   - Derive checklist theme (e.g., security, review, deploy, UX)
-   - Extract and prioritize focus selections from user input, clarifications, and context signals (e.g., UX consistency, API reliability)
-   - Consolidate explicit must-have items mentioned by user
-   - Map focus selections to quality dimensions
-   - Infer preliminary context from $ARGUMENTS and clarifications only
+- Derive checklist theme (e.g., security, review, deploy, UX)
+- Extract and prioritize focus selections from user input, clarifications, and context signals (e.g., UX consistency, API reliability)
+- Consolidate explicit must-have items mentioned by user
+- Map focus selections to quality dimensions
+- Infer preliminary context from $ARGUMENTS and clarifications only
+    - identify candidate scenario types  
+    - identify candidate requirement areas  
+    - identify likely risk areas  
+    - do not assume specification content
 
 ### 4. Load Feature Context
  
 Read from FEATURE_DIR:
 
-   - `spec.md`: Feature requirements, scenarios, context, success criteria, and scope
-   - `plan.md` (if exists): Technical details, dependencies
+- `spec.md`: Feature requirements, scenarios, context, success criteria, and scope
+- `plan.md` (if exists): Technical details, dependencies
 
-   **Context Loading Strategy**:
+**Context Loading Strategy**:
    
-   - Load only necessary portions relevant to active focus areas (avoid full-file dumping)
+- Load only necessary portions relevant to active focus areas (avoid full-file dumping)
     <!-- TODO: This point needs to be revised. The present formulation is not actionable. How can LLM decide what is relevant before loading the entire document? Possibly instruct it to analyzed heading first (need to consider document structure)? Can a script be used to extract the relevant portions? -->
-   - Use progressive disclosure: add follow-on retrieval only if gaps detected
-   - Compress large textual blocks, if appropriate:
-       - **long sections**: preferably summarize into concise scenario/requirement bullets
-       - **large source docs**: generate interim summary items instead of embedding raw text
+- Use progressive disclosure: add follow-on retrieval only if gaps detected
+- Compress large textual blocks, if appropriate:
+    - **long sections**: preferably summarize into concise scenario/requirement bullets
+    - **large source docs**: generate interim summary items instead of embedding raw text
 
 ### 5. Contextual Synthesis
 
