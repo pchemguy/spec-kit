@@ -186,17 +186,9 @@ Combine user intent with loaded feature context:
 
 ### 6. Generate Checklist
    
-Perform checklist generation using the rules defined below.  
-  
-Steps:  
+Perform checklist generation using the steps defined below.  
 
-1. Initialize or append checklist file  
-2. Generate candidate items  
-3. Validate items against rules  
-4. Group items by category  
-5. Apply consolidation rules
-
-#### File Handling
+#### 6.1. Initialize or append checklist file
 
 - Create `FEATURE_DIR/checklists/` directory if it does not exist
 - Use short, descriptive filenames `[domain].md` (e.g., `ux.md`, `api.md`, `security.md`)
@@ -208,7 +200,13 @@ Steps:
         - Continue numbering following the last existing CHK ID
 - NEVER delete, overwrite, or renumber existing content
 
-#### Generation Rules
+#### 6.2. Generate candidate items  
+
+Each checklist item MUST follow pattern:
+
+```
+"Are/Is [requirement aspect] [quality condition] for [scope]?" [<quality dimension>, <traceability marker>]
+```
 
 Each checklist item MUST:
 
@@ -218,21 +216,11 @@ Each checklist item MUST:
 - Be answerable using ONLY spec/plan/tasks
 - Refer to what is WRITTEN (or missing)
 - Use interrogative form (question)
+- Include:
+    - Quality dimension tag, e.g., `Completeness`.
+    - Traceability marker, if available, e.g., `Spec §FR-005`.
 
-#### Item Structure
-
-Each item MUST follow pattern:
-
-```
-"Are/Is [requirement aspect] [quality condition] for [scope]?" [<quality dimension>, <traceability marker>]
-```
-
-Each item MUST include:
-
-- Quality dimension tag, e.g., `Completeness`.
-- Traceability marker, if available, e.g., `Spec §FR-005`.
-
-#### Scenario Coverage
+##### Scenario Coverage
 
 For EACH scenario type, at least ONE checklist item MUST be generated:
 
@@ -246,13 +234,13 @@ Recovery scenarios (state mutation):
 - If the feature involves state-changing operations (e.g., database writes, migrations, transactions):
   "Are recovery/rollback requirements defined when state mutation fails?"
 
-#### Traceability Requirements
+##### Traceability Requirements
 
 - MINIMUM 80% of items MUST reference a specific requirement
 - If no requirement identification scheme exists (IDs or stable section references), produce a traceability item:
     "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 
-#### Validation Rules (MANDATORY)
+#### 6.3. Validate items against rules  
 
 Reject any checklist item that:
 
@@ -267,7 +255,11 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
 - "works properly", "functions as expected"
 - "verify", "test", "confirm", "check"
 
-#### Consolidation Rules
+#### 6.4. Group checklist items
+
+Group checklist items using quality dimension as grouping category.
+
+#### 6.5. Apply consolidation rules
 
 - If candidate items > 40, prioritize by risk and impact
 - Merge near-duplicate items
@@ -344,11 +336,12 @@ Heuristic red-flag keywords (require scrutiny, not automatic rejection):
    - ✅ "Are [edge cases/scenarios] addressed in requirements?"
    - ✅ "Does the spec define [missing aspect]?"
 
-### 7. Structure Reference
- 
+### 7. Reporting
+
+Use `templates/checklist-template.md` as canonical template
+
 Generate the checklist following the canonical template in `templates/checklist-template.md` for title, meta section, category headings, and ID formatting.
 
-### 8. Reporting
 
 Output
 
