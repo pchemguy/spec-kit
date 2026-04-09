@@ -191,8 +191,9 @@ class CommandRegistrar:
         toml_lines = []
 
         if "description" in frontmatter:
-            desc = frontmatter["description"].replace('"', '\\"')
-            toml_lines.append(f'description = "{desc}"')
+            toml_lines.append(
+                f'description = {self._render_basic_toml_string(frontmatter["description"])}'
+            )
             toml_lines.append("")
 
         toml_lines.append(f"# Source: {source_id}")
@@ -209,16 +210,21 @@ class CommandRegistrar:
             toml_lines.append(body)
             toml_lines.append("'''")
         else:
-            escaped_body = (
-                body.replace("\\", "\\\\")
-                .replace('"', '\\"')
-                .replace("\n", "\\n")
-                .replace("\r", "\\r")
-                .replace("\t", "\\t")
-            )
-            toml_lines.append(f'prompt = "{escaped_body}"')
+            toml_lines.append(f"prompt = {self._render_basic_toml_string(body)}")
 
         return "\n".join(toml_lines)
+
+    @staticmethod
+    def _render_basic_toml_string(value: str) -> str:
+        """Render *value* as a TOML basic string literal."""
+        escaped = (
+            value.replace("\\", "\\\\")
+            .replace('"', '\\"')
+            .replace("\n", "\\n")
+            .replace("\r", "\\r")
+            .replace("\t", "\\t")
+        )
+        return f'"{escaped}"'
 
     def render_skill_command(
         self,
@@ -275,7 +281,9 @@ class CommandRegistrar:
             },
         }
         if agent_name == "claude":
-            # Claude skills should only run when explicitly invoked.
+            # Claude skills should be user-invocable (accessible via /command)
+            # and only run when explicitly invoked (not auto-triggered by the model).
+            skill_frontmatter["user-invocable"] = True
             skill_frontmatter["disable-model-invocation"] = True
         return skill_frontmatter
 
@@ -412,7 +420,9 @@ class CommandRegistrar:
                 frontmatter.pop(key, None)
 
             if agent_config.get("inject_name") and not frontmatter.get("name"):
-                frontmatter["name"] = cmd_name
+                # Use custom name formatter if provided (e.g., Forge's hyphenated format)
+                format_name = agent_config.get("format_name")
+                frontmatter["name"] = format_name(cmd_name) if format_name else cmd_name
 
             body = self._convert_argument_placeholder(
                 body, "$ARGUMENTS", agent_config["args"]
@@ -446,7 +456,9 @@ class CommandRegistrar:
                 # For agents with inject_name, render with alias-specific frontmatter
                 if agent_config.get("inject_name"):
                     alias_frontmatter = deepcopy(frontmatter)
-                    alias_frontmatter["name"] = alias
+                    # Use custom name formatter if provided (e.g., Forge's hyphenated format)
+                    format_name = agent_config.get("format_name")
+                    alias_frontmatter["name"] = format_name(alias) if format_name else alias
 
                     if agent_config["extension"] == "/SKILL.md":
                         alias_output = self.render_skill_command(
