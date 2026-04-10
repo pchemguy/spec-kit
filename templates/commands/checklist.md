@@ -67,7 +67,9 @@ You **MUST** consider the user input before proceeding (if not empty).
     ```
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
-## Specification Quality Model
+## Execution Steps
+
+### Quality Model
 
 This document defines a protocol for evaluating the quality of specifications by generating diagnostic checklist items. A specification produced by the `specify` command defines system behavior, capabilities, and operating context, along with measurable success criteria:
 
@@ -90,7 +92,7 @@ Additionally, a specification defines:
 
 The generated checklist enables systematic evaluation of both individual specification elements and their relationships.
 
-### Quality Dimensions
+#### Quality Dimensions
 
 | Quality Dimension | Defect Marker | Key Question                                                                           | Problem                                 |
 | ----------------- | ------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -103,7 +105,7 @@ The generated checklist enables systematic evaluation of both individual specifi
 | Feasibility       | Infeasible    | Can requirements be realistically implemented?                                         | cannot be realistically implemented     |
 | Relevance         | Redundant     | Are all elements necessary and within scope?                                           | unnecessary or duplicate                |
 
-### Component Relationships
+#### Component Relationships
 
 - Scenario → Requirements (Completeness):
   "Does the specification define required capabilities and constraints for each scenario?"
@@ -113,8 +115,6 @@ The generated checklist enables systematic evaluation of both individual specifi
   "Do assumptions or dependencies conflict with requirements?"
 - Cross-component consistency:
   "Are specification elements consistent across scenarios, requirements, and context?"
-
-## Execution Steps
 
 ### 1. Setup
 
