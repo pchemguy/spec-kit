@@ -241,7 +241,7 @@ Given that feature description, do this:
 - Focus on **WHAT** users need and **WHY**.
 - Avoid HOW to implement (no tech stack, APIs, code structure).
 - Written for business stakeholders, not developers.
-- DO NOT create any checklists that are embedded in the spec. That will be a separate command.
+- DO NOT embed any specification quality checks into the generated spec. Specification quality checking is a separate stage.
 
 ### Section Requirements
 
