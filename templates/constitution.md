@@ -1,8 +1,10 @@
 <!--
 Sync Impact Report
 Version change: 1.5.0 -> 1.6.0
-Modified principles:
-- Project Evolution -> ### VIII. Project Evolution Context Must Be Explicit And Machine-Readable
+Modified principles:  
+- VII. Documentation Is A First-Class, Verified Deliverable  
+Added sections:  
+- VIII. Project Evolution Context Must Be Explicit And Machine-Readable
 Templates requiring updates:
 - ⚠ pending: .specify/templates/plan-template.md
 - ⚠ pending: .specify/templates/spec-template.md
@@ -123,7 +125,7 @@ The repository MUST maintain a project-level context document (next to this `con
 
 - [progress.md](progress.md)
 
-This document serves as the authoritative, continuously updated summary of project evolution and implemented feature history.
+This document serves as the authoritative summary of project evolution and implemented feature history.
 
 #### Role of `progress.md`
 
@@ -132,7 +134,7 @@ This document serves as the authoritative, continuously updated summary of proje
 - provide a chronological record of implemented features;
 - map each feature to its specification, plan, and task artifacts;
 - summarize implemented behavior and scope at a level sufficient for agent context initialization;
-- distinguish between implemented, in-progress, deprecated, and superseded features; and
+- distinguish between completed, deprecated, and superseded features (NO track in-progress entries);
 - enable deterministic reconstruction of project state without relying on conversation context.
 
 #### Relationship to Constitution
@@ -152,18 +154,22 @@ Each feature entry in `progress.md` MUST follow a standardized structure:
 - branch name
 - spec directory
 - milestone prefix
-- status
+- status (`completed`, `deprecated`, or `superseded`)
 - completion date
-- summary (3–6 lines)
-- references to spec, plan, research, data-model, contracts directory, and tasks
+- summary (3–6 lines describing implemented behavior and scope)
+- references to spec, plan, research, data-model, contracts directory, tasks, and, if used, issue mapping
 
 #### Lifecycle Rules
 
 - `progress.md` MUST be created if missing.
-- Every completed feature MUST append exactly one new entry.
-- Entries MUST NOT be rewritten retroactively except to:
-    - correct factual errors, or
-    - mark status transitions (e.g., deprecated, superseded).
+- Every feature tracked through the agentic workflow MUST have exactly one canonical entry in `progress.md`.
+- As part of feature completion, a `progress.md` entry MUST be created and finalized with:
+    - status set to `completed`  
+    - summary reflecting implemented behavior  
+    - all required artifact references present
+- Once the feature is closed (i.e., implementation completed and workflow finalized), updates MAY modify the existing entry only for:
+    - factual corrections
+    - allowed status transitions (e.g., deprecated, superseded)
 - "BROWNFIELD SUMMARY" entries MAY be used to establish baseline state when no prior history exists or when out-of-band changes occurred.
 
 #### Enforcement
