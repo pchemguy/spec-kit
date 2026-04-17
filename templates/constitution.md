@@ -21,6 +21,62 @@ Follow-up TODOs:
 
 # Project Constitution
 
+## PREAMBLE: Project Context Initialization
+
+This project follows a Specification-Driven Development paradigm and uses [GitHub Spec Kit](https://github.com/github/spec-kit/) as the primary framework for specification, planning, task decomposition, and agentic delivery.
+
+The baseline project context is defined by the following documents:
+
+- `constitution.md` — defines project-wide invariants, rules, and governance
+- [`progress.md`](progress.md) — defines implemented feature history and current project state (if present)
+
+### Mandatory Initialization Behavior
+
+Any agent, tool, or contributor operating on this repository MUST:
+
+1. Load and interpret `constitution.md` before performing any analysis, planning, implementation, or review tasks.
+2. Load and interpret `progress.md` if it exists.
+3. Treat these documents as the authoritative source of:
+    - project rules and constraints (`constitution.md`)
+    - implemented system behavior and feature evolution (`progress.md`, when available)
+4. Use these documents to establish baseline understanding before consulting feature-level artifacts (specs, plans, tasks, or issues).
+
+### Context Hierarchy
+
+Project understanding MUST be constructed using the following precedence:
+
+1. Constitution (`constitution.md`)
+2. Project evolution context (`progress.md`, if present)
+3. Feature-level artifacts (specifications, plans, tasks, issues)
+4. Conversation context
+
+Conversation context MAY provide additional guidance, clarification, or intent, but MUST NOT override or contradict explicit information defined in repository artifacts.
+
+### Bootstrap Behavior
+
+- If `progress.md` is missing, this MUST be treated as a normal condition for greenfield or partially onboarded brownfield projects.
+- In such cases:
+    - work MAY proceed using `constitution.md` and feature-level artifacts;
+    - `progress.md` MUST be created and initialized as part of the first completed feature following the rules defined in this constitution.
+- If `progress.md` exists but is inconsistent with repository artifacts, the inconsistency MUST be reported and resolved as part of the current work.
+
+### Agent Onboarding Template  
+  
+The following block MAY be copied into agent prompts, AGENTS.md, or other execution environments to enforce correct project context initialization.
+
+```
+<!-- AGENT_ONBOARDING_TEMPLATE_START -->  
+This project follows a Specification-Driven Development paradigm and uses [GitHub Spec Kit](https://github.com/github/spec-kit/) as the primary framework for specification, planning, task decomposition, and agentic delivery.
+
+The baseline project context is defined by:
+
+- [.specify/memory/constitution.md](.specify/memory/constitution.md)
+- [.specify/memory/progress.md](.specify/memory/progress.md) (if present)
+
+Before performing any work on this repository, agents MUST load and interpret these documents and treat them as the authoritative source of project rules, constraints, and implemented system state.
+<!-- AGENT_ONBOARDING_TEMPLATE_END -->
+```
+
 ## Core Principles
 
 ### I. Project Evolution Context Must Be Explicit And Machine-Readable
