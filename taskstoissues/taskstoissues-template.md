@@ -2,8 +2,8 @@
 # Task to Issue Mapping
 
 Feature: `[FEATURE_NAME]`  
-Repository: `[owner/repo]`  
-Remote: `[git remote URL]`
+Repository: `[OWNER/REPO]`  
+Remote: `[https://github.com/OWNER/REPO.git]`
 
 <!-- 
   ============================================================================
