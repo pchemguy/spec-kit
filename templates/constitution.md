@@ -62,7 +62,7 @@ Conversation context MAY provide additional guidance, clarification, or intent, 
 
 ### Agent Onboarding Template  
   
-The following block MAY be copied into agent prompts, AGENTS.md, or other execution environments to enforce correct project context initialization.
+The following block MAY be copied into agent prompts, AGENTS.md, or other execution environments to direct correct project context initialization.
 
 ```
 <!-- AGENT_ONBOARDING_TEMPLATE_START -->  
