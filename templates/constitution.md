@@ -19,6 +19,10 @@ Follow-up TODOs:
 - Update all Spec Kit templates and agent prompts so they operationalize inseparable code/test development, staged MVP delivery, and explicit architectural decomposition.
 -->
 
+> [!WARNING] progress.md section revision.
+> 
+> Move details from `### I. Project Evolution Context Must Be Explicit And Machine-Readable` to the Notes section inside progress-template.md.
+
 # Project Constitution
 
 ## PREAMBLE: Project Context Initialization
