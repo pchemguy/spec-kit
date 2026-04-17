@@ -1,9 +1,8 @@
 <!--
 Sync Impact Report
-Version change: 1.4.0 -> 1.5.0
+Version change: 1.5.0 -> 1.6.0
 Modified principles:
-- Validation Evidence Is Mandatory -> III. Test Suite Development Is Inseparable From Code Development
-- Documentation development -> ### VII. Documentation Is A First-Class, Verified Deliverable
+- Project Evolution -> ### VIII. Project Evolution Context Must Be Explicit And Machine-Readable
 Templates requiring updates:
 - ⚠ pending: .specify/templates/plan-template.md
 - ⚠ pending: .specify/templates/spec-template.md
@@ -22,7 +21,7 @@ Follow-up TODOs:
 
 ## Core Principles
 
-### I. Specification And Documentation Are The Source Of Truth
+### I. Specification and Documentation are the Source of Truth
 
 Implementation MUST be derived from explicit project artifacts rather than inferred from habit, preference, or undocumented assumptions. Specifications, plans, tasks, issue descriptions, and governing project documents MUST define:
 
@@ -34,7 +33,7 @@ When implementation, conversation context, and repository documents conflict, th
 
 Rationale: this repository exists to support spec-driven and agent-driven development. That workflow fails when requirements are implicit, reconstructed ad hoc, or allowed to drift between artifacts.
 
-### II. Delivery Proceeds In Small, Testable Increments
+### II. Delivery Proceeds in Small, Testable Increments
 
 Work MUST be decomposed into small, reviewable, and independently testable units.
 
@@ -49,7 +48,7 @@ Large or tightly coupled changes require explicit justification in the plan.
 
 Rationale: small increments reduce agent error, simplify review, improve rollback safety, and enable more deterministic progress. Early delivery of an MVP or tracer bullet provides a working baseline that reduces integration risk and supports staged evolution.
 
-### III. Test Suite Development Is Inseparable From Code Development
+### III. Test Suite Development is Inseparable from Code Development
 
 Codebase development and test-suite development MUST proceed together. Every task that materially advances, modifies, or fixes production code MUST include the corresponding test work needed to verify the affected behavior, boundary, or regression risk. That test work MAY be performed immediately before the code change or immediately after it, but it MUST remain part of the same implementation unit and MUST not be deferred as optional follow-up work.
 
@@ -61,7 +60,7 @@ Tasks and implementation plans MUST identify the test development required for e
 
 Rationale: when tests evolve in lockstep with the codebase, the project preserves behavioral confidence, regression resistance, and change traceability. Treating test development as inseparable from code development prevents coverage debt from accumulating behind apparently complete feature work.
 
-### IV. Scope, Decisions, And Exceptions Must Be Traceable
+### IV. Scope, Decisions, and Exceptions Must be Traceable
 
 Every non-trivial change MUST make its scope boundaries, design decisions, and exceptions explicit.
 
@@ -73,7 +72,7 @@ At minimum:
 
 Rationale: traceability prevents scope creep, reduces hidden complexity, and makes agent-generated changes auditable and reviewable.
 
-### V. Architecture And Environment Constraints Must Be Respected
+### V. Architecture and Environment Constraints Must be Respected
 
 Implementation MUST preserve the repository's declared architectural boundaries, technology constraints, and development environment rules.
 
@@ -85,7 +84,7 @@ Accordingly:
 
 Rationale: agentic development is most reliable when architectural seams and execution constraints are explicit, stable, and enforced.
 
-### VI. Architecture And Decomposition Must Preserve Separation Of Concerns
+### VI. Architecture and Decomposition Must Preserve Separation of Concerns
 
 System design and implementation MUST preserve clear separation of concerns at every relevant level of decomposition, including module boundaries, feature slices, service interfaces, data handling, runtime integration points, and cross-cutting concerns. Responsibilities SHOULD be assigned so that components remain understandable, independently testable, maintainable, and extensible without unnecessary coupling.
 
@@ -93,7 +92,7 @@ Plans and implementation tasks MUST identify the intended decomposition for non-
 
 Rationale: strong separation of concerns reduces regression risk, improves local reasoning, enables more reliable testing, and allows the system to evolve in controlled increments.
 
-### VII. Documentation Is A First-Class, Verified Deliverable
+### VII. Documentation is a First-Class, Verified Deliverable
 
 Project documentation MUST be treated as a required, versioned, and validated deliverable of every feature, not as optional or post-hoc work.
 
@@ -102,7 +101,7 @@ Accordingly:
 - plans MUST define required documentation artifacts, including:
     - user-facing documentation (e.g., README, usage instructions)
     - developer-facing documentation (e.g., DEVELOPMENT.md, architecture, extension points, development workflow)
-    - supporting documentation (e.g., domain behavior, constraints, testing strategy)
+    - supporting documentation (e.g., domain behavior, constraints, testing strategy, project evolution summary)
 - task lists MUST include explicit documentation tasks that:
     - create or update all required documentation artifacts;
     - reflect the actual implemented system structure, behavior, and constraints; and
@@ -117,6 +116,63 @@ Accordingly:
     - instructions for running, using, and extending the system are explicitly defined
 
 Rationale: without enforced documentation, spec-driven development degrades into code-driven reconstruction. Verified documentation preserves system understanding, enables agent continuity, and prevents knowledge loss.
+
+### VIII. Project Evolution Context Must Be Explicit And Machine-Readable
+
+The repository MUST maintain a project-level context document (next to this `constitution.md`) as:
+
+- [progress.md](progress.md)
+
+This document serves as the authoritative, continuously updated summary of project evolution and implemented feature history.
+
+#### Role of `progress.md`
+
+`progress.md` MUST:
+
+- provide a chronological record of implemented features;
+- map each feature to its specification, plan, and task artifacts;
+- summarize implemented behavior and scope at a level sufficient for agent context initialization;
+- distinguish between implemented, in-progress, deprecated, and superseded features; and
+- enable deterministic reconstruction of project state without relying on conversation context.
+
+#### Relationship to Constitution
+
+- The constitution defines **invariants and rules**.
+- `progress.md` defines **current state and evolution history**.
+- Both documents MUST be loaded together for agent initialization.
+
+The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead.
+
+#### Required Structure
+
+Each feature entry in `progress.md` MUST follow a standardized structure:
+
+- feature title
+- feature short name
+- branch name
+- spec directory
+- milestone prefix
+- status
+- completion date
+- summary (3–6 lines)
+- references to spec, plan, research, data-model, contracts directory, and tasks
+
+#### Lifecycle Rules
+
+- `progress.md` MUST be created if missing.
+- Every completed feature MUST append exactly one new entry.
+- Entries MUST NOT be rewritten retroactively except to:
+    - correct factual errors, or
+    - mark status transitions (e.g., deprecated, superseded).
+- "BROWNFIELD SUMMARY" entries MAY be used to establish baseline state when no prior history exists or when out-of-band changes occurred.
+
+#### Enforcement
+
+- Task lists (tasks.md) MUST include a task to update `progress.md`.
+- Implementation MUST update `progress.md` as part of feature completion.
+- Reviewers MUST reject completion if `progress.md` is missing or inconsistent with implemented artifacts.
+
+Rationale: agentic workflows require a stable, compact, and explicit project state representation. Without a canonical evolution log, agents reconstruct context heuristically, leading to drift, inconsistency, and loss of traceability.
 
 ## Technology Platform
 
@@ -219,4 +275,4 @@ Constitutional principles take precedence over feature-level preferences. The or
 4. Approved task or issue definition
 5. Local coding preference
 
-**Version**: 1.5.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-15
+**Version**: 1.6.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-17
