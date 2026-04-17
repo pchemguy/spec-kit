@@ -122,10 +122,10 @@ This mapping MUST allow:
 
 1. GitHub CLI `gh` dedicated commands for
    - labels (`gh label create <name> -c <RGB_HEX_COLOR> -f -d <description>`, e.g., `gh label create "priority:p1" -c FF0000 -f -d "User story or phase priority."`) and
-   - issues (`gh issue create -t "<name>" [-l "<label_name>"]*  -m "<milestone_name>" -F <issue_text_file OR std_dash>`)
-2. GitHub CLI extension for missing `milestone` command:
+   - issues (`gh issue create -t "<title>" [-l "<label_name>"]*  -m "<milestone_title>" -F <issue_text_file OR std_dash>`)
+1. GitHub CLI extension for missing `milestone` command:
    - try 
-     `gh milestone create -t <name> -d <description>`
+     `gh milestone create -t <title> -d <description>`
      if fails, install GH extension
      `gh extension install valeriobelli/gh-milestone`
      and try again. If still fails, try CLI api command
