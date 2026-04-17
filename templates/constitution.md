@@ -23,103 +23,7 @@ Follow-up TODOs:
 
 ## Core Principles
 
-### I. Specification and Documentation are the Source of Truth
-
-Implementation MUST be derived from explicit project artifacts rather than inferred from habit, preference, or undocumented assumptions. Specifications, plans, tasks, issue descriptions, and governing project documents MUST define:
-
-- what is to be built,
-- what is out of scope, and
-- what evidence is required for completion.
-
-When implementation, conversation context, and repository documents conflict, the approved project artifacts take precedence unless they are formally amended.
-
-Rationale: this repository exists to support spec-driven and agent-driven development. That workflow fails when requirements are implicit, reconstructed ad hoc, or allowed to drift between artifacts.
-
-### II. Delivery Proceeds in Small, Testable Increments
-
-Work MUST be decomposed into small, reviewable, and independently testable units.
-
-To support that requirement:
-
-- specifications MUST be structured so that user stories or feature slices can be implemented and validated incrementally;
-- plans, task lists, and GitHub issues MUST avoid bundling unrelated work;
-- implementation SHOULD prefer the smallest change that produces meaningful progress while preserving repository correctness; and
-- where feasible, the sequence of work MUST be organized to deliver a minimal viable path or tracer bullet early enough to validate architecture, workflow, and integration assumptions before broader feature expansion, then evolve it through staged follow-on increments.
-
-Large or tightly coupled changes require explicit justification in the plan.
-
-Rationale: small increments reduce agent error, simplify review, improve rollback safety, and enable more deterministic progress. Early delivery of an MVP or tracer bullet provides a working baseline that reduces integration risk and supports staged evolution.
-
-### III. Test Suite Development is Inseparable from Code Development
-
-Codebase development and test-suite development MUST proceed together. Every task that materially advances, modifies, or fixes production code MUST include the corresponding test work needed to verify the affected behavior, boundary, or regression risk. That test work MAY be performed immediately before the code change or immediately after it, but it MUST remain part of the same implementation unit and MUST not be deferred as optional follow-up work.
-
-A feature is not complete when only the code path exists; completion requires the corresponding test path to exist as well.
-
-The required test evidence MAY include unit, integration, contract, end-to-end, snapshot, replay, packaging, or other automated checks, depending on the affected boundary. Manual validation MAY supplement automated testing where appropriate, but it MUST not be used to justify leaving the automated test base behind when durable coverage is practical and warranted.
-
-Tasks and implementation plans MUST identify the test development required for each code-advancing change, and reviewers MUST reject changes where production code evolves without a corresponding and proportionate evolution of the test suite.
-
-Rationale: when tests evolve in lockstep with the codebase, the project preserves behavioral confidence, regression resistance, and change traceability. Treating test development as inseparable from code development prevents coverage debt from accumulating behind apparently complete feature work.
-
-### IV. Scope, Decisions, and Exceptions Must be Traceable
-
-Every non-trivial change MUST make its scope boundaries, design decisions, and exceptions explicit.
-
-At minimum:
-
-- specifications MUST distinguish required behavior from assumptions and non-goals;
-- plans MUST identify material technical decisions, rejected alternatives when relevant, and any temporary deviations from the preferred approach; and
-- exceptions MUST record the impacted principle, the business or technical reason, the owner, and the removal condition.
-
-Rationale: traceability prevents scope creep, reduces hidden complexity, and makes agent-generated changes auditable and reviewable.
-
-### V. Architecture and Environment Constraints Must be Respected
-
-Implementation MUST preserve the repository's declared architectural boundaries, technology constraints, and development environment rules.
-
-Accordingly:
-
-- plans and tasks MUST name any platform, runtime, packaging, tooling, shell, or repository constraints that materially affect execution;
-- agents and contributors MUST prefer the simplest approach compatible with the current architecture and supported environment, and MUST not introduce new dependencies, toolchains, or cross-boundary coupling without explicit justification; and
-- repository-specific execution guidance takes precedence over contributor convenience defaults when shell, tooling, or environment choices affect correctness or determinism.
-
-Rationale: agentic development is most reliable when architectural seams and execution constraints are explicit, stable, and enforced.
-
-### VI. Architecture and Decomposition Must Preserve Separation of Concerns
-
-System design and implementation MUST preserve clear separation of concerns at every relevant level of decomposition, including module boundaries, feature slices, service interfaces, data handling, runtime integration points, and cross-cutting concerns. Responsibilities SHOULD be assigned so that components remain understandable, independently testable, maintainable, and extensible without unnecessary coupling.
-
-Plans and implementation tasks MUST identify the intended decomposition for non-trivial changes and MUST avoid designs that mix unrelated responsibilities, hide boundaries, or force broad changes for localized behavior. Where a design introduces shared infrastructure, common abstractions, or reusable layers, that structure MUST be justified by immediate maintainability, testability, extensibility, or boundary-enforcement needs rather than speculative reuse or anticipated generality.
-
-Rationale: strong separation of concerns reduces regression risk, improves local reasoning, enables more reliable testing, and allows the system to evolve in controlled increments.
-
-### VII. Documentation is a First-Class, Verified Deliverable
-
-Project documentation MUST be treated as a required, versioned, and validated deliverable of every feature, not as optional or post-hoc work.
-
-Accordingly:
-
-- plans MUST define required documentation artifacts, including:
-    - user-facing documentation (e.g., README, usage instructions)
-    - developer-facing documentation (e.g., DEVELOPMENT.md, architecture, extension points, development workflow)
-    - supporting documentation (e.g., domain behavior, constraints, testing strategy, project evolution summary)
-- task lists MUST include explicit documentation tasks that:
-    - create or update all required documentation artifacts;
-    - reflect the actual implemented system structure, behavior, and constraints; and
-    - are sequenced after functional implementation but before final completion
-- implementation MUST ensure that documentation:
-    - is updated in the same feature scope as the code it describes;
-    - does not contain speculative, outdated, or inferred behavior; and
-    - is reviewed against the implemented code and test workflow and corrected for mismatches
-- a feature MUST NOT be considered complete until:
-    - all required documentation artifacts are present;
-    - documentation is consistent with the implemented system; and
-    - instructions for running, using, and extending the system are explicitly defined
-
-Rationale: without enforced documentation, spec-driven development degrades into code-driven reconstruction. Verified documentation preserves system understanding, enables agent continuity, and prevents knowledge loss.
-
-### VIII. Project Evolution Context Must Be Explicit And Machine-Readable
+### I. Project Evolution Context Must Be Explicit And Machine-Readable
 
 The repository MUST maintain a project-level context document (next to this `constitution.md`) as:
 
@@ -179,6 +83,102 @@ Each feature entry in `progress.md` MUST follow a standardized structure:
 - Reviewers MUST reject completion if `progress.md` is missing or inconsistent with implemented artifacts.
 
 Rationale: agentic workflows require a stable, compact, and explicit project state representation. Without a canonical evolution log, agents reconstruct context heuristically, leading to drift, inconsistency, and loss of traceability.
+
+### II. Specification and Documentation are the Source of Truth
+
+Implementation MUST be derived from explicit project artifacts rather than inferred from habit, preference, or undocumented assumptions. Specifications, plans, tasks, issue descriptions, and governing project documents MUST define:
+
+- what is to be built,
+- what is out of scope, and
+- what evidence is required for completion.
+
+When implementation, conversation context, and repository documents conflict, the approved project artifacts take precedence unless they are formally amended.
+
+Rationale: this repository exists to support spec-driven and agent-driven development. That workflow fails when requirements are implicit, reconstructed ad hoc, or allowed to drift between artifacts.
+
+### III. Architecture and Decomposition Must Preserve Separation of Concerns
+
+System design and implementation MUST preserve clear separation of concerns at every relevant level of decomposition, including module boundaries, feature slices, service interfaces, data handling, runtime integration points, and cross-cutting concerns. Responsibilities SHOULD be assigned so that components remain understandable, independently testable, maintainable, and extensible without unnecessary coupling.
+
+Plans and implementation tasks MUST identify the intended decomposition for non-trivial changes and MUST avoid designs that mix unrelated responsibilities, hide boundaries, or force broad changes for localized behavior. Where a design introduces shared infrastructure, common abstractions, or reusable layers, that structure MUST be justified by immediate maintainability, testability, extensibility, or boundary-enforcement needs rather than speculative reuse or anticipated generality.
+
+Rationale: strong separation of concerns reduces regression risk, improves local reasoning, enables more reliable testing, and allows the system to evolve in controlled increments.
+
+### IV. Architecture and Environment Constraints Must be Respected
+
+Implementation MUST preserve the repository's declared architectural boundaries, technology constraints, and development environment rules.
+
+Accordingly:
+
+- plans and tasks MUST name any platform, runtime, packaging, tooling, shell, or repository constraints that materially affect execution;
+- agents and contributors MUST prefer the simplest approach compatible with the current architecture and supported environment, and MUST not introduce new dependencies, toolchains, or cross-boundary coupling without explicit justification; and
+- repository-specific execution guidance takes precedence over contributor convenience defaults when shell, tooling, or environment choices affect correctness or determinism.
+
+Rationale: agentic development is most reliable when architectural seams and execution constraints are explicit, stable, and enforced.
+
+### V. Delivery Proceeds in Small, Testable Increments
+
+Work MUST be decomposed into small, reviewable, and independently testable units.
+
+To support that requirement:
+
+- specifications MUST be structured so that user stories or feature slices can be implemented and validated incrementally;
+- plans, task lists, and GitHub issues MUST avoid bundling unrelated work;
+- implementation SHOULD prefer the smallest change that produces meaningful progress while preserving repository correctness; and
+- where feasible, the sequence of work MUST be organized to deliver a minimal viable path or tracer bullet early enough to validate architecture, workflow, and integration assumptions before broader feature expansion, then evolve it through staged follow-on increments.
+
+Large or tightly coupled changes require explicit justification in the plan.
+
+Rationale: small increments reduce agent error, simplify review, improve rollback safety, and enable more deterministic progress. Early delivery of an MVP or tracer bullet provides a working baseline that reduces integration risk and supports staged evolution.
+
+### VI. Test Suite Development is Inseparable from Code Development
+
+Codebase development and test-suite development MUST proceed together. Every task that materially advances, modifies, or fixes production code MUST include the corresponding test work needed to verify the affected behavior, boundary, or regression risk. That test work MAY be performed immediately before the code change or immediately after it, but it MUST remain part of the same implementation unit and MUST not be deferred as optional follow-up work.
+
+A feature is not complete when only the code path exists; completion requires the corresponding test path to exist as well.
+
+The required test evidence MAY include unit, integration, contract, end-to-end, snapshot, replay, packaging, or other automated checks, depending on the affected boundary. Manual validation MAY supplement automated testing where appropriate, but it MUST not be used to justify leaving the automated test base behind when durable coverage is practical and warranted.
+
+Tasks and implementation plans MUST identify the test development required for each code-advancing change, and reviewers MUST reject changes where production code evolves without a corresponding and proportionate evolution of the test suite.
+
+Rationale: when tests evolve in lockstep with the codebase, the project preserves behavioral confidence, regression resistance, and change traceability. Treating test development as inseparable from code development prevents coverage debt from accumulating behind apparently complete feature work.
+
+### VII. Scope, Decisions, and Exceptions Must be Traceable
+
+Every non-trivial change MUST make its scope boundaries, design decisions, and exceptions explicit.
+
+At minimum:
+
+- specifications MUST distinguish required behavior from assumptions and non-goals;
+- plans MUST identify material technical decisions, rejected alternatives when relevant, and any temporary deviations from the preferred approach; and
+- exceptions MUST record the impacted principle, the business or technical reason, the owner, and the removal condition.
+
+Rationale: traceability prevents scope creep, reduces hidden complexity, and makes agent-generated changes auditable and reviewable.
+
+### VIII. Documentation is a First-Class, Verified Deliverable
+
+Project documentation MUST be treated as a required, versioned, and validated deliverable of every feature, not as optional or post-hoc work.
+
+Accordingly:
+
+- plans MUST define required documentation artifacts, including:
+    - user-facing documentation (e.g., README, usage instructions)
+    - developer-facing documentation (e.g., DEVELOPMENT.md, architecture, extension points, development workflow)
+    - supporting documentation (e.g., domain behavior, constraints, testing strategy, project evolution summary)
+- task lists MUST include explicit documentation tasks that:
+    - create or update all required documentation artifacts;
+    - reflect the actual implemented system structure, behavior, and constraints; and
+    - are sequenced after functional implementation but before final completion
+- implementation MUST ensure that documentation:
+    - is updated in the same feature scope as the code it describes;
+    - does not contain speculative, outdated, or inferred behavior; and
+    - is reviewed against the implemented code and test workflow and corrected for mismatches
+- a feature MUST NOT be considered complete until:
+    - all required documentation artifacts are present;
+    - documentation is consistent with the implemented system; and
+    - instructions for running, using, and extending the system are explicitly defined
+
+Rationale: without enforced documentation, spec-driven development degrades into code-driven reconstruction. Verified documentation preserves system understanding, enables agent continuity, and prevents knowledge loss.
 
 ## Technology Platform
 
