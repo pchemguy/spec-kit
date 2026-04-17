@@ -156,7 +156,7 @@ Each feature entry in `progress.md` MUST follow a standardized structure:
 - milestone prefix
 - status (`completed`, `deprecated`, or `superseded`)
 - completion date
-- summary (3–6 lines describing implemented behavior and scope)
+- summary (3–6 line description of implemented capabilities and behavioral scope)
 - references to spec, plan, research, data-model, contracts directory, tasks, and, if used, issue mapping
 
 #### Lifecycle Rules
