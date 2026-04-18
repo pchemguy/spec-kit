@@ -1,6 +1,12 @@
 # Task to Issue Template
 
-## `task-to-issue.md` Output Template
+Produce `task-to-issue.md` file according to the following
+
+- Output Template
+- One-Shot Example
+- Notes
+
+## Output Template
 
 ```
 ---
