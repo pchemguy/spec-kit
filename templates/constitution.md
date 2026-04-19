@@ -31,8 +31,11 @@ This project follows a Specification-Driven Development paradigm and uses [GitHu
 
 The baseline project context is defined by the following documents:
 
-- `constitution.md` — defines project-wide invariants, rules, and governance
-- [`progress.md`](progress.md) — defines implemented feature history and current project state (if present)
+- `constitution.md` — defines **project invariants, workflow rules, and enforcement requirements**.
+- [`progress.md`](progress.md) — defines **current state and evolution history** (if present).
+
+The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead.
+Both documents MUST be loaded together for agent initialization.
 
 ### Mandatory Initialization Behavior
 
@@ -85,62 +88,18 @@ Before performing any work on this repository, agents MUST load and interpret th
 
 ### I. Project Evolution Context Must Be Explicit And Machine-Readable
 
-The repository MUST maintain a project-level context document (next to this `constitution.md`) as:
+The repository MUST maintain a project-level context document next to this `constitution.md` as:
 
 - [progress.md](progress.md)
 
-This document serves as the authoritative summary of project evolution and implemented feature history.
-
-#### Role of `progress.md`
-
-`progress.md` MUST:
+This document is the authoritative summary of implemented project evolution and feature history. It MUST:
 
 - provide a chronological record of implemented features;
-- map each feature to its specification, plan, and task artifacts;
-- summarize implemented behavior and scope at a level sufficient for agent context initialization;
-- distinguish between completed, deprecated, and superseded features (NO track in-progress entries);
+- map each feature to its specification and related delivery artifacts;
+- summarize implemented behavior and scope at a level sufficient for agent context initialization; and
 - enable deterministic reconstruction of project state without relying on conversation context.
 
-#### Relationship to Constitution
-
-- The constitution defines **invariants and rules**.
-- `progress.md` defines **current state and evolution history**.
-- Both documents MUST be loaded together for agent initialization.
-
-The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead.
-
-#### Required Structure
-
-Each feature entry in `progress.md` MUST follow a standardized structure:
-
-- feature title
-- feature short name
-- branch name
-- spec directory
-- milestone prefix
-- status (`completed`, `deprecated`, or `superseded`)
-- completion date
-- summary (3–6 line description of implemented capabilities and behavioral scope)
-- references to spec, plan, research, data-model, contracts directory, tasks, and, if used, issue mapping
-
-#### Lifecycle Rules
-
-- `progress.md` MUST be created if missing.
-- Every feature tracked through the agentic workflow MUST have exactly one canonical entry in `progress.md`.
-- As part of feature completion, a `progress.md` entry MUST be created and finalized with:
-    - status set to `completed`  
-    - summary reflecting implemented behavior  
-    - all required artifact references present
-- Once the feature is closed (i.e., implementation completed and workflow finalized), updates MAY modify the existing entry only for:
-    - factual corrections
-    - allowed status transitions (e.g., deprecated, superseded)
-- "BROWNFIELD SUMMARY" entries MAY be used to establish baseline state when no prior history exists or when out-of-band changes occurred.
-
-#### Enforcement
-
-- Task lists (tasks.md) MUST include a task to update `progress.md`.
-- Implementation MUST update `progress.md` as part of feature completion.
-- Reviewers MUST reject completion if `progress.md` is missing or inconsistent with implemented artifacts.
+Every feature tracked through the governed agentic workflow MUST have exactly one canonical entry in `progress.md`. Existing feature entries MUST remain stable historical records except for factual corrections and allowed status transitions. `BROWNFIELD SUMMARY` entries MAY be used to establish baseline state when no prior governed history exists or when out-of-band changes must be reconciled.
 
 Rationale: agentic workflows require a stable, compact, and explicit project state representation. Without a canonical evolution log, agents reconstruct context heuristically, leading to drift, inconsistency, and loss of traceability.
 
@@ -273,7 +232,23 @@ Implementation plans MUST translate the constitutional principles into concrete 
 - complexity tracking for justified deviations; and
 - explicit sequencing that supports incremental implementation.
 
-Task lists MUST be organized to support independent execution and verification. Where applicable, they MUST separate foundational work from user-story work, reflect the intended architectural decomposition, and order work to deliver an MVP or tracer bullet as early as feasible before staged follow-on evolution. They MUST include the test-development, validation, documentation, and integration tasks required to prove completion.
+Task lists MUST:
+
+- be organized to support independent execution and verification;
+- separate foundational work from user-story work
+- reflect the intended architectural decomposition;
+- order work to deliver an MVP or tracer bullet as early as feasible before staged follow-on evolution;
+- include the test-development, validation, documentation, and integration tasks required to prove completion;
+- include work to update `progress.md`.
+
+Implementation workflow MUST
+
+- verify that `tasks.md` includes a task requiring updating `progress.md` before feature is considered complete;
+- update `progress.md` before completion is considered final.
+
+Reviewers MUST
+
+- reject completion when `progress.md` is missing, omitted, or inconsistent with the implemented artifacts.
 
 ## Agentic Delivery Requirements
 
