@@ -67,6 +67,8 @@ The following block MAY be copied into agent prompts, AGENTS.md, or other execut
 
 ```
 <!-- AGENT_ONBOARDING_TEMPLATE_START -->  
+## Agent Onboarding and Initialization Requirements
+
 This project follows a Specification-Driven Development paradigm and uses [GitHub Spec Kit](https://github.com/github/spec-kit/) as the primary framework for specification, planning, task decomposition, and agentic delivery.
 
 The baseline project context is defined by:
