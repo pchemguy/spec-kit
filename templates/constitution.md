@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report
-Version change: 1.5.0 -> 1.6.0
-Modified principles:  
-- VII. Documentation Is A First-Class, Verified Deliverable  
+Version change: 1.6.0 -> 1.7.0
 Added sections:  
-- VIII. Project Evolution Context Must Be Explicit And Machine-Readable
+- PREAMBLE: Project Context Initialization  
+Modified principles:  
+- I. Project Evolution Context Must Be Explicit And Machine-Readable
 Templates requiring updates:
 - ⚠ pending: .specify/templates/plan-template.md
 - ⚠ pending: .specify/templates/spec-template.md
@@ -19,10 +19,6 @@ Follow-up TODOs:
 - Update all Spec Kit templates and agent prompts so they operationalize inseparable code/test development, staged MVP delivery, and explicit architectural decomposition.
 -->
 
-> [!WARNING] progress.md section revision.
-> 
-> Move details from `### I. Project Evolution Context Must Be Explicit And Machine-Readable` to the Notes section inside progress-template.md.
-
 # Project Constitution
 
 ## PREAMBLE: Project Context Initialization
@@ -31,8 +27,8 @@ This project follows a Specification-Driven Development paradigm and uses [GitHu
 
 The baseline project context is defined by the following documents:
 
-- `constitution.md` — defines **project invariants, workflow rules, and enforcement requirements**.
-- [`progress.md`](progress.md) — defines **current state and evolution history** (if present).
+- `constitution.md` — defines project invariants, workflow rules, and enforcement requirements.
+- [`progress.md`](progress.md) — defines implemented feature history, reconstructed project state, and operational instructions.
 
 The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead.
 Both documents MUST be loaded together for agent initialization.
@@ -41,19 +37,18 @@ Both documents MUST be loaded together for agent initialization.
 
 Any agent, tool, or contributor operating on this repository MUST:
 
-1. Load and interpret `constitution.md` before performing any analysis, planning, implementation, or review tasks.
-2. Load and interpret `progress.md` if it exists.
-3. Treat these documents as the authoritative source of:
-    - project rules and constraints (`constitution.md`)
-    - implemented system behavior and feature evolution (`progress.md`, when available)
-4. Use these documents to establish baseline understanding before consulting feature-level artifacts (specs, plans, tasks, or issues).
+1. Load and interpret `constitution.md` and `progress.md` before performing any analysis, planning, implementation, or review tasks.
+2. Treat these documents as the authoritative source of:
+    - `constitution.md`: project policies, constraints, and enforcement
+    - `progress.md`: implemented system behavior and feature evolution
+3. Use these documents to establish baseline understanding before consulting feature-level artifacts (specs, plans, tasks, or issues).
 
 ### Context Hierarchy
 
 Project understanding MUST be constructed using the following precedence:
 
 1. Constitution (`constitution.md`)
-2. Project evolution context (`progress.md`, if present)
+2. Project evolution context (`progress.md`)
 3. Feature-level artifacts (specifications, plans, tasks, issues)
 4. Conversation context
 
@@ -61,10 +56,9 @@ Conversation context MAY provide additional guidance, clarification, or intent, 
 
 ### Bootstrap Behavior
 
-- If `progress.md` is missing, this MUST be treated as a normal condition for greenfield or partially onboarded brownfield projects.
-- In such cases:
-    - work MAY proceed using `constitution.md` and feature-level artifacts;
-    - `progress.md` MUST be created and initialized as part of the first completed feature following the rules defined in this constitution.
+- `progress.md` is a required project artifact and MUST exist alongside `constitution.md` within `.specify/memory/`.
+- If `progress.md` is missing, the repository state MUST be treated as an invalid or incomplete.
+- For greenfield or partially onboarded brownfield projects`progress.md` MAY initially contain no feature entries;    
 - If `progress.md` exists but is inconsistent with repository artifacts, the inconsistency MUST be reported and resolved as part of the current work.
 
 ### Agent Onboarding Template  
@@ -78,9 +72,9 @@ This project follows a Specification-Driven Development paradigm and uses [GitHu
 The baseline project context is defined by:
 
 - [.specify/memory/constitution.md](.specify/memory/constitution.md)
-- [.specify/memory/progress.md](.specify/memory/progress.md) (if present)
+- [.specify/memory/progress.md](.specify/memory/progress.md)
 
-Before performing any work on this repository, agents MUST load and interpret these documents and treat them as the authoritative source of project rules, constraints, and implemented system state.
+Before performing any work on this repository, agents MUST load and interpret these documents and treat them as the authoritative source of project policies, constraints, and implemented system state.
 <!-- AGENT_ONBOARDING_TEMPLATE_END -->
 ```
 
@@ -88,7 +82,7 @@ Before performing any work on this repository, agents MUST load and interpret th
 
 ### I. Project Evolution Context Must Be Explicit And Machine-Readable
 
-The repository MUST maintain a project-level context document next to this `constitution.md` as:
+The repository MUST maintain a project-level context document alongside this `constitution.md` as:
 
 - [progress.md](progress.md)
 
@@ -97,7 +91,8 @@ This document is the authoritative summary of implemented project evolution and 
 - provide a chronological record of implemented features;
 - map each feature to its specification and related delivery artifacts;
 - summarize implemented behavior and scope at a level sufficient for agent context initialization; and
-- enable deterministic reconstruction of project state without relying on conversation context.
+- enable deterministic reconstruction of project state without relying on conversation context;
+- include operational instructions and a template for maintaining feature evolution records.
 
 Every feature tracked through the governed agentic workflow MUST have exactly one canonical entry in `progress.md`. Existing feature entries MUST remain stable historical records except for factual corrections and allowed status transitions. `BROWNFIELD SUMMARY` entries MAY be used to establish baseline state when no prior governed history exists or when out-of-band changes must be reconciled.
 
@@ -235,7 +230,7 @@ Implementation plans MUST translate the constitutional principles into concrete 
 Task lists MUST:
 
 - be organized to support independent execution and verification;
-- separate foundational work from user-story work
+- separate foundational work from user-story work;
 - reflect the intended architectural decomposition;
 - order work to deliver an MVP or tracer bullet as early as feasible before staged follow-on evolution;
 - include the test-development, validation, documentation, and integration tasks required to prove completion;
@@ -316,4 +311,4 @@ Constitutional principles take precedence over feature-level preferences. The or
 4. Approved task or issue definition
 5. Local coding preference
 
-**Version**: 1.6.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-17
+**Version**: 1.6.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-19

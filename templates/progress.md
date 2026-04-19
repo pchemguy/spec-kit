@@ -1,4 +1,3 @@
-
 # Project Progress Memory
 
 This document tracks feature-level implementation history and serves as a structured memory source for agents. It is split into 3 major sections:
@@ -35,7 +34,7 @@ This file serves as the structured project evolution ledger for both humans and 
 
 ### Brownfield Baseline Handling
 
-When governed feature history does not exist, a `BROWNFIELD SUMMARY` entry MAY be added to capture baseline project state before subsequent governed feature entries are appended.
+When governed feature history does not exist, a `BROWNFIELD SUMMARY` entry MAY be added to capture baseline project state before subsequent governed feature entries are appended. 
 
 Such entries SHOULD summarize:
 
@@ -43,45 +42,7 @@ Such entries SHOULD summarize:
 - any uncertainty about undocumented or out-of-band changes
 - the absence of earlier governed feature records, if applicable
 
-### Interpretation Guidance
-
-Agents should use this file as a compact navigation and evolution index:
-
-1. identify the relevant feature entry in the Ledger;
-2. read the feature summary and status;
-3. follow the referenced artifact paths for detailed context;
-4. combine this file with `constitution.md` during initialization.
-
-
-
-
-## 1. Agent Instructions
-
-This file serves as a structured project evolution ledger for both humans and LLM agents.
-
-### Purpose
-
-- Provide a concise, structured summary of implemented features
-- Enable fast mapping from high-level feature history to detailed spec artifacts
-- Support deterministic context loading for agent workflows
-
-### Rules
-
-- Entries MUST be appended only — existing records MUST NOT be modified except to update `Status`
-- Each feature MUST have exactly one entry
-- All fields in the template MUST be present
-- Paths MUST be relative to repository root
-- Summary MUST describe implemented behavior only (no speculation or planned features)
-
-### Status Lifecycle
-
-- `completed` → feature completed and usable
-- `superseded` → replaced by a newer feature
-- `deprecated` → no longer relevant but retained for history
-
-### Update Requirement
-
-After completing a feature, append a new entry to the Ledger section using the template below.
+Only the `Feature` field (use `Feature: BROWNFIELD SUMMARY - [FEATURE SHORT NAME]`) and the Summary section are required for brownfield records; the remaining fields may be omitted when not applicable. Brownfield-related references MUST be included in the References section to provide extended context to agents.
 
 ---
 
@@ -148,6 +109,8 @@ token validation, arithmetic domain error handling, reset, and undo of last acce
 ---
 
 ```
+
+---
 
 ## 3. Ledger
 
