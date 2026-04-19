@@ -22,9 +22,9 @@ User story decomposition constraints:
 1. The following user story set is canonical for the spec.
 2. Preserve exactly these user stories in the User Scenarios & Testing section.
 3. Do not merge, split, reorder, rename, or re-prioritize these user stories.
-4. Preserve the provided Stage and Priority values as part of the story definitions or clearly associated metadata.
+4. Preserve the provided Stage and Priority values as part of the story clearly associated metadata.
 5. Provide user story details for each story according to the spec-template.
-6. Consider story titles being set, but improve description, where possible.
+6. Consider story titles being set, but improve descriptions, where possible.
 7. Any additional detail must go into acceptance scenarios, edge cases, requirements, assumptions, non-goals, or success criteria, not into changing the story decomposition.
 
 Use exactly this canonical story set:
