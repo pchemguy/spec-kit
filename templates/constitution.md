@@ -5,18 +5,7 @@ Added sections:
 - PREAMBLE: Project Context Initialization  
 Modified principles:  
 - I. Project Evolution Context Must Be Explicit And Machine-Readable
-Templates requiring updates:
-- ⚠ pending: .specify/templates/plan-template.md
-- ⚠ pending: .specify/templates/spec-template.md
-- ⚠ pending: .specify/templates/tasks-template.md
-- ⚠ pending: .github/agents/speckit.specify.agent.md
-- ⚠ pending: .github/agents/speckit.plan.agent.md
-- ⚠ pending: .github/agents/speckit.tasks.agent.md
-- ⚠ pending: .github/agents/speckit.checklist.agent.md
-- ⚠ pending: .github/agents/speckit.implement.agent.md
-- ⚠ pending: .github/agents/speckit.taskstoissues.agent.md
-Follow-up TODOs:
-- Update all Spec Kit templates and agent prompts so they operationalize inseparable code/test development, staged MVP delivery, and explicit architectural decomposition.
+- Governance
 -->
 
 # Project Constitution
@@ -30,8 +19,7 @@ The baseline project context is defined by the following documents:
 - `constitution.md` — defines project invariants, workflow rules, and enforcement requirements.
 - [`progress.md`](progress.md) — defines implemented feature history, reconstructed project state, and operational instructions.
 
-The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead.
-Both documents MUST be loaded together for agent initialization.
+The constitution MUST NOT be modified to reflect routine feature evolution. Such changes MUST be recorded in `progress.md` instead. Both documents MUST be loaded together for agent initialization.
 
 ### Mandatory Initialization Behavior
 
@@ -58,7 +46,7 @@ Conversation context MAY provide additional guidance, clarification, or intent, 
 
 - `progress.md` is a required project artifact and MUST exist alongside `constitution.md` within `.specify/memory/`.
 - If `progress.md` is missing, the repository state MUST be treated as an invalid or incomplete.
-- For greenfield or partially onboarded brownfield projects`progress.md` MAY initially contain no feature entries;    
+- For greenfield or partially onboarded brownfield projects, `progress.md` MAY initially contain no feature entries.
 - If `progress.md` exists but is inconsistent with repository artifacts, the inconsistency MUST be reported and resolved as part of the current work.
 
 ### Agent Onboarding Template  
@@ -81,6 +69,10 @@ Before performing any work on this repository, agents MUST load and interpret th
 ```
 
 ## Core Principles
+
+<!--
+Note, in case of considerable changes, the principles should be order in a logical order. The current ordering is according to real workflow: context → spec → architecture → plan → implement → validate → document → record
+-->
 
 ### I. Project Evolution Context Must Be Explicit And Machine-Readable
 
@@ -238,12 +230,13 @@ Task lists MUST:
 - include the test-development, validation, documentation, and integration tasks required to prove completion;
 - include work to update `progress.md`.
 
-Implementation workflow MUST
+Implementation workflow MUST:
 
-- verify that `tasks.md` includes a task requiring updating `progress.md` before feature is considered complete;
-- update `progress.md` before completion is considered final.
+- verify that `tasks.md` includes a task requiring updating `progress.md` before feature completion;
+- update `progress.md` before completion is considered final;
+- fail the workflow if `progress.md` cannot be updated to a consistent state.
 
-Reviewers MUST
+Reviewers MUST:
 
 - reject completion when `progress.md` is missing, omitted, or inconsistent with the implemented artifacts.
 
@@ -285,25 +278,77 @@ Implementation SHOULD prefer the narrowest viable change that satisfies the appr
 
 This constitution is the authoritative decision framework for specifications, plans, tasks, issues, implementation, review, and release readiness in this repository. All delivery artifacts MUST demonstrate compliance with these principles or document an approved exception.
 
-Amendments require:
+### Runtime Agent Overrides
 
-1. a documented change to this constitution;
-2. updates to affected templates, prompts, or workflow guidance; and
-3. an explanation of the operational impact on specification, planning, task decomposition, implementation, and review.
+Spec Kit provides a layered execution and template authority model through core templates, extensions, presets, and project-local overrides. That hierarchy governs default command behavior, template resolution, and agent skill execution.
 
-Compliance reviews occur during:
+In addition, a user prompt MAY include a section titled exactly:
 
-- feature specification,
-- planning,
-- task generation,
-- implementation review, and
-- pre-release validation.
+- `Agent Override`
 
-Versioning policy:
+When present, `Agent Override` MUST be treated as an explicit runtime override for the current command or workflow stage.
 
-- MAJOR: remove or fundamentally redefine a principle or governance rule in a backward-incompatible way;
-- MINOR: add a principle, add a mandatory workflow section, or materially expand constitutional guidance; and
-- PATCH: clarify wording, fix ambiguity, or make non-semantic editorial improvements.
+#### Scope and Precedence
+
+An `Agent Override` section:
+
+- MUST take precedence over agent-internal defaults, prompt scaffolding, template defaults, and resolved Spec Kit template/extension behavior for the current command;
+- MUST be applied only to the workflow stage or artifact elements it explicitly addresses; and
+- MUST NOT be interpreted as overriding the constitution or other already-approved governing artifacts unless the current command is explicitly intended to amend them.
+
+Accordingly, the effective order of precedence for command execution is:
+
+1. Constitution
+2. Approved governing artifact(s) already in force for the current workflow stage
+3. Explicit `Agent Override` section in the current user prompt
+4. Resolved Spec Kit project-local override / preset / extension / core behavior
+5. Agent default reasoning and local coding preference
+
+#### Allowed Uses
+
+`Agent Override` MAY be used to supply or constrain:
+
+- user-story decomposition
+- milestone or phase structure
+- task decomposition
+- artifact subsections or tables
+- required wording, field values, or metadata
+- command-stage execution behavior that would otherwise be inferred by the agent
+
+If the override provides concrete structured content for a governed artifact element, the agent MUST use that content directly rather than regenerating or replacing it heuristically.
+
+Examples include:
+
+- a user-story table supplied to `/speckit.specify`
+- a milestone table supplied to `/speckit.tasks` or `/speckit.taskstoissues`
+- a required task block or documentation block supplied to `/speckit.tasks`
+- a stage-specific execution rule supplied to `/speckit.implement`
+
+#### Constraints
+
+An `Agent Override` section:
+
+- MUST be interpreted narrowly and only for the elements it explicitly addresses;
+- MUST preserve consistency with the constitution and with any higher-precedence approved artifact already in force;
+- MUST NOT be expanded into unrelated implicit overrides;
+- MUST NOT be ignored merely because the agent has a preferred default decomposition or template pattern.
+
+If an override conflicts with the constitution, the constitution prevails.
+
+If an `Agent Override` section conflicts with an already-approved artifact that governs the same workflow stage, the approved artifact MUST remain authoritative. The override MUST NOT be applied implicitly in this case. If modification of the approved artifact is intended, this MUST be treated as an explicit amendment request. The agent MUST:
+
+- preserve the existing artifact as the current source of truth; and
+- surface the conflict and the required amendment clearly in the resulting work without silently applying the override.
+
+#### Partial Overrides
+
+If an `Agent Override` section supplies only part of the required content, the agent MUST:
+
+- preserve the supplied content exactly for the addressed portion;
+- generate only the unresolved remainder; and
+- avoid re-deciding matters already fixed by the override.
+
+### Artifact authority
 
 Constitutional principles take precedence over feature-level preferences. The order of precedence is:
 
@@ -313,4 +358,20 @@ Constitutional principles take precedence over feature-level preferences. The or
 4. Approved task or issue definition
 5. Local coding preference
 
-**Version**: 1.6.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-19
+### Compliance reviews
+
+Compliance reviews occur during:
+
+- feature specification,
+- planning,
+- task generation,
+- implementation review, and
+- pre-release validation.
+
+### Versioning policy
+
+- MAJOR: remove or fundamentally redefine a principle or governance rule in a backward-incompatible way;
+- MINOR: add a principle, add a mandatory workflow section, or materially expand constitutional guidance; and
+- PATCH: clarify wording, fix ambiguity, or make non-semantic editorial improvements.
+
+**Version**: 1.7.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-19
