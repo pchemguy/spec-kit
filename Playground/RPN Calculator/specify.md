@@ -5,7 +5,20 @@ urls:
 
 ## Weak
 
+Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results. The system must support starting a new session with an empty stack, applying valid tokens (operands push to stack, unary/binary operators consume operands and push results), inspecting full stack and top-of-stack, rejecting operations with insufficient operands, rejecting invalid tokens and unsupported operators, handling arithmetic domain errors and numeric limits (e.g., division by zero) while preserving state, resetting the calculator to a clean session, and undoing the last accepted stack mutation (rejected tokens do not affect undo history). The system must behave deterministically, and a critical invariant is that on any rejected token or failed operation, the calculator preserves the pre-error stack state.
 
+Start with the following set of user stories:
+
+| #   | Name                                                         | Description                                                                                                      | Stage                 | Priority |
+| --- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | --------------------- | -------- |
+| 1   | Start a New Calculation Session                              | System initializes an empty stack and ready state.                                                               | MVP / tracer bullet   | P1       |
+| 2   | Apply Valid Tokens to the Stack                              | User can input operands and apply supported operators, producing correct stack transformations.                  | MVP / tracer bullet   | P1       |
+| 3   | Inspect Current Stack                                        | User can view the full stack and/or top-of-stack at any time.                                                    | MVP / tracer bullet   | P1       |
+| 4   | Reject Operations With Insufficient Operands                 | System rejects operations that cannot be applied due to insufficient operands, preserving state.                 | MVP / tracer bullet   | P1       |
+| 5   | Reject Invalid Tokens and Unsupported Operations             | System rejects malformed operands and unknown operators without altering the stack.                              | correctness hardening | P2       |
+| 6   | Handle Arithmetic Domain Errors and Numeric Limits Correctly | System detects and handles invalid mathematical operations and numeric overflow/limits without corrupting state. | correctness hardening | P2       |
+| 7   | Reset Calculator                                             | User can clear all state and restart from a clean session.                                                       | convenience           | P3       |
+| 8   | Undo the Last Accepted Token                                 | User can revert the most recent accepted stack mutation.                                                         | convenience           | P3       |
 
 ## Strong
 
