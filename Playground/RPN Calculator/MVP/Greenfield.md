@@ -91,7 +91,7 @@ At the operator-contract level, at least the following failure categories must b
         - if the stack does not contain enough operands, the operator is rejected
         - negative input to `sqrt` is rejected
         - operations that would produce non-finite numeric results are rejected
-5. Inspect the current stack at any time, including full stack contents and top-of-stack value.
+5. Inspect the current stack state.
 6. Undo the last accepted token:
     - capability
         - the user can revert the most recent accepted stack mutation
@@ -133,18 +133,14 @@ At the operator-contract level, at least the following failure categories must b
 
 Use exactly this canonical story set:
 
-| #   | Title                                                        | Description                                                                                         | Stage                 | Priority |
-| --- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | --------------------- | -------- |
-| 1   | Start a New Calculation Session                              | System initializes an empty stack and ready state.                                                  | MVP / tracer bullet   | P1       |
-| 2   | Push Valid Numeric Operands                                  | User can input valid numeric operands and have them pushed onto the stack.                          | MVP / tracer bullet   | P1       |
-| 3   | Apply Arithmetic Operators                                   | User can apply `add`, `sub`, `neg`, `mul`, and `div`, producing correct stack transformations.      | MVP / tracer bullet   | P1       |
-| 4   | Apply Power Operators                                        | User can apply `sqr` and `sqrt`, producing correct stack transformations when mathematically valid. | MVP / tracer bullet   | P1       |
-| 5   | Inspect Current Stack                                        | User can view the full stack and/or top-of-stack at any time.                                       | MVP / tracer bullet   | P1       |
-| 6   | Reject Operations With Insufficient Operands                 | System rejects operations that cannot be applied due to insufficient operands, preserving state.    | correctness hardening | P1       |
-| 7   | Reject Invalid Tokens and Unsupported Operations             | System rejects malformed operands and unknown operators without altering the stack.                 | correctness hardening | P2       |
-| 8   | Handle Arithmetic Domain Errors and Numeric Limits Correctly | System rejects mathematically invalid or non-finite results without corrupting state.               | correctness hardening | P2       |
-| 9   | Reset Calculator                                             | User can clear all state and restart from a clean session.                                          | convenience           | P3       |
-| 10  | Undo the Last Accepted Token                                 | User can revert the most recent accepted stack mutation.                                            | convenience           | P3       |
+| #   | Title                                     | Description                                                                                         | Stage               | Priority |
+| --- | ----------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------- | -------- |
+| 1   | Reset calculator                          | User can clear all state and restart from a clean session.                                          | MVP / tracer bullet | P1       |
+| 2   | Apply valid numeric operands to the stack | User can input valid numeric operands and have them pushed onto the stack.                          | MVP / tracer bullet | P1       |
+| 3   | Apply arithmetic operators                | User can apply `add`, `sub`, `neg`, `mul`, and `div`, producing correct stack transformations.      | MVP / tracer bullet | P1       |
+| 4   | Apply power operators                     | User can apply `sqr` and `sqrt`, producing correct stack transformations when mathematically valid. | MVP / tracer bullet | P1       |
+| 5   | Inspect the current stack state.          | User can view the full stack and/or top-of-stack at any time.                                       | MVP / tracer bullet | P1       |
+| 6   | Undo the Last Accepted Token              | User can revert the most recent accepted stack mutation.                                            | convenience         | P2       |
 
 #### Specification expectations
 
@@ -162,14 +158,14 @@ Use exactly this canonical story set:
 
 ##### Operator Contract Table (Research? Contracts?)
 
-| Operator | Class          | Arity | Stack Effect  | Definition     | Rejection Conditions                                                                    |
-| -------- | -------------- | ----- | ------------- | -------------- | --------------------------------------------------------------------------------------- |
-| `add`    | additive       | 2     | pop 2, push 1 | `a b -> a+b`   | insufficient operands; numeric overflow/invalid result if your numeric model rejects it |
-| `sub`    | additive       | 2     | pop 2, push 1 | `a b -> a-b`   | insufficient operands; numeric overflow/invalid result if rejected                      |
-| `neg`    | additive       | 1     | pop 1, push 1 | `a -> -a`      | insufficient operands; numeric overflow/invalid result if rejected                      |
-| `mul`    | multiplicative | 2     | pop 2, push 1 | `a b -> a*b`   | insufficient operands; numeric overflow/invalid result if rejected                      |
-| `div`    | multiplicative | 2     | pop 2, push 1 | `a b -> a/b`   | insufficient operands; division by zero; numeric overflow/invalid result if rejected    |
-| `sqr`    | power          | 1     | pop 1, push 1 | `a -> a^2`     | insufficient operands; numeric overflow/invalid result if rejected                      |
-| `sqrt`   | power          | 1     | pop 1, push 1 | `a -> sqrt(a)` | insufficient operands; negative input; numeric overflow/invalid result if rejected      |
+| Operator | Class          | Arity | Stack Effect  | Definition     | Rejection Conditions                                                     |
+| -------- | -------------- | ----- | ------------- | -------------- | ------------------------------------------------------------------------ |
+| `add`    | additive       | 2     | pop 2, push 1 | `a b -> a+b`   | insufficient operands; numeric overflow/invalid result                   |
+| `sub`    | additive       | 2     | pop 2, push 1 | `a b -> a-b`   | insufficient operands; numeric overflow/invalid result                   |
+| `neg`    | additive       | 1     | pop 1, push 1 | `a -> -a`      | insufficient operands; numeric overflow/invalid result                   |
+| `mul`    | multiplicative | 2     | pop 2, push 1 | `a b -> a*b`   | insufficient operands; numeric overflow/invalid result                   |
+| `div`    | multiplicative | 2     | pop 2, push 1 | `a b -> a/b`   | insufficient operands; division by zero; numeric overflow/invalid result |
+| `sqr`    | power          | 1     | pop 1, push 1 | `a -> a^2`     | insufficient operands; numeric overflow/invalid result                   |
+| `sqrt`   | power          | 1     | pop 1, push 1 | `a -> sqrt(a)` | insufficient operands; negative input; numeric overflow/invalid result   |
 
 
