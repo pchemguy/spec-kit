@@ -100,54 +100,52 @@ Applies to:
 
 This category must be tied to an explicit numeric policy in the spec.
 
-
-
-
 ### Capabilities
 
-1. Start a new calculation session with an empty stack and ready input state.
+1. Reset the calculator:
+    - the user can clear all state and return to a clean session
 2. Apply valid numeric operands to the stack:
     - capability
         - a valid numeric operand token is pushed onto the stack
     - exception behavior
         - invalid numeric input is rejected
         - a valid input is rejected if the stack is full
-    - state invariants
-        - rejected input leaves the stack unchanged
 3. Apply arithmetic operators:
     - capability
         - the calculator must support `add`, `sub`, `neg`, `mul`, and `div`
-        - unary operators consume one operand and push one result
-        - binary operators consume two operands and push one result
-        - binary operators must use standard RPN operand order
-        - operators produce correct stack transformations and numeric results when valid
+        - accepted operator application produces the mathematically correct result
     - exception behavior
         - if the stack does not contain enough operands, the operator is rejected
-        - invalid arithmetic operations, including division by zero, are rejected
-        - operations that would produce invalid or unsupported numeric results are rejected
-    - state invariants
-        - rejected input leaves the stack unchanged
+        - division by zero is rejected
+        - operations that would produce non-finite numeric results are rejected
 4. Apply power operators:
     - capability
         - the calculator must support `sqr` and `sqrt`
-        - each operator consumes one operand and pushes one result
-        - operators produce correct stack transformations and numeric results when mathematically valid
+        - accepted operator application produces the mathematically correct result
     - exception behavior
         - if the stack does not contain enough operands, the operator is rejected
-        - invalid domain inputs, including negative input to `sqrt`, are rejected
-        - operations that would produce invalid or unsupported numeric results are rejected
-    - state invariants
-        - rejected input leaves the stack unchanged
+        - negative input to `sqrt` is rejected
+        - operations that would produce non-finite numeric results are rejected
 5. Inspect the current stack at any time, including full stack contents and top-of-stack value.
-6. Reset the calculator:
-    - the user can clear all state and return to a clean session
-7. Undo the last accepted token:
-     - capability
+6. Undo the last accepted token:
+    - capability
         - the user can revert the most recent accepted stack mutation
     - state invariants
         - rejected tokens do not affect undo history
 
+#### Global Rules
 
+- Operator arity
+    - Unary operators consume one operand and push one result.
+    - Binary operators consume two operands and push one result.
+- Operand order
+    - Binary operators must use standard RPN operand order.
+- Numeric model
+    - The calculator stack MUST contain only finite numeric values.
+- State invariants
+    - Any rejected token application MUST leave the stack state unchanged.
+- Initialization invariant
+    - On system initialization, the calculator MUST be in the same state as after a reset operation.
 
 
 ### Agent Override
