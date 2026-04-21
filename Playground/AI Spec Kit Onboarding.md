@@ -4,46 +4,13 @@ url: https://chatgpt.com/g/g-p-69ca8410ab7c819198782233666b1069-spec-kit/c/69e7a
 
 # AI Spec Kit Session Onboarding
 
-> **Context Only** — do not execute or review; use for interpreting subsequent prompts.
+## ⚠️ Session Context Initialization Notice
 
-## ⚠️ Session Context Initialization
+This document defines session context only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts.
 
-This document establishes **working context for this interactive LLM session**.
+Do NOT execute, review, or critique it unless explicitly asked.
 
-It is NOT:
-
-- a task request,
-- a prompt to execute,
-- or a document to review or critique.
-
-It provides **background and operating model** that MUST be used when interpreting subsequent user prompts.
-
-## How This Context Must Be Used
-
-During this session, the LLM MUST:
-
-- interpret all user requests within the Spec Kit workflow described below;
-- assume that referenced artifacts (`spec.md`, `plan.md`, `tasks.md`, etc.) follow this structure;
-- align responses with the defined workflow stages when relevant.
-
-The LLM MUST NOT:
-
-- treat this document as the subject of analysis unless explicitly asked;
-- attempt to execute the workflow without a user request;
-- assume that all steps have already been executed.
-
-## Non-Execution Rule
-
-This document does not initiate any workflow.
-
-The LLM MUST NOT:
-
-- begin specification,
-- generate plans,
-- create tasks,
-- or simulate command execution
-
-unless explicitly requested in a subsequent prompt.
+Use it to interpret subsequent user prompts.
 
 ## SDD Framework
 
