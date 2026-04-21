@@ -59,19 +59,64 @@ For any accepted operator token:
 5. if computation succeeds, replace consumed operands with result;
 6. if any validation or computation rule fails, reject the token and leave stack unchanged
 
+### Required Error Categories
+
+At the operator-contract level, at least the following failure categories must be included:
+
+#### 1. Arity rejection
+
+The stack does not contain enough operands.
+
+Applies to:
+
+- all unary operators when stack depth < 1
+- all binary operators when stack depth < 2
+
+#### 2. Token validation rejection
+
+The token is not a supported operator and is not a valid numeric operand.
+
+Applies to:
+
+- malformed numeric input
+- unknown token
+
+#### 3. Domain rejection
+
+The operator is defined syntactically but not mathematically for the provided operand values.
+
+Applies to MVP:
+
+- `div` with divisor `0`
+- `sqrt` with negative input
+
+#### 4. Numeric-result rejection
+
+The operation produces a value outside the supported numeric model, or a non-finite result if those are disallowed.
+
+Applies to:
+
+- all operators, depending on numeric model
+
+This category must be tied to an explicit numeric policy in the spec.
 
 
-The calculator must support the following capabilities.
 
 ### Capabilities
 
 1. Start a new calculation session with an empty stack and ready input state.
 2. Apply valid tokens to the stack:
-    - numeric operands are pushed onto the stack
+    - a valid numeric operand token is pushed onto the stack
 3. Apply arithmetic operators:
-    - operators `add`, `sub`, `neg`, `mul`, and `div` produce correct stack transformations and numeric results.
+    - operators `add`, `sub`, `neg`, `mul`, and `div` produce correct stack transformations and numeric results
+    - the calculator must support `add`, `sub`, `neg`, `mul`, and `div`
+    - unary operators consume one operand and push one result
+    - binary operators consume two operands and push one result
+    - binary operators must use standard RPN operand order
 4. Apply power operators:
-    - operators `sqr` and `sqrt` produce correct stack transformations and numeric results when mathematically valid.
+    - operators `sqr` and `sqrt` produce correct stack transformations and numeric results when mathematically valid
+    - the calculator must support `sqr` and `sqrt`
+    - each operator consumes one operand and pushes one result
 5. Inspect the current stack at any time, including full stack contents and top-of-stack value.
 6. Reject operations with insufficient operands:
     - if an operator is applied when the stack does not contain enough operands, the operation is rejected
