@@ -7,11 +7,17 @@ urls:
 
 ## specify
 
-Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results. The calculator MUST support the following operators:
+Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results.
+
+### Supported Operators
+
+The calculator MUST support the following operators:
 
 - additive: `add`, `sub`, `neg`
 - multiplicative: `mul`, `div`
 - power: `sqr`, `sqrt`
+
+### Operand Order Convention
 
 For binary operators, the calculator MUST use the standard RPN evaluation order and interpret the top stack value as the right-hand operand and the next value below it as the left-hand operand:
 
@@ -34,7 +40,17 @@ Each accepted operator token MUST either:
 - consume the required number of operands and push exactly one result, or
 - be rejected without altering the stack if operand count, mathematical domain, or numeric-result validity rules are not satisfied.
 
-The calculator MUST accept and produce only finite numeric values. Any token application that would produce a non-finite result MUST be rejected and MUST leave the stack unchanged.
+### Normative Execution Rule
+
+The calculator MUST accept and produce only finite numeric values. Any token application that would produce a non-finite result MUST be rejected and MUST leave the stack unchanged. For any accepted operator token:
+
+1. validate required operand count;
+2. read operands in defined RPN order;
+3. validate operator domain constraints;
+4. compute the result;
+5. if computation succeeds, replace consumed operands with result;
+6. if any validation or computation rule fails, reject the token and leave stack unchanged
+
 
 
 The calculator must support the following capabilities.
