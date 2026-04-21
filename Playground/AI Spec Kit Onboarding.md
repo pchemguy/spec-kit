@@ -1,7 +1,7 @@
 ---
 url: https://chatgpt.com/g/g-p-69ca8410ab7c819198782233666b1069-spec-kit/c/69e7ad37-1748-83eb-964f-6761750ec443
 ---
-# AI Onboarding
+# AI Spec Kit Onboarding
 
 ## SDD Framework
 
