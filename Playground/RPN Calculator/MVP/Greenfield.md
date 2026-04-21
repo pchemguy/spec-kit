@@ -40,9 +40,17 @@ Each accepted operator token MUST either:
 - consume the required number of operands and push exactly one result, or
 - be rejected without altering the stack if operand count, mathematical domain, or numeric-result validity rules are not satisfied.
 
+### Numeric Policy — finite real model with rejection
+
+The calculator MUST accept and produce only finite numeric values. Any token application that would produce a non-finite result MUST be rejected and MUST leave the stack unchanged. 
+
+- calculator accepts only finite numeric values
+- `NaN`, `+Infinity`, `-Infinity` are not allowed results
+- any operation yielding a non-finite value is rejected
+
 ### Normative Execution Rule
 
-The calculator MUST accept and produce only finite numeric values. Any token application that would produce a non-finite result MUST be rejected and MUST leave the stack unchanged. For any accepted operator token:
+For any accepted operator token:
 
 1. validate required operand count;
 2. read operands in defined RPN order;
