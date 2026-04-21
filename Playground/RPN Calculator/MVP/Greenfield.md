@@ -19,7 +19,7 @@ The calculator MUST support the following operators:
 
 ### Operand Order Convention
 
-For binary operators, the calculator MUST use the standard RPN evaluation order and interpret the top stack value as the right-hand operand and the next value below it as the left-hand operand:
+For binary operators, the calculator MUST interpret the top stack value as the right-hand operand and the next value below it as the left-hand operand following the standard RPN evaluation convention:
 
 `push operands → apply operator → pop rhs first, then lhs → compute lhs op rhs`
 
@@ -35,12 +35,7 @@ So:
 - `a b mul` => `a * b`
 - `a b div` => `a / b`
 
-Each accepted operator token MUST either:
-
-- consume the required number of operands and push exactly one result, or
-- be rejected without altering the stack if operand count, mathematical domain, or numeric-result validity rules are not satisfied.
-
-### Numeric Policy — finite real model with rejection
+### Numeric policy — finite real model with rejection
 
 The calculator MUST accept and produce only finite numeric values. Any token application that would produce a non-finite result MUST be rejected and MUST leave the stack unchanged. 
 
@@ -48,7 +43,7 @@ The calculator MUST accept and produce only finite numeric values. Any token app
 - `NaN`, `+Infinity`, `-Infinity` are not allowed results
 - any operation yielding a non-finite value is rejected
 
-### Normative Execution Rule
+### Normative execution rule
 
 For any accepted operator token:
 
@@ -59,46 +54,16 @@ For any accepted operator token:
 5. if computation succeeds, replace consumed operands with result;
 6. if any validation or computation rule fails, reject the token and leave stack unchanged
 
-### Required Error Categories
+### Required error categories
 
 At the operator-contract level, at least the following failure categories must be included:
 
-#### 1. Arity rejection
-
-The stack does not contain enough operands.
-
-Applies to:
-
-- all unary operators when stack depth < 1
-- all binary operators when stack depth < 2
-
-#### 2. Token validation rejection
-
-The token is not a supported operator and is not a valid numeric operand.
-
-Applies to:
-
-- malformed numeric input
-- unknown token
-
-#### 3. Domain rejection
-
-The operator is defined syntactically but not mathematically for the provided operand values.
-
-Applies to MVP:
-
-- `div` with divisor `0`
-- `sqrt` with negative input
-
-#### 4. Numeric-result rejection
-
-The operation produces a value outside the supported numeric model, or a non-finite result if those are disallowed.
-
-Applies to:
-
-- all operators, depending on numeric model
-
-This category must be tied to an explicit numeric policy in the spec.
+| Category                   | Description                                                                                                         | Target                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Arity rejection            | The stack does not contain enough operands.                                                                         | - all unary operators when stack is empty<br>- all binary operators when stack depth < 2 |
+| Token validation rejection | The token is not a supported operator and is not a valid numeric operand.                                           | - malformed numeric input<br>- unknown token                                             |
+| Domain rejection           | The operator is defined syntactically but not mathematically for the provided operand values.                       | - `div` with divisor `0`<br>- `sqrt` with negative input                                 |
+| Numeric-result rejection   | The operation produces a value outside the supported numeric model, or a non-finite result if those are disallowed. | - all operators, depending on numeric model                                              |
 
 ### Capabilities
 
@@ -140,8 +105,6 @@ This category must be tied to an explicit numeric policy in the spec.
     - Binary operators consume two operands and push one result.
 - Operand order
     - Binary operators must use standard RPN operand order.
-- Numeric model
-    - The calculator stack MUST contain only finite numeric values.
 - State invariants
     - Any rejected token application MUST leave the stack state unchanged.
 - Initialization invariant
