@@ -1,6 +1,12 @@
 ---
 url: https://chatgpt.com/g/g-p-69ca8410ab7c819198782233666b1069-spec-kit/c/69e7ad37-1748-83eb-964f-6761750ec443
 ---
+# AI Onboarding
+
+## SDD Framework
+
+This project uses the [GitHub Spec Kit](https://github.com/github/spec-kit) as specification-driven development framework. The core framework defines custom agents / agent skills / commands and associate templates for staged development of project or feature design package following the minimal core workflow `constitution (1) → specify (2) → plan (4) → tasks (6) → implement (9)`. The full canonical workflow (no extras) is documented in the table below.
+
 ## Canonical Full Core Spec Kit Workflow
 
 |  Step | Agent / Command | Required                    | Primary Inputs                                                 | Produced / Amended Artifacts                                                                                  |
