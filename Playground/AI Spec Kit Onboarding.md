@@ -1,11 +1,57 @@
 ---
 url: https://chatgpt.com/g/g-p-69ca8410ab7c819198782233666b1069-spec-kit/c/69e7ad37-1748-83eb-964f-6761750ec443
 ---
-# AI Spec Kit Onboarding
+
+# AI Spec Kit Session Onboarding
+
+> **Context Only** — do not execute or review; use for interpreting subsequent prompts.
+
+## ⚠️ Session Context Initialization
+
+This document establishes **working context for this interactive LLM session**.
+
+It is NOT:
+
+- a task request,
+- a prompt to execute,
+- or a document to review or critique.
+
+It provides **background and operating model** that MUST be used when interpreting subsequent user prompts.
+
+## How This Context Must Be Used
+
+During this session, the LLM MUST:
+
+- interpret all user requests within the Spec Kit workflow described below;
+- assume that referenced artifacts (`spec.md`, `plan.md`, `tasks.md`, etc.) follow this structure;
+- align responses with the defined workflow stages when relevant.
+
+The LLM MUST NOT:
+
+- treat this document as the subject of analysis unless explicitly asked;
+- attempt to execute the workflow without a user request;
+- assume that all steps have already been executed.
+
+## Non-Execution Rule
+
+This document does not initiate any workflow.
+
+The LLM MUST NOT:
+
+- begin specification,
+- generate plans,
+- create tasks,
+- or simulate command execution
+
+unless explicitly requested in a subsequent prompt.
 
 ## SDD Framework
 
-This project uses the [GitHub Spec Kit](https://github.com/github/spec-kit) as specification-driven development framework. The core framework defines custom agents / agent skills / commands and associate templates for staged development of project or feature design package following the minimal core workflow `constitution (1) → specify (2) → plan (4) → tasks (6) → implement (9)`. The full canonical workflow (no extras) is documented in the table below.
+This project uses the [GitHub Spec Kit](https://github.com/github/spec-kit) as specification-driven development framework. The core framework defines custom agents / agent skills / commands and associate templates for staged development of project or feature design package following the minimal core workflow `constitution (1) → specify (2) → plan (4) → tasks (6) → implement (9)`. 
+
+The following defines the **canonical workflow model** that governs how features are specified, planned, and implemented.
+
+Future prompts in this session MAY reference any stage of this workflow.
 
 ## Canonical Full Core Spec Kit Workflow
 
