@@ -5,6 +5,8 @@ urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e6254f-c084-83eb-a38f-908afc14da4d
 ---
 
+## specify
+
 Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results. The calculator must support the following capabilities.
 
 ### Capabilities
@@ -32,15 +34,15 @@ Create a browser-based Reverse Polish Notation (RPN) calculator allowing users t
     - the user can revert the most recent accepted stack mutation
     - rejected tokens do not affect undo history
 
-## Agent Override
+### Agent Override
 
-### Global behavioral constraints
+#### Global behavioral constraints
 
 - The system must behave deterministically.
 - Critical invariant: on any rejected token or failed operation, the calculator must preserve the exact pre-error stack state.
 - Rejected tokens must not affect undo history.
 
-### User story decomposition constraints
+#### User story decomposition constraints
 
 1. The following user story set is canonical for the spec.
 2. Preserve exactly these user stories in the User Scenarios & Testing section.
@@ -50,7 +52,7 @@ Create a browser-based Reverse Polish Notation (RPN) calculator allowing users t
 6. Consider story titles being set, but improve descriptions, where possible.
 7. Any additional detail must go into acceptance scenarios, edge cases, requirements, assumptions, non-goals, or success criteria, not into changing the story decomposition.
 
-### User story decomposition
+#### User story decomposition
 
 Use exactly this canonical story set:
 
@@ -67,7 +69,7 @@ Use exactly this canonical story set:
 | 9   | Reset Calculator                                             | User can clear all state and restart from a clean session.                                          | convenience           | P3       |
 | 10  | Undo the Last Accepted Token                                 | User can revert the most recent accepted stack mutation.                                            | convenience           | P3       |
 
-### Specification expectations
+#### Specification expectations
 
 - Focus on what users need and why.
 - Avoid implementation details.
@@ -75,3 +77,22 @@ Use exactly this canonical story set:
 - Define edge cases explicitly.
 - Keep success criteria measurable and technology-agnostic.
 - Preserve the canonical story set exactly as given.
+
+## plan
+
+### Agent Override
+
+
+##### Operator Contract Table (Research? Contracts?)
+
+| Operator | Class          | Arity | Stack Effect  | Definition     | Rejection Conditions                                                                    |
+| -------- | -------------- | ----- | ------------- | -------------- | --------------------------------------------------------------------------------------- |
+| `add`    | additive       | 2     | pop 2, push 1 | `a b -> a+b`   | insufficient operands; numeric overflow/invalid result if your numeric model rejects it |
+| `sub`    | additive       | 2     | pop 2, push 1 | `a b -> a-b`   | insufficient operands; numeric overflow/invalid result if rejected                      |
+| `neg`    | additive       | 1     | pop 1, push 1 | `a -> -a`      | insufficient operands; numeric overflow/invalid result if rejected                      |
+| `mul`    | multiplicative | 2     | pop 2, push 1 | `a b -> a*b`   | insufficient operands; numeric overflow/invalid result if rejected                      |
+| `div`    | multiplicative | 2     | pop 2, push 1 | `a b -> a/b`   | insufficient operands; division by zero; numeric overflow/invalid result if rejected    |
+| `sqr`    | power          | 1     | pop 1, push 1 | `a -> a^2`     | insufficient operands; numeric overflow/invalid result if rejected                      |
+| `sqrt`   | power          | 1     | pop 1, push 1 | `a -> sqrt(a)` | insufficient operands; negative input; numeric overflow/invalid result if rejected      |
+
+
