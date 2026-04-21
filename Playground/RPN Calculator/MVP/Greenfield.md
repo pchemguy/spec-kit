@@ -102,36 +102,53 @@ This category must be tied to an explicit numeric policy in the spec.
 
 
 
+
 ### Capabilities
 
 1. Start a new calculation session with an empty stack and ready input state.
-2. Apply valid tokens to the stack:
-    - a valid numeric operand token is pushed onto the stack
+2. Apply valid numeric operands to the stack:
+    - capability
+        - a valid numeric operand token is pushed onto the stack
+    - exception behavior
+        - invalid numeric input is rejected
+        - a valid input is rejected if the stack is full
+    - state invariants
+        - rejected input leaves the stack unchanged
 3. Apply arithmetic operators:
-    - operators `add`, `sub`, `neg`, `mul`, and `div` produce correct stack transformations and numeric results
-    - the calculator must support `add`, `sub`, `neg`, `mul`, and `div`
-    - unary operators consume one operand and push one result
-    - binary operators consume two operands and push one result
-    - binary operators must use standard RPN operand order
+    - capability
+        - the calculator must support `add`, `sub`, `neg`, `mul`, and `div`
+        - unary operators consume one operand and push one result
+        - binary operators consume two operands and push one result
+        - binary operators must use standard RPN operand order
+        - operators produce correct stack transformations and numeric results when valid
+    - exception behavior
+        - if the stack does not contain enough operands, the operator is rejected
+        - invalid arithmetic operations, including division by zero, are rejected
+        - operations that would produce invalid or unsupported numeric results are rejected
+    - state invariants
+        - rejected input leaves the stack unchanged
 4. Apply power operators:
-    - operators `sqr` and `sqrt` produce correct stack transformations and numeric results when mathematically valid
-    - the calculator must support `sqr` and `sqrt`
-    - each operator consumes one operand and pushes one result
+    - capability
+        - the calculator must support `sqr` and `sqrt`
+        - each operator consumes one operand and pushes one result
+        - operators produce correct stack transformations and numeric results when mathematically valid
+    - exception behavior
+        - if the stack does not contain enough operands, the operator is rejected
+        - invalid domain inputs, including negative input to `sqrt`, are rejected
+        - operations that would produce invalid or unsupported numeric results are rejected
+    - state invariants
+        - rejected input leaves the stack unchanged
 5. Inspect the current stack at any time, including full stack contents and top-of-stack value.
-6. Reject operations with insufficient operands:
-    - if an operator is applied when the stack does not contain enough operands, the operation is rejected
-    - the stack must remain unchanged
-7. Reject invalid tokens and unsupported operations:
-    - malformed numeric input or unknown operators are rejected
-    - the stack must remain unchanged
-8. Handle arithmetic domain errors and numeric limits:
-    - invalid mathematical operations (e.g., division by zero or invalid domain inputs) are rejected
-    - the stack must remain unchanged
-9. Reset the calculator:
+6. Reset the calculator:
     - the user can clear all state and return to a clean session
-10. Undo the last accepted token:
-    - the user can revert the most recent accepted stack mutation
-    - rejected tokens do not affect undo history
+7. Undo the last accepted token:
+     - capability
+        - the user can revert the most recent accepted stack mutation
+    - state invariants
+        - rejected tokens do not affect undo history
+
+
+
 
 ### Agent Override
 
