@@ -5,9 +5,7 @@ urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e6254f-c084-83eb-a38f-908afc14da4d
 ---
 
-Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results.
-
-The calculator must support the following capabilities.
+Create a browser-based Reverse Polish Notation (RPN) calculator allowing users to perform basic calculations and see results. The calculator must support the following capabilities.
 
 ### Capabilities
 
