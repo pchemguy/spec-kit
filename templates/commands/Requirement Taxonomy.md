@@ -1,6 +1,6 @@
 ## Requirement Types
 
-  - **Functional**
+- **Functional**
     Functional requirements define the specific features and operations a system must perform to meet business and user needs. They describe what the system should do and how it interacts with users or other systems.
     - Focus on the behavior and functionality of the system.
     - Represent features that can be directly observed and tested in the final product.
@@ -10,7 +10,7 @@
         - search functionality
         - payment processing
         - report generation
-  - **Non-Functional**
+- **Non-Functional**
     Non-functional requirements (NFRs) define how a system should operate, focusing on performance, reliability, and user experience rather than specific features. They ensure the system is efficient, secure, and maintainable over time.
     - **Performance:** speed and responsiveness
     - **Security:** protection against unauthorized access
