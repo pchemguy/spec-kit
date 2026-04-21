@@ -3,6 +3,7 @@ urls:
   - https://chatgpt.com/g/g-p-69de610325f08191aaf60c2de8f32282/c/69e139f9-f2f0-838d-9ccf-d3621e78eeab
   - https://chatgpt.com/c/69e5b2b1-c950-83eb-b13c-8bf09d5e5d53
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e6254f-c084-83eb-a38f-908afc14da4d
+  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e7d75f-7440-8392-b5fb-7e22d37872c8
 ---
 
 ## specify
