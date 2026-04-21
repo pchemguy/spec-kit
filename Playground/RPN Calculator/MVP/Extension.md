@@ -1,8 +1,20 @@
+---
+url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a/c/69e6254f-c084-83eb-a38f-908afc14da4d
+---
+
 ## specify
 
 ## plan
 
 ### Agent Override
+
+##### Real-Domain Policies - `pow`
+
+| Base | Exponent | Validity            |
+| ---- | -------- | ------------------- |
+| <0   | ∉ ℤ      | rejected as invalid |
+| 0    | <0       | rejected as invalid |
+| 0    | 0        | rejected as invalid |
 
 ##### Extension Operator Contract Table
 
