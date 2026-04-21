@@ -1,3 +1,6 @@
+---
+url: https://chatgpt.com/g/g-p-69ca8410ab7c819198782233666b1069-spec-kit/c/69e7ad37-1748-83eb-964f-6761750ec443
+---
 ## Canonical Full Core Spec Kit Workflow
 
 |  Step | Agent / Command | Required                    | Primary Inputs                                                 | Produced / Amended Artifacts                                                                                  |
@@ -12,4 +15,7 @@
 | **8** | `taskstoissues` | No                          | `tasks.md`                                                     | GitHub Issues                                                                                                 |
 | **9** | `implement`     | Yes                         | `tasks.md` + all prior artifacts                               | Source code<br>Tests<br>Docs updates (depends on user prompts)<br>Progress tracking (depends on user prompts) |
 
-**IMPORTANT**: All file artifacts are relative to  `FEATURE_DIR`.
+**Notes**:
+
+- All feature artifacts are relative to `FEATURE_DIR`.
+- Every command accepts a user prompt.
