@@ -204,7 +204,8 @@ The repository MAY maintain a `roadmap.md` document alongside `constitution.md` 
 
 When present, `roadmap.md` MUST:
 
-- define an ordered list of features;
+- define an ordered list of features, each beginning with a second-level heading `## [Feature Name]`;
+- have unique feature names (`## [Feature Name]`) across the document;
 - contain "### Specify User Prompt" subsection in each feature section that must represent a user prompt to be used with `/speckit.specify` without modification;
 - record only features that satisfy the feature-level decomposition constraints defined by this constitution.
 
@@ -214,6 +215,8 @@ That feature MUST be defined either:
 
 - explicitly in the user prompt; or
 - implicitly by selecting the earliest feature in `roadmap.md` having the `planned` status.
+
+When `/speckit.specify` processes a feature from the `roadmap.md` file, the agent must include an additional metadata `Roadmap Feature: [Feature Name]`, where `[Feature Name]` must match exactly feature section title in `roadmap.md`.
 
 When both an explicit feature definition and `roadmap.md` are provided, `/speckit.specify` MUST NOT proceed without explicit user confirmation of the selected feature.
 
