@@ -137,7 +137,7 @@ To support that requirement:
 
 Large or tightly coupled changes require explicit justification in the plan.
 
-Rationale: small increments reduce agent error, simplify review, improve rollback safety, and enable more deterministic progress. Early delivery of an MVP or tracer bullet provides a working baseline that reduces integration risk and supports staged evolution.
+Rationale: small increments reduce agent error, simplify review, improve rollback safety, and enable more deterministic progress.
 
 ### VI. Test Suite Development is Inseparable from Code Development
 
@@ -217,7 +217,6 @@ Implementation plans MUST translate the constitutional principles into concrete 
 - architectural constraints and approved technology choices;
 - architectural decomposition and separation-of-concerns strategy;
 - test strategy, required test development, and other required validation evidence;
-- explicit MVP or tracer-bullet scope and the staged evolution path beyond it;
 - complexity tracking for justified deviations; and
 - explicit sequencing that supports incremental implementation.
 
@@ -226,7 +225,6 @@ Task lists MUST:
 - be organized to support independent execution and verification;
 - separate foundational work from user-story work;
 - reflect the intended architectural decomposition;
-- order work to deliver an MVP or tracer bullet as early as feasible before staged follow-on evolution;
 - include the test-development, validation, documentation, and integration tasks required to prove completion;
 - include work to update `progress.md`.
 
@@ -250,7 +248,7 @@ Tasks and issues MUST therefore be:
 - explicit about inputs, outputs, constraints, and dependencies; and
 - clear about the acceptance checks, required test development, and validation evidence required for completion.
 
-When tasks are converted into implementation issues, the issue set MUST preserve both the intended architectural decomposition and the staged delivery sequence. Task-to-issue workflows MUST not merge unrelated or independently testable tasks into a single implementation issue merely for administrative convenience. Where feasible, issue ordering, labels, and milestones MUST make the MVP or tracer-bullet stage explicit and distinguish it from subsequent evolution stages.
+When tasks are converted into implementation issues, the issue set MUST preserve both the intended architectural decomposition and the staged delivery sequence. Task-to-issue workflows MUST not merge unrelated or independently testable tasks into a single implementation issue merely for administrative convenience.
 
 Repository guidance MUST explicitly define shell selection, environment assumptions, architectural boundaries, and forbidden shortcuts where omission would cause agents to drift from the intended implementation path.
 
@@ -267,8 +265,7 @@ The constitution check MUST confirm that the feature:
 - defines the test development and other evidence required for completion;
 - records key decisions, assumptions, and exceptions;
 - respects the repository's architecture and environment constraints;
-- preserves clear architectural decomposition and separation of concerns; and
-- is sequenced to deliver an MVP or tracer bullet early, followed by staged evolution where feasible.
+- preserves clear architectural decomposition and separation of concerns.
 
 Reviewers MUST reject changes that are too large to review confidently, advance the codebase without corresponding test development, lack required validation evidence, exceed approved scope without amendment, violate architectural or environment constraints, or break the approved staged sequence without a recorded justification.
 
