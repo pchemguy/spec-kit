@@ -204,7 +204,8 @@ The repository MAY maintain a `roadmap.md` document alongside `constitution.md` 
 
 When present, `roadmap.md` MUST:
 
-- define an ordered list of features; and
+- define an ordered list of features;
+- contain "Specify" subsection in each feature section that must represent a user prompt to be used with the `specify` command without modification;
 - record only features that satisfy the feature-level decomposition constraints defined by this constitution.
 
 `specify` MUST operate on exactly one feature.
