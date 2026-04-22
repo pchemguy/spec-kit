@@ -134,14 +134,14 @@ At the operator-contract level, at least the following failure categories must b
 
 Use exactly this canonical story set:
 
-| #   | Title                                     | Description                                                                                         | Stage               | Priority |
-| --- | ----------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------- | -------- |
-| 1   | Reset calculator                          | User can clear all state and restart from a clean session.                                          | MVP / tracer bullet | P1       |
-| 2   | Apply valid numeric operands to the stack | User can input valid numeric operands and have them pushed onto the stack.                          | MVP / tracer bullet | P1       |
-| 3   | Apply arithmetic operators                | User can apply `add`, `sub`, `neg`, `mul`, and `div`, producing correct stack transformations.      | MVP / tracer bullet | P1       |
-| 4   | Apply power operators                     | User can apply `sqr` and `sqrt`, producing correct stack transformations when mathematically valid. | MVP / tracer bullet | P1       |
-| 5   | Inspect the current stack state.          | User can view the full stack and/or top-of-stack at any time.                                       | MVP / tracer bullet | P1       |
-| 6   | Undo the Last Accepted Token              | User can revert the most recent accepted stack mutation.                                            | convenience         | P2       |
+| #   | Title                                     | Description                                                                                                     |
+| --- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1   | Reset calculator                          | Clear all state and restart from a clean session.                                                               |
+| 2   | Apply valid numeric operands to the stack | Input valid numeric operands and have them pushed onto the stack.                                               |
+| 3   | Apply arithmetic operators                | Apply `add`, `sub`, `neg`, `mul`, and `div`, producing correct stack transformations when mathematically valid. |
+| 4   | Apply power operators                     | Apply `sqr` and `sqrt`, producing correct stack transformations when mathematically valid.                      |
+| 5   | Inspect the current stack state.          | View the full stack and/or top-of-stack at any time.                                                            |
+| 6   | Undo the Last Accepted Token              | Revert the most recent accepted stack mutation.                                                                 |
 
 #### Specification expectations
 
