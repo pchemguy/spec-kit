@@ -108,6 +108,9 @@ Rationale: this repository exists to support spec-driven and agent-driven develo
 
 System design and implementation MUST preserve clear separation of concerns at every relevant level of decomposition, including module boundaries, feature slices, service interfaces, data handling, runtime integration points, and cross-cutting concerns. Responsibilities SHOULD be assigned so that components remain understandable, independently testable, maintainable, and extensible without unnecessary coupling.
 
+Feature-level decomposition MUST preserve separation of concerns at the product-delivery level. Accordingly, each feature MUST
+deliver standalone, user-visible value and be minimal in scope, self-sufficient, and independently implementable and testable. A feature MUST NOT combine unrelated or merely convenient future work, and MUST NOT rely on later planned features to become meaningful.
+
 Plans and implementation tasks MUST identify the intended decomposition for non-trivial changes and MUST avoid designs that mix unrelated responsibilities, hide boundaries, or force broad changes for localized behavior. Where a design introduces shared infrastructure, common abstractions, or reusable layers, that structure MUST be justified by immediate maintainability, testability, extensibility, or boundary-enforcement needs rather than speculative reuse or anticipated generality.
 
 Rationale: strong separation of concerns reduces regression risk, improves local reasoning, enables more reliable testing, and allows the system to evolve in controlled increments.
@@ -217,6 +220,7 @@ Implementation plans MUST translate the constitutional principles into concrete 
 - architectural constraints and approved technology choices;
 - architectural decomposition and separation-of-concerns strategy;
 - test strategy, required test development, and other required validation evidence;
+- explicit sequencing rules consistent with the ordered feature and user-story decomposition;
 - complexity tracking for justified deviations; and
 - explicit sequencing that supports incremental implementation.
 
@@ -225,6 +229,7 @@ Task lists MUST:
 - be organized to support independent execution and verification;
 - separate foundational work from user-story work;
 - reflect the intended architectural decomposition;
+- order work according to the canonical user-story sequence defined by the feature specification;
 - include the test-development, validation, documentation, and integration tasks required to prove completion;
 - include work to update `progress.md`.
 
@@ -248,7 +253,7 @@ Tasks and issues MUST therefore be:
 - explicit about inputs, outputs, constraints, and dependencies; and
 - clear about the acceptance checks, required test development, and validation evidence required for completion.
 
-When tasks are converted into implementation issues, the issue set MUST preserve both the intended architectural decomposition and the staged delivery sequence. Task-to-issue workflows MUST not merge unrelated or independently testable tasks into a single implementation issue merely for administrative convenience.
+When tasks are converted into implementation issues, the issue set MUST preserve both the intended architectural decomposition and the phased delivery sequence. Task-to-issue workflows MUST not merge unrelated or independently testable tasks into a single implementation issue merely for administrative convenience.
 
 Repository guidance MUST explicitly define shell selection, environment assumptions, architectural boundaries, and forbidden shortcuts where omission would cause agents to drift from the intended implementation path.
 
@@ -262,6 +267,12 @@ The constitution check MUST confirm that the feature:
 
 - is grounded in an explicit specification;
 - is decomposed into small, testable increments;
+- is sequenced according to the approved user-story decomposition and preserves the intended incremental delivery order;
+- satisfies feature-level decomposition constraints, including:  
+    - minimality;  
+    - self-sufficiency;  
+    - independent implementability and testability;  
+    - standalone user-visible value;
 - defines the test development and other evidence required for completion;
 - records key decisions, assumptions, and exceptions;
 - respects the repository's architecture and environment constraints;
