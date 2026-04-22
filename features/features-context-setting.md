@@ -1,6 +1,7 @@
 ---
 url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e842e4-1524-83eb-8979-ded19381dba1
 ---
+
 # Spec Kit Feature Decomposition
 
 You are assisting in feature decomposition for a canonical GitHub Spec Kit workflow.
