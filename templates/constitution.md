@@ -135,8 +135,7 @@ To support that requirement:
 
 - specifications MUST be structured so that user stories or feature slices can be implemented and validated incrementally;
 - plans, task lists, and GitHub issues MUST avoid bundling unrelated work;
-- implementation SHOULD prefer the smallest change that produces meaningful progress while preserving repository correctness; and
-- where feasible, the sequence of work MUST be organized to deliver a minimal viable path or tracer bullet early enough to validate architecture, workflow, and integration assumptions before broader feature expansion, then evolve it through staged follow-on increments.
+- implementation SHOULD prefer the smallest change that produces meaningful progress while preserving repository correctness.
 
 Large or tightly coupled changes require explicit justification in the plan.
 
@@ -204,6 +203,26 @@ The approved technology platform for this repository is:
 
 Implementation plans, tasks, issue generation, and code changes MUST preserve this platform definition unless it is explicitly amended. Agents and contributors MUST not substitute a different application model, language, desktop packaging approach, or persistence technology without a recorded decision and approval.
 
+## Feature Roadmap
+
+The repository MAY maintain a `roadmap.md` document alongside `constitution.md` and `progress.md`.
+
+When present, `roadmap.md` MUST:
+
+- define an ordered list of features; and
+- record only features that satisfy the feature-level decomposition constraints defined by this constitution.
+
+`specify` MUST operate on exactly one feature.
+
+That feature MUST be defined either:
+
+- explicitly in the user prompt; or
+- implicitly by selecting the earliest feature in `roadmap.md` that is not already represented as completed in `progress.md`.
+
+When both an explicit feature definition and `roadmap.md` are provided, `/speckit.specify` MUST NOT proceed without explicit user confirmation of the selected feature.
+
+`roadmap.md` represents planned intent and MUST NOT be treated as implemented state.
+
 ## Spec Kit Workflow Requirements
 
 Specifications MUST define:
@@ -237,6 +256,7 @@ Implementation workflow MUST:
 
 - verify that `tasks.md` includes a task requiring updating `progress.md` before feature completion;
 - update `progress.md` before completion is considered final;
+- update `roadmap.md`, if exists and was the source of the current feature, before completion is considered final;
 - fail the workflow if `progress.md` cannot be updated to a consistent state.
 
 Reviewers MUST:
