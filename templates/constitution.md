@@ -1,11 +1,6 @@
 <!--
 Sync Impact Report
-Version change: 1.6.0 -> 1.7.0
-Added sections:  
-- PREAMBLE: Project Context Initialization  
-Modified principles:  
-- I. Project Evolution Context Must Be Explicit And Machine-Readable
-- Governance
+Version change: 1.7.0 -> 1.8.0
 -->
 
 # Project Constitution
@@ -194,7 +189,7 @@ Rationale: without enforced documentation, spec-driven development degrades into
 
 The approved technology platform for this repository is:
 
-- **Application model**: local desktop-packaged web application
+- **Project Type**: local desktop-packaged web application
 - **Frontend**: React
 - **Primary language**: TypeScript
 - **Desktop packaging**: Electron
@@ -219,7 +214,7 @@ That feature MUST be defined either:
 - explicitly in the user prompt; or
 - implicitly by selecting the earliest feature in `roadmap.md` that is not already represented as completed in `progress.md`.
 
-When both an explicit feature definition and `roadmap.md` are provided, `/speckit.specify` MUST NOT proceed without explicit user confirmation of the selected feature.
+When both an explicit feature definition and `roadmap.md` are provided, `specify` MUST NOT proceed without explicit user confirmation of the selected feature.
 
 `roadmap.md` represents planned intent and MUST NOT be treated as implemented state.
 
@@ -402,4 +397,4 @@ Compliance reviews occur during:
 - MINOR: add a principle, add a mandatory workflow section, or materially expand constitutional guidance; and
 - PATCH: clarify wording, fix ambiguity, or make non-semantic editorial improvements.
 
-**Version**: 1.7.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-19
+**Version**: 1.8.0 | **Ratified**: 2026-04-10 | **Last Amended**: 2026-04-22
