@@ -278,13 +278,16 @@ The LLM MUST
 
 ## SDD Framework
 
-This project uses the [GitHub Spec Kit](https://github.com/github/spec-kit) as specification-driven development framework. The core framework defines custom agents / agent skills / commands and associate templates for staged development of project or feature design package following the minimal core workflow `constitution (1) → specify (2) → plan (4) → tasks (6) → implement (9)`. 
+This project uses the [GitHub Spec Kit](https://github.com/github/spec-kit) as specification-driven development framework. The core framework defines custom agents / agent skills / commands and associate templates for staged development of project or feature design package following the minimal core workflow `constitution (1) → specify (2) → plan (4) → tasks (6) → implement (9)`.  Further, the `constitution` command is meant to be executed at most once per project (alternatively, a suitable copy may be obtained from a similar project). Therefore, the essential development workflow is actually reduced to the core loop `specify (2) → plan (4) → tasks (6) → implement (9)`.
 
-The following defines the **canonical workflow model** that governs how features are specified, planned, and implemented.
+The following defines the **canonical full baseline workflow model** that governs how features are specified, planned, and implemented. Note:
+
+- "baseline" refers to the fact that this workflow does not reflect extras: extensions, presets, and hooks;
+- "full" refers to the fact that this workflow includes all commands, including the core loop and optional. 
 
 Future prompts in this session MAY reference any stage of this workflow.
 
-## Canonical Full Core Spec Kit Workflow
+## Canonical Full Baseline Spec Kit Workflow
 
 |  Step | Agent / Command | Required                    | Primary Inputs                                                 | Produced / Amended Artifacts                                                                                  |
 | ----: | --------------- | --------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
