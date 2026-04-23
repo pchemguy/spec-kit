@@ -1,1 +1,0 @@
-I want to build an RPN calculator web app and have a packaged portable desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability.
