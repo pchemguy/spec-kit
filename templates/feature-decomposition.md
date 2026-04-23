@@ -54,6 +54,14 @@ Reject or refine any feature that violates these constraints.
 ## Notes
 
 ## PREAMBLE | PREAMBLE: Scope
+
+## Features
+
+### Feature [N] — [Feature Name]
+
+Status: planned | in-progress | complete
+
+#### Description
 ```
 
 Notes:
