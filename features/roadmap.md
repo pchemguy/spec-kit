@@ -6,15 +6,6 @@ url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c
 
 This document defines the ordered sequence of planned features.
 
-Each feature MUST:
-
-- be minimal in scope;
-- be self-sufficient;
-- be independently implementable and testable;
-- deliver standalone, user-visible value;
-- NOT combine unrelated or merely convenient future work;
-- NOT depend on future features to become meaningful.
-
 Each feature section in this document MUST:
 
 - represent exactly one feature;
