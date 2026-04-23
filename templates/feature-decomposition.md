@@ -1,13 +1,68 @@
-# Feature Decomposition
+### Feature Decomposition
 
-## PREAMBLE
+#### PREAMBLE
 
 Feature decomposition workflow aims to perform which is essentially User Story decomposition performed by GitHub Spec Kit (the "Fill User Scenarios & Testing section" instruction from the `specify.md` command file). While in the context of the SpecKit workflow, a "FEATURE" is unit of SpecKit work scoped by user prompt provided to the `specify` command, "FEATURE" in the context of present work is equivalent of a user story in the context of SpecKit commands. However, while in the context of SpecKit, each user story should represent "a viable MVP" (as stated in the `spec-template.md` top HTML comment), in present context a finer granularity is required, meaning an MVP would typically be a group of features.
 
 The objective is to rather than letting SpecKit perform user story decomposition without human in the loop, the described protocol (and template) enable interactive (HITL) decomposition of the development target. Then, the resulting features (or there subset) may be added directly to the `spec.md` file as user stories or passed to the `specify` command as user stories to be used, instead of performing decomposition by the agent.
 
+#### Protocol
 
-## Feature Roadmap
+##### Feature Decomposition Rules
+
+Each feature MUST:
+
+- be minimal in scope relative to its delivered value;
+- be self-sufficient;
+- be independently implementable and testable;
+- deliver standalone, user-visible value;
+- encapsulate a coherent unit of behavior with consistent logic, state, workflow, and architectural context;
+- NOT combine unrelated or merely convenient future work; and
+- NOT depend on future features to become meaningful, complete, or correct, or to validate its core behavior.
+
+Feature decomposition MUST strike a practical balance:
+
+- features MUST be small enough to support focused implementation, bounded context, and deterministic agent behavior; and
+- features MUST NOT be fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple features whose implementation would substantially duplicate logic, state handling, workflow shape, architectural structure, or Spec Kit process overhead.
+
+Feature sequencing MUST support progressive system evolution:
+
+- the earliest feature MUST establish a minimal but complete and usable system slice that can be executed and validated end-to-end; and
+- each subsequent feature MUST meaningfully extend, refine, or generalize the behavior established by earlier features without requiring redefinition of previously delivered capabilities.
+
+Feature progression MUST preserve continuity:
+
+- each feature MUST operate as a valid extension of the system produced by prior features; and
+- the system produced after each feature MUST remain usable and internally consistent.
+
+Feature cohesion MUST be evaluated across candidate features:
+
+- candidate features that are narrowly scoped and represent sequential refinements of the same capability; or
+- candidate features that are tightly coupled, strongly parallel, or would require substantially similar implementation and validation workflows
+
+SHOULD be combined into a single feature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
+
+Reject or refine any feature that violates these constraints.
+
+---
+
+#### Roadmap Template
+
+```
+# Roadmap | Roadmap: Target Name
+
+## Notes
+
+## PREAMBLE | PREAMBLE: Scope
+```
+
+Notes:
+
+- `## Notes` section is optional and may not be present.
+- `## PREAMBLE` section is optional. This is the home for definitions, conventions, etc. applicable to all features. This section should be framed as a section of a specification.
+
+#### One-Shot Roadmap Example
+
 
 The repository MAY maintain a `roadmap.md` document alongside `constitution.md` and `progress.md`.
 
@@ -69,43 +124,6 @@ You MUST NOT:
 
 ---
 
-##### Feature Decomposition Rules
-
-Each feature MUST:
-
-- be minimal in scope relative to its delivered value;
-- be self-sufficient;
-- be independently implementable and testable;
-- deliver standalone, user-visible value;
-- encapsulate a coherent unit of behavior with consistent logic, state, workflow, and architectural context;
-- NOT combine unrelated or merely convenient future work; and
-- NOT depend on future features to become meaningful, complete, or correct, or to validate its core behavior.
-
-Feature decomposition MUST strike a practical balance:
-
-- features MUST be small enough to support focused implementation, bounded context, and deterministic agent behavior; and
-- features MUST NOT be fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple features whose implementation would substantially duplicate logic, state handling, workflow shape, architectural structure, or Spec Kit process overhead.
-
-Feature sequencing MUST support progressive system evolution:
-
-- the earliest feature MUST establish a minimal but complete and usable system slice that can be executed and validated end-to-end; and
-- each subsequent feature MUST meaningfully extend, refine, or generalize the behavior established by earlier features without requiring redefinition of previously delivered capabilities.
-
-Feature progression MUST preserve continuity:
-
-- each feature MUST operate as a valid extension of the system produced by prior features; and
-- the system produced after each feature MUST remain usable and internally consistent.
-
-Feature cohesion MUST be evaluated across candidate features:
-
-- candidate features that are narrowly scoped and represent sequential refinements of the same capability; or
-- candidate features that are tightly coupled, strongly parallel, or would require substantially similar implementation and validation workflows
-
-SHOULD be combined into a single feature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
-
-Reject or refine any feature that violates these constraints.
-
----
 
 ##### Iteration Behavior
 
@@ -149,14 +167,4 @@ Each `##### Specify User Prompt` MUST:
 - avoid implementation details;
 - avoid references to other features.
 
----
-
-##### Output Constraint
-
-When generating the roadmap:
-
-- output ONLY the `roadmap.md` content;
-- do NOT include explanations or commentary.
-
----
 
