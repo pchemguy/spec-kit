@@ -1,3 +1,7 @@
+---
+url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
+---
+
 ### Feature Decomposition
 
 #### PREAMBLE
@@ -62,6 +66,18 @@ Reject or refine any feature that violates these constraints.
 Status: planned | in-progress | complete
 
 #### Description
+
+##### Functionality / Capabilities Scope
+
+##### Acceptance Scenarios
+
+1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+2. **Given** [initial state], **When** [action], **Then** [expected outcome]
+   
+##### Edge Cases
+
+##### Exceptions
+
 ```
 
 Notes:
