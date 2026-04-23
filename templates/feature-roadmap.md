@@ -3,7 +3,22 @@
 
 ## PREAMBLE
 
-Feature decomposition and roadmap workflow aims to improve complexity management when developing via the GitHub Spec Kit framework.
+Feature decomposition and roadmap workflow aims to improve complexity management when developing via the GitHub Spec Kit framework. The core loop of the SpecKit framework is composed of a sequence of four commands `specify → plan → tasks → implement`, taking feature/target definition as primary input and producing source code, tests, docs, etc. as output.
+
+Within the SpecKit context, the user prompt, provided to the `specify` command describes a "FEATURE". SpecKit FEATURE (let's call it "dev target") is a broad term used by SpecKit, representing a unit of work processed by the core loop, which can, in principle, have greatly varying complexity, starting from a focused capability to a full greenfield app definition.
+
+The primary means for handling dev target complexity by SpecKit is decomposition of the target into user stories. This operation is performed by the `specify` command. According to Wikipedia, "a user story is an informal, natural language description of features". Curiously, the term "user story" does not appear in the `specify.md` at all (in fact the "story" term is not present). TODO: This should probably be corrected at some point. "User Story" is only defined in `spec-template.md` comment as:
+
+```
+Think of each story as a standalone slice of functionality that can be:
+
+- Developed independently
+- Tested independently
+- Deployed independently
+- Demonstrated to users independently
+```
+
+
 
 This document defines rules and protocols for decomposing complex targets for GitHub Spec Kit into a chain of manageable features
 
