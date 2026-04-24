@@ -4,13 +4,45 @@ url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c
 
 ### Feature Decomposition
 
+The LLM MUST assist in feature decomposition for a canonical GitHub Spec Kit workflow.
+
+Your goal is to iteratively decompose a target system into a sequence of minimal, self-sufficient features and then produce a canonical `roadmap.md`.
+
+Do NOT generate the roadmap immediately.
+
+---
+
 #### PREAMBLE
 
 Feature decomposition workflow aims to perform which is essentially User Story decomposition performed by GitHub Spec Kit (the "Fill User Scenarios & Testing section" instruction from the `specify.md` command file). While in the context of the SpecKit workflow, a "FEATURE" is unit of SpecKit work scoped by user prompt provided to the `specify` command, "FEATURE" in the context of present work is equivalent of a user story in the context of SpecKit commands. However, while in the context of SpecKit, each user story should represent "a viable MVP" (as stated in the `spec-template.md` top HTML comment), in present context a finer granularity is required, meaning an MVP would typically be a group of features.
 
 The objective is to rather than letting SpecKit perform user story decomposition without human in the loop, the described protocol (and template) enable interactive (HITL) decomposition of the development target. Then, the resulting features (or there subset) may be added directly to the `spec.md` file as user stories or passed to the `specify` command as user stories to be used, instead of performing decomposition by the agent.
 
-#### Protocol
+---
+
+#### Phase 1 — Exploration and Decomposition
+
+First, analyze the target system and guide the user through decomposition.
+
+You MUST:
+
+- identify major capabilities of the system;
+- propose an initial feature breakdown;
+- explicitly evaluate each proposed feature against the decomposition rules below;
+- identify ambiguities, coupling, or oversized features;
+- suggest splits or refinements where needed;
+- ask targeted clarification questions when decomposition is uncertain;
+- run every feature decomposition session from scratch;
+- ignore any prior similar analyses, which might be available from global or project context.
+
+You MUST NOT:
+
+- finalize the roadmap prematurely;
+- assume unclear requirements without validation;
+- group multiple capabilities into a single feature without justification;
+- take advantage in this session of any prior similar analyses, which might be available from global or project context.
+
+---
 
 ##### Feature Decomposition Rules
 
@@ -50,105 +82,6 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-#### Roadmap Template
-
-```
-# Roadmap | Roadmap: Target Name
-
-## Notes
-
-## PREAMBLE | PREAMBLE: Scope
-
-## Features
-
-### Feature [N] — [Feature Name]
-
-Status: planned | in-progress | complete
-
-#### Description
-
-##### Functionality / Capabilities Scope
-
-##### Acceptance Scenarios
-
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
-   
-##### Edge Cases
-
-##### Exceptions
-
-```
-
-Notes:
-
-- `## Notes` section is optional and may not be present.
-- `## PREAMBLE` section is optional. This is the home for definitions, conventions, etc. applicable to all features. This section should be framed as a section of a specification.
-
-#### One-Shot Roadmap Example
-
-
-The repository MAY maintain a `roadmap.md` document alongside `constitution.md` and `progress.md`.
-
-When present, `roadmap.md` MUST:
-
-- define an ordered list of features, each beginning with a second-level heading `## [Feature Name]`;
-- have unique feature names (`## [Feature Name]`) across the document;
-- contain "### Specify User Prompt" subsection in each feature section that must represent a user prompt to be used with `/speckit.specify` without modification;
-- record only features that satisfy the feature-level decomposition constraints defined by this constitution.
-
-`/speckit.specify` MUST operate on exactly one feature.
-
-That feature MUST be defined either:
-
-- explicitly in the user prompt; or
-- implicitly by selecting the earliest feature in `roadmap.md` having the `planned` status.
-
-When `/speckit.specify` processes a feature from the `roadmap.md` file, the agent must include an additional metadata `Roadmap Feature: [Feature Name]`, where `[Feature Name]` must match exactly feature section title in `roadmap.md`.
-
-When both an explicit feature definition and `roadmap.md` are provided, `/speckit.specify` MUST NOT proceed without explicit user confirmation of the selected feature.
-
-When using feature from `roadmap.md`, 
-
-`roadmap.md` represents planned intent and MUST NOT be treated as implemented state.
-
-
-
-### 3. Feature Decomposition
-
-The LLM MUST assist in feature decomposition for a canonical GitHub Spec Kit workflow.
-
-Your goal is to iteratively decompose a target system into a sequence of minimal, self-sufficient features and then produce a canonical `roadmap.md`.
-
-Do NOT generate the roadmap immediately.
-
----
-
-#### Phase 1 — Exploration and Decomposition
-
-First, analyze the target system and guide the user through decomposition.
-
-You MUST:
-
-- identify major capabilities of the system;
-- propose an initial feature breakdown;
-- explicitly evaluate each proposed feature against the decomposition rules below;
-- identify ambiguities, coupling, or oversized features;
-- suggest splits or refinements where needed;
-- ask targeted clarification questions when decomposition is uncertain;
-- run every feature decomposition session from scratch;
-- ignore any prior similar analyses, which might be available from global or project context.
-
-You MUST NOT:
-
-- finalize the roadmap prematurely;
-- assume unclear requirements without validation;
-- group multiple capabilities into a single feature without justification;
-- take advantage in this session of any prior similar analyses, which might be available from global or project context.
-
----
-
-
 ##### Iteration Behavior
 
 Work interactively:
@@ -167,28 +100,78 @@ Repeat until the feature set is:
 
 ---
 
-#### Phase 2 — Roadmap Synthesis
-
-Only when the user explicitly confirms that the decomposition is complete:
-
-- generate a complete `roadmap.md`.
+#### Phase 2 — Superfeatures as SpecKit Work Packets
 
 ---
 
-##### Roadmap Output Requirements
+#### Roadmap Template
 
-The output MUST:
+```
+# Roadmap | Roadmap: [Target Name]
 
-- follow the canonical `roadmap.md` structure;
-- include one second-level section (`##`) per feature;
-- assign `Status: planned` to all features;
-- include a `##### Specify User Prompt` for each feature.
+## Notes
 
-Each `##### Specify User Prompt` MUST:
+## PREAMBLE | PREAMBLE: [Scope]
 
-- define exactly one feature;
-- be directly usable as input to `/speckit.specify`;
-- avoid implementation details;
-- avoid references to other features.
+## Features
 
+### Feature F[N] — [Feature Name]
+
+## Superfeatures
+
+_(Superfeatures are cohesive focused groups of `## Features` forming a unit of work for the canonical SpecKit loop starting from specify)_
+
+
+```
+
+Notes:
+
+- `## Notes` section is optional and may not be present.
+- `## PREAMBLE` section is optional. This is the home for global definitions, conventions, policies, etc. applicable to all features. This section should be framed as a section of a specification.
+- Each feature subsection `### Feature F[N] — [Feature Name]` is populated following the `##### Feature Subtemplate` below.
+
+---
+
+##### Feature Subtemplate
+
+```
+### Feature F[N] — [Feature Name]
+
+Status: planned | in-progress | complete
+
+#### Description
+Short statement of intent and user-visible value.
+
+#### Scope
+
+##### Included Behavior
+
+##### Excluded Behavior (optional)
+
+#### State Interaction
+
+- Reads:
+- Mutates:
+- Must Not Affect:
+
+#### Acceptance Scenarios
+
+1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+2. ...
+
+#### Edge Cases
+
+Valid but non-trivial scenarios that must be handled correctly.
+
+#### Exceptions
+
+Rejected operations and their expected behavior (must align with global policies).
+
+#### Preconditions (optional)
+
+Conditions that must be satisfied for the feature to be applicable.
+
+```
+
+#### One-Shot Roadmap Example
 
