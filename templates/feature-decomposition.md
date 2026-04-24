@@ -17,8 +17,8 @@ Do NOT generate the roadmap immediately.
 > [!NOTE] Terminology Note
 >
 > - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
-> - While "feature" is the preferred term, it should be treated as synonymous with "capability".
-> - Superfeatures correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features are "units of work" for SpecKit and are defined by the user prompt provided to the SpecKit `specify`.
+> - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
+> - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
 
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
 
@@ -90,72 +90,121 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-##### Iteration Behavior
+#### Phase 2 — Superfeature Synthesis
 
-Work interactively:
+Using the finalized feature list, iteratively synthesize superfeatures as cohesive SpecKit work packets.
 
-1. Propose a candidate feature list.
-2. Critically evaluate it.
-3. Ask for clarification or confirm assumptions.
-4. Refine the feature set.
+Your goal is to partition the ordered feature list into a sequence of superfeatures that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each superfeature produces a coherent, bounded, and actionable specification input.
 
-Repeat until the feature set is:
+Do NOT generate superfeature definitions immediately.
 
-- minimal,
-- well-separated,
-- correctly ordered,
-- fully aligned with the decomposition rules.
+You MUST:
 
----
+* operate strictly on the finalized, ordered feature list produced in Phase 1;
+* treat superfeature synthesis as a partitioning problem over a linear feature queue;
+* propose an initial superfeature grouping that covers the full feature list based on the Superfeature Synthesis Rules below;
+* explicitly justify superfeature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
+* ensure that each proposed superfeature forms a valid and meaningful `/speckit.specify` execution unit;
+* verify that feature order is preserved exactly within and across superfeatures;
+* ensure that every feature is assigned to exactly one superfeature;
+* identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
+* refine superfeature boundaries when cohesion, scope, or execution clarity is compromised;
+* ensure that the first superfeature forms a defensible MVP (if relevant, e.g., for a greenfield project) and that all subsequent superfeatures are valid extensions;
+* ask targeted clarification questions when grouping decisions depend on unstated assumptions.
 
-#### Phase 2 — Superfeature Synthesis Protocol
+You MUST NOT:
 
-Superfeatures are **cohesive, focused groups of features** forming units of work for the canonical SpecKit loop starting from `specify`. This protocol defines how to synthesize superfeatures from a Phase 1 feature list.
-
----
-
-##### Input
-
-- Ordered list of features F[1…N] from Phase 1.
-- Global policies and conventions from PREAMBLE.
-
----
-
-##### Output
-
-One or more superfeatures SF[1…M], each containing:
-
-- Cohesive subset of roadmap features.
-- Specify User Prompt describing the superfeature.
-- Agent Override section including
-    - Relevant global definitions, conventions, and policies.
-    - Canonical user story table aligned with included features.
+* reorder features under any circumstances;
+* split a feature across multiple superfeatures;
+* group features solely for convenience;
+* produce superfeatures that are too broad to serve as focused `/speckit.specify` inputs;
+* produce superfeatures that are too narrow to represent meaningful functionality;
+* leave gaps in the feature sequence;
+* finalize superfeatures prematurely without evaluating boundary quality and execution suitability.
 
 ---
 
-##### Stepwise Protocol
+##### Superfeature Synthesis Rules
 
-1. **Initialization**
-    - Begin with the complete Phase 1 feature list.
-    - Initialize an empty superfeature queue.
-2. **Grouping**
-    - Iteratively select features from the top of the queue.
-    - Add them to the current superfeature until adding the next feature would violate semantic cohesion.
-    - Maintain roadmap feature order; never reorder.
-3. **Superfeature Finalization**
-    - Assign an ID (SF[N]) and descriptive name summarizing included features.
-    - Copy applicable global policies and conventions from PREAMBLE into Agent Override.
-    - Generate the Specify User Prompt describing the combined behavior of included features.
-    - Produce the canonical user story table with numbering reflecting feature order.
-4. **Loop**
-    - Remove finalized features from the queue.
-    - Repeat grouping for subsequent superfeatures until all features are assigned.
-5. **Validation**
-   Verify:
-     - All features are included in exactly one superfeature.
-     - Superfeatures preserve roadmap order.
-     - Agent Override user story numbering aligns with feature order.
-     - Global policies are consistently applied.
+Each superfeature MUST:
+
+* encapsulate a cohesive group of features that together define a meaningful, user-visible unit of functionality;
+* include features in contiguous roadmap order;
+* extend the system established by all prior superfeatures without requiring redefinition of previously delivered functionality;
+* preserve all global definitions, conventions, and policies from the roadmap PREAMBLE;
+* include all user stories corresponding to the included features in the canonical order.
+
+---
+
+Superfeature synthesis MUST strike a practical balance:
+
+* the first superfeature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end system slice;
+* subsequent superfeatures MUST define cohesive slices of functionality, each meaningful in the context of prior superfeatures;
+* superfeatures MUST NOT be fragmented so aggressively that closely related or structurally similar sequential features are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
+* each superfeature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
+
+---
+
+Superfeature progression MUST preserve continuity:
+
+* each superfeature MUST operate as a valid extension of the system produced by all prior superfeatures;
+* the system state after each superfeature must remain internally consistent and testable.
+
+---
+
+Superfeature cohesion MUST be evaluated across included features:
+
+* candidate features that are narrowly scoped and represent sequential refinements of the same capability, or
+* candidate features that are tightly coupled, strongly parallel, or require substantially similar implementation, validation, or acceptance workflows
+
+SHOULD be grouped together into a single superfeature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
+
+Reject or refine any superfeature that violates these constraints.
+
+---
+
+**Notes / Practical Guidance**
+
+1. MVP superfeature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of features.
+2. Extension superfeatures must be defensible functional slices, strictly ordered after prior superfeatures.
+3. Each superfeature is the unit of `/speckit.specify` execution. Its user story set corresponds to included features.
+4. Ordering, completeness, and adherence to PREAMBLE policies are mandatory for all superfeatures.
+
+---
+
+#### Iteration Behavior
+
+Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
+
+For the current phase:
+
+1. Propose a candidate structure:
+    * Phase 1: feature list
+    * Phase 2: superfeature grouping
+2. Critically evaluate the structure against the applicable rules:
+    * Phase 1: Feature Decomposition Rules
+    * Phase 2: Superfeature Synthesis Rules
+3. Identify:
+    * ambiguity,
+    * improper granularity,
+    * weak cohesion,
+    * invalid ordering,
+    * unjustified separation or grouping
+4. Ask targeted clarification questions where decisions cannot be made deterministically.
+5. Refine the structure.
+
+Repeat until the result is:
+
+* correctly scoped:
+    * minimal (Phase 1)
+    * minimal but viable / coherent slice (Phase 2)
+* well-structured:
+    * well-separated features (Phase 1)
+    * cohesive superfeatures (Phase 2)
+* correctly ordered:
+    * dependency-safe and value-prioritized (Phase 1)
+    * strictly contiguous and progression-preserving (Phase 2)
+* fully aligned with the applicable rule set.
 
 ---
 
