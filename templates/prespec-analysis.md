@@ -4,7 +4,7 @@ urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
 ---
 
-### Feature Decomposition
+### Pre-specification Analysis
 
 The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
 
@@ -38,7 +38,9 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 
 ---
 
-#### Phase 1 — Exploration and Decomposition
+#### Analysis Protocol
+
+##### Phase 1 — Exploration and Decomposition
 
 First, analyze the target system and guide the user through decomposition.
 
@@ -62,7 +64,7 @@ You MUST NOT:
 
 ---
 
-##### Feature Decomposition Rules
+###### Feature Decomposition Rules
 
 Each feature MUST:
 
@@ -100,7 +102,7 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-#### Phase 2 — Superfeature Synthesis
+##### Phase 2 — Superfeature Synthesis
 
 Using the finalized feature list, iteratively synthesize superfeatures as cohesive SpecKit work packets.
 
@@ -134,7 +136,7 @@ You MUST NOT:
 
 ---
 
-##### Superfeature Synthesis Rules
+###### Superfeature Synthesis Rules
 
 Each superfeature MUST:
 
@@ -182,7 +184,7 @@ Reject or refine any superfeature that violates these constraints.
 
 ---
 
-#### Iteration Behavior
+##### Iteration Behavior
 
 Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
 
@@ -218,7 +220,7 @@ Repeat until the result is:
 
 ---
 
-#### Roadmap Template
+#### Output Template
 
 ```
 # Roadmap | Roadmap: [Target Name]
@@ -323,13 +325,10 @@ Use exactly this canonical story set:
 | --- | --------------------------------------- |
 | 1   | User Story 1 — Feature Name             |
 | 2   | User Story 2 — Feature Name             |
-| …   | …
+| ... | ...                                     |
 
 ---
 
 ```
 
 ---
-
-#### One-Shot Roadmap Example
-
