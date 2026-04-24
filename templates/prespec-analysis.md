@@ -8,6 +8,12 @@ urls:
 
 The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
 
+> [!NOTE] Terminology Note
+>
+> - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
+> - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
+> - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
+
 The goal is to:
 
 1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
@@ -25,12 +31,6 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 ---
 
 #### Motivation
-
-> [!NOTE] Terminology Note
->
-> - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
-> - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
-> - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
 
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
 
@@ -51,6 +51,8 @@ You MUST NOT:
 
 - finalize the analysis prematurely;
 - take advantage in this session of any prior similar analyses.
+
+---
 
 ##### Phase 1 — Exploration and Decomposition
 
@@ -203,6 +205,72 @@ Reject or refine any superfeature that violates these constraints.
 
 ---
 
+##### Shared System Semantics
+
+The "PREAMBLE - Shared System Semantics" section of the output template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
+
+The PREAMBLE MUST be developed as part of pre-specification analysis and MUST capture all global system-level definitions, conventions, and policies required for consistent feature and superfeature specification.
+
+You MUST:
+
+* identify all cross-cutting rules that affect multiple features;
+* extract implicit assumptions from feature definitions and make them explicit;
+* normalize terminology used across features into consistent definitions;
+* define all shared behavioral invariants;
+* ensure that PREAMBLE content is complete, minimal, and non-duplicative;
+* ensure that all features and superfeatures can rely on PREAMBLE without redefining shared behavior.
+
+You MUST NOT:
+
+* include feature-specific behavior;
+* include implementation details;
+* duplicate acceptance scenarios from features;
+* define rules that apply to only a single feature;
+* leave critical system behavior implicit when it affects multiple features.
+
+PREAMBLE MUST be constructed incrementally during Phase 1 and refined during Phase 2.
+
+When a rule is identified that:
+
+- affects more than one feature, or
+- constrains behavior across superfeatures,
+
+it MUST be promoted to PREAMBLE and removed from local feature definitions.
+
+---
+
+###### PREAMBLE MUST define (when applicable)
+
+1. Core Domain Definitions
+    * fundamental entities
+    * canonical terminology
+2. State Model
+    * what constitutes system state
+    * which state components exist globally
+    * persistence / reset expectations (if relevant)
+3. Global Behavioral Policies
+   Examples:
+    * numeric policy (valid values, rejection rules)
+    * normal state mutation conventions
+    * evaluation semantics
+    * precision / representation rules
+4. Error and Rejection Semantics
+    * when operations are rejected
+    * how rejection affects state (typically: no mutation)
+    * how errors are surfaced (e.g., status vs exception)
+5. Interaction and UX Conventions
+    * input model assumptions
+    * feedback model (e.g., warnings vs blocking)
+    * visibility requirements
+6. Cross-Feature Constraints
+    * rules that constrain multiple features
+    * invariants that must always hold
+7. Superfeature-Level Assumptions
+    * assumptions about prior superfeatures
+    * continuity expectations
+
+---
+
 ##### Iteration Behavior
 
 Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
@@ -262,7 +330,6 @@ Repeat until the result is:
 Notes:
 
 - `## Notes` section is optional.
-- `## PREAMBLE` section is optional. If present, this section contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
 - Each `### Feature F[N] — [Feature Name]` subsection is populated following the `##### Feature Subtemplate`.
 - Each `### Superfeature SF[N] — [Superfeature Name]` subsection is populated following the `##### Superfeature Subtemplate`.
 
