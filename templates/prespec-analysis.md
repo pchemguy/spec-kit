@@ -209,7 +209,13 @@ Reject or refine any superfeature that violates these constraints.
 
 The "PREAMBLE - Shared System Semantics" section of the output template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
 
-The PREAMBLE MUST be developed as part of pre-specification analysis and MUST capture all global system-level definitions, conventions, and policies required for consistent feature and superfeature specification.
+###### Construction Rules
+
+The PREAMBLE MUST
+
+- be developed as part of pre-specification analysis;
+- capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
+- be constructed incrementally during Phase 1 and refined during Phase 2.
 
 You MUST:
 
@@ -228,8 +234,6 @@ You MUST NOT:
 * define rules that apply to only a single feature;
 * leave critical system behavior implicit when it affects multiple features.
 
-PREAMBLE MUST be constructed incrementally during Phase 1 and refined during Phase 2.
-
 When a rule is identified that:
 
 - affects more than one feature, or
@@ -239,7 +243,9 @@ it MUST be promoted to PREAMBLE and removed from local feature definitions.
 
 ---
 
-###### PREAMBLE MUST define (when applicable)
+###### Essential Categories
+
+PREAMBLE MUST define (when applicable)
 
 1. Core Domain Definitions
     * fundamental entities
@@ -268,6 +274,17 @@ it MUST be promoted to PREAMBLE and removed from local feature definitions.
 7. Superfeature-Level Assumptions
     * assumptions about prior superfeatures
     * continuity expectations
+
+---
+
+###### Validation
+
+PREAMBLE MUST be validated such that:
+
+- every rule is referenced by at least one feature or superfeature;
+- no rule is duplicated in feature or superfeature definitions;
+- all shared assumptions required for consistent specification are explicitly defined;
+- no feature depends on an unstated shared rule.
 
 ---
 
@@ -390,7 +407,7 @@ Status: planned | in-progress | complete
 
 ###### Agent Override
 
-####### Global Definitions, Conventions, and Policies
+####### Shared Definitions, Conventions, and Policies
 
 Include all relevant definitions, conventions, and policies from PREAMBLE that apply to this superfeature.
 
