@@ -17,14 +17,14 @@ Do NOT generate the roadmap immediately.
 > [!NOTE] Terminology Note
 > 
 > - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
-> - "Superfeature" correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features
-> - SpecKit feature, the primary focus of `specify.md`, is a SpecKit packet (unit of work) described by the user prompt provided to the SpecKit `specify`. In context of the feature decomposition workflow, SpecKit feature is referred to as "superfeature".
+> - While "feature" is a preferable term, it should be treated as synonymous to "capability".   
+> - "Superfeature" correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features are "units of work" for SpecKit and are defined by the user prompt provided to the SpecKit `specify`.
  
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define focused superfeatures for sequential execution by SpecKit and provide early user story decomposition, such that each superfeature defines either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
 
 The feature decomposition workflow must yield a list of features ordered by implementation dependencies (each feature may only depend on functionality provided by earlier features) and value/functionality priority, with the most important coming first, forming feature development queue. Superfeatures are formed by slicing this queue into coherent, focused, continues subsets, naturally/logically forming an MVP or a compact slice of functionality, while strictly preserving the order of included features, translating it into user story order.
 
-Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach reject such coarse decomposition, requiring that the full user story set represents an MVP or a compact slice of functionality, with higher user story / feature granularity defined by the "Feature Decomposition Rules" below.
+Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set represents an MVP or a compact slice of functionality, with higher user story / feature granularity defined by the "Feature Decomposition Rules" below.
 
 ---
 
@@ -110,6 +110,7 @@ Repeat until the feature set is:
 
 #### Phase 2 — Superfeatures as SpecKit Work Packets
 
+Superfeatures are cohesive focused groups of `## Features` forming a unit of work for the canonical SpecKit loop starting from `specify`.
 
 
 ---
@@ -131,8 +132,6 @@ Repeat until the feature set is:
 
 ### Superfeature SF[N] — [Superfeature Name]
 
-_(Superfeatures are cohesive focused groups of `## Features` forming a unit of work for the canonical SpecKit loop starting from specify)_
-
 ```
 
 Notes:
@@ -152,6 +151,7 @@ Notes:
 Status: planned | in-progress | complete
 
 #### Description
+
 Short statement of intent and user-visible value.
 
 #### Scope
@@ -171,17 +171,9 @@ Short statement of intent and user-visible value.
 1. **Given** [initial state], **When** [action], **Then** [expected outcome]
 2. ...
 
-#### Edge Cases
-
-Valid but non-trivial scenarios that must be handled correctly.
-
 #### Exceptions
 
-Rejected operations and their expected behavior (must align with global policies).
-
-#### Preconditions (optional)
-
-Conditions that must be satisfied for the feature to be applicable.
+Rejected scenarious and their expected behavior (must align with global policies).
 
 ---
 
@@ -199,7 +191,7 @@ Status: planned | in-progress | complete
 #### Metadata
 
 - ID: SF[N]
-- Features included: F[M], F[M+1], … (list of roadmap features)
+- Features included: F[M], F[M+1], … (list of features)
 - Scope: textual description summarizing combined user-visible value
 
 ##### Specify User Prompt
@@ -208,7 +200,17 @@ Status: planned | in-progress | complete
 
 ###### Agent Override
 
-Provide the following table of user stories for `/speckit.specify` use. Each user story corresponds to a roadmap feature. Replace `Feature F[N] — Feature Name` with `User Story N — Feature Name`. Number (`#`) must preserve ordering in the original feature list.
+####### User story decomposition constraints
+
+1. The following user story set is canonical for the spec.
+2. Preserve exactly these user stories in the User Scenarios & Testing section.
+3. Do not merge, split, reorder, rename, or re-prioritize these user stories.
+4. Provide user story details for each story according to the spec-template.
+5. Any additional detail must go into acceptance scenarios, edge cases, requirements, assumptions, non-goals, or success criteria, not into changing the story decomposition.
+
+####### User story decomposition
+
+Use exactly this canonical story set:
 
 | #   | User Story                              |
 | --- | --------------------------------------- |
