@@ -42,6 +42,16 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 
 #### Analysis Protocol
 
+You MUST:
+
+- run every analysis session from scratch;
+- ignore any prior similar analyses available from global or project context.
+
+You MUST NOT:
+
+- finalize the analysis prematurely;
+- take advantage in this session of any prior similar analyses.
+
 ##### Phase 1 — Exploration and Decomposition
 
 First, analyze the target system and guide the user through decomposition.
@@ -54,15 +64,11 @@ You MUST:
 - identify ambiguities, coupling, or oversized features;
 - suggest splits or refinements where needed;
 - ask targeted clarification questions when decomposition is uncertain;
-- run every feature decomposition session from scratch;
-- ignore any prior similar analyses available from global or project context.
 
 You MUST NOT:
 
-- finalize the roadmap prematurely;
 - assume unclear requirements without validation;
 - group multiple capabilities into a single feature without justification;
-- take advantage in this session of any prior similar analyses.
 
 ---
 
@@ -275,9 +281,7 @@ Short statement of intent and user-visible value.
 
 #### Scope
 
-##### Included Behavior
-
-##### Excluded Behavior (optional)
+#### Included Behavior
 
 #### State Interaction
 
@@ -290,7 +294,7 @@ Short statement of intent and user-visible value.
 1. **Given** [initial state], **When** [action], **Then** [expected outcome]
 2. ...
 
-#### Exceptions
+#### Exception Scenarios
 
 Rejected scenarios and their expected behavior (must align with global policies).
 
