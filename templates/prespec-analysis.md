@@ -20,6 +20,8 @@ Do NOT generate the roadmap  until:
 - the feature set satisfies the Feature Decomposition Rules; and
 - the superfeature set satisfies the Superfeature Synthesis Rules.
 
+Perform analysis in accordance with the Analysis Protocol and produce results according to the Output Template.
+
 ---
 
 #### Motivation
@@ -108,7 +110,7 @@ Using the finalized feature list, iteratively synthesize superfeatures as cohesi
 
 Your goal is to partition the ordered feature list into a sequence of superfeatures that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each superfeature produces a coherent, bounded, and actionable specification input.
 
-Do NOT generate superfeature definitions immediately.
+Superfeature synthesis operates by introducing explicit boundaries ("cuts") in the ordered feature list. Each cut defines the end of one superfeature and the beginning of the next. All synthesis decisions MUST be expressed as placement, removal, or adjustment of these boundaries.
 
 You MUST:
 
@@ -116,23 +118,34 @@ You MUST:
 * treat superfeature synthesis as a partitioning problem over a linear feature queue;
 * propose an initial superfeature grouping that covers the full feature list based on the Superfeature Synthesis Rules below;
 * explicitly justify superfeature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
-* ensure that each proposed superfeature forms a valid and meaningful `/speckit.specify` execution unit;
+* ensure that each proposed superfeature defines a coherent, self-contained specification scope suitable for a single `/speckit.specify` execution;
 * verify that feature order is preserved exactly within and across superfeatures;
 * ensure that every feature is assigned to exactly one superfeature;
 * identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
 * refine superfeature boundaries when cohesion, scope, or execution clarity is compromised;
-* ensure that the first superfeature forms a defensible MVP (if relevant, e.g., for a greenfield project) and that all subsequent superfeatures are valid extensions;
+* ensure that
+    * the first superfeature forms a defensible MVP when the system is introduced from an empty or initial state
+    * all subsequent superfeatures are valid extensions;
 * ask targeted clarification questions when grouping decisions depend on unstated assumptions.
 
 You MUST NOT:
 
 * reorder features under any circumstances;
 * split a feature across multiple superfeatures;
-* group features solely for convenience;
+* group features without a clear justification in terms of MVP formation, functional cohesion, or extension semantics;
 * produce superfeatures that are too broad to serve as focused `/speckit.specify` inputs;
 * produce superfeatures that are too narrow to represent meaningful functionality;
 * leave gaps in the feature sequence;
 * finalize superfeatures prematurely without evaluating boundary quality and execution suitability.
+
+A valid superfeature set is complete only when:
+
+- all features are assigned to exactly one superfeature;
+- all superfeatures are contiguous slices of the feature list;
+- the first superfeature forms a defensible MVP (when applicable);
+- each subsequent superfeature is a valid extension slice;
+- all superfeatures satisfy the Superfeature Synthesis Rules;
+- the full sequence defines a valid execution plan for the SpecKit workflow.
 
 ---
 
@@ -204,6 +217,7 @@ For the current phase:
     * unjustified separation or grouping
 4. Ask targeted clarification questions where decisions cannot be made deterministically.
 5. Refine the structure.
+6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak superfeature boundaries.
 
 Repeat until the result is:
 
