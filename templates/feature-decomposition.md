@@ -17,7 +17,8 @@ Do NOT generate the roadmap immediately.
 > [!NOTE] Terminology Note
 > 
 > - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
-> - SpecKit feature, the primary focus of `specify.md`, is a SpecKit unit of work described by the user prompt provided to the SpecKit `specify`. In context of the feature decomposition workflow, SpecKit feature is referred to as "superfeature".
+> - "Superfeature" correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features
+> - SpecKit feature, the primary focus of `specify.md`, is a SpecKit packet (unit of work) described by the user prompt provided to the SpecKit `specify`. In context of the feature decomposition workflow, SpecKit feature is referred to as "superfeature".
  
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define focused superfeatures for sequential execution by SpecKit and provide early user story decomposition, such that each superfeature defines either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
 
@@ -109,7 +110,7 @@ Repeat until the feature set is:
 
 #### Phase 2 — Superfeatures as SpecKit Work Packets
 
-.
+
 
 ---
 
