@@ -1,14 +1,24 @@
 ---
-url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
+urls:
+  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
+  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
 ---
 
 ### Feature Decomposition
 
-The LLM MUST assist in feature decomposition for a canonical GitHub Spec Kit workflow.
+The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
 
-Your goal is to iteratively decompose a target system into a sequence of minimal, self-sufficient features and then produce a canonical `roadmap.md`.
+The goal is to:
 
-Do NOT generate the roadmap immediately.
+1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
+2. synthesize those features into a sequence of cohesive superfeatures forming executable Spec Kit work packets;
+
+and then produce a canonical `roadmap.md` capturing both levels.
+
+Do NOT generate the roadmap  until:
+
+- the feature set satisfies the Feature Decomposition Rules; and
+- the superfeature set satisfies the Superfeature Synthesis Rules.
 
 ---
 
