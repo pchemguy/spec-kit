@@ -15,16 +15,16 @@ Do NOT generate the roadmap immediately.
 #### Motivation
 
 > [!NOTE] Terminology Note
-> 
+>
 > - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
-> - While "feature" is a preferable term, it should be treated as synonymous to "capability".   
-> - "Superfeature" correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features are "units of work" for SpecKit and are defined by the user prompt provided to the SpecKit `specify`.
- 
-Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define focused superfeatures for sequential execution by SpecKit and provide early user story decomposition, such that each superfeature defines either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
+> - While "feature" is the preferred term, it should be treated as synonymous with "capability".
+> - Superfeatures correspond to SpecKit features, the primary focus of `specify.md`. SpecKit features are "units of work" for SpecKit and are defined by the user prompt provided to the SpecKit `specify`.
 
-The feature decomposition workflow must yield a list of features ordered by implementation dependencies (each feature may only depend on functionality provided by earlier features) and value/functionality priority, with the most important coming first, forming feature development queue. Superfeatures are formed by slicing this queue into coherent, focused, continues subsets, naturally/logically forming an MVP or a compact slice of functionality, while strictly preserving the order of included features, translating it into user story order.
+Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
 
-Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set represents an MVP or a compact slice of functionality, with higher user story / feature granularity defined by the "Feature Decomposition Rules" below.
+The feature decomposition workflow MUST yield a list of features **ordered by implementation dependencies and value/functionality priority**, with the most important first, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving the order of included features and translating it into user story order.
+
+Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set represents an MVP or compact slice of functionality, with higher feature granularity defined by the "Feature Decomposition Rules" below.
 
 ---
 
@@ -41,14 +41,14 @@ You MUST:
 - suggest splits or refinements where needed;
 - ask targeted clarification questions when decomposition is uncertain;
 - run every feature decomposition session from scratch;
-- ignore any prior similar analyses, which might be available from global or project context.
+- ignore any prior similar analyses available from global or project context.
 
 You MUST NOT:
 
 - finalize the roadmap prematurely;
 - assume unclear requirements without validation;
 - group multiple capabilities into a single feature without justification;
-- take advantage in this session of any prior similar analyses, which might be available from global or project context.
+- take advantage in this session of any prior similar analyses.
 
 ---
 
@@ -104,14 +104,13 @@ Repeat until the feature set is:
 - minimal,
 - well-separated,
 - correctly ordered,
-- and fully aligned with the decomposition rules.
+- fully aligned with the decomposition rules.
 
 ---
 
 #### Phase 2 — Superfeatures as SpecKit Work Packets
 
-Superfeatures are cohesive focused groups of `## Features` forming a unit of work for the canonical SpecKit loop starting from `specify`.
-
+Superfeatures are **cohesive, focused groups of features** forming a unit of work for the canonical SpecKit loop starting from `specify`. Each superfeature defines a coherent slice of functionality suitable for a single `/speckit.specify` execution and contains the associated user story set derived from the included features.
 
 ---
 
@@ -136,10 +135,10 @@ Superfeatures are cohesive focused groups of `## Features` forming a unit of wor
 
 Notes:
 
-- `## Notes` section is optional and may not be present.
-- `## PREAMBLE` section is optional. This is the home for global definitions, conventions, policies, etc. applicable to all features. This section should be framed as a section of a specification.
-- Each  `### Feature F[N] — [Feature Name]` subsection is populated following the `##### Feature Subtemplate` below.
-- Each `### Superfeature SF[N] — [Superfeature Name]` subsection is populated following the `##### Superfeature Subtemplate` below.
+- `## Notes` section is optional.
+- `## PREAMBLE` section is optional. This is the home for **global definitions, conventions, policies, etc.** applicable to all features.
+- Each `### Feature F[N] — [Feature Name]` subsection is populated following the `##### Feature Subtemplate`.
+- Each `### Superfeature SF[N] — [Superfeature Name]` subsection is populated following the `##### Superfeature Subtemplate`.
 
 ---
 
@@ -173,7 +172,7 @@ Short statement of intent and user-visible value.
 
 #### Exceptions
 
-Rejected scenarious and their expected behavior (must align with global policies).
+Rejected scenarios and their expected behavior (must align with global policies).
 
 ---
 
@@ -196,11 +195,15 @@ Status: planned | in-progress | complete
 
 ##### Specify User Prompt
 
-[Superfeature description for the `/speckit.specify` command]
+[Superfeature description for the `/speckit.specify` command, unifying behavior of included features]
 
 ###### Agent Override
 
-####### User story decomposition constraints
+####### Global Definitions, Conventions, and Policies
+
+Include all relevant definitions, conventions, and policies from PREAMBLE that apply to this superfeature.
+
+####### User Story Decomposition Constraints
 
 1. The following user story set is canonical for the spec.
 2. Preserve exactly these user stories in the User Scenarios & Testing section.
@@ -208,7 +211,7 @@ Status: planned | in-progress | complete
 4. Provide user story details for each story according to the spec-template.
 5. Any additional detail must go into acceptance scenarios, edge cases, requirements, assumptions, non-goals, or success criteria, not into changing the story decomposition.
 
-####### User story decomposition
+####### User Story Decomposition
 
 Use exactly this canonical story set:
 
@@ -216,11 +219,13 @@ Use exactly this canonical story set:
 | --- | --------------------------------------- |
 | 1   | User Story 1 — Feature Name             |
 | 2   | User Story 2 — Feature Name             |
-| …   | …                                       |
+| …   | …
 
 ---
 
 ```
+
+---
 
 #### One-Shot Roadmap Example
 
