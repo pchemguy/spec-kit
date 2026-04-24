@@ -138,14 +138,14 @@ To make this deterministic, you must force structure.
 
 ### PREAMBLE MUST define (when applicable):
 
-#### 1. Core Domain Definitions
+###### 1. Core Domain Definitions
 
 * fundamental entities (e.g., stack, operand, session, input)
 * canonical terminology
 
 ---
 
-#### 2. State Model
+###### 2. State Model
 
 * what constitutes system state
 * which state components exist globally
@@ -153,7 +153,7 @@ To make this deterministic, you must force structure.
 
 ---
 
-#### 3. Global Behavioral Policies
+###### 3. Global Behavioral Policies
 
 Examples:
 
@@ -164,7 +164,7 @@ Examples:
 
 ---
 
-#### 4. Error and Rejection Semantics
+###### 4. Error and Rejection Semantics
 
 * when operations are rejected
 * how rejection affects state (typically: no mutation)
@@ -172,7 +172,7 @@ Examples:
 
 ---
 
-#### 5. Interaction and UX Conventions
+###### 5. Interaction and UX Conventions
 
 * input model assumptions
 * feedback model (e.g., warnings vs blocking)
@@ -180,14 +180,14 @@ Examples:
 
 ---
 
-#### 6. Cross-Feature Constraints
+###### 6. Cross-Feature Constraints
 
 * rules that constrain multiple features
 * invariants that must always hold
 
 ---
 
-#### 7. Superfeature-Level Assumptions
+###### 7. Superfeature-Level Assumptions
 
 * assumptions about prior superfeatures
 * continuity expectations
