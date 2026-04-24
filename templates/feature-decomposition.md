@@ -108,9 +108,54 @@ Repeat until the feature set is:
 
 ---
 
-#### Phase 2 — Superfeatures as SpecKit Work Packets
+#### Phase 2 — Superfeature Synthesis Protocol
 
-Superfeatures are **cohesive, focused groups of features** forming a unit of work for the canonical SpecKit loop starting from `specify`. Each superfeature defines a coherent slice of functionality suitable for a single `/speckit.specify` execution and contains the associated user story set derived from the included features.
+Superfeatures are **cohesive, focused groups of features** forming units of work for the canonical SpecKit loop starting from `specify`. This protocol defines how to synthesize superfeatures from a Phase 1 feature list.
+
+---
+
+##### Input
+
+- Ordered list of features F[1…N] from Phase 1.
+- Global policies and conventions from PREAMBLE.
+
+---
+
+##### Output
+
+One or more superfeatures SF[1…M], each containing:
+
+- Cohesive subset of roadmap features.
+- Specify User Prompt describing the superfeature.
+- Agent Override section including
+    - Relevant global definitions, conventions, and policies.
+    - Canonical user story table aligned with included features.
+
+---
+
+##### Stepwise Protocol
+
+1. **Initialization**
+    - Begin with the complete Phase 1 feature list.
+    - Initialize an empty superfeature queue.
+2. **Grouping**
+    - Iteratively select features from the top of the queue.
+    - Add them to the current superfeature until adding the next feature would violate semantic cohesion.
+    - Maintain roadmap feature order; never reorder.
+3. **Superfeature Finalization**
+    - Assign an ID (SF[N]) and descriptive name summarizing included features.
+    - Copy applicable global policies and conventions from PREAMBLE into Agent Override.
+    - Generate the Specify User Prompt describing the combined behavior of included features.
+    - Produce the canonical user story table with numbering reflecting feature order.
+4. **Loop**
+    - Remove finalized features from the queue.
+    - Repeat grouping for subsequent superfeatures until all features are assigned.
+5. **Validation**
+   Verify:
+     - All features are included in exactly one superfeature.
+     - Superfeatures preserve roadmap order.
+     - Agent Override user story numbering aligns with feature order.
+     - Global policies are consistently applied.
 
 ---
 
