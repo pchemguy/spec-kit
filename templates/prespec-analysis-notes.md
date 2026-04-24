@@ -2,7 +2,7 @@
 
 Create a feature specification for a system component implementing the following behavior:
 
-#### Scope
+###### Scope
 
 This specification MUST cover the functionality defined by the following user stories:
 
@@ -13,7 +13,7 @@ The resulting specification MUST treat this set of user stories as a single cohe
 
 ---
 
-#### Global Definitions, Conventions, and Policies
+###### Global Definitions, Conventions, and Policies
 
 The specification MUST strictly follow these definitions, conventions, and policies:
 
@@ -21,7 +21,7 @@ The specification MUST strictly follow these definitions, conventions, and polic
 
 ---
 
-#### Behavioral Requirements
+###### Behavioral Requirements
 
 The specification MUST:
 
@@ -34,7 +34,7 @@ The specification MUST:
 
 ---
 
-#### Constraints
+###### Constraints
 
 The specification MUST:
 
@@ -46,7 +46,7 @@ The specification MUST:
 
 ---
 
-#### Output Requirements
+###### Output Requirements
 
 The output MUST:
 
