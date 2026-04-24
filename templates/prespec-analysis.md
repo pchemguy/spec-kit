@@ -2,6 +2,7 @@
 urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
+  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
 ---
 
 ### Pre-specification Analysis
@@ -13,6 +14,8 @@ The LLM MUST assist in structured pre-specification analysis for a canonical Git
 > - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
 > - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
 > - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
+> - In this workflow, the term "feature" means a roadmap-level user-story candidate, not a SpecKit `/speckit.specify` feature. A "superfeature" is the SpecKit `/speckit.specify` feature.
+ 
 
 The goal is to:
 
