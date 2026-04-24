@@ -247,7 +247,7 @@ Repeat until the result is:
 
 ## Notes
 
-## PREAMBLE | PREAMBLE: [Scope]
+## PREAMBLE - Shared System Semantics
 
 ## Features
 
@@ -262,7 +262,7 @@ Repeat until the result is:
 Notes:
 
 - `## Notes` section is optional.
-- `## PREAMBLE` section is optional. This is the home for **global definitions, conventions, policies, etc.** applicable to all features.
+- `## PREAMBLE` section is optional. If present, this section contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
 - Each `### Feature F[N] — [Feature Name]` subsection is populated following the `##### Feature Subtemplate`.
 - Each `### Superfeature SF[N] — [Superfeature Name]` subsection is populated following the `##### Superfeature Subtemplate`.
 
