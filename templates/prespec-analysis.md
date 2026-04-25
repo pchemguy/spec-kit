@@ -11,14 +11,14 @@ The LLM MUST assist in structured pre-specification analysis for a canonical Git
 
 > [!NOTE] Terminology Note
 >
-> - In this workflow, "feature" refers to a roadmap-level unit that corresponds directly to a SpecKit user story.
+> - In this workflow, "feature" refers to a roadmap-level unit that maps directly to a user story within a superfeature specification.
 > - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
 > - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
  
 
 The goal is to:
 
-1. iteratively decompose a target system into a sequence of features; and
+1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
 2. synthesize those features into a sequence of cohesive superfeatures forming executable Spec Kit work packets;
 
 and then produce a canonical `roadmap.md` capturing both levels.
@@ -36,7 +36,7 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP definition, grouping, and multi-level prioritization concerns.
 
-The feature decomposition workflow MUST yield a list of features **ordered by implementation dependencies and value/functionality priority**, with the most important first, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving the order of included features and translating it into user story order.
+The feature decomposition workflow MUST yield a list of features ordered by implementation dependencies and value/functionality priority, with the most important first, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving feature order and mapping that order directly into user story sequence within each superfeature.
 
 Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set represents an MVP or compact slice of functionality, with higher feature granularity defined by the "Feature Decomposition Rules" below.
 
@@ -49,8 +49,8 @@ You MUST:
 - perform phased analysis of the target described system or project following the protocol below;
 - generate a Markdown-structured report strictly following the "Report Template", including all:
     - required top-level sections;  
-    - subtemplate sections;  
-    - applicable rules and constraints;
+    - subtemplate-defined sections;;  
+    - applicable rules and constraints defined in this document;
 - run every analysis session from scratch;
 - ignore any prior similar analyses available from global or project context.
 
@@ -58,6 +58,8 @@ You MUST NOT:
 
 - finalize the analysis prematurely;
 - take advantage in this session of any similar analyses performed in other sessions.
+
+All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple features MUST be defined in SSS and referenced, not restated.
 
 ---
 
@@ -96,26 +98,20 @@ Repeat until the result is:
     * strictly contiguous and progression-preserving (Phase 2)
 * fully aligned with the applicable rule set.
 
-To complete Shared System Semantics, you MUST:
-
-- adapt iteration protocol above defined for phased analysis;
-- review the full accepted output of Phases 1-2;
-- identify gaps in shared rules, conventions, or policies;
-- revise both Shared System Semantics and outputs of Phases 1–2 as necessary to ensure consistency, completeness, and absence of duplication;
-
 Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and refined during Phase 2. After Phases 1 and 2 are considered complete, the LLM MUST perform a dedicated SSS validation and refinement pass:
 
 - review the full accepted feature list and superfeature grouping;
 - identify missing shared rules, implicit assumptions, or duplicated logic;
 - promote cross-cutting rules into SSS;
 - remove duplicated or conflicting definitions from features and superfeatures;
+- revise SSS and affected features/superfeatures as necessary to ensure consistency, completeness, and absence of duplication;
 - ensure all features and superfeatures can rely on SSS without redefining shared behavior.
 
 ---
 
 ##### Shared System Semantics (SSS)
 
-The  Shared System Semantics is the authoritative home for shared system semantics: global definitions, conventions, behavioral policies, invariants, and cross-cutting feature assumptions that apply to more than one roadmap feature or constrain more than one superfeature. Features and superfeatures MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
+The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple features or constrain multiple superfeatures. Features and superfeatures MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
 ###### Construction Rules
 
@@ -186,7 +182,7 @@ Include the following categories when applicable to the system. Sections that ar
 
 ---
 
-###### Validation
+###### Validation Rules
 
 SSS MUST be validated against these rules:
 
@@ -231,6 +227,8 @@ Each feature MUST:
 - encapsulate a coherent unit of behavior with consistent logic, state, workflow, and architectural context;
 - NOT combine unrelated or merely convenient future work; and
 - NOT depend on future features to become meaningful, complete, or correct, or to validate its core behavior.
+
+Note, self-sufficiency and independence in present context mean that a feature can be implemented and validated within the context of all previously defined features.
 
 Feature decomposition MUST strike a practical balance:
 
@@ -353,7 +351,9 @@ Reject or refine any superfeature that violates these constraints.
 
 #### Report Template
 
-##### Top-Level Structure
+Use the following top-level template and associated subtemplates.
+
+##### Top-Level Template
 
 ```
 # Roadmap | Roadmap: [Target Name]
@@ -371,10 +371,6 @@ Reject or refine any superfeature that violates these constraints.
 ### Superfeature SF[N] — [Superfeature Name]
 
 ```
-
-Notes:
-
-- Other `##` sections MUST be populated following respective subtemplates and any defined usage rules below.
 
 ---
 
@@ -528,9 +524,7 @@ Features MUST explicitly declare:
     * include UI layout or implementation details
     * encode feature sequencing
 5. No Duplication Rule
-    Features and superfeatures MUST:
-    * reference these sections implicitly or by name
-    * NOT restate or copy rules from SSS
+    - Features and superfeatures MUST reference SSS sections in accordance with SSS Validation Rules when those rules materially affect behavior.
 6. Naming Rule
     Each section name MUST:
     * reflect a distinct semantic concern
@@ -552,6 +546,13 @@ Status: planned | in-progress | complete
 #### Description
 
 Short statement of intent and user-visible value.
+
+#### Shared System Semantics References  
+  
+List applicable Shared System Semantics sections and rules:  
+  
+- SSS - [Section Title]  
+- SSS - [Section Title] - (Rule Number)
 
 #### Scope
 
