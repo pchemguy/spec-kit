@@ -9,23 +9,16 @@ urls:
 
 The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
 
-> [!NOTE] Terminology Note
->
-> - A "slice" is a minimal, self-sufficient, user-visible roadmap unit.
-> - Each slice maps directly to one user story inside a Spec Kit feature specification.
-> - A "feature" is a cohesive, contiguous group of slices forming one `/speckit.specify` execution unit.
-> - Features correspond to Spec Kit features and are executed through the canonical Spec Kit loop.
- 
 The goal is to:
 
-1. iteratively decompose a target system into a sequence of minimal, self-sufficient functionality slices; and
-2. synthesize those features into a sequence of cohesive features forming executable Spec Kit execution unit;
+1. iteratively decompose a target system into a sequence of minimal, self-sufficient user stories; and
+2. synthesize those stories into a sequence of cohesive features, each forming an executable Spec Kit work packet;
 
 and then produce a canonical `roadmap.md` capturing both levels.
 
-Do NOT generate the roadmap  until:
+Do NOT generate the roadmap until:
 
-- the slice set satisfies the Slice Decomposition Rules; and
+- the user story set satisfies the User Story Decomposition Rules; and
 - the feature set satisfies the Feature Synthesis Rules.
 
 Perform analysis in accordance with the Analysis Protocol and produce results according to the Report Template.
@@ -34,11 +27,9 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 
 #### Motivation
 
-Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP definition, grouping, and multi-level prioritization concerns.
+This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices.
 
-The feature decomposition workflow MUST yield a list of features ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving feature order and mapping that order directly into user story sequence within each superfeature.
-
----
+Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
 
 #### Analysis Protocol
 
@@ -63,16 +54,16 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ##### Iteration Behavior
 
-Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
+Both user story decomposition (Phase 1) and feature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
 
 For the current phase:
 
 1. Propose a candidate structure:
-    * Phase 1: feature list
-    * Phase 2: superfeature grouping
+    * user story decomposition (Phase 1)
+    * feature grouping (Phase 2)
 2. Critically evaluate the structure against the applicable rules:
-    * Phase 1: Feature Decomposition Rules
-    * Phase 2: Superfeature Synthesis Rules
+    * User Story Decomposition Rules (Phase 1)
+    * Feature Synthesis Rules (Phase 2)
 3. Identify:
     * ambiguity,
     * improper granularity,
@@ -81,16 +72,16 @@ For the current phase:
     * unjustified separation or grouping
 4. Ask targeted clarification questions where decisions cannot be made deterministically.
 5. Refine the structure.
-6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak superfeature boundaries.
+6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak feature boundaries.
 
 Repeat until the result is:
 
 * correctly scoped:
     * minimal (Phase 1)
-    * minimal but viable / coherent slice (Phase 2)
+    * minimal but viable / coherent functional slice (Phase 2)
 * well-structured:
-    * well-separated features (Phase 1)
-    * cohesive superfeatures (Phase 2)
+    * well-separated user stories (Phase 1)
+    * cohesive features (Phase 2)
 * correctly ordered:
     * dependency-safe and value-prioritized (Phase 1)
     * strictly contiguous and progression-preserving (Phase 2)
@@ -98,12 +89,12 @@ Repeat until the result is:
 
 Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and refined during Phase 2. After Phases 1 and 2 are considered complete, the LLM MUST perform a dedicated SSS validation and refinement pass:
 
-- review the full accepted feature list and superfeature grouping;
+- review the full accepted user story list and feature grouping;
 - identify missing shared rules, implicit assumptions, or duplicated logic;
 - promote cross-cutting rules into SSS;
-- remove duplicated or conflicting definitions from features and superfeatures;
-- revise SSS and affected features/superfeatures as necessary to ensure consistency, completeness, and absence of duplication;
-- ensure all features and superfeatures can rely on SSS without redefining shared behavior.
+- remove duplicated or conflicting definitions from user stories and features;
+- revise SSS and affected user stories/features as necessary to ensure consistency, completeness, and absence of duplication;
+- ensure all user stories and features can rely on SSS without redefining shared behavior.
 
 ---
 
