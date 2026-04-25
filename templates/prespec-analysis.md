@@ -113,7 +113,7 @@ Development of the "Shared System Semantics" section is performed in parallel to
 
 ##### Shared System Semantics (SSS)
 
-The Shared System Semantics section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally. Features and superfeatures MUST include specific references to applicable items using template `SSS - [Section Title] - ([Rule Number])`.
+The  Shared System Semantics is the authoritative home for shared system semantics: global definitions, conventions, behavioral policies, invariants, and cross-cutting feature assumptions that apply to more than one roadmap feature or constrain more than one superfeature. Features and superfeatures MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
 ###### Construction Rules
 
@@ -121,7 +121,8 @@ The SSS MUST
 
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
-- be constructed incrementally during Phase 1 and refined during Phase 2.
+- be constructed incrementally during Phase 1 and refined during Phase 2;
+- use stable section titles so that features and superfeatures can reference them without restating them.
 
 You MUST:
 
@@ -187,7 +188,10 @@ SSS MUST define (when applicable)
 
 SSS MUST be validated such that:
 
-- every rule is referenced by at least one feature or superfeature;
+- every section is referenced by at least one feature or superfeature using templates
+    - rule references: `SSS - [Section Title] - ([Rule Number])`;
+    - section references: `SSS - [Section Title]`;
+- every section without references is flagged for removal as unused;
 - no rule is duplicated in feature or superfeature definitions;
 - all shared assumptions required for consistent specification are explicitly defined;
 - no feature depends on an unstated shared rule.
@@ -593,7 +597,15 @@ Status: planned | in-progress | complete
 
 ####### Shared Definitions, Conventions, and Policies
 
-Include all relevant definitions, conventions, and policies from SSS that apply to this superfeature.
+The specification MUST inherit the roadmap SSS as authoritative shared context.
+
+Applicable SSS definitions, conventions, policies, and rules for this superfeature:
+
+- SSS - [Section Title 1]
+- SSS - [Section Title 2]
+- ...
+
+Do not redefine, weaken, duplicate, or localize these rules inside the feature specification. Use them as inherited constraints when writing requirements, acceptance scenarios, edge cases, exceptions, assumptions, and success criteria.
 
 ####### User Story Decomposition Constraints
 
