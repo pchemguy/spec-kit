@@ -29,7 +29,7 @@ Do NOT generate the roadmap  until:
 - the feature set satisfies the Feature Decomposition Rules; and
 - the superfeature set satisfies the Superfeature Synthesis Rules.
 
-Perform analysis in accordance with the Analysis Protocol and produce results according to the Output Template.
+Perform analysis in accordance with the Analysis Protocol and produce results according to the Report Template.
 
 ---
 
@@ -47,13 +47,150 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 
 You MUST:
 
+- perform phased analysis of the target described system or project following analysis protocol below;
+- generate a Markdown-structured report following the "Report Template" format, including
+    - Top-Level Structure;
+    - all subtemplates;
+    - all defined rules;
 - run every analysis session from scratch;
 - ignore any prior similar analyses available from global or project context.
 
 You MUST NOT:
 
 - finalize the analysis prematurely;
-- take advantage in this session of any prior similar analyses.
+- take advantage in this session of any similar analyses performed in other sessions.
+
+---
+
+##### Iteration Behavior
+
+Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
+
+For the current phase:
+
+1. Propose a candidate structure:
+    * Phase 1: feature list
+    * Phase 2: superfeature grouping
+2. Critically evaluate the structure against the applicable rules:
+    * Phase 1: Feature Decomposition Rules
+    * Phase 2: Superfeature Synthesis Rules
+3. Identify:
+    * ambiguity,
+    * improper granularity,
+    * weak cohesion,
+    * invalid ordering,
+    * unjustified separation or grouping
+4. Ask targeted clarification questions where decisions cannot be made deterministically.
+5. Refine the structure.
+6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak superfeature boundaries.
+
+Repeat until the result is:
+
+* correctly scoped:
+    * minimal (Phase 1)
+    * minimal but viable / coherent slice (Phase 2)
+* well-structured:
+    * well-separated features (Phase 1)
+    * cohesive superfeatures (Phase 2)
+* correctly ordered:
+    * dependency-safe and value-prioritized (Phase 1)
+    * strictly contiguous and progression-preserving (Phase 2)
+* fully aligned with the applicable rule set.
+
+To complete Shared System Semantics, you MUST:
+
+- adapt iteration protocol above defined for phased analysis;
+- review the full accepted output of Phases 1-2;
+- identify gaps in shared rules, conventions, or policies;
+- revise both Shared System Semantics and output of Phases 1-2 as necessary to 
+
+Development of the "Shared System Semantics" section is performed in parallel to the phased analysis. After Phases 1-2 are considered accepted, you MUST:
+
+- adapt the "Iteration Behavior" protocol (this section) to refinement of the "Shared System Semantics" section;
+- review the full accepted output of Phases 1-2
+
+---
+
+##### Shared System Semantics
+
+The "PREAMBLE - Shared System Semantics" section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
+
+###### Construction Rules
+
+The PREAMBLE MUST
+
+- be developed as part of pre-specification analysis;
+- capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
+- be constructed incrementally during Phase 1 and refined during Phase 2.
+
+You MUST:
+
+* identify all cross-cutting rules that affect multiple features;
+* extract implicit assumptions from feature definitions and make them explicit;
+* normalize terminology used across features into consistent definitions;
+* define all shared behavioral invariants;
+* ensure that PREAMBLE content is complete, minimal, and non-duplicative;
+* ensure that all features and superfeatures can rely on PREAMBLE without redefining shared behavior.
+
+You MUST NOT:
+
+* include feature-specific behavior;
+* include implementation details;
+* duplicate acceptance scenarios from features;
+* define rules that apply to only a single feature;
+* leave critical system behavior implicit when it affects multiple features.
+
+When a rule is identified that:
+
+- affects more than one feature, or
+- constrains behavior across superfeatures,
+
+it MUST be promoted to PREAMBLE and removed from local feature definitions.
+
+---
+
+###### Essential Categories
+
+PREAMBLE MUST define (when applicable)
+
+1. Core Domain Definitions
+    * fundamental entities
+    * canonical terminology
+2. State Model
+    * what constitutes system state
+    * which state components exist globally
+    * persistence / reset expectations (if relevant)
+3. Global Behavioral Policies
+   Examples:
+    * numeric policy (valid values, rejection rules)
+    * normal state mutation conventions
+    * evaluation semantics
+    * precision / representation rules
+4. Error and Rejection Semantics
+    * when operations are rejected
+    * how rejection affects state (typically: no mutation)
+    * how errors are surfaced (e.g., status vs exception)
+5. Interaction and UX Conventions
+    * input model assumptions
+    * feedback model (e.g., warnings vs blocking)
+    * visibility requirements
+6. Cross-Feature Constraints
+    * rules that constrain multiple features
+    * invariants that must always hold
+7. Superfeature-Level Assumptions
+    * assumptions about prior superfeatures
+    * continuity expectations
+
+---
+
+###### Validation
+
+PREAMBLE MUST be validated such that:
+
+- every rule is referenced by at least one feature or superfeature;
+- no rule is duplicated in feature or superfeature definitions;
+- all shared assumptions required for consistent specification are explicitly defined;
+- no feature depends on an unstated shared rule.
 
 ---
 
@@ -167,7 +304,7 @@ Each superfeature MUST:
 * encapsulate a cohesive group of features that together define a meaningful, user-visible unit of functionality;
 * include features in contiguous roadmap order;
 * extend the system established by all prior superfeatures without requiring redefinition of previously delivered functionality;
-* preserve all global definitions, conventions, and policies from the roadmap PREAMBLE;
+* preserve all shared definitions, conventions, and policies from the roadmap PREAMBLE;
 * include all user stories corresponding to the included features in the canonical order.
 
 ---
@@ -208,150 +345,30 @@ Reject or refine any superfeature that violates these constraints.
 
 ---
 
-##### Shared System Semantics
+#### Report Template
 
-The "PREAMBLE - Shared System Semantics" section of the output template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
-
-###### Construction Rules
-
-The PREAMBLE MUST
-
-- be developed as part of pre-specification analysis;
-- capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
-- be constructed incrementally during Phase 1 and refined during Phase 2.
-
-You MUST:
-
-* identify all cross-cutting rules that affect multiple features;
-* extract implicit assumptions from feature definitions and make them explicit;
-* normalize terminology used across features into consistent definitions;
-* define all shared behavioral invariants;
-* ensure that PREAMBLE content is complete, minimal, and non-duplicative;
-* ensure that all features and superfeatures can rely on PREAMBLE without redefining shared behavior.
-
-You MUST NOT:
-
-* include feature-specific behavior;
-* include implementation details;
-* duplicate acceptance scenarios from features;
-* define rules that apply to only a single feature;
-* leave critical system behavior implicit when it affects multiple features.
-
-When a rule is identified that:
-
-- affects more than one feature, or
-- constrains behavior across superfeatures,
-
-it MUST be promoted to PREAMBLE and removed from local feature definitions.
-
----
-
-###### Essential Categories
-
-PREAMBLE MUST define (when applicable)
-
-1. Core Domain Definitions
-    * fundamental entities
-    * canonical terminology
-2. State Model
-    * what constitutes system state
-    * which state components exist globally
-    * persistence / reset expectations (if relevant)
-3. Global Behavioral Policies
-   Examples:
-    * numeric policy (valid values, rejection rules)
-    * normal state mutation conventions
-    * evaluation semantics
-    * precision / representation rules
-4. Error and Rejection Semantics
-    * when operations are rejected
-    * how rejection affects state (typically: no mutation)
-    * how errors are surfaced (e.g., status vs exception)
-5. Interaction and UX Conventions
-    * input model assumptions
-    * feedback model (e.g., warnings vs blocking)
-    * visibility requirements
-6. Cross-Feature Constraints
-    * rules that constrain multiple features
-    * invariants that must always hold
-7. Superfeature-Level Assumptions
-    * assumptions about prior superfeatures
-    * continuity expectations
-
----
-
-###### Validation
-
-PREAMBLE MUST be validated such that:
-
-- every rule is referenced by at least one feature or superfeature;
-- no rule is duplicated in feature or superfeature definitions;
-- all shared assumptions required for consistent specification are explicitly defined;
-- no feature depends on an unstated shared rule.
-
----
-
-##### Iteration Behavior
-
-Both feature decomposition (Phase 1) and superfeature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
-
-For the current phase:
-
-1. Propose a candidate structure:
-    * Phase 1: feature list
-    * Phase 2: superfeature grouping
-2. Critically evaluate the structure against the applicable rules:
-    * Phase 1: Feature Decomposition Rules
-    * Phase 2: Superfeature Synthesis Rules
-3. Identify:
-    * ambiguity,
-    * improper granularity,
-    * weak cohesion,
-    * invalid ordering,
-    * unjustified separation or grouping
-4. Ask targeted clarification questions where decisions cannot be made deterministically.
-5. Refine the structure.
-6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak superfeature boundaries.
-
-Repeat until the result is:
-
-* correctly scoped:
-    * minimal (Phase 1)
-    * minimal but viable / coherent slice (Phase 2)
-* well-structured:
-    * well-separated features (Phase 1)
-    * cohesive superfeatures (Phase 2)
-* correctly ordered:
-    * dependency-safe and value-prioritized (Phase 1)
-    * strictly contiguous and progression-preserving (Phase 2)
-* fully aligned with the applicable rule set.
-
----
-
-#### Output Template
+##### Top-Level Structure
 
 ```
 # Roadmap | Roadmap: [Target Name]
 
-## Notes
+## Notes *(if applicable)*
 
 ## PREAMBLE - Shared System Semantics
 
 ## Features
 
-### Feature F[N] — [Feature Name]
-
 ## Superfeatures
-
-### Superfeature SF[N] — [Superfeature Name]
 
 ```
 
 Notes:
 
-- `## Notes` section is optional.
-- Each `### Feature F[N] — [Feature Name]` subsection is populated following the `##### Feature Subtemplate`.
-- Each `### Superfeature SF[N] — [Superfeature Name]` subsection is populated following the `##### Superfeature Subtemplate`.
+- Other `##` sections MUST be populated following respective subtemplates and any defined usage rules below.
+
+---
+
+##### PREAMBLE - Shared System Semantics
 
 ---
 

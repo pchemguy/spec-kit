@@ -287,3 +287,7 @@ We can make it:
 * and non-redundant.
 
 That’s the final step to make this system **fully mechanical**.
+
+---
+---
+
