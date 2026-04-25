@@ -15,7 +15,6 @@ The LLM MUST assist in structured pre-specification analysis for a canonical Git
 > - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
 > - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
  
-
 The goal is to:
 
 1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
@@ -36,9 +35,9 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP definition, grouping, and multi-level prioritization concerns.
 
-The feature decomposition workflow MUST yield a list of features ordered by implementation dependencies and value/functionality priority, with the most important first, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving feature order and mapping that order directly into user story sequence within each superfeature.
+The feature decomposition workflow MUST yield a list of features ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving feature order and mapping that order directly into user story sequence within each superfeature.
 
-Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set represents an MVP or compact slice of functionality, with higher feature granularity defined by the "Feature Decomposition Rules" below.
+Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set within each superfeature represents an MVP or compact slice of functionality, with higher feature granularity defined by the "Feature Decomposition Rules" below.
 
 ---
 
@@ -46,10 +45,10 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 
 You MUST:
 
-- perform phased analysis of the target described system or project following the protocol below;
+- perform phased analysis of the described target system or project following the protocol below;
 - generate a Markdown-structured report strictly following the "Report Template", including all:
     - required top-level sections;  
-    - subtemplate-defined sections;;  
+    - subtemplate-defined sections;  
     - applicable rules and constraints defined in this document;
 - run every analysis session from scratch;
 - ignore any prior similar analyses available from global or project context.
@@ -176,9 +175,10 @@ Include the following categories when applicable to the system. Sections that ar
 6. Cross-Feature Constraints
     * rules that constrain multiple features
     * invariants that must always hold
-7. Superfeature-Level Assumptions
-    * assumptions about prior superfeatures
-    * continuity expectations
+7. Cross-Superfeature Continuity
+    * shared assumptions that later superfeatures inherit from earlier completed system states
+    * continuity expectations that preserve previously delivered behavior
+    * no feature-specific sequencing instructions
 
 ---
 
@@ -228,7 +228,7 @@ Each feature MUST:
 - NOT combine unrelated or merely convenient future work; and
 - NOT depend on future features to become meaningful, complete, or correct, or to validate its core behavior.
 
-Note, self-sufficiency and independence in present context mean that a feature can be implemented and validated within the context of all previously defined features.
+Self-sufficiency and independence mean that a feature can be implemented and validated as a coherent increment on top of all previously accepted features, without depending on future features to become meaningful, complete, correct, or testable.
 
 Feature decomposition MUST strike a practical balance:
 
@@ -372,6 +372,8 @@ Use the following top-level template and associated subtemplates.
 
 ```
 
+- Repeat Feature and Superfeature subsections as needed.
+
 ---
 
 ##### Shared System Semantics Subtemplate
@@ -510,10 +512,10 @@ Features MUST explicitly declare:
     * it defines a shared/global invariant
     Otherwise → it belongs in a feature.
 2. Coverage Rule
+    - applicable shared semantic concerns MUST be captured in an existing or newly named SSS section
     - sections or items that do not apply MUST be excluded
-    - other sections MUST be defined, when appropriate
 3. Atomic Rule Style
-    Each bullet point MUST:
+    Each rule statement MUST:
     * express a single enforceable rule
     * be testable or checkable
     * avoid vague language ("should", "generally", etc.)
@@ -524,7 +526,7 @@ Features MUST explicitly declare:
     * include UI layout or implementation details
     * encode feature sequencing
 5. No Duplication Rule
-    - Features and superfeatures MUST reference SSS sections in accordance with SSS Validation Rules when those rules materially affect behavior.
+    - Features and superfeatures MUST reference applicable SSS sections or rules in accordance with SSS Validation Rules when those rules materially affect behavior.
 6. Naming Rule
     Each section name MUST:
     * reflect a distinct semantic concern
@@ -560,8 +562,10 @@ List applicable Shared System Semantics sections and rules:
 
 #### State Interaction
 
-- Reads:
-- Mutates:
+- Reads:  
+- Mutates:  
+- Preserves:  
+- Resets:  
 - Must Not Affect:
 
 #### Acceptance Scenarios
@@ -605,7 +609,7 @@ The specification MUST inherit the roadmap SSS as authoritative shared context.
 Applicable SSS definitions, conventions, policies, and rules for this superfeature:
 
 - SSS - [Section Title 1]
-- SSS - [Section Title 2]
+- SSS - [Section Title 2] - (Rule Number)
 - ...
 
 Do not redefine, weaken, duplicate, or localize these rules inside the feature specification. Use them as inherited constraints when writing requirements, acceptance scenarios, edge cases, exceptions, assumptions, and success criteria.
