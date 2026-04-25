@@ -11,15 +11,14 @@ The LLM MUST assist in structured pre-specification analysis for a canonical Git
 
 > [!NOTE] Terminology Note
 >
-> - Features produced by the present feature decomposition workflow correspond to SpecKit user stories.
+> - In this workflow, "feature" refers to a roadmap-level unit that corresponds directly to a SpecKit user story.
 > - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
 > - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
-> - In this workflow, the term "feature" means a roadmap-level user-story candidate, not a SpecKit `/speckit.specify` feature. A "superfeature" is the SpecKit `/speckit.specify` feature.
  
 
 The goal is to:
 
-1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
+1. iteratively decompose a target system into a sequence of features; and
 2. synthesize those features into a sequence of cohesive superfeatures forming executable Spec Kit work packets;
 
 and then produce a canonical `roadmap.md` capturing both levels.
@@ -35,7 +34,7 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 
 #### Motivation
 
-Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP/grouping/prioritization analysis/concerns.
+Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP definition, grouping, and multi-level prioritization concerns.
 
 The feature decomposition workflow MUST yield a list of features **ordered by implementation dependencies and value/functionality priority**, with the most important first, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving the order of included features and translating it into user story order.
 
@@ -48,10 +47,10 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 You MUST:
 
 - perform phased analysis of the target described system or project following the protocol below;
-- generate a Markdown-structured report following the "Report Template" format, including
-    - Top-Level Structure;
-    - all subtemplates;
-    - all defined rules;
+- generate a Markdown-structured report strictly following the "Report Template", including all:
+    - required top-level sections;  
+    - subtemplate sections;  
+    - applicable rules and constraints;
 - run every analysis session from scratch;
 - ignore any prior similar analyses available from global or project context.
 
@@ -102,12 +101,15 @@ To complete Shared System Semantics, you MUST:
 - adapt iteration protocol above defined for phased analysis;
 - review the full accepted output of Phases 1-2;
 - identify gaps in shared rules, conventions, or policies;
-- revise both Shared System Semantics and output of Phases 1-2 as necessary to 
+- revise both Shared System Semantics and outputs of Phases 1–2 as necessary to ensure consistency, completeness, and absence of duplication;
 
-Development of the "Shared System Semantics" section is performed in parallel to the phased analysis. After Phases 1-2 are considered accepted, you MUST:
+Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and refined during Phase 2. After Phases 1 and 2 are considered complete, the LLM MUST perform a dedicated SSS validation and refinement pass:
 
-- adapt the "Iteration Behavior" protocol (this section) to refinement of the "Shared System Semantics" section;
-- review the full accepted output of Phases 1-2
+- review the full accepted feature list and superfeature grouping;
+- identify missing shared rules, implicit assumptions, or duplicated logic;
+- promote cross-cutting rules into SSS;
+- remove duplicated or conflicting definitions from features and superfeatures;
+- ensure all features and superfeatures can rely on SSS without redefining shared behavior.
 
 ---
 
@@ -152,7 +154,7 @@ it MUST be promoted to SSS and removed from local feature definitions.
 
 ###### Essential Categories
 
-SSS MUST define (when applicable)
+Include the following categories when applicable to the system. Sections that are not applicable MUST be omitted.
 
 1. Core Domain Definitions
     * fundamental entities
@@ -186,12 +188,12 @@ SSS MUST define (when applicable)
 
 ###### Validation
 
-SSS MUST be validated such that:
+SSS MUST be validated against these rules:
 
-- every section is referenced by at least one feature or superfeature using templates
-    - rule references: `SSS - [Section Title] - ([Rule Number])`;
-    - section references: `SSS - [Section Title]`;
-- every section without references is flagged for removal as unused;
+- every section SHOULD be referenced by at least one feature or superfeature using templates
+    - rule references: `SSS - [Section Title] - ([Rule Number])` (e.g., `SSS - Numeric Policy - (2)`);
+    - section references: `SSS - [Section Title]` (e.g., `SSS - Numeric Policy`);
+- unreferenced sections MUST be reviewed and either justified as global invariants or removed;
 - no rule is duplicated in feature or superfeature definitions;
 - all shared assumptions required for consistent specification are explicitly defined;
 - no feature depends on an unstated shared rule.
@@ -512,8 +514,8 @@ Features MUST explicitly declare:
     * it defines a shared/global invariant
     Otherwise → it belongs in a feature.
 2. Coverage Rule
-    - Sections or items that do not apply MUST be excluded
-    - Other sections MUST be defined, when appropriate
+    - sections or items that do not apply MUST be excluded
+    - other sections MUST be defined, when appropriate
 3. Atomic Rule Style
     Each bullet point MUST:
     * express a single enforceable rule
