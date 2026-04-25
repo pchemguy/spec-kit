@@ -59,33 +59,33 @@ Both user story decomposition (Phase 1) and feature synthesis (Phase 2) are iter
 For the current phase:
 
 1. Propose a candidate structure:
-    * user story decomposition (Phase 1)
-    * feature grouping (Phase 2)
+    - user story decomposition (Phase 1)
+    - feature grouping (Phase 2)
 2. Critically evaluate the structure against the applicable rules:
-    * User Story Decomposition Rules (Phase 1)
-    * Feature Synthesis Rules (Phase 2)
+    - User Story Decomposition Rules (Phase 1)
+    - Feature Synthesis Rules (Phase 2)
 3. Identify:
-    * ambiguity,
-    * improper granularity,
-    * weak cohesion,
-    * invalid ordering,
-    * unjustified separation or grouping
+    - ambiguity,
+    - improper granularity,
+    - weak cohesion,
+    - invalid ordering,
+    - unjustified separation or grouping
 4. Ask targeted clarification questions where decisions cannot be made deterministically.
 5. Refine the structure.
 6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak feature boundaries.
 
 Repeat until the result is:
 
-* correctly scoped:
-    * minimal (Phase 1)
-    * minimal but viable / coherent functional slice (Phase 2)
-* well-structured:
-    * well-separated user stories (Phase 1)
-    * cohesive features (Phase 2)
-* correctly ordered:
-    * dependency-safe and value-prioritized (Phase 1)
-    * strictly contiguous and progression-preserving (Phase 2)
-* fully aligned with the applicable rule set.
+- correctly scoped:
+    - minimal (Phase 1)
+    - minimal but viable / coherent functional slice (Phase 2)
+- well-structured:
+    - well-separated user stories (Phase 1)
+    - cohesive features (Phase 2)
+- correctly ordered:
+    - dependency-safe and value-prioritized (Phase 1)
+    - strictly contiguous and progression-preserving (Phase 2)
+- fully aligned with the applicable rule set.
 
 Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and refined during Phase 2. After Phases 1 and 2 are considered complete, the LLM MUST perform a dedicated SSS validation and refinement pass:
 
@@ -113,20 +113,20 @@ The SSS MUST
 
 You MUST:
 
-* identify all cross-cutting rules that affect multiple user stories;
-* extract implicit assumptions from user story definitions and make them explicit;
-* normalize terminology used across user stories into consistent definitions;
-* define all shared behavioral invariants;
-* ensure that SSS content is complete, minimal, and non-duplicative;
-* ensure that all user stories and features can rely on SSS without redefining shared behavior.
+- identify all cross-cutting rules that affect multiple user stories;
+- extract implicit assumptions from user story definitions and make them explicit;
+- normalize terminology used across user stories into consistent definitions;
+- define all shared behavioral invariants;
+- ensure that SSS content is complete, minimal, and non-duplicative;
+- ensure that all user stories and features can rely on SSS without redefining shared behavior.
 
 You MUST NOT:
 
-* include user-story-specific behavior;
-* include implementation details;
-* duplicate acceptance scenarios from user stories;
-* define rules that apply to only a single user story;
-* leave critical system behavior implicit when it affects multiple features.
+- include user-story-specific behavior;
+- include implementation details;
+- duplicate acceptance scenarios from user stories;
+- define rules that apply to only a single user story;
+- leave critical system behavior implicit when it affects multiple features.
 
 When a rule is identified that:
 
@@ -143,33 +143,33 @@ it MUST be promoted to SSS and removed from local user story definitions.
 Include the following categories when applicable to the system. Sections that are not applicable MUST be omitted.
 
 1. Core Domain Definitions
-    * fundamental entities
-    * canonical terminology
+    - fundamental entities
+    - canonical terminology
 2. State Model
-    * what constitutes system state
-    * which state components exist globally
-    * persistence / reset expectations (if relevant)
+    - what constitutes system state
+    - which state components exist globally
+    - persistence / reset expectations (if relevant)
 3. Global Behavioral Policies
    Examples:
-    * numeric policy (valid values, rejection rules)
-    * normal state mutation conventions
-    * evaluation semantics
-    * precision / representation rules
+    - numeric policy (valid values, rejection rules)
+    - normal state mutation conventions
+    - evaluation semantics
+    - precision / representation rules
 4. Error and Rejection Semantics
-    * when operations are rejected
-    * how rejection affects state (typically: no mutation)
-    * how errors are surfaced (e.g., status vs exception)
+    - when operations are rejected
+    - how rejection affects state (typically: no mutation)
+    - how errors are surfaced (e.g., status vs exception)
 5. Interaction and UX Conventions
-    * input model assumptions
-    * feedback model (e.g., warnings vs blocking)
-    * visibility requirements
+    - input model assumptions
+    - feedback model (e.g., warnings vs blocking)
+    - visibility requirements
 6. Cross-Feature Constraints
-    * rules that constrain multiple user stories
-    * invariants that must always hold
+    - rules that constrain multiple user stories
+    - invariants that must always hold
 7. Cross-Feature Continuity
-    * shared assumptions that later features inherit from earlier completed system states
-    * continuity expectations that preserve previously delivered behavior
-    * no user-story-specific sequencing instructions
+    - shared assumptions that later features inherit from earlier completed system states
+    - continuity expectations that preserve previously delivered behavior
+    - no user-story-specific sequencing instructions
 
 ---
 
@@ -194,149 +194,146 @@ First, analyze the target system and guide the user through decomposition.
 You MUST:
 
 - identify major capabilities of the system;
-- propose an initial feature breakdown;
-- explicitly evaluate each proposed feature against the decomposition rules below;
-- identify ambiguities, coupling, or oversized features;
+- propose an initial user story breakdown;
+- explicitly evaluate each proposed user story against the decomposition rules below;
+- identify ambiguities, coupling, or oversized user stories;
 - suggest splits or refinements where needed;
 - ask targeted clarification questions when decomposition is uncertain;
 
 You MUST NOT:
 
 - assume unclear requirements without validation;
-- group multiple capabilities into a single feature without justification;
+- group multiple capabilities into a single user story without justification;
 
 ---
 
-###### Feature Decomposition Rules
+###### User Story Decomposition Rules
 
-Each feature MUST:
+Each user story MUST:
 
 - be minimal in scope relative to its delivered value;
-- be self-sufficient;
-- be independently implementable and testable;
+- be self-sufficient and independently implementable and testable;
 - deliver standalone, user-visible value;
 - encapsulate a coherent unit of behavior with consistent logic, state, workflow, and architectural context;
 - NOT combine unrelated or merely convenient future work; and
-- NOT depend on future features to become meaningful, complete, or correct, or to validate its core behavior.
+- NOT depend on future user stories to become meaningful, complete, or correct, or to validate its core behavior.
 
-Self-sufficiency and independence mean that a feature can be implemented and validated as a coherent increment on top of all previously accepted features, without depending on future features to become meaningful, complete, correct, or testable.
+Self-sufficiency and independence mean that a user story can be implemented and validated as a coherent increment on top of all previously accepted user stories, without depending on future user stories to become meaningful, complete, correct, or testable.
 
-Feature decomposition MUST strike a practical balance:
+User story decomposition MUST strike a practical balance:
 
-- features MUST be small enough to support focused implementation, bounded context, and deterministic agent behavior; and
-- features MUST NOT be fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple features whose implementation would substantially duplicate logic, state handling, workflow shape, architectural structure, or Spec Kit process overhead.
+- user stories MUST be small enough to support focused implementation, bounded context, and deterministic agent behavior; and
+- user stories MUST NOT be fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple user stories whose implementation would substantially duplicate logic, state handling, workflow shape, architectural structure, or Spec Kit process overhead.
 
-Feature sequencing MUST support progressive system evolution:
+User story sequencing MUST support progressive system evolution:
 
-- the earliest feature MUST establish a minimal but complete and usable system slice that can be executed and validated end-to-end; and
-- each subsequent feature MUST meaningfully extend, refine, or generalize the behavior established by earlier features without requiring redefinition of previously delivered capabilities.
+- the earliest user story MUST establish a minimal but complete and usable system state that can be executed and validated end-to-end; and
+- each subsequent user story MUST meaningfully extend, refine, or generalize the behavior established by earlier user stories without requiring redefinition of previously delivered capabilities.
+
+User story progression MUST preserve continuity:
+
+- each user story MUST operate as a valid extension of the system produced by prior user stories; and
+- the system produced after each user story MUST remain usable and internally consistent.
+
+User story cohesion MUST be evaluated across candidate user stories:
+
+- candidate user stories that are narrowly scoped and represent sequential refinements of the same capability; or
+- candidate user stories that are tightly coupled, strongly parallel, or would require substantially similar implementation and validation workflows
+
+SHOULD be combined into a single user story when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
+
+Reject or refine any user story that violates these constraints.
+
+---
+
+##### Phase 2 — Feature Synthesis
+
+Using the finalized user story list, iteratively synthesize features as cohesive SpecKit work packets.
+
+Your goal is to partition the ordered user story list into a sequence of features that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each feature produces a coherent, bounded, and actionable specification input.
+
+Feature synthesis operates by introducing explicit boundaries ("cuts") in the ordered user story list. Each cut defines the end of one feature and the beginning of the next. All synthesis decisions MUST be expressed as placement, removal, or adjustment of these boundaries.
+
+You MUST:
+
+- operate strictly on the finalized, ordered user story list produced in Phase 1;
+- treat feature synthesis as a partitioning problem over a linear user story queue;
+- propose an initial feature grouping that covers the full user story list based on the Feature Synthesis Rules below;
+- explicitly justify feature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
+- ensure that each proposed feature defines a coherent, self-contained specification scope suitable for a single `/speckit.specify` execution;
+- verify that user story order is preserved exactly within and across features;
+- ensure that every user story is assigned to exactly one feature;
+- identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
+- refine feature boundaries when cohesion, scope, or execution clarity is compromised;
+- ensure that
+    - the first feature forms a defensible MVP when the system is introduced from an empty or initial state
+    - all subsequent features are valid extensions;
+- ask targeted clarification questions when grouping decisions depend on unstated assumptions.
+
+You MUST NOT:
+
+- reorder user stories under any circumstances;
+- split a user story across multiple features;
+- group user stories without a clear justification in terms of MVP formation, functional cohesion, or extension semantics;
+- produce features that are too broad to serve as focused `/speckit.specify` inputs;
+- produce features that are too narrow to represent meaningful functionality;
+- leave gaps in the user story sequence;
+- finalize features prematurely without evaluating boundary quality and execution suitability.
+
+A valid feature set is complete only when:
+
+- all user stories are assigned to exactly one feature;
+- all features are contiguous slices of the user story list;
+- the first feature forms a defensible MVP (when applicable);
+- each subsequent feature is a valid extension slice;
+- all features satisfy the Feature Synthesis Rules;
+- the full sequence defines a valid execution plan for the SpecKit workflow.
+
+---
+
+###### Feature Synthesis Rules
+
+Each feature MUST:
+
+- encapsulate a cohesive group of user stories that together define a meaningful, user-visible unit of functionality;
+- include user stories in contiguous roadmap order;
+- extend the system established by all prior features without requiring redefinition of previously delivered functionality;
+- preserve all shared definitions, conventions, and policies from the roadmap SSS.
+
+---
+
+Feature synthesis MUST strike a practical balance:
+
+- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end usable system state;
+- subsequent features MUST define cohesive functional slices, each meaningful in the context of prior features;
+- features MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
+- each feature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
+
+---
 
 Feature progression MUST preserve continuity:
 
-- each feature MUST operate as a valid extension of the system produced by prior features; and
-- the system produced after each feature MUST remain usable and internally consistent.
+- each feature MUST operate as a valid extension of the system produced by all prior features;
+- the system state after each feature must remain internally consistent and testable.
 
-Feature cohesion MUST be evaluated across candidate features:
+---
 
-- candidate features that are narrowly scoped and represent sequential refinements of the same capability; or
-- candidate features that are tightly coupled, strongly parallel, or would require substantially similar implementation and validation workflows
+Feature cohesion MUST be evaluated across included features:
 
-SHOULD be combined into a single feature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
+- candidate user stories that are narrowly scoped and represent sequential refinements of the same capability, or
+- candidate user stories that are tightly coupled, strongly parallel, or require substantially similar implementation, validation, or acceptance workflows
+
+SHOULD be grouped together into a single feature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
 
 Reject or refine any feature that violates these constraints.
 
 ---
 
-##### Phase 2 — Superfeature Synthesis
-
-Using the finalized feature list, iteratively synthesize superfeatures as cohesive SpecKit work packets.
-
-Your goal is to partition the ordered feature list into a sequence of superfeatures that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each superfeature produces a coherent, bounded, and actionable specification input.
-
-Superfeature synthesis operates by introducing explicit boundaries ("cuts") in the ordered feature list. Each cut defines the end of one superfeature and the beginning of the next. All synthesis decisions MUST be expressed as placement, removal, or adjustment of these boundaries.
-
-You MUST:
-
-* operate strictly on the finalized, ordered feature list produced in Phase 1;
-* treat superfeature synthesis as a partitioning problem over a linear feature queue;
-* propose an initial superfeature grouping that covers the full feature list based on the Superfeature Synthesis Rules below;
-* explicitly justify superfeature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
-* ensure that each proposed superfeature defines a coherent, self-contained specification scope suitable for a single `/speckit.specify` execution;
-* verify that feature order is preserved exactly within and across superfeatures;
-* ensure that every feature is assigned to exactly one superfeature;
-* identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
-* refine superfeature boundaries when cohesion, scope, or execution clarity is compromised;
-* ensure that
-    * the first superfeature forms a defensible MVP when the system is introduced from an empty or initial state
-    * all subsequent superfeatures are valid extensions;
-* ask targeted clarification questions when grouping decisions depend on unstated assumptions.
-
-You MUST NOT:
-
-* reorder features under any circumstances;
-* split a feature across multiple superfeatures;
-* group features without a clear justification in terms of MVP formation, functional cohesion, or extension semantics;
-* produce superfeatures that are too broad to serve as focused `/speckit.specify` inputs;
-* produce superfeatures that are too narrow to represent meaningful functionality;
-* leave gaps in the feature sequence;
-* finalize superfeatures prematurely without evaluating boundary quality and execution suitability.
-
-A valid superfeature set is complete only when:
-
-- all features are assigned to exactly one superfeature;
-- all superfeatures are contiguous slices of the feature list;
-- the first superfeature forms a defensible MVP (when applicable);
-- each subsequent superfeature is a valid extension slice;
-- all superfeatures satisfy the Superfeature Synthesis Rules;
-- the full sequence defines a valid execution plan for the SpecKit workflow.
-
----
-
-###### Superfeature Synthesis Rules
-
-Each superfeature MUST:
-
-* encapsulate a cohesive group of features that together define a meaningful, user-visible unit of functionality;
-* include features in contiguous roadmap order;
-* extend the system established by all prior superfeatures without requiring redefinition of previously delivered functionality;
-* preserve all shared definitions, conventions, and policies from the roadmap SSS;
-* include all user stories corresponding to the included features in the canonical order.
-
----
-
-Superfeature synthesis MUST strike a practical balance:
-
-* the first superfeature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end system slice;
-* subsequent superfeatures MUST define cohesive slices of functionality, each meaningful in the context of prior superfeatures;
-* superfeatures MUST NOT be fragmented so aggressively that closely related or structurally similar sequential features are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
-* each superfeature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
-
----
-
-Superfeature progression MUST preserve continuity:
-
-* each superfeature MUST operate as a valid extension of the system produced by all prior superfeatures;
-* the system state after each superfeature must remain internally consistent and testable.
-
----
-
-Superfeature cohesion MUST be evaluated across included features:
-
-* candidate features that are narrowly scoped and represent sequential refinements of the same capability, or
-* candidate features that are tightly coupled, strongly parallel, or require substantially similar implementation, validation, or acceptance workflows
-
-SHOULD be grouped together into a single superfeature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
-
-Reject or refine any superfeature that violates these constraints.
-
----
-
 **Notes / Practical Guidance**
 
-1. MVP superfeature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of features.
-2. Extension superfeatures must be defensible functional slices, strictly ordered after prior superfeatures.
-3. Each superfeature is the unit of `/speckit.specify` execution. Its user story set corresponds to included features.
-4. Ordering, completeness, and adherence to Shared System Semantics policies are mandatory for all superfeatures.
+1. MVP feature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of user stories.
+2. Extension features must be defensible functional slices, strictly ordered after prior features.
+3. Ordering, completeness, and adherence to Shared System Semantics policies are mandatory for all features.
 
 ---
 
@@ -499,29 +496,29 @@ Features MUST explicitly declare:
 
 1. Inclusion Rule
     A section MUST be included only if:
-    * it applies to more than one feature, or
-    * it defines a shared/global invariant
+    - it applies to more than one feature, or
+    - it defines a shared/global invariant
     Otherwise → it belongs in a feature.
 2. Coverage Rule
     - applicable shared semantic concerns MUST be captured in an existing or newly named SSS section
     - sections or items that do not apply MUST be excluded
 3. Atomic Rule Style
     Each rule statement MUST:
-    * express a single enforceable rule
-    * be testable or checkable
-    * avoid vague language ("should", "generally", etc.)
+    - express a single enforceable rule
+    - be testable or checkable
+    - avoid vague language ("should", "generally", etc.)
 4. No Feature Leakage
     The SSS MUST NOT:
-    * describe specific feature workflows
-    * include acceptance scenarios
-    * include UI layout or implementation details
-    * encode feature sequencing
+    - describe specific feature workflows
+    - include acceptance scenarios
+    - include UI layout or implementation details
+    - encode feature sequencing
 5. No Duplication Rule
     - Features and superfeatures MUST reference applicable SSS sections or rules in accordance with SSS Validation Rules when those rules materially affect behavior.
 6. Naming Rule
     Each section name MUST:
-    * reflect a distinct semantic concern
-    * be reusable across systems (e.g., “Numeric Policy” → “Data Validity Policy” in another domain)
+    - reflect a distinct semantic concern
+    - be reusable across systems (e.g., “Numeric Policy” → “Data Validity Policy” in another domain)
 7. List Format Rule
     Sections MUST use:
     - numbered lists for rules to support specific references
