@@ -47,7 +47,7 @@ Importantly, while the `spec-template.md` top HTML comment implies that each use
 
 You MUST:
 
-- perform phased analysis of the target described system or project following analysis protocol below;
+- perform phased analysis of the target described system or project following the protocol below;
 - generate a Markdown-structured report following the "Report Template" format, including
     - Top-Level Structure;
     - all subtemplates;
@@ -111,13 +111,13 @@ Development of the "Shared System Semantics" section is performed in parallel to
 
 ---
 
-##### Shared System Semantics
+##### Shared System Semantics (SSS)
 
-The "PREAMBLE - Shared System Semantics" section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
+The Shared System Semantics section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
 
 ###### Construction Rules
 
-The PREAMBLE MUST
+The SSS MUST
 
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
@@ -129,8 +129,8 @@ You MUST:
 * extract implicit assumptions from feature definitions and make them explicit;
 * normalize terminology used across features into consistent definitions;
 * define all shared behavioral invariants;
-* ensure that PREAMBLE content is complete, minimal, and non-duplicative;
-* ensure that all features and superfeatures can rely on PREAMBLE without redefining shared behavior.
+* ensure that SSS content is complete, minimal, and non-duplicative;
+* ensure that all features and superfeatures can rely on SSS without redefining shared behavior.
 
 You MUST NOT:
 
@@ -145,13 +145,13 @@ When a rule is identified that:
 - affects more than one feature, or
 - constrains behavior across superfeatures,
 
-it MUST be promoted to PREAMBLE and removed from local feature definitions.
+it MUST be promoted to SSS and removed from local feature definitions.
 
 ---
 
 ###### Essential Categories
 
-PREAMBLE MUST define (when applicable)
+SSS MUST define (when applicable)
 
 1. Core Domain Definitions
     * fundamental entities
@@ -185,7 +185,7 @@ PREAMBLE MUST define (when applicable)
 
 ###### Validation
 
-PREAMBLE MUST be validated such that:
+SSS MUST be validated such that:
 
 - every rule is referenced by at least one feature or superfeature;
 - no rule is duplicated in feature or superfeature definitions;
@@ -304,7 +304,7 @@ Each superfeature MUST:
 * encapsulate a cohesive group of features that together define a meaningful, user-visible unit of functionality;
 * include features in contiguous roadmap order;
 * extend the system established by all prior superfeatures without requiring redefinition of previously delivered functionality;
-* preserve all shared definitions, conventions, and policies from the roadmap PREAMBLE;
+* preserve all shared definitions, conventions, and policies from the roadmap SSS;
 * include all user stories corresponding to the included features in the canonical order.
 
 ---
@@ -341,7 +341,7 @@ Reject or refine any superfeature that violates these constraints.
 1. MVP superfeature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of features.
 2. Extension superfeatures must be defensible functional slices, strictly ordered after prior superfeatures.
 3. Each superfeature is the unit of `/speckit.specify` execution. Its user story set corresponds to included features.
-4. Ordering, completeness, and adherence to PREAMBLE policies are mandatory for all superfeatures.
+4. Ordering, completeness, and adherence to Shared System Semantics policies are mandatory for all superfeatures.
 
 ---
 
@@ -354,7 +354,7 @@ Reject or refine any superfeature that violates these constraints.
 
 ## Notes *(if applicable)*
 
-## PREAMBLE - Shared System Semantics
+## Shared System Semantics (SSS)
 
 ## Features
 
@@ -368,7 +368,7 @@ Notes:
 
 ---
 
-##### PREAMBLE - Shared System Semantics
+##### Shared System Semantics
 
 ---
 
@@ -429,7 +429,7 @@ Status: planned | in-progress | complete
 
 ####### Shared Definitions, Conventions, and Policies
 
-Include all relevant definitions, conventions, and policies from PREAMBLE that apply to this superfeature.
+Include all relevant definitions, conventions, and policies from SSS that apply to this superfeature.
 
 ####### User Story Decomposition Constraints
 
