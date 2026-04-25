@@ -113,7 +113,7 @@ Development of the "Shared System Semantics" section is performed in parallel to
 
 ##### Shared System Semantics (SSS)
 
-The Shared System Semantics section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally.
+The Shared System Semantics section of the report template contains cross-cutting, invariant rules, conventions, and policies that apply to multiple features and multiple superfeatures and MUST NOT be redefined locally. Features and superfeatures MUST include specific references to applicable items using template `SSS - [Section Title] - ([Rule Number])`.
 
 ###### Construction Rules
 
@@ -358,7 +358,11 @@ Reject or refine any superfeature that violates these constraints.
 
 ## Features
 
+### Feature F[N] — [Feature Name]
+
 ## Superfeatures
+
+### Superfeature SF[N] — [Superfeature Name]
 
 ```
 
@@ -368,11 +372,171 @@ Notes:
 
 ---
 
-##### Shared System Semantics
+##### Shared System Semantics Subtemplate
+
+```
+## Shared System Semantics (SSS)
+
+The following rules define shared system semantics and apply to all features and superfeatures.
+
+Features and superfeatures MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
 
 ---
 
-##### Feature Subtemplate
+### [Policy / Convention Name]
+
+**Definition**: Short statement describing the purpose and scope of this rule group.
+
+1. Normative rule statement
+2. Normative rule statement
+3. Normative rule statement
+
+Optional:
+
+N+1. Clarifying rule
+N+2. Constraint
+N+3. Boundary condition
+
+---
+
+### [Policy / Convention Name]
+
+**Definition**: Short statement describing the purpose and scope of this rule group.
+
+1. Normative rule statement
+2. Normative rule statement
+
+Optional:
+
+N+1. Explicit evaluation rules
+N+2. Ordering rules
+
+- Examples (only when needed to disambiguate semantics)
+
+---
+
+### [Interaction / Evaluation Convention]
+
+**Definition**: Defines how operations are interpreted or executed.
+
+1. Rule defining evaluation order / semantics
+2. Rule defining operand roles or interaction structure
+3. Rule defining interpretation constraints
+
+Optional:
+
+- Examples illustrating interpretation
+
+---
+
+### [Error / Rejection Policy]
+
+**Definition**: Defines how invalid actions are handled.
+
+1. Conditions under which actions are rejected
+2. Guarantee that rejected actions do not mutate state
+3. Requirement for user-visible feedback
+4. Constraints on feedback mechanism (e.g., non-modal, non-blocking)
+
+---
+
+### [State Model Assumptions]
+
+**Definition**: Defines the conceptual structure of system state.
+
+The system state MAY include, as applicable:
+
+1. State component
+2. State component
+3. State component
+
+Features MUST explicitly declare:
+
+- which state components they read;
+- which state components they mutate;
+- which state components they preserve;
+- which state components they reset.
+
+---
+
+### [State Mutation Policy]
+
+**Definition**: Defines global guarantees about state transitions.
+
+1. State changes occur only through accepted operations.
+2. Rejected operations MUST NOT mutate any state.
+3. State transitions MUST be atomic from the user perspective.
+
+---
+
+### [History / Reversibility Policy]
+
+**Definition**: Defines undo/redo or historical behavior.
+
+1. Rule defining what actions are recorded
+2. Rule defining what actions are reversible
+3. Explicit exclusions (e.g., rejected actions, resets)
+
+---
+
+### [Interaction and UX Conventions]
+
+**Definition**: Defines user interaction and feedback expectations.
+
+1. Input model assumptions
+2. Feedback model (status, warnings, etc.)
+3. Visibility constraints
+
+---
+
+### [Cross-Environment Consistency Constraint]
+
+**Definition**: Defines invariants across deployment environments.
+
+1. Behavior that MUST remain identical across environments
+2. Explicit list of preserved semantics
+
+---
+
+```
+
+###### Usage Rules
+
+1. Inclusion Rule
+    A section MUST be included only if:
+    * it applies to more than one feature, or
+    * it defines a shared/global invariant
+    Otherwise → it belongs in a feature.
+2. Coverage Rule
+    - Sections or items that do not apply MUST be excluded
+    - Other sections MUST be defined, when appropriate
+3. Atomic Rule Style
+    Each bullet point MUST:
+    * express a single enforceable rule
+    * be testable or checkable
+    * avoid vague language ("should", "generally", etc.)
+4. No Feature Leakage
+    The SSS MUST NOT:
+    * describe specific feature workflows
+    * include acceptance scenarios
+    * include UI layout or implementation details
+    * encode feature sequencing
+5. No Duplication Rule
+    Features and superfeatures MUST:
+    * reference these sections implicitly or by name
+    * NOT restate or copy rules from SSS
+6. Naming Rule
+    Each section name MUST:
+    * reflect a distinct semantic concern
+    * be reusable across systems (e.g., “Numeric Policy” → “Data Validity Policy” in another domain)
+7. List Format Rule
+    Sections MUST use:
+    - numbered lists for rules to support specific references
+    - bulleted lists for examples (no specific references)
+
+---
+
+##### Features Subtemplate
 
 ```
 ### Feature F[N] — [Feature Name]
@@ -408,7 +572,7 @@ Rejected scenarios and their expected behavior (must align with global policies)
 
 ---
 
-##### Superfeature Subtemplate
+##### Superfeatures Subtemplate
 
 ```
 ### Superfeature SF[N] — [Superfeature Name]
