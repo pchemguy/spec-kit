@@ -100,40 +100,41 @@ Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and
 
 ##### Shared System Semantics (SSS)
 
-The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple features or constrain multiple superfeatures. Features and superfeatures MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
+The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
 ###### Construction Rules
 
 The SSS MUST
 
 - be developed as part of pre-specification analysis;
-- capture all shared system-level definitions, conventions, and policies required for consistent feature and superfeature specification;
+- capture all shared system-level definitions, conventions, and policies required for consistent user story and feature specification;
 - be constructed incrementally during Phase 1 and refined during Phase 2;
-- use stable section titles so that features and superfeatures can reference them without restating them.
+- use stable section titles so that user stories and features can reference them without restating them.
 
 You MUST:
 
-* identify all cross-cutting rules that affect multiple features;
-* extract implicit assumptions from feature definitions and make them explicit;
-* normalize terminology used across features into consistent definitions;
+* identify all cross-cutting rules that affect multiple user stories;
+* extract implicit assumptions from user story definitions and make them explicit;
+* normalize terminology used across user stories into consistent definitions;
 * define all shared behavioral invariants;
 * ensure that SSS content is complete, minimal, and non-duplicative;
-* ensure that all features and superfeatures can rely on SSS without redefining shared behavior.
+* ensure that all user stories and features can rely on SSS without redefining shared behavior.
 
 You MUST NOT:
 
-* include feature-specific behavior;
+* include user-story-specific behavior;
 * include implementation details;
-* duplicate acceptance scenarios from features;
-* define rules that apply to only a single feature;
+* duplicate acceptance scenarios from user stories;
+* define rules that apply to only a single user story;
 * leave critical system behavior implicit when it affects multiple features.
 
 When a rule is identified that:
 
-- affects more than one feature, or
-- constrains behavior across superfeatures,
+- affects more than one user story, or  
+- constrains behavior across features, or  
+- defines a global invariant required for consistent system behavior,
 
-it MUST be promoted to SSS and removed from local feature definitions.
+it MUST be promoted to SSS and removed from local user story definitions.
 
 ---
 
@@ -163,12 +164,12 @@ Include the following categories when applicable to the system. Sections that ar
     * feedback model (e.g., warnings vs blocking)
     * visibility requirements
 6. Cross-Feature Constraints
-    * rules that constrain multiple features
+    * rules that constrain multiple user stories
     * invariants that must always hold
-7. Cross-Superfeature Continuity
-    * shared assumptions that later superfeatures inherit from earlier completed system states
+7. Cross-Feature Continuity
+    * shared assumptions that later features inherit from earlier completed system states
     * continuity expectations that preserve previously delivered behavior
-    * no feature-specific sequencing instructions
+    * no user-story-specific sequencing instructions
 
 ---
 
@@ -176,13 +177,13 @@ Include the following categories when applicable to the system. Sections that ar
 
 SSS MUST be validated against these rules:
 
-- every section SHOULD be referenced by at least one feature or superfeature using templates
+- every section SHOULD be referenced by at least one user story or feature using templates
     - rule references: `SSS - [Section Title] - ([Rule Number])` (e.g., `SSS - Numeric Policy - (2)`);
     - section references: `SSS - [Section Title]` (e.g., `SSS - Numeric Policy`);
 - unreferenced sections MUST be reviewed and either justified as global invariants or removed;
-- no rule is duplicated in feature or superfeature definitions;
+- no rule is duplicated in user story or feature definitions;
 - all shared assumptions required for consistent specification are explicitly defined;
-- no feature depends on an unstated shared rule.
+- no user story depends on an unstated shared rule.
 
 ---
 
