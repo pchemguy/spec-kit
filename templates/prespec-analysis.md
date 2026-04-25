@@ -11,21 +11,22 @@ The LLM MUST assist in structured pre-specification analysis for a canonical Git
 
 > [!NOTE] Terminology Note
 >
-> - In this workflow, "feature" refers to a roadmap-level unit that maps directly to a user story within a superfeature specification.
-> - Superfeatures are cohesive, focused groups of features forming units of work for the canonical SpecKit loop starting from `specify`.
-> - Superfeatures correspond to SpecKit features - the primary focus of `specify.md`.
+> - A "slice" is a minimal, self-sufficient, user-visible roadmap unit.
+> - Each slice maps directly to one user story inside a Spec Kit feature specification.
+> - A "feature" is a cohesive, contiguous group of slices forming one `/speckit.specify` execution unit.
+> - Features correspond to Spec Kit features and are executed through the canonical Spec Kit loop.
  
 The goal is to:
 
-1. iteratively decompose a target system into a sequence of minimal, self-sufficient features; and
-2. synthesize those features into a sequence of cohesive superfeatures forming executable Spec Kit work packets;
+1. iteratively decompose a target system into a sequence of minimal, self-sufficient functionality slices; and
+2. synthesize those features into a sequence of cohesive features forming executable Spec Kit execution unit;
 
 and then produce a canonical `roadmap.md` capturing both levels.
 
 Do NOT generate the roadmap  until:
 
-- the feature set satisfies the Feature Decomposition Rules; and
-- the superfeature set satisfies the Superfeature Synthesis Rules.
+- the slice set satisfies the Slice Decomposition Rules; and
+- the feature set satisfies the Feature Synthesis Rules.
 
 Perform analysis in accordance with the Analysis Protocol and produce results according to the Report Template.
 
@@ -36,8 +37,6 @@ Perform analysis in accordance with the Analysis Protocol and produce results ac
 Feature decomposition workflow is a "pre-specification" analysis of the target system focused on managing complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The ultimate aim is to define a set of focused superfeatures for sequential execution by SpecKit and provide early user story decomposition. Each defined superfeature must represent either an MVP or a compact slice of functionality, relieving the SpecKit workflow from MVP definition, grouping, and multi-level prioritization concerns.
 
 The feature decomposition workflow MUST yield a list of features ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a feature development queue. Superfeatures are formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact slice of functionality, while strictly preserving feature order and mapping that order directly into user story sequence within each superfeature.
-
-Importantly, while the `spec-template.md` top HTML comment implies that each user story should represent "a viable MVP", the present approach rejects such coarse decomposition, requiring that the full user story set within each superfeature represents an MVP or compact slice of functionality, with higher feature granularity defined by the "Feature Decomposition Rules" below.
 
 ---
 
