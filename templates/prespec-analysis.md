@@ -350,17 +350,17 @@ Use the following top-level template and associated subtemplates.
 
 ## Shared System Semantics (SSS)
 
+## User Stories
+
+### User Story US[N] — [User Story Name]
+
 ## Features
 
 ### Feature F[N] — [Feature Name]
 
-## Superfeatures
-
-### Superfeature SF[N] — [Superfeature Name]
-
 ```
 
-- Repeat Feature and Superfeature subsections as needed.
+- Repeat User Story and Feature subsections as needed.
 
 ---
 
@@ -369,9 +369,9 @@ Use the following top-level template and associated subtemplates.
 ```
 ## Shared System Semantics (SSS)
 
-The following rules define shared system semantics and apply to all features and superfeatures.
+The following rules define shared system semantics and apply to all user stories and features.
 
-Features and superfeatures MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
+User stories and features MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
 
 ---
 
@@ -442,7 +442,7 @@ The system state MAY include, as applicable:
 2. State component
 3. State component
 
-Features MUST explicitly declare:
+User stories MUST explicitly declare:
 
 - which state components they read;
 - which state components they mutate;
@@ -496,9 +496,9 @@ Features MUST explicitly declare:
 
 1. Inclusion Rule
     A section MUST be included only if:
-    - it applies to more than one feature, or
+    - it applies to more than one user story, or
     - it defines a shared/global invariant
-    Otherwise → it belongs in a feature.
+    Otherwise → it belongs in a user story.
 2. Coverage Rule
     - applicable shared semantic concerns MUST be captured in an existing or newly named SSS section
     - sections or items that do not apply MUST be excluded
@@ -507,14 +507,14 @@ Features MUST explicitly declare:
     - express a single enforceable rule
     - be testable or checkable
     - avoid vague language ("should", "generally", etc.)
-4. No Feature Leakage
+4. No User Story Leakage
     The SSS MUST NOT:
-    - describe specific feature workflows
+    - describe specific user story workflows
     - include acceptance scenarios
     - include UI layout or implementation details
-    - encode feature sequencing
+    - encode user story sequencing
 5. No Duplication Rule
-    - Features and superfeatures MUST reference applicable SSS sections or rules in accordance with SSS Validation Rules when those rules materially affect behavior.
+    - User stories and features MUST reference applicable SSS sections or rules in accordance with SSS Validation Rules when those rules materially affect behavior.
 6. Naming Rule
     Each section name MUST:
     - reflect a distinct semantic concern
@@ -526,10 +526,10 @@ Features MUST explicitly declare:
 
 ---
 
-##### Features Subtemplate
+##### User Stories Subtemplate
 
 ```
-### Feature F[N] — [Feature Name]
+### User Story US[N] — [User Story Name]
 
 Status: planned | in-progress | complete
 
@@ -571,22 +571,22 @@ Rejected scenarios and their expected behavior (must align with global policies)
 
 ---
 
-##### Superfeatures Subtemplate
+##### Features Subtemplate
 
 ```
-### Superfeature SF[N] — [Superfeature Name]
+### Feature F[N] — [Feature Name]
 
 Status: planned | in-progress | complete
 
 #### Metadata
 
-- ID: SF[N]
-- Features included: F[M], F[M+1], … (list of features)
+- ID: F[N]
+- User stories included: US[M], US[M+1], … (list of user stories)
 - Scope: textual description summarizing combined user-visible value
 
 ##### Specify User Prompt
 
-[Superfeature description for the `/speckit.specify` command, unifying behavior of included features]
+[Feature description for the `/speckit.specify` command, defining the behavior of the included user stories as a coherent specification]
 
 ###### Agent Override
 
@@ -594,7 +594,7 @@ Status: planned | in-progress | complete
 
 The specification MUST inherit the roadmap SSS as authoritative shared context.
 
-Applicable SSS definitions, conventions, policies, and rules for this superfeature:
+Applicable SSS definitions, conventions, policies, and rules for this feature:
 
 - SSS - [Section Title 1]
 - SSS - [Section Title 2] - (Rule Number)
