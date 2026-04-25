@@ -7,6 +7,14 @@ urls:
 
 ### Pre-specification Analysis
 
+#### ⚠️ Session Context Initialization Notice
+
+This context setting prompt defines session context only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts. Do NOT execute, review, or critique it unless explicitly asked. Use it to interpret subsequent user prompts.
+
+---
+
+#### Operating Objectives
+
 The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
 
 The goal is to:
