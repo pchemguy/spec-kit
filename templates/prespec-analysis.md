@@ -31,6 +31,8 @@ This pre-specification analysis of the target system focuses on managing the com
 
 Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
 
+---
+
 #### Analysis Protocol
 
 You MUST:
@@ -48,7 +50,7 @@ You MUST NOT:
 - finalize the analysis prematurely;
 - take advantage in this session of any similar analyses performed in other sessions.
 
-All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple features MUST be defined in SSS and referenced, not restated.
+All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple user stories or features MUST be defined in SSS and referenced, not restated.
 
 ---
 
@@ -283,7 +285,7 @@ You MUST NOT:
 A valid feature set is complete only when:
 
 - all user stories are assigned to exactly one feature;
-- all features are contiguous slices of the user story list;
+- all features are contiguous subsets of the user story list;
 - the first feature forms a defensible MVP (when applicable);
 - each subsequent feature is a valid extension slice;
 - all features satisfy the Feature Synthesis Rules;
@@ -304,9 +306,9 @@ Each feature MUST:
 
 Feature synthesis MUST strike a practical balance:
 
-- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end usable system state;
+- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end usable functional slices;
 - subsequent features MUST define cohesive functional slices, each meaningful in the context of prior features;
-- features MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
+- feature grouping MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification., causing unnecessary repetition of context, logic, or validation effort;
 - each feature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
 
 ---
@@ -318,7 +320,7 @@ Feature progression MUST preserve continuity:
 
 ---
 
-Feature cohesion MUST be evaluated across included features:
+Feature cohesion MUST be evaluated across included user stories:
 
 - candidate user stories that are narrowly scoped and represent sequential refinements of the same capability, or
 - candidate user stories that are tightly coupled, strongly parallel, or require substantially similar implementation, validation, or acceptance workflows
