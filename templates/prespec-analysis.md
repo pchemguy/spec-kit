@@ -106,7 +106,7 @@ The Shared System Semantics (SSS) is the authoritative home for global definitio
 
 ###### Construction Rules
 
-The SSS MUST
+The SSS MUST:
 
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent user story and feature specification;
@@ -116,6 +116,8 @@ The SSS MUST
 You MUST:
 
 - identify all cross-cutting rules that affect multiple user stories;
+- identify behaviors that apply across multiple user stories but are not independently triggered by a distinct user interaction;  
+    - promote such behaviors to SSS instead of modeling them as user stories;
 - extract implicit assumptions from user story definitions and make them explicit;
 - normalize terminology used across user stories into consistent definitions;
 - define all shared behavioral invariants;
@@ -137,6 +139,13 @@ When a rule is identified that:
 - defines a global invariant required for consistent system behavior,
 
 it MUST be promoted to SSS and removed from local user story definitions.
+
+Any behavior that:  
+  
+- is triggered only as a consequence of other user actions; and  
+- does not define a standalone user interaction  
+  
+MUST be defined in SSS and MUST NOT be represented as a user story.
 
 ---
 
@@ -213,10 +222,18 @@ You MUST NOT:
 
 Each user story MUST:
 
+- be centered around a single user-initiated interaction or action;
+- define a complete interaction cycle: user action → system response → observable outcome;
+- produce value through successful execution of that interaction, not only through rejection, validation, or constraint enforcement;
+- correspond to exactly one distinct user interaction type;  
+- define behavior for one operation or one class of operations that share identical execution semantics;
 - be minimal in scope relative to its delivered value;
 - be self-sufficient and independently implementable and testable;
-- deliver standalone, user-visible value;
+- deliver standalone, interaction-driven user value, where the user intentionally performs an action to achieve a meaningful outcome;
 - encapsulate a coherent unit of behavior with consistent logic, state, workflow, and architectural context;
+- NOT represent only error handling, validation, or rejection behavior without a primary user interaction;  
+- NOT exist solely to enforce constraints, invariants, or correctness policies;
+- NOT group multiple user actions that differ in operation semantics, even if they are structurally similar;
 - NOT combine unrelated or merely convenient future work; and
 - NOT depend on future user stories to become meaningful, complete, or correct, or to validate its core behavior.
 
@@ -240,9 +257,27 @@ User story progression MUST preserve continuity:
 User story cohesion MUST be evaluated across candidate user stories:
 
 - candidate user stories that are narrowly scoped and represent sequential refinements of the same capability; or
-- candidate user stories that are tightly coupled, strongly parallel, or would require substantially similar implementation and validation workflows
+- candidate user stories that are tightly coupled, strongly parallel, or would require substantially similar
+    - implementation and validation workflows; and
+    - execution structure and state interaction patterns.
 
 SHOULD be combined into a single user story when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
+
+For each candidate user story, you MUST verify:
+
+- what explicit user action initiates this story;
+- what successful outcome the user is trying to achieve;
+- whether the story still makes sense if all other stories are removed.
+
+If no clear user action exists, or the story only defines failure modes or constraints, it MUST be rejected or absorbed into SSS.
+
+Classify each candidate as one of:  
+  
+- Interaction-driven behavior → valid user story;  
+- Cross-cutting constraint → SSS;  
+- Internal mechanism → invalid (must be merged or removed).  
+  
+Only the first category is allowed as user stories.
 
 Reject or refine any user story that violates these constraints.
 
@@ -616,11 +651,11 @@ Do not redefine, weaken, duplicate, or localize these rules inside the feature s
 
 Use exactly this canonical story set:
 
-| #   | User Story                              |
-| --- | --------------------------------------- |
-| 1   | User Story 1 — Feature Name             |
-| 2   | User Story 2 — Feature Name             |
-| ... | ...                                     |
+| #   | User Story          |
+| --- | ------------------- |
+| 1   | US1 — Feature Name  |
+| 2   | US2 — Feature Name  |
+| ... | ...                 |
 
 ---
 
