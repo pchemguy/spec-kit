@@ -49,9 +49,10 @@ The LLM MUST pursue the following session objectives:
 - treat templates as strict schemas, not guidance;
 - assist user in performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
     1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 and the User Story Decomposition Rules;
-    2. synthesizing a sequence of cohesive features from those stories according to Phase 2 and the Feature Synthesis Rules;
-    3. developing shared rules according to Shared System Semantics;
-    4. producing a canonical `roadmap.md` according to the Report Templates.
+    2. auditing every user story’s included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit Rules;
+    3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 and the Feature Synthesis Rules;
+    4. developing, validating, and refining shared rules according to Shared System Semantics;
+    5. producing a canonical `roadmap.md` according to the Report Templates.
 - run every analysis session from scratch, ignoring any prior similar analyses available from global or project context.
 
 ---
