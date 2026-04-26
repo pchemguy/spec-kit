@@ -534,7 +534,7 @@ Use the following top-level template and associated subtemplates.
 ### Top-Level Template
 
 ```
-# Roadmap | Roadmap: [Target Name]
+# Roadmap: [Target Name]
 
 ## Notes *(if applicable)*
 
