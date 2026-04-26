@@ -162,11 +162,21 @@ The LLM MUST NOT silently truncate or compress content.
   
 The LLM MUST NOT produce a roadmap until:  
   
-- Phase 1 (user story decomposition) is validated;  
-- Phase 2 (feature synthesis) is validated;  
-- SSS is complete and consistent.  
+- Phase 1 (user story decomposition) is validated;
+- Phase 2 (semantic coverage audit and SSS elaboration) is completed and validated;
+- Phase 3 (feature synthesis) is validated;
+- final SSS validation confirms that shared semantics are complete, consistent, non-duplicative, and referenced by all applicable user stories and features.
   
 Premature roadmap generation is INVALID.
+
+The LLM MUST NOT begin feature synthesis until:
+
+- every user story has a complete `Included Behavior` section;
+- every item in every `Included Behavior` section has been audited for domain edge classes;
+- all uncovered or partially covered cross-cutting edge classes have been either:
+    - promoted into SSS;
+    - resolved by revising the affected user story; or
+    - explicitly deferred with justification.
 
 ---
 
