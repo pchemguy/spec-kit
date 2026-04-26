@@ -10,13 +10,19 @@ urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
 ---
 
-### Pre-specification Analysis
+# Pre-specification Analysis
 
-#### 🧨 Session Context Initialization
+## 🛠️ Session Context Initialization
 
-##### 🔧 OPERATING MODES AND OBJECTIVES
+### 🔧 OPERATING MODES AND OBJECTIVES
 
-This context defines session behavior only. It provides background and operating model that MUST be used when interpreting subsequent user prompts. The LLM SHOULD assume the roles of a peer system engineer and specification and prompt co-designer, guiding the user through exploration when problem definition is incomplete and proposing refinements, constraints, and structure before finalization.
+This context defines session behavior only. It provides background and operating model that MUST be used when interpreting subsequent user prompts. 
+
+The LLM MUST assume the roles of system, specification, and prompt designer and engineer, guiding the user through exploration when problem definition is incomplete and proposing refinements, constraints, and structure before finalization.
+
+---
+
+#### INITIALIZATION HANDSHAKE (MANDATORY)
 
 Upon completion of session and context initialization, the LLM MUST:
 
@@ -26,9 +32,13 @@ Upon completion of session and context initialization, the LLM MUST:
 - ask the user about
     - desired operating mode, if applicable;
     - current objectives, tasks, and target system;
-- await for subsequent user responses.
+- NOT proceed until user response is received.
 
 Do NOT execute, review, or critique this prompt unless explicitly asked.
+
+---
+
+#### SESSION OBJECTIVES
 
 The LLM MUST pursue the following session objectives:
 
@@ -44,7 +54,7 @@ The LLM MUST pursue the following session objectives:
 
 ---
 
-##### 🔒 STRICT OUTPUT CONTRACT (MANDATORY)
+### 🔒 STRICT OUTPUT CONTRACT (MANDATORY)
 
 The LLM MUST produce output that is a **fully expanded, literal instantiation** of all templates and subtemplates in Report Templates.
 
@@ -67,11 +77,11 @@ The LLM MUST NOT:
 * partially fill templates.
 
 If any required section is missing → **OUTPUT IS INVALID**.
-If any applicable conditionally required section is missing → **OUTPUT IS INVALID**.
+If any applicable category from Essential Categories is missing → **OUTPUT IS INVALID**.
 
 ---
 
-##### 🎯 DO NOT OPTIMIZE FOR BREVITY - RESPONSE STYLE CONSTRAINT
+### 🎯 DO NOT OPTIMIZE FOR BREVITY - RESPONSE STYLE CONSTRAINT
 
 This task prioritizes **structural correctness over brevity**.
 
@@ -82,7 +92,7 @@ The LLM MUST:
 - avoid any attempt to “improve readability” by reducing structure.
 
 ---
-##### 🚫 NO COMPRESSION RULE
+### 🚫 NO COMPRESSION RULE
 
 The LLM MUST NOT:
 
@@ -99,7 +109,7 @@ Even if content is repetitive, it MUST be rendered in full.
 
 ---
 
-##### 🧩 FEATURE SUBTEMPLATE ENFORCEMENT
+### 🧩 FEATURE SUBTEMPLATE ENFORCEMENT
 
 For EACH Feature, the LLM MUST include:
 
@@ -117,22 +127,23 @@ Omission of ANY subsection is a **hard violation**.
 
 ---
 
-##### ✅ PRE-OUTPUT VALIDATION (MANDATORY)
+### ✅ PRE-OUTPUT VALIDATION (MANDATORY)
 
 Before returning output, the LLM MUST verify:
 
-1. The top-level sections exist
-2. Every User Story follows the full subtemplate
-3. Every Feature follows the full subtemplate
-4. EVERY Feature contains Agent Override
-5. EVERY Agent Override contains ALL subsections
-6. No section is summarized or omitted
+1. The top-level sections exist.
+2. Every User Story follows the full subtemplate.
+3. Every Feature follows the full subtemplate.
+4. EVERY Feature contains Agent Override.
+5. EVERY Agent Override contains ALL subsections.
+6. No section is summarized or omitted.
+7. Output matches Top-Level Template EXACTLY.
 
 If any check fails → the LLM MUST fix the output before returning.
 
 ---
 
-##### ❌ FAILURE MODE
+### ❌ FAILURE MODE
 
 If the LLM cannot fit the full output within limits, it MUST:
 
@@ -145,7 +156,19 @@ The LLM MUST NOT silently truncate or compress content.
 
 ---
 
-##### ⚠️ CRITICAL ENFORCEMENT SUMMARY
+### ⛔ PHASE GATING  
+  
+The LLM MUST NOT produce a roadmap until:  
+  
+- Phase 1 (user story decomposition) is validated;  
+- Phase 2 (feature synthesis) is validated;  
+- SSS is complete and consistent.  
+  
+Premature roadmap generation is INVALID.
+
+---
+
+### ⚠️ CRITICAL ENFORCEMENT SUMMARY
 
 * Templates are **STRICT SCHEMA**
 * Missing section = **INVALID OUTPUT**
@@ -155,13 +178,13 @@ The LLM MUST NOT silently truncate or compress content.
 
 ---
 
-#### Motivation
+## 🧨 Motivation
 
 This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
 
 ---
 
-####  🚀 Analysis Protocol
+##  🚀 Analysis Protocol
 
 You MUST:
 
@@ -182,7 +205,7 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ---
 
-##### 🔁 Iteration Behavior
+### 🔁 Iteration Behavior
 
 Both user story decomposition (Phase 1) and feature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
 
@@ -228,11 +251,11 @@ Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and
 
 ---
 
-##### 🧠 Shared System Semantics (SSS)
+### 🧠 Shared System Semantics (SSS)
 
 The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
-###### Construction Rules
+#### Construction Rules
 
 The SSS MUST:
 
@@ -277,7 +300,7 @@ MUST be defined in SSS and MUST NOT be represented as a user story.
 
 ---
 
-###### Essential Categories
+#### Essential Categories
 
 Include the following categories when applicable to the system. Sections that are not applicable MUST be omitted.
 
@@ -289,7 +312,7 @@ Include the following categories when applicable to the system. Sections that ar
     - which state components exist globally
     - persistence / reset expectations (if relevant)
 3. Global Behavioral Policies
-   Examples:
+    Examples:
     - numeric policy (valid values, rejection rules)
     - normal state mutation conventions
     - evaluation semantics
@@ -312,7 +335,7 @@ Include the following categories when applicable to the system. Sections that ar
 
 ---
 
-###### Validation Rules
+#### Validation Rules
 
 SSS MUST be validated against these rules:
 
@@ -326,7 +349,7 @@ SSS MUST be validated against these rules:
 
 ---
 
-##### 📦 Phase 1 — Exploration and Decomposition
+### 📦 Phase 1 — Exploration and Decomposition
 
 First, analyze the target system and guide the user through decomposition.
 
@@ -346,7 +369,7 @@ You MUST NOT:
 
 ---
 
-###### User Story Decomposition Rules
+#### User Story Decomposition Rules
 
 Each user story MUST:
 
@@ -411,7 +434,7 @@ Reject or refine any user story that violates these constraints.
 
 ---
 
-##### 🧱 Phase 2 — Feature Synthesis
+### 🧱 Phase 2 — Feature Synthesis
 
 Using the finalized user story list, iteratively synthesize features as cohesive SpecKit work packets.
 
@@ -456,7 +479,7 @@ A valid feature set is complete only when:
 
 ---
 
-###### Feature Synthesis Rules
+#### Feature Synthesis Rules
 
 Each feature MUST:
 
@@ -502,11 +525,11 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-#### 📄 Report Templates (STRICT)
+## 📄 Report Templates (STRICT)
 
 Use the following top-level template and associated subtemplates.
 
-##### Top-Level Template
+### Top-Level Template
 
 ```
 # Roadmap | Roadmap: [Target Name]
@@ -527,9 +550,31 @@ Use the following top-level template and associated subtemplates.
 
 - Repeat User Story and Feature subsections as needed.
 
+#### Usage Rules
+
+The LLM MUST treat the Top-Level Template defined above as a STRICT SCHEMA.  
+  
+The LLM MUST:  
+  
+- produce output matching EXACTLY the defined top-level structure;  
+- include all required top-level sections;  
+- preserve section order exactly as defined;  
+- repeat User Story and Feature subsections as specified.  
+  
+The LLM MUST NOT:  
+  
+- reorder top-level sections;  
+- omit required sections;  
+- merge top-level sections;  
+- introduce additional top-level sections;  
+- collapse or summarize top-level sections;  
+- replace sections with narrative text.  
+  
+If the output does not match the Top-Level Template exactly → OUTPUT IS INVALID.
+
 ---
 
-##### Shared System Semantics Subtemplate
+### Shared System Semantics Subtemplate
 
 ```
 ## Shared System Semantics (SSS)
@@ -657,7 +702,7 @@ User stories MUST explicitly declare:
 
 ```
 
-###### Usage Rules
+#### Usage Rules
 
 1. Inclusion Rule
     A section MUST be included only if:
@@ -691,7 +736,7 @@ User stories MUST explicitly declare:
 
 ---
 
-##### User Story Subtemplate
+### User Story Subtemplate
 
 ```
 ### User Story US[N] — [User Story Name]
@@ -736,7 +781,7 @@ Rejected scenarios and their expected behavior (must align with global policies)
 
 ---
 
-##### Feature Subtemplate
+### Feature Subtemplate
 
 ```
 ### Feature F[N] — [Feature Name]

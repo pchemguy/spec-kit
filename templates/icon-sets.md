@@ -41,7 +41,6 @@ Below is a **curated, high-compatibility set**, grouped by intent (so you can re
 * 🧾 requirement / contract
 * 📜 formal rule
 * 🧠 invariant / logic
-* 🪪 identity / authority (works in modern renderers, dev.to OK)
 
 ---
 
@@ -65,7 +64,6 @@ Below is a **curated, high-compatibility set**, grouped by intent (so you can re
 * 🧨 breaking / dangerous
 * ⚠️ risky
 * 🛑 hard stop
-* 🪤 trap / pitfall (modern but safe)
 
 ---
 
@@ -76,7 +74,6 @@ Below is a **curated, high-compatibility set**, grouped by intent (so you can re
 * 🏗️ architecture
 * 🧬 structure / composition
 * 📦 package / unit
-* 🪜 layering / steps
 * 🔗 linkage / dependency
 
 ---
@@ -209,5 +206,3 @@ Define a **standard icon vocabulary**, e.g.:
 Consistency matters more than variety.
 
 ---
-
-If you want, I can build you a **Spec Kit–optimized icon convention** (tight, minimal set with semantic mapping for every section of your templates).
