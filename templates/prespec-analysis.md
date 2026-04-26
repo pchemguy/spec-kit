@@ -542,11 +542,11 @@ Use the following top-level template and associated subtemplates.
 
 ## User Stories
 
-### User Story US[N] — [User Story Name]
+### User Story [N] — [User Story Name]
 
 ## Features
 
-### Feature F[N] — [Feature Name]
+### Feature [N] — [Feature Name]
 
 ```
 
@@ -741,7 +741,7 @@ User stories MUST explicitly declare:
 ### User Story Subtemplate
 
 ```
-### User Story US[N] — [User Story Name]
+### User Story [N] — [User Story Name]
 
 Status: planned | in-progress | complete
 
@@ -786,7 +786,7 @@ Rejected scenarios and their expected behavior (must align with global policies)
 ### Feature Subtemplate
 
 ```
-### Feature F[N] — [Feature Name]
+### Feature [N] — [Feature Name]
 
 Status: planned | in-progress | complete
 
