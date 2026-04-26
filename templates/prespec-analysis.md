@@ -120,11 +120,15 @@ For EACH Feature, the LLM MUST include:
 - Specify User Prompt
 - Agent Override
 
-Inside **Agent Override**, the LLM MUST include ALL subsections:
+Inside **Agent Override**, the LLM MUST include ALL required subsections:
 
 1. Shared Definitions, Conventions, and Policies
-2. User Story Decomposition Constraints
-3. User Story Decomposition (table)
+2. User Story Decomposition
+
+Inside `User Story Decomposition`, the LLM MUST include both:
+
+- the canonical decomposition constraints;
+- the canonical user story table.
 
 Omission of ANY subsection is a **hard violation**.
 
@@ -134,12 +138,21 @@ Omission of ANY subsection is a **hard violation**.
 
 Before returning output, the LLM MUST verify:
 
-1. The output top-level structure follows Roadmap Template - Top-Level Structure.
-2. Every User Story follows the full subtemplate.
-3. Every Feature follows the full subtemplate.
-4. EVERY Feature contains Agent Override.
-5. EVERY Agent Override contains ALL subsections.
-6. No section is summarized or omitted.
+1. Phase 1 user story decomposition was completed and validated.
+2. Phase 2 semantic coverage audit was completed and validated.
+3. All accepted Phase 2 SSS changes were integrated.
+4. Phase 3 feature synthesis was completed and validated.
+5. Phase 4 final SSS and roadmap validation passed.
+6. The output top-level structure follows Roadmap Template - Top-Level Structure.
+7. Every User Story follows the full subtemplate.
+8. Every User Story contains complete `Included Behavior`.
+9. Every User Story references all applicable SSS sections or rules.
+10. Every Feature follows the full subtemplate.
+11. EVERY Feature contains Agent Override.
+12. EVERY Agent Override contains ALL required subsections.
+13. EVERY Feature Agent Override references all applicable SSS sections or rules.
+14. No section is summarized or omitted.
+15. No roadmap-local rule duplicates an SSS rule.
 
 If any check fails → the LLM MUST fix the output before returning.
 
@@ -684,7 +697,7 @@ If these criteria are not satisfied, feature synthesis MUST NOT begin.
 
 ### 🧱 Phase 3 — Feature Synthesis
 
-Using the finalized user story list, iteratively synthesize features as cohesive SpecKit work packets.
+Using the finalized, semantically audited user story list and revised SSS from Phase 2, iteratively synthesize features as cohesive SpecKit work packets.
 
 Your goal is to partition the ordered user story list into a sequence of features that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each feature produces a coherent, bounded, and actionable specification input.
 
@@ -692,7 +705,7 @@ Feature synthesis operates by introducing explicit boundaries ("cuts") in the or
 
 You MUST:
 
-- operate strictly on the finalized, ordered user story list produced in Phase 1;
+- operate strictly on the finalized, ordered, semantically audited user story list produced by Phases 1 and 2;
 - treat feature synthesis as a partitioning problem over a linear user story queue;
 - propose an initial feature grouping that covers the full user story list based on the Feature Synthesis Rules below;
 - explicitly justify feature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
@@ -705,6 +718,7 @@ You MUST:
     - the first feature forms a defensible MVP when the system is introduced from an empty or initial state
     - all subsequent features are valid extensions;
 - ask targeted clarification questions when grouping decisions depend on unstated assumptions.
+- ensure each feature’s Agent Override references all SSS sections and rules required by the Phase 2 audit;
 
 You MUST NOT:
 
@@ -770,6 +784,38 @@ Reject or refine any feature that violates these constraints.
 1. MVP feature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of user stories.
 2. Extension features must be defensible functional slices, strictly ordered after prior features.
 3. Ordering, completeness, and adherence to Shared System Semantics policies are mandatory for all features.
+
+---
+
+### 🧾 Phase 4 — Final SSS and Roadmap Validation
+
+After feature synthesis is complete and before producing the final roadmap, perform a final validation pass across:
+
+- SSS;
+- user stories;
+- feature grouping;
+- feature Specify User Prompts;
+- feature Agent Override sections.
+
+You MUST verify:
+
+1. Every user story is valid under the User Story Decomposition Rules.
+2. Every user story was covered by Phase 2 semantic audit.
+3. Every `Included Behavior` item has either:
+    - sufficient SSS coverage;
+    - story-local acceptance or exception coverage;
+    - explicit justified deferral.
+4. Every SSS section is referenced by at least one applicable user story or feature, unless justified as a global invariant.
+5. No user story duplicates SSS rules.
+6. No feature Specify User Prompt duplicates SSS rules unnecessarily.
+7. Every feature Agent Override includes all applicable SSS sections and rule references.
+8. Every feature includes only contiguous user stories from the accepted user story order.
+9. Every user story is assigned to exactly one feature.
+10. The first feature forms a defensible MVP when the target system is greenfield.
+11. Later features are valid extensions of prior features.
+12. The final roadmap follows the Roadmap Template and subtemplates exactly.
+
+If any validation item fails, the LLM MUST revise the relevant prior phase output before producing the final roadmap.
 
 ---
 
@@ -874,7 +920,6 @@ The Phase 2 audit output is an intermediate analysis artifact. It MUST NOT repla
 ## Features
 
 ### Feature [N] — [Feature Name]
-
 ```
 
 - Repeat User Story and Feature subsections as needed.
