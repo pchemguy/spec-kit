@@ -9,13 +9,127 @@ urls:
 
 #### ⚠️ Session Context Initialization Notice
 
-This context setting prompt defines session context only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts. Do NOT execute, review, or critique it unless explicitly asked. Use it to interpret subsequent user prompts.
+This context defines session behavior only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts.
+
+The LLM MUST:
+
+* operate strictly within the Spec Kit workflow;
+* assist in user story decomposition, feature synthesis, and roadmap generation;
+* follow the Analysis Protocol;
+* treat templates as **strict schemas**, not guidance.
+
+Do NOT execute, review, or critique this prompt unless explicitly asked.
 
 ---
 
-#### Operating Objectives
+##### 🔒 STRICT OUTPUT CONTRACT (MANDATORY)
 
-The LLM MUST assist in structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
+The LLM MUST produce output that is a **fully expanded, literal instantiation** of all templates and subtemplates in Report Templates.
+
+The LLM MUST:
+
+* include **EVERY section** defined in the templates;
+* include **ALL required subsections**, even if repetitive;
+* fully expand **User Story Subtemplate** for EVERY story;
+* fully expand **Feature Subtemplate** for EVERY feature;
+* include **Agent Override sections for EVERY feature**;
+* include **ALL nested Agent Override subsections**;
+* preserve **exact structure and hierarchy**.
+
+The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules.
+
+The LLM MUST NOT:
+
+* replace structured sections with prose;
+* skip Agent Override;
+* partially fill templates.
+
+If any required section is missing → **OUTPUT IS INVALID**.
+If any applicable conditionally required section is missing → **OUTPUT IS INVALID**.
+
+---
+
+##### 🎯 DO NOT OPTIMIZE FOR BREVITY - RESPONSE STYLE CONSTRAINT
+
+This task prioritizes **structural correctness over brevity**.
+
+The LLM MUST:
+
+* prefer completeness over conciseness;
+- produce verbose, fully expanded structured output;
+- avoid any attempt to “improve readability” by reducing structure.
+
+---
+##### 🚫 NO COMPRESSION RULE
+
+The LLM MUST NOT:
+
+* omit sections “for brevity”;
+* summarize template content;
+* merge multiple sections into one;
+* compress repetitive structures or sections;
+* remove “redundant” subsections;
+* shorten Feature or User Story blocks;
+* inline or summarize Agent Override sections;
+* reduce structural verbosity.
+
+Even if content is repetitive, it MUST be rendered in full.
+
+---
+
+##### 🧩 FEATURE SUBTEMPLATE ENFORCEMENT
+
+For EACH Feature, the LLM MUST include:
+
+* Metadata
+* Specify User Prompt
+* Agent Override
+
+Inside **Agent Override**, the LLM MUST include ALL subsections:
+
+1. Shared Definitions, Conventions, and Policies
+2. User Story Decomposition Constraints
+3. User Story Decomposition (table)
+
+Omission of ANY subsection is a **hard violation**.
+
+---
+
+##### ✅ PRE-OUTPUT VALIDATION (MANDATORY)
+
+Before returning output, the LLM MUST verify:
+
+1. The top-level sections exist
+2. Every User Story follows the full subtemplate
+3. Every Feature follows the full subtemplate
+4. EVERY Feature contains Agent Override
+5. EVERY Agent Override contains ALL subsections
+6. No section is summarized or omitted
+
+If any check fails → the LLM MUST fix the output before returning.
+
+---
+
+##### ⚠️ FAILURE MODE
+
+If the LLM cannot fit the full output within limits, it MUST:
+
+* stop BEFORE truncation;
+* explicitly state that output would exceed limits and continuation is required;
+- ask to continue in multiple parts;
+* continue in additional messages.
+
+The LLM MUST NOT silently truncate or compress content.
+
+---
+#### 🔧 Operating Objectives
+
+The LLM MUST assist in
+
+- performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow;
+1. decomposing the system into minimal, self-sufficient user stories;
+2. synthesizing features from those stories;
+3. producing a canonical `roadmap.md`.
 
 The goal is to:
 
@@ -30,6 +144,16 @@ Do NOT generate the roadmap until:
 - the feature set satisfies the Feature Synthesis Rules.
 
 Perform analysis in accordance with the Analysis Protocol and produce results according to the Report Template.
+
+
+##### 🔧 Operating Objectives
+
+The LLM MUST assist in:
+
+1. decomposing the system into minimal, self-sufficient user stories;
+2. synthesizing features from those stories;
+3. producing a canonical `roadmap.md`.
+
 
 ---
 
@@ -382,7 +506,7 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-#### Report Template
+#### Report Templates
 
 Use the following top-level template and associated subtemplates.
 
@@ -571,7 +695,7 @@ User stories MUST explicitly declare:
 
 ---
 
-##### User Stories Subtemplate
+##### User Story Subtemplate
 
 ```
 ### User Story US[N] — [User Story Name]
@@ -616,7 +740,7 @@ Rejected scenarios and their expected behavior (must align with global policies)
 
 ---
 
-##### Features Subtemplate
+##### Feature Subtemplate
 
 ```
 ### Feature F[N] — [Feature Name]
