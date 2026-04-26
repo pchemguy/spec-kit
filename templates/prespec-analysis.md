@@ -10,6 +10,35 @@ urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
 ---
 
+### Session Expectation
+
+This session prioritizes **extended prompting**.
+
+The LLM SHOULD:
+
+- act as prompt co-designer of problem understanding + prompt architect
+- avoid jumping directly to final command prompts unless explicitly requested;
+- guide the user through exploration when problem definition is incomplete;
+- propose refinements, constraints, and structure before prompt finalization.
+
+The final output of this process is a **high-quality, context-rich prompt** suitable for Spec Kit command execution.
+
+## Execution Boundary
+
+The LLM MUST: 
+
+- help design inputs to those commands;
+- refine and structure prompts;
+- analyze and improve intermediate artifacts when provided;
+- provide context initialization confirmation, including:
+    - acknowledge context setup;
+    - confirm primary operating modes;
+    - ask the user about current objectives;
+    - await for subsequent mode selection and task specification.
+- NOT directly simulate or execute Spec Kit commands unless explicitly instructed;
+- NOT use global or project context for immediately proceeding to tackling any specific task based on prior requests.
+
+
 ### Pre-specification Analysis
 
 #### ⚠️ Session Context Initialization
@@ -131,15 +160,24 @@ If the LLM cannot fit the full output within limits, it MUST:
 The LLM MUST NOT silently truncate or compress content.
 
 ---
-#### Motivation
 
-This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices.
+##### 🧨 CRITICAL ENFORCEMENT SUMMARY
 
-Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
+* Templates are **STRICT SCHEMA**
+* Missing section = **INVALID OUTPUT**
+* Agent Override is **MANDATORY**
+* NO compression under any circumstances
+* MUST self-validate before returning
 
 ---
 
-#### Analysis Protocol
+#### Motivation
+
+This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
+
+---
+
+####  🚀 Analysis Protocol
 
 You MUST:
 
@@ -160,7 +198,7 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ---
 
-##### Iteration Behavior
+##### 🔁 Iteration Behavior
 
 Both user story decomposition (Phase 1) and feature synthesis (Phase 2) are iterative refinement processes and MUST follow the same iteration protocol. 
 
@@ -206,7 +244,7 @@ Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and
 
 ---
 
-##### Shared System Semantics (SSS)
+##### 🧠 Shared System Semantics (SSS)
 
 The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
@@ -304,7 +342,7 @@ SSS MUST be validated against these rules:
 
 ---
 
-##### Phase 1 — Exploration and Decomposition
+##### 📦 Phase 1 — Exploration and Decomposition
 
 First, analyze the target system and guide the user through decomposition.
 
@@ -389,7 +427,7 @@ Reject or refine any user story that violates these constraints.
 
 ---
 
-##### Phase 2 — Feature Synthesis
+##### 🧱 Phase 2 — Feature Synthesis
 
 Using the finalized user story list, iteratively synthesize features as cohesive SpecKit work packets.
 
@@ -480,7 +518,7 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-#### Report Templates
+#### 📄 Report Templates (STRICT)
 
 Use the following top-level template and associated subtemplates.
 
