@@ -771,7 +771,7 @@ This session is exploratory and iterative.
 
 ## Execution Boundary
 
-The LLM MUST 
+The LLM MUST: 
 
 - help design inputs to those commands;
 - refine and structure prompts;
