@@ -459,7 +459,7 @@ This phase MUST be completed before feature synthesis begins.
 You MUST:
 
 - inspect every user story in order;
-- inspect every item listed under that user story’s `#### Included Behavior` section;
+- inspect every item listed under that user story’s `#### Included Behavior`;
 - enumerate domain-relevant edge cases, boundary classes, state classes, invalid classes, exceptional classes, and continuity classes for each included behavior item;
 - assess whether each edge case or class is covered by existing SSS;
 - classify SSS coverage for each edge case or class as:
@@ -659,6 +659,29 @@ The LLM MUST NOT expand user stories into global policy containers.
 
 ---
 
+#### Required Phase 2 Audit Output During Iteration
+
+During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the Semantic Coverage Audit Template.
+
+---
+
+#### Phase 2 Completion Criteria
+
+Phase 2 is complete only when:
+
+- every user story has been audited;
+- every `Included Behavior` item has been audited;
+- every material edge class is classified;
+- every Partially Covered or Not Covered class has a resolution;
+- all accepted SSS changes have been integrated into the roadmap SSS;
+- all affected user stories have been updated to reference the revised SSS;
+- all unresolved decisions have either been clarified with the user or explicitly deferred with justification;
+- the user has accepted the audited user story set and revised SSS.
+
+If these criteria are not satisfied, feature synthesis MUST NOT begin.
+
+---
+
 ### 🧱 Phase 3 — Feature Synthesis
 
 Using the finalized user story list, iteratively synthesize features as cohesive SpecKit work packets.
@@ -752,11 +775,9 @@ Reject or refine any feature that violates these constraints.
 
 ## 📄 Report Templates (STRICT)
 
-### Semantic Coverage Audit (Phase 2) Template
+### Semantic Coverage Audit Template
 
-During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the following required structure.
-
-```markdown
+````markdown
 ## Phase 2 Semantic Coverage Audit
 
 ### Audit Summary
@@ -796,6 +817,7 @@ During Phase 2, before asking the user to accept the audited user story set, the
 
 #### Add SSS Section: [Section Name]
 
+```markdown
 ### [Section Name]
 
 **Definition**: [Definition]
@@ -804,6 +826,35 @@ During Phase 2, before asking the user to accept the audited user story set, the
 2. [Normative rule]
 3. [Normative rule]
 ```
+
+#### Revise SSS Section: [Section Name]
+
+```markdown
+### [Section Name]
+
+**Definition**: [Definition]
+
+1. [Revised normative rule]
+2. [Revised normative rule]
+3. [Revised normative rule]
+```
+
+### Clarification Questions
+
+1. [Question, if needed]
+2. [Question, if needed]
+
+### Phase 2 Validation Result
+
+* [ ] Every user story was audited.
+* [ ] Every `Included Behavior` item was audited.
+* [ ] Every uncovered cross-cutting rule was promoted to SSS or explicitly deferred.
+* [ ] Every affected user story references the appropriate SSS sections or rules.
+* [ ] No user story duplicates SSS rules.
+* [ ] No material semantic ambiguity remains before feature synthesis.
+````
+
+The Phase 2 audit output is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md` output. The final roadmap MUST still follow the Roadmap Template exactly.
 
 ---
 
