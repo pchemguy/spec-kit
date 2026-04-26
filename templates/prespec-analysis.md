@@ -765,13 +765,13 @@ Status: planned | in-progress | complete
 - User stories included: US[M], US[M+1], … (list of user stories)
 - Scope: textual description summarizing combined user-visible value
 
-##### Specify User Prompt
+#### Specify User Prompt
 
 [Feature description for the `/speckit.specify` command, defining the behavior of the included user stories as a coherent specification]
 
-###### Agent Override
+##### Agent Override
 
-####### Shared Definitions, Conventions, and Policies
+###### Shared Definitions, Conventions, and Policies
 
 The specification MUST inherit the roadmap SSS as authoritative shared context.
 
@@ -783,15 +783,15 @@ Applicable SSS definitions, conventions, policies, and rules for this feature:
 
 Do not redefine, weaken, duplicate, or localize these rules inside the feature specification. Use them as inherited constraints when writing requirements, acceptance scenarios, edge cases, exceptions, assumptions, and success criteria.
 
-####### User Story Decomposition Constraints
+###### User Story Decomposition
+
+Follow these constraints:
 
 1. The following user story set is canonical for the spec.
 2. Preserve exactly these user stories in the User Scenarios & Testing section.
 3. Do not merge, split, reorder, rename, or re-prioritize these user stories.
 4. Provide user story details for each story according to the spec-template.
 5. Any additional detail must go into acceptance scenarios, edge cases, requirements, assumptions, non-goals, or success criteria, not into changing the story decomposition.
-
-####### User Story Decomposition
 
 Use exactly this canonical story set:
 
