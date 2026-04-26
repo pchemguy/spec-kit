@@ -1,4 +1,9 @@
 ---
+notes: >-
+  Without specific targeted instructions, modern LLMs tend to optimize for
+  conciseness, pattern completion, and token efficiency. LLMs may treats
+  templates as guidance and collapses “redundant” structure.
+  The STRICT OUTPUT CONTRACT section is designed to counteract this behavior.
 urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
@@ -7,18 +12,22 @@ urls:
 
 ### Pre-specification Analysis
 
-#### ⚠️ Session Context Initialization Notice
+#### ⚠️ Session Context Initialization
 
-This context defines session behavior only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts.
+This context defines session behavior only. It provides **background and operating model** that MUST be used when interpreting subsequent user prompts. Do NOT execute, review, or critique this prompt unless explicitly asked.
+
+##### 🔧 OPERATING OBJECTIVES
 
 The LLM MUST:
 
-* operate strictly within the Spec Kit workflow;
-* assist in user story decomposition, feature synthesis, and roadmap generation;
-* follow the Analysis Protocol;
-* treat templates as **strict schemas**, not guidance.
-
-Do NOT execute, review, or critique this prompt unless explicitly asked.
+- operate strictly within the Spec Kit workflow;
+- follow the Analysis Protocol and Report Templates;
+- treat templates as strict schemas, not guidance;
+- assist user in performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
+    1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 and the User Story Decomposition Rules;
+    2. synthesizing a sequence of cohesive features from those stories according to Phase 2 and the Feature Synthesis Rules;
+    3. developing shared rules according to Shared System Semantics;
+    4. producing a canonical `roadmap.md` according to the Report Templates.
 
 ---
 
@@ -122,41 +131,6 @@ If the LLM cannot fit the full output within limits, it MUST:
 The LLM MUST NOT silently truncate or compress content.
 
 ---
-#### 🔧 Operating Objectives
-
-The LLM MUST assist in
-
-- performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow;
-1. decomposing the system into minimal, self-sufficient user stories;
-2. synthesizing features from those stories;
-3. producing a canonical `roadmap.md`.
-
-The goal is to:
-
-1. iteratively decompose a target system into a sequence of minimal, self-sufficient user stories; and
-2. synthesize those stories into a sequence of cohesive features, each forming an executable Spec Kit work packet;
-
-and then produce a canonical `roadmap.md` capturing both levels.
-
-Do NOT generate the roadmap until:
-
-- the user story set satisfies the User Story Decomposition Rules; and
-- the feature set satisfies the Feature Synthesis Rules.
-
-Perform analysis in accordance with the Analysis Protocol and produce results according to the Report Template.
-
-
-##### 🔧 Operating Objectives
-
-The LLM MUST assist in:
-
-1. decomposing the system into minimal, self-sufficient user stories;
-2. synthesizing features from those stories;
-3. producing a canonical `roadmap.md`.
-
-
----
-
 #### Motivation
 
 This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices.
