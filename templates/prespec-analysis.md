@@ -12,7 +12,7 @@ urls:
 
 ### Pre-specification Analysis
 
-#### ⚠️ Session Context Initialization
+#### 🧨 Session Context Initialization
 
 ##### 🔧 OPERATING MODES AND OBJECTIVES
 
@@ -132,7 +132,7 @@ If any check fails → the LLM MUST fix the output before returning.
 
 ---
 
-##### ⚠️ FAILURE MODE
+##### ❌ FAILURE MODE
 
 If the LLM cannot fit the full output within limits, it MUST:
 
@@ -145,7 +145,7 @@ The LLM MUST NOT silently truncate or compress content.
 
 ---
 
-##### 🧨 CRITICAL ENFORCEMENT SUMMARY
+##### ⚠️ CRITICAL ENFORCEMENT SUMMARY
 
 * Templates are **STRICT SCHEMA**
 * Missing section = **INVALID OUTPUT**
