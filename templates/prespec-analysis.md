@@ -230,6 +230,59 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ---
 
+### 🧠 WORKING ANALYSIS STATE (INTERNAL MODEL)
+
+During Phases 1–4, the LLM MUST maintain a Working Analysis State (WAS) consisting of:
+
+- evolving Shared System Semantics (SSS);
+- ordered user story list (fully expanded subtemplate structure);
+- intermediate audit findings and revisions.
+
+The WAS:
+
+- is the authoritative source for all subsequent phases;
+- MAY be partially or fully rendered during iteration;
+- MUST NOT be treated as final roadmap output;
+- MAY be revised between phases;
+- MUST converge before final roadmap generation.
+
+---
+
+###  📗 INTERMEDIATE MATERIALIZATION RULE
+
+The LLM MUST materialize the Working Analysis State as structured output when required by a phase.
+
+Specifically:
+
+- After Phase 1, the LLM MUST produce the current 
+    - shared rules using Shared System Semantics  Subtemplate;
+    - user story set using the User Story Subtemplate.
+- After Phase 2, the LLM MUST produce:
+    - audit report;
+    - updated SSS;
+    - revised user story set.
+
+These outputs:
+
+- MUST follow subtemplates exactly;
+- MUST NOT be embedded into the final roadmap structure;
+- MUST be treated as intermediate artifacts.
+
+---
+
+### 📦 ROADMAP GENERATION RULE
+
+The final roadmap is a projection of the finalized Working Analysis State.
+
+The LLM MUST:
+
+- generate the roadmap ONLY after all phases complete;
+- use the final WAS as the single source of truth;
+- perform no additional synthesis during roadmap generation;
+- perform only structural rendering into the Roadmap Template.
+
+---
+
 ### 🔁 Iteration Behavior
 
 User story decomposition (Phase 1), semantic coverage auditing (Phase 2), and feature synthesis (Phase 3) are iterative refinement processes.
@@ -324,6 +377,17 @@ Any behavior that:
 - does not define a standalone user interaction  
   
 MUST be defined in SSS and MUST NOT be represented as a user story.
+
+During Phase 1, the LLM MUST:
+
+- identify and accumulate SSS rules incrementally;
+- maintain SSS in the Working Analysis State;
+- materialize SSS as a structured section before Phase 2 begins.
+
+Phase 2 MUST NOT begin unless:
+
+- a preliminary SSS exists;
+- user stories are fully expanded and stable enough for audit.
 
 ---
 
@@ -499,6 +563,36 @@ You MUST NOT:
 - duplicate SSS rules inside user story descriptions, included behavior, acceptance scenarios, or exception scenarios;
 - introduce implementation-specific details unless they are already required by project constraints or constitution;
 - convert edge cases into separate user stories unless they define independent user-initiated, value-producing interactions.
+
+---
+
+#### Phase 2 Preconditions
+
+Phase 2 MAY begin only when:
+
+- the Working Analysis State contains:
+    - a fully expanded user story set;
+    - a preliminary SSS section;
+- each user story includes:
+    - complete Included Behavior;
+    - complete State Interaction;
+
+---
+
+#### Phase 2 Source of Truth
+
+The Semantic Coverage Audit operates on the Working Analysis State, not on the final roadmap.
+
+The LLM MUST treat:
+
+- the user story set in WAS as canonical input;
+- the SSS in WAS as mutable and subject to refinement.
+
+The audit MUST:
+
+- update WAS directly;
+- not assume roadmap immutability;
+- not require roadmap materialization.
 
 ---
 
