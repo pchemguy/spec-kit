@@ -133,13 +133,12 @@ Omission of ANY subsection is a **hard violation**.
 
 Before returning output, the LLM MUST verify:
 
-1. The top-level sections exist.
+1. The output top-level structure follows Roadmap Template - Top-Level Structure.
 2. Every User Story follows the full subtemplate.
 3. Every Feature follows the full subtemplate.
 4. EVERY Feature contains Agent Override.
 5. EVERY Agent Override contains ALL subsections.
 6. No section is summarized or omitted.
-7. Output matches Top-Level Template EXACTLY.
 
 If any check fails → the LLM MUST fix the output before returning.
 
@@ -529,9 +528,9 @@ Reject or refine any feature that violates these constraints.
 
 ## 📄 Report Templates (STRICT)
 
-Use the following top-level template and associated subtemplates.
+Use the following roadmap template and associated subtemplates.
 
-### Top-Level Template
+### Roadmap Template - Top-Level Structure
 
 ```
 # Roadmap: [Target Name]
@@ -554,7 +553,7 @@ Use the following top-level template and associated subtemplates.
 
 #### Usage Rules
 
-The LLM MUST treat the Top-Level Template defined above as a STRICT SCHEMA.  
+The LLM MUST treat the Roadmap Template - Top-Level Structure defined above as a STRICT SCHEMA.  
   
 The LLM MUST:  
   
@@ -572,7 +571,7 @@ The LLM MUST NOT:
 - collapse or summarize top-level sections;  
 - replace sections with narrative text.  
   
-If the output does not match the Top-Level Template exactly → OUTPUT IS INVALID.
+If the output does not match the Roadmap Template - Top-Level Structure exactly → OUTPUT IS INVALID.
 
 ---
 
