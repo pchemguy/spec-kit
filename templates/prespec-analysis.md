@@ -214,12 +214,12 @@ This pre-specification analysis of the target system focuses on managing the com
 You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
+- run every analysis session from scratch;
+- ignore any prior similar analyses available from global or project context;
 - generate a Markdown-structured report strictly following the "Report Template", including all:
     - required top-level sections;  
     - subtemplate-defined sections;  
-    - applicable rules and constraints defined in this document;
-- run every analysis session from scratch;
-- ignore any prior similar analyses available from global or project context.
+    - applicable rules and constraints defined in this document.
 
 You MUST NOT:
 
