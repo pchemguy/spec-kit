@@ -1,7 +1,7 @@
+
 > [!NOTE] Prompt
 > 
 > Go through each item in "#### Included Behavior" for each user story. For each item enumerate domain related edge cases/classes. If possible, perform comprehensive enumeration. Assess wether every such edge case/class is covered by defined SSS. Identify any cases/classes that might require further SSS elaboration and propose changes.
-
  
 ## Audit result
 

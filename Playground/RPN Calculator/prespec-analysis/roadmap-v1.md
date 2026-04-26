@@ -1,6 +1,11 @@
 ---
 url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ee0f9b-a040-83eb-9e23-9e6da8230474
 ---
+
+> [!NOTE] Prompt
+> 
+> Help me perform user story decomposition and feature synthesis. I want to build an RPN calculator web app and have a packaged portable desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability.
+
 # Roadmap: RPN Calculator
 
 ## Notes *(if applicable)*
