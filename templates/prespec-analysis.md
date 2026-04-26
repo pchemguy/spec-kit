@@ -331,7 +331,7 @@ Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and
 
 ---
 
-### 🧰 Shared System Semantics (SSS)
+### ⚖️ Shared System Semantics (SSS)
 
 The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
@@ -440,7 +440,7 @@ SSS MUST be validated against these rules:
 
 ---
 
-### 📦 Phase 1 — Exploration and Decomposition
+### 🧰 Phase 1 — Exploration and Decomposition
 
 First, analyze the target system and guide the user through decomposition.
 
@@ -881,7 +881,7 @@ Reject or refine any feature that violates these constraints.
 
 ---
 
-### 🧾 Phase 4 — Final SSS and Roadmap Validation
+### 🧬 Phase 4 — Final SSS and Roadmap Validation
 
 After feature synthesis is complete and before producing the final roadmap, perform a final validation pass across:
 
