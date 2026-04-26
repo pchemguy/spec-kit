@@ -12,7 +12,7 @@ urls:
 
 # Pre-specification Analysis
 
-## 🛠️ Session Context Initialization  
+## 🚀 Session Context Initialization  
   
 This context defines session behavior only. It provides background and operating model that MUST be used when interpreting subsequent user prompts.  
   
@@ -83,7 +83,7 @@ If an applicable SSS Essential Category is missing from SSS without explicit jus
 
 ---
 
-### 🧭 DO NOT OPTIMIZE FOR BREVITY - RESPONSE STYLE CONSTRAINT
+### 🧭 DO NOT OPTIMIZE FOR BREVITY
 
 This task prioritizes **structural correctness over brevity**.
 
@@ -186,7 +186,7 @@ This pre-specification analysis of the target system focuses on managing the com
 
 ---
 
-##  🚀 Analysis Protocol
+## 🧵 Analysis Protocol
 
 You MUST:
 
@@ -253,7 +253,7 @@ Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and
 
 ---
 
-### 🧠 Shared System Semantics (SSS)
+### 🧰 Shared System Semantics (SSS)
 
 The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
 
