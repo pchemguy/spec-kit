@@ -758,7 +758,11 @@ List applicable Shared System Semantics sections and rules:
 
 #### Scope
 
+Defines the boundary of this user story.
+
 #### Included Behavior
+
+Defines execution semantics of this user story.
 
 #### State Interaction
 
