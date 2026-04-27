@@ -1049,9 +1049,86 @@ The LLM MUST NOT expand user stories into global policy containers.
 
 ---
 
-#### Output
+#### Output Template
 
-During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the Semantic Coverage Audit Template.
+During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the following Template.
+
+````markdown
+## Phase 2 Semantic Coverage Audit
+
+### Audit Summary
+
+- User stories audited:
+- Included behavior items audited:
+- Edge classes identified:
+- Covered:
+- Partially covered:
+- Not covered:
+- SSS sections added:
+- SSS sections revised:
+- User stories revised:
+- Clarifications required:
+
+### User Story Audit
+
+#### US[N] — [User Story Name]
+
+##### Included Behavior: [Behavior Item]
+
+| Edge case / class | Coverage | Assessment | Required resolution |
+| ----------------- | -------- | ---------- | ------------------- |
+| [Case/class]      | Covered / Partially Covered / Not Covered / Not Applicable | [Assessment] | [Resolution] |
+
+##### Required SSS Changes
+
+- Add / revise / none: [SSS section or rule]
+
+##### Required User Story Changes
+
+- [Change or none]
+
+---
+
+### Proposed SSS Changes
+
+#### Add SSS Section: [Section Name]
+
+```markdown
+### [Section Name]
+
+**Definition**: [Definition]
+
+1. [Normative rule]
+2. [Normative rule]
+3. [Normative rule]
+```
+
+#### Revise SSS Section: [Section Name]
+
+```markdown
+### [Section Name]
+
+**Definition**: [Definition]
+
+1. [Revised normative rule]
+2. [Revised normative rule]
+3. [Revised normative rule]
+```
+
+### Clarification Questions
+
+1. [Question, if needed]
+2. [Question, if needed]
+
+### Phase 2 Validation Result
+
+* [ ] Every user story was audited.
+* [ ] Every `Included Behavior` item was audited.
+* [ ] Every uncovered cross-cutting rule was promoted to SSS or explicitly deferred.
+* [ ] Every affected user story references the appropriate SSS sections or rules.
+* [ ] No user story duplicates SSS rules.
+* [ ] No material semantic ambiguity remains before feature synthesis.
+````
 
 The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
 
@@ -1283,84 +1360,7 @@ Final roadmap generation MUST be a structural rendering step only. The LLM MUST 
 
 ### Semantic Coverage Audit Template
 
-````markdown
-## Phase 2 Semantic Coverage Audit
 
-### Audit Summary
-
-- User stories audited:
-- Included behavior items audited:
-- Edge classes identified:
-- Covered:
-- Partially covered:
-- Not covered:
-- SSS sections added:
-- SSS sections revised:
-- User stories revised:
-- Clarifications required:
-
-### User Story Audit
-
-#### US[N] — [User Story Name]
-
-##### Included Behavior: [Behavior Item]
-
-| Edge case / class | Coverage | Assessment | Required resolution |
-| ----------------- | -------- | ---------- | ------------------- |
-| [Case/class]      | Covered / Partially Covered / Not Covered / Not Applicable | [Assessment] | [Resolution] |
-
-##### Required SSS Changes
-
-- Add / revise / none: [SSS section or rule]
-
-##### Required User Story Changes
-
-- [Change or none]
-
----
-
-### Proposed SSS Changes
-
-#### Add SSS Section: [Section Name]
-
-```markdown
-### [Section Name]
-
-**Definition**: [Definition]
-
-1. [Normative rule]
-2. [Normative rule]
-3. [Normative rule]
-```
-
-#### Revise SSS Section: [Section Name]
-
-```markdown
-### [Section Name]
-
-**Definition**: [Definition]
-
-1. [Revised normative rule]
-2. [Revised normative rule]
-3. [Revised normative rule]
-```
-
-### Clarification Questions
-
-1. [Question, if needed]
-2. [Question, if needed]
-
-### Phase 2 Validation Result
-
-* [ ] Every user story was audited.
-* [ ] Every `Included Behavior` item was audited.
-* [ ] Every uncovered cross-cutting rule was promoted to SSS or explicitly deferred.
-* [ ] Every affected user story references the appropriate SSS sections or rules.
-* [ ] No user story duplicates SSS rules.
-* [ ] No material semantic ambiguity remains before feature synthesis.
-````
-
-The Phase 2 audit output is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md` output. The final roadmap MUST still follow the Roadmap Template exactly.
 
 ---
 
