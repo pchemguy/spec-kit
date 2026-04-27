@@ -46,7 +46,7 @@ The LLM MUST pursue the following session objectives:
 - treat templates as strict schemas, not guidance;
 - assist user in performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
     1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 and the User Story Decomposition Rules;
-    2. auditing every user story’s included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit Rules;
+    2. auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit Rules;
     3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 and the Feature Synthesis Rules;
     4. developing, validating, and refining shared rules according to Shared System Semantics;
     5. producing a canonical `roadmap.md` according to the Report Templates.
@@ -142,14 +142,13 @@ Before returning output, the LLM MUST verify:
 5. Phase 4 final SSS and roadmap validation passed.
 6. The output top-level structure follows Roadmap Template - Top-Level Structure.
 7. Every User Story follows the full subtemplate.
-8. Every User Story contains complete `Included Behavior`.
-9. Every User Story references all applicable SSS sections or rules.
-10. Every Feature follows the full subtemplate.
-11. EVERY Feature contains Agent Override.
-12. EVERY Agent Override contains ALL required subsections.
-13. EVERY Feature Agent Override references all applicable SSS sections or rules.
-14. No section is summarized or omitted.
-15. No roadmap-local rule duplicates an SSS rule.
+8. Every User Story references all applicable SSS sections or rules.
+9. Every Feature follows the full subtemplate.
+10. EVERY Feature contains Agent Override.
+11. EVERY Agent Override contains ALL required subsections.
+12. EVERY Feature Agent Override references all applicable SSS sections or rules.
+13. No section is summarized or omitted.
+14. No roadmap-local rule duplicates an SSS rule.
 
 If any check fails → the LLM MUST fix the output before returning.
 
@@ -202,7 +201,7 @@ The LLM MUST NOT begin feature synthesis until:
 
 ## 🧨 Motivation
 
-This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the SpecKit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets that naturally form an MVP or compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
+This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the Spec Kit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets: first a defensible MVP (if applicable), then compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
 
 ---
 
@@ -372,7 +371,7 @@ Include the following categories when applicable to the system. Sections that ar
 
 ---
 
-#### Validation Rules
+#### Reference and Consistency Rules
 
 SSS MUST be validated against these rules:
 
@@ -403,10 +402,6 @@ You MUST NOT:
 
 - assume unclear requirements without validation;
 - group multiple capabilities into a single user story without justification;
-
-The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases.
-
-All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
@@ -529,7 +524,7 @@ Every `Included Behavior` item MUST be traceable to the declared `Scope`.
 
 The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
 
-Each `Included Behavior` item MUST identify a distinct accepted behavior that occurs inside the user story’s primary interaction cycle.
+Each `Included Behavior` item MUST identify a distinct accepted behavior that occurs inside the user story's primary interaction cycle.
 
 Each item MUST be specific enough to support later edge-class enumeration, SSS coverage analysis, state interaction analysis, acceptance scenario derivation, and exception scenario derivation.
 
@@ -577,7 +572,7 @@ Use the following patterns only as **structural templates**, not as literal outp
 When producing actual items, the LLM MUST:
 
 - replace every bracketed placeholder with concrete, domain-specific terminology;
-- express the behavior using the target system’s actual entities, operations, and state components;
+- express the behavior using the target system's actual entities, operations, and state components;
 - ensure the item is specific enough that domain edge classes can be enumerated without inference;
 - avoid retaining any abstract placeholder language from the patterns.
 
@@ -652,9 +647,10 @@ If candidate behaviors differ in any material way, including:
 
 the LLM MUST either:
 
-- split them into separate `Included Behavior` items; 
-- reference an SSS section that defines the shared rules governing those differences; or
-- justify grouping.
+- split them into separate `Included Behavior` items; or
+- reference an SSS section that defines why the differences are governed by a shared rule and do not require separate behavior items.
+
+A justification alone is insufficient unless it identifies the shared semantic rule that makes grouping valid.
 
 ###### 5. State Interaction Clarity Rule
 
@@ -764,8 +760,7 @@ Each `Included Behavior` item MUST be verifiable through at least one of:
 - an acceptance scenario;
 - an exception scenario;
 - an SSS rule reference;
-- a state interaction declaration;
-- a later feature-level requirement.
+- a state interaction declaration.
 
 If no verification path exists, the item is too vague or out of scope.
 
@@ -789,7 +784,10 @@ The declared state interaction MUST:
 - be sufficient to derive the effects of each behavior without ambiguity;
 - not rely on implicit or inferred state changes.
 
-The LLM MUST ensure that every `Included Behavior` item corresponds to at least one declared state interaction.
+The LLM MUST ensure that:  
+  
+- every `Included Behavior` item corresponds to at least one declared state interaction; and  
+- no declared state interaction lacks a corresponding `Included Behavior` item or SSS rule.
 
 ---
 
@@ -817,6 +815,29 @@ Reject or refine any user story that violates these constraints.
 
 ---
 
+#### Completion Criteria
+
+Phase 1 is complete only when:
+
+- a preliminary SSS has been generated;
+- every candidate user story has been accepted, rejected, merged, or promoted to SSS;
+- every accepted user story includes complete:
+    - Description;
+    - Shared System Semantics References;
+    - Scope;
+    - Included Behavior;
+    - State Interaction;
+- every accepted user story satisfies all User Story Decomposition Rules;
+- the user has accepted the Phase 1 user story set and preliminary SSS.
+
+If these criteria are not satisfied, Phase 2 MUST NOT begin.
+
+The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases.
+
+All later phases MUST operate on and refine this model, not rederive it.
+
+---
+
 ### 🔎 Phase 2 — Semantic Coverage Audit and SSS Elaboration
 
 Using the finalized ordered user story list from Phase 1, perform a semantic coverage audit before feature synthesis.
@@ -828,7 +849,7 @@ This phase MUST be completed before feature synthesis begins.
 You MUST:
 
 - inspect every user story in order;
-- inspect every item listed under that user story’s `#### Included Behavior`;
+- inspect every item listed under that user story's `#### Included Behavior`;
 - enumerate domain-relevant edge cases, boundary classes, state classes, invalid classes, exceptional classes, and continuity classes for each included behavior item;
 - assess whether each edge case or class is covered by existing SSS;
 - classify SSS coverage for each edge case or class as:
@@ -862,7 +883,7 @@ You MUST NOT:
 
 For each user story, perform the audit at the granularity of individual `Included Behavior` items.
 
-For each included behavior item, enumerate applicable classes from the following taxonomy.
+For each included behavior item, enumerate applicable classes from the following taxonomy. The LLM MUST apply only the taxonomy classes relevant to the target system, but MUST explicitly mark a class as Not Applicable when omission could otherwise appear accidental.
 
 ##### 1. Valid Input / Valid Action Classes
 
@@ -986,16 +1007,16 @@ When Phase 2 identifies missing shared semantics, the LLM MUST revise SSS using 
 
 The LLM SHOULD create or revise SSS sections for recurring concerns such as:
 
-- input token validity;
+- input validity, parsing, or normalization;
 - value representation and comparison;
-- state capacity and visibility;
-- operation domain rules;
+- state structure, capacity, or visibility;
+- operation or action domain rules;
 - rejected action behavior;
-- reset and initialization boundaries;
-- history and undo branching;
-- display and feedback semantics;
-- cross-environment consistency;
-- desktop packaging boundaries;
+- initialization, reset, or baseline-state boundaries;
+- history, reversibility, or recovery behavior;
+- display, feedback, or observability semantics;
+- cross-context or cross-environment consistency;
+- deployment, packaging, or runtime-environment boundaries;
 - persistence or non-persistence expectations.
 
 The LLM MUST ensure that new or revised SSS rules:
@@ -1042,7 +1063,7 @@ Phase 2 is complete only when:
 - every `Included Behavior` item has been audited;
 - every material edge class is classified;
 - every Partially Covered or Not Covered class has a resolution;
-- all accepted SSS changes have been integrated into the roadmap SSS;
+- all accepted SSS changes have been integrated into the current SSS;
 - all affected user stories have been updated to reference the revised SSS;
 - all unresolved decisions have either been clarified with the user or explicitly deferred with justification;
 - the user has accepted the audited user story set and revised SSS.
@@ -1053,9 +1074,9 @@ If these criteria are not satisfied, feature synthesis MUST NOT begin.
 
 ### 🧱 Phase 3 — Feature Synthesis
 
-Using the finalized, semantically audited user story list and revised SSS from Phase 2, iteratively synthesize features as cohesive SpecKit work packets.
+Using the finalized, semantically audited user story list and revised SSS from Phase 2, iteratively synthesize features as cohesive Spec Kit work packets.
 
-Your goal is to partition the ordered user story list into a sequence of features that define a valid execution plan for the SpecKit core workflow (`specify → plan → tasks → implement`), where each feature produces a coherent, bounded, and actionable specification input.
+Your goal is to partition the ordered user story list into a sequence of features that define a valid execution plan for the Spec Kit core workflow (`specify → plan → tasks → implement`), where each feature produces a coherent, bounded, and actionable specification input.
 
 Feature synthesis operates by introducing explicit boundaries ("cuts") in the ordered user story list. Each cut defines the end of one feature and the beginning of the next. All synthesis decisions MUST be expressed as placement, removal, or adjustment of these boundaries.
 
@@ -1071,10 +1092,10 @@ You MUST:
 - identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
 - refine feature boundaries when cohesion, scope, or execution clarity is compromised;
 - ensure that
-    - the first feature forms a defensible MVP when the system is introduced from an empty or initial state
+    - the first feature forms a defensible MVP when the system is introduced from an empty or initial state;
     - all subsequent features are valid extensions;
-- ask targeted clarification questions when grouping decisions depend on unstated assumptions.
-- ensure each feature’s Agent Override references all SSS sections and rules required by the Phase 2 audit;
+- ask targeted clarification questions when grouping decisions depend on unstated assumptions;
+- ensure each feature's Agent Override references all SSS sections and rules required by the Phase 2 audit;
 
 You MUST NOT:
 
@@ -1093,7 +1114,7 @@ A valid feature set is complete only when:
 - the first feature forms a defensible MVP (when applicable);
 - each subsequent feature is a valid extension slice;
 - all features satisfy the Feature Synthesis Rules;
-- the full sequence defines a valid execution plan for the SpecKit workflow.
+- the full sequence defines a valid execution plan for the Spec Kit workflow.
 
 ---
 
@@ -1110,9 +1131,9 @@ Each feature MUST:
 
 Feature synthesis MUST strike a practical balance:
 
-- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end usable functional slices;
+- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end functional slice;
 - subsequent features MUST define cohesive functional slices, each meaningful in the context of prior features;
-- feature grouping MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification., causing unnecessary repetition of context, logic, or validation effort;
+- feature grouping MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
 - each feature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
 
 ---
@@ -1172,6 +1193,8 @@ You MUST verify:
 12. The final roadmap follows the Roadmap Template and subtemplates exactly.
 
 If any validation item fails, the LLM MUST revise the relevant prior phase output before producing the final roadmap.
+
+Final roadmap generation MUST be a structural rendering step only. The LLM MUST NOT introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation.
 
 ---
 
@@ -1264,8 +1287,6 @@ The Phase 2 audit output is an intermediate analysis artifact. It MUST NOT repla
 
 ```markdown
 # Roadmap: [Target Name]
-
-## Notes *(if applicable)*
 
 ## Shared System Semantics (SSS)
 
@@ -1486,13 +1507,11 @@ List applicable Shared System Semantics sections and rules:
 
 #### Scope
 
-Defines the boundary of this user story.
-
 #### Included Behavior
 
-Defines execution semantics of this user story.
-
 #### State Interaction
+
+Declare how this story interacts with system state.
 
 - Reads:  
 - Mutates:  
