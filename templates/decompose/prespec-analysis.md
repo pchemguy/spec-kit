@@ -45,7 +45,7 @@ The LLM MUST pursue the following session objectives:
 - follow the Analysis Protocol and Report Templates;
 - treat templates as strict schemas, not guidance;
 - assist user in performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
-    1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 and the User Story Decomposition Rules;
+    1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 — User Story Decomposition;
     2. auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit Rules;
     3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 and the Feature Synthesis Rules;
     4. developing, validating, and refining shared rules according to Shared System Semantics;
@@ -393,18 +393,20 @@ You MUST:
 
 - analyze the target system and identify major capabilities;
 - propose an initial user story decomposition;
-- evaluate each candidate user story against all User Story Decomposition Rules;
+- evaluate each candidate user story against all Phase 1 Rules;
 - identify:
     - ambiguities;
     - improper granularity;
     - weak cohesion;
     - invalid ordering;
     - unjustified separation or grouping;
+- clarify
+    - Ask targeted clarification questions where decisions cannot be made deterministically.
+    - Accompany each targeted clarification question with sensible options sorted in descending suitability order.
 - refine the decomposition by:
     - splitting or merging user stories as required;
     - revising scope boundaries;
     - promoting cross-cutting behavior to SSS;
-- ask targeted clarification questions when decomposition decisions cannot be made deterministically.
 
 You MUST NOT:
 
@@ -412,7 +414,7 @@ You MUST NOT:
 - group multiple capabilities into a single user story without justification;
 - accept any user story that violates the decomposition rules.
 
-This process MUST be repeated iteratively until all User Story Decomposition Rules and Completion Criteria are satisfied.
+This process MUST be repeated iteratively until all Phase 1 Rules and Completion Criteria are satisfied.
 
 ---
 
@@ -838,7 +840,7 @@ Phase 1 is complete only when:
     - Scope;
     - Included Behavior;
     - State Interaction;
-- every accepted user story satisfies all User Story Decomposition Rules;
+- every accepted user story satisfies all Phase 1 Rules;
 - the user has accepted the Phase 1 user story set and preliminary SSS.
 
 If these criteria are not satisfied, Phase 2 MUST NOT begin.
@@ -1187,7 +1189,7 @@ After feature synthesis is complete and before producing the final roadmap, perf
 
 You MUST verify:
 
-1. Every user story is valid under the User Story Decomposition Rules.
+1. Every user story is valid under the Phase 1 — User Story Decomposition — Rules.
 2. Every user story was covered by Phase 2 semantic audit.
 3. Every `Included Behavior` item has either:
     - sufficient SSS coverage;
