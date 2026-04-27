@@ -211,12 +211,15 @@ This pre-specification analysis of the target system focuses on managing the com
 You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
-- run every analysis session from scratch;
-- ignore any prior similar analyses available from global or project context;
-- generate a Markdown-structured report strictly following the "Report Template", including all:
-    - required top-level sections;  
-    - subtemplate-defined sections;  
-    - applicable rules and constraints defined in this document.
+    - run every analysis session from scratch;
+    - ignore any prior similar analyses available from global or project context;
+- generate a Markdown-structured `roadmap.md` report:
+    - structure the finalized user story set, feature set, and SSS;
+    - do not introduce new behaviors, constraints, or structural changes during roadmap generation;
+    - strictly follow the "Report Template", including all:
+        - required top-level sections;  
+        - subtemplate-defined sections;  
+        - applicable rules and constraints defined in this document.
 
 You MUST NOT:
 
@@ -224,59 +227,6 @@ You MUST NOT:
 - take advantage in this session of any similar analyses performed in other sessions.
 
 All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple user stories or features MUST be defined in SSS and referenced, not restated.
-
----
-
-### 🧠 WORKING ANALYSIS STATE (INTERNAL MODEL)
-
-During Phases 1–4, the LLM MUST maintain a Working Analysis State (WAS) consisting of:
-
-- evolving Shared System Semantics (SSS);
-- ordered user story list (fully expanded subtemplate structure);
-- intermediate audit findings and revisions.
-
-The WAS:
-
-- is the authoritative source for all subsequent phases;
-- MAY be partially or fully rendered during iteration;
-- MUST NOT be treated as final roadmap output;
-- MAY be revised between phases;
-- MUST converge before final roadmap generation.
-
----
-
-###  📗 INTERMEDIATE MATERIALIZATION RULE
-
-The LLM MUST materialize the Working Analysis State as structured output when required by a phase.
-
-Specifically:
-
-- After Phase 1, the LLM MUST produce the current 
-    - shared rules using Shared System Semantics  Subtemplate;
-    - user story set using the User Story Subtemplate.
-- After Phase 2, the LLM MUST produce:
-    - audit report;
-    - updated SSS;
-    - revised user story set.
-
-These outputs:
-
-- MUST follow subtemplates exactly;
-- MUST NOT be embedded into the final roadmap structure;
-- MUST be treated as intermediate artifacts.
-
----
-
-### 📦 ROADMAP GENERATION RULE
-
-The final roadmap is a projection of the finalized Working Analysis State.
-
-The LLM MUST:
-
-- generate the roadmap ONLY after all phases complete;
-- use the final WAS as the single source of truth;
-- perform no additional synthesis during roadmap generation;
-- perform only structural rendering into the Roadmap Template.
 
 ---
 
@@ -289,20 +239,20 @@ Phase 2 follows the Semantic Coverage Audit protocol because it validates semant
 Phase 1 and Phase 3 follow the structural iteration protocol below:
 
 1. Propose a candidate structure:  
-    - user story decomposition (Phase 1)  
-    - feature grouping (Phase 3)
-2. Critically evaluate the structure against the applicable rules:
-    - User Story Decomposition Rules (Phase 1)
-    - Feature Synthesis Rules (Phase 3)
+    - user story decomposition following User Story Decomposition Rules (Phase 1)  
+    - feature grouping following Feature Synthesis Rules (Phase 3)
+2. Critically evaluate the structure against the applicable rules.
 3. Identify:
     - ambiguity,
     - improper granularity,
     - weak cohesion,
     - invalid ordering,
     - unjustified separation or grouping
-4. Ask targeted clarification questions where decisions cannot be made deterministically.
-5. Refine the structure.
-6. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak feature boundaries.
+4. Revise:
+    - Ask targeted clarification questions where decisions cannot be made deterministically.
+    - Accompany each targeted clarification question with sensible options sorted in descending suitability order.
+    - Refine the structure.
+5. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak user story or feature boundaries.
 
 Repeat until the result is:
 
@@ -378,7 +328,6 @@ MUST be defined in SSS and MUST NOT be represented as a user story.
 During Phase 1, the LLM MUST:
 
 - identify and accumulate SSS rules incrementally;
-- maintain SSS in the Working Analysis State;
 - materialize SSS as a structured section before Phase 2 begins.
 
 Phase 2 MUST NOT begin unless:
@@ -454,6 +403,10 @@ You MUST NOT:
 
 - assume unclear requirements without validation;
 - group multiple capabilities into a single user story without justification;
+
+The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases.
+
+All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
@@ -551,7 +504,28 @@ User story decomposition MUST NOT:
 
 ---
 
-##### 4. Included Behavior Construction Rules
+##### 4. Scope Construction Rules
+
+Each user story MUST include a `#### Scope` section that defines the exact responsibility boundary of the story.
+
+The `Scope` section MUST:
+
+- describe what the story is responsible for, in terms of user-visible capability;
+- define the limits of that responsibility (what is included and what is explicitly excluded);
+- be consistent with the interaction defined in `Interaction Semantics`;
+- be complete enough that all `Included Behavior` items can be derived from it without introducing new responsibilities.
+
+The `Scope` section MUST NOT:
+
+- describe execution steps (belongs in `Included Behavior`);
+- encode cross-cutting rules (belongs in SSS);
+- include behavior that belongs to other user stories.
+
+Every `Included Behavior` item MUST be traceable to the declared `Scope`.
+
+---
+
+##### 5. Included Behavior Construction Rules
 
 The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
 
@@ -797,7 +771,29 @@ If no verification path exists, the item is too vague or out of scope.
 
 ---
 
-##### 5. Qualification
+##### 6. State Interaction Construction Rules
+
+Each user story MUST include a `#### State Interaction` section that explicitly defines how the story interacts with system state.
+
+The `State Interaction` section MUST declare, for each relevant state component:
+
+- Reads: state accessed without modification;
+- Mutates: state modified as part of execution;
+- Preserves: state guaranteed to remain unchanged;
+- Resets: state reinitialized or cleared;
+- Must Not Affect: state that must remain untouched.
+
+The declared state interaction MUST:
+
+- be consistent with all `Included Behavior` items;
+- be sufficient to derive the effects of each behavior without ambiguity;
+- not rely on implicit or inferred state changes.
+
+The LLM MUST ensure that every `Included Behavior` item corresponds to at least one declared state interaction.
+
+---
+
+##### 7. Qualification
 
 This section determines whether a candidate qualifies as a valid user story within the decomposition model.
 
@@ -859,36 +855,6 @@ You MUST NOT:
 - duplicate SSS rules inside user story descriptions, included behavior, acceptance scenarios, or exception scenarios;
 - introduce implementation-specific details unless they are already required by project constraints or constitution;
 - convert edge cases into separate user stories unless they define independent user-initiated, value-producing interactions.
-
----
-
-#### Phase 2 Preconditions
-
-Phase 2 MAY begin only when:
-
-- the Working Analysis State contains:
-    - a fully expanded user story set;
-    - a preliminary SSS section;
-- each user story includes:
-    - complete Included Behavior;
-    - complete State Interaction;
-
----
-
-#### Phase 2 Source of Truth
-
-The Semantic Coverage Audit operates on the Working Analysis State, not on the final roadmap.
-
-The LLM MUST treat:
-
-- the user story set in WAS as canonical input;
-- the SSS in WAS as mutable and subject to refinement.
-
-The audit MUST:
-
-- update WAS directly;
-- not assume roadmap immutability;
-- not require roadmap materialization.
 
 ---
 
