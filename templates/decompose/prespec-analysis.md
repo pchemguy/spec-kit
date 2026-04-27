@@ -484,7 +484,253 @@ Each user story MUST NOT:
 
 ---
 
-##### 2. Scope, Granularity, and Cohesion
+##### 2. Included Behavior Creation Rules
+
+The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
+
+Each `Included Behavior` item MUST identify a distinct accepted behavior that occurs inside the user story’s primary interaction cycle.
+
+Each item MUST be specific enough to support later edge-class enumeration, SSS coverage analysis, state interaction analysis, acceptance scenario derivation, and exception scenario derivation.
+
+The LLM MUST create `Included Behavior` items according to the following rules.
+
+###### 1. Accepted-Behavior Rule
+
+Each item MUST describe behavior that occurs when the user story succeeds.
+
+The item MUST NOT describe only:
+
+- validation;
+- rejection;
+- error handling;
+- constraints;
+- internal mechanisms;
+- implementation tasks;
+- visual styling;
+- future behavior from another user story.
+
+Invalid, rejected, and exceptional behavior belongs in `Exception Scenarios` or SSS, unless the item describes the successful behavior whose invalid classes must later be audited.
+
+###### 2. Execution-Semantics Rule
+
+Each item MUST describe a concrete system action that occurs in response to the user interaction.
+
+Items MUST use action-oriented phrasing that expresses:
+
+- what is accepted;
+- what is applied;
+- what state is affected; and
+- what outcome is produced.
+
+Use the following patterns only as **structural templates**, not as literal output:
+
+| Structural pattern                                                  | Expected behavior class |
+| ------------------------------------------------------------------- | ----------------------- |
+| Accept a valid `[input kind]`                                       | Accepted input          |
+| Commit accepted `[input kind]` into `[state component]`             | State mutation          |
+| Apply `[operation kind]` according to `[domain semantics]`          | Operation               |
+| Update `[state component]` based on `[operation result]`            | State transition        |
+| Produce `[observable output]` reflecting `[state component]`        | Visibility or feedback  |
+| Restore `[recorded state kind]` according to `[reversibility rule]` | History / recovery      |
+
+When producing actual items, the LLM MUST:
+
+- replace every bracketed placeholder with concrete, domain-specific terminology;
+- express the behavior using the target system’s actual entities, operations, and state components;
+- ensure the item is specific enough that domain edge classes can be enumerated without inference;
+- avoid retaining any abstract placeholder language from the patterns.
+
+The LLM MUST NOT:
+
+- copy or reuse the structural patterns verbatim;
+- use generic terms such as:
+    - `input`
+    - `state`
+    - `operation`
+    - `output`
+    - `reversible state`
+    unless they are part of established domain terminology.
+
+Avoid vague capability phrasing such as:
+
+- `Numeric input`
+- `Undo support`
+- `Desktop mode`
+- `Error handling`
+
+Each item MUST instead describe a specific, observable, and auditable behavior.
+
+###### 3. Atomicity Rule
+
+Each item SHOULD describe a single auditable behavior.
+
+Split an item when its parts have materially different:
+
+- input structure or input requirements;
+- evaluation or execution semantics;
+- state interaction (read, mutation, preservation, or reset);
+- validity or acceptance conditions;
+- rejection or failure conditions;
+- history or reversibility behavior;
+- observable outcomes or feedback;
+- interaction context or execution environment.
+
+Do NOT split merely for mechanical verbosity when multiple behaviors share:
+
+- identical execution semantics; and
+- identical edge-class coverage.
+
+###### 4. Behavior Grouping Rule
+
+Multiple behaviors MAY be grouped into a single `Included Behavior` item only when they share the same execution semantics.
+
+The LLM MUST NOT group behaviors merely because they are:
+
+- presented together in the interface;
+- conceptually related; or
+- part of the same capability or category.
+
+A grouped item MUST explicitly state the shared semantic basis that justifies grouping.
+
+Example Patterns (structural, not literal output):
+
+- Valid: Group behaviors that share identical execution semantics and state interaction
+- Valid: Group behaviors that differ only in parameterization but follow the same evaluation and update rules
+- Valid: Group behaviors governed by the same acceptance, rejection, and validity conditions
+- Invalid: Group behaviors based only on naming, categorization, or presentation
+
+If candidate behaviors differ in any material way, including:
+
+- input structure or requirements;
+- evaluation or execution semantics;
+- state interaction;
+- validity or acceptance conditions;
+- rejection or failure conditions;
+- history or reversibility behavior; or
+- observable outcomes or feedback;
+
+the LLM MUST either:
+
+- split them into separate `Included Behavior` items; 
+- reference an SSS section that defines the shared rules governing those differences; or
+- justify grouping.
+
+###### 5. State Interaction Clarity Rule
+
+Each `Included Behavior` item MUST make clear which part of the system state it acts upon.
+
+Where applicable, the item SHOULD indicate whether it involves:
+
+- accepting or staging user-provided input;
+- committing or persisting values into system state;
+- reading from or modifying existing state;
+- recording, restoring, or traversing prior states;
+- producing or updating user-visible feedback;
+- initializing, resetting, or re-establishing a baseline state;
+- interacting with external context or execution environment.
+
+The detailed declaration of state interaction belongs in `#### State Interaction`.
+
+However, each `Included Behavior` item MUST be specific enough that its state interaction can be derived without ambiguity or inference.
+
+###### 6. SSS Trigger Rule
+
+While creating each `Included Behavior` item, the LLM MUST determine whether the behavior depends on a shared rule.
+
+If the behavior depends on a rule that applies to more than one user story, the LLM MUST:
+
+- create or revise an SSS section; and
+- reference that SSS section instead of embedding the rule locally.
+
+The LLM MUST NOT encode cross-cutting rules directly within `Included Behavior`, `Acceptance Scenarios`, or `Exception Scenarios`.
+
+Common SSS-triggering concerns include:
+
+- input validity, parsing, or normalization rules;
+- value representation, comparison, or precision rules;
+- state structure, capacity, or visibility constraints;
+- evaluation or execution semantics shared across behaviors;
+- acceptance, rejection, and no-mutation guarantees;
+- initialization, reset, or baseline-state behavior;
+- history, reversibility, or state progression rules;
+- user-visible feedback and observability conventions;
+- interaction assumptions shared across multiple behaviors;
+- cross-context or cross-environment consistency requirements;
+- boundaries between system behavior and external context.
+
+If a rule:
+
+- affects more than one user story; or
+- constrains behavior across multiple features; or
+- defines a global invariant required for consistent system behavior,
+
+it MUST be promoted to SSS.
+
+###### 7. Edge-Class Prompting Rule
+
+For every `Included Behavior` item, the LLM MUST ensure that the item is phrased so that the following question can be answered directly:
+
+> What domain edge classes must be considered for this behavior?
+
+If the answer is unclear, the item is too vague and MUST be rewritten before Phase 1 is accepted.
+
+###### 8. Scope Boundary Rule
+
+`Included Behavior` MUST remain strictly within the boundary defined in the `#### Scope` section.
+
+The `Scope` section defines **what the user story is responsible for**.  
+The `Included Behavior` section defines **how that responsibility is executed**.
+
+Each `Included Behavior` item MUST:
+
+- represent a concrete behavior that falls entirely within the declared scope;
+- contribute directly to fulfilling the user-visible intent described in the story;
+- not introduce responsibilities, behaviors, or concerns outside the defined scope.
+
+The LLM MUST ensure that:
+
+- every `Included Behavior` item is justified by the `Scope`;
+- no behavior required by the `Scope` is missing from `Included Behavior`.
+
+The item MUST NOT pull in:
+
+- behaviors that belong to future user stories;
+- concerns that operate at the feature level unless explicitly included in the story scope;
+- global rules or invariants that belong in SSS;
+- illustrative examples that belong in `Acceptance Scenarios`.
+
+If a behavior appears necessary but does not clearly fit within the current scope, the LLM MUST:
+
+- revise the `Scope`; or
+- move the behavior to a different user story; or
+- promote the concern to SSS if it is cross-cutting.
+
+###### 9. Exception Separation Rule
+
+`Included Behavior` MUST define accepted behavior only.
+
+Rejected behavior MUST be represented by:
+
+- SSS rules, when cross-cutting; and/or
+- `Exception Scenarios`, when specific to the user story.
+
+However, if an accepted behavior has known invalid classes, the behavior item MUST be specific enough for those invalid classes to be audited.
+
+###### 10. Verifiability Rule
+
+Each `Included Behavior` item MUST be verifiable through at least one of:
+
+- an acceptance scenario;
+- an exception scenario;
+- an SSS rule reference;
+- a state interaction declaration;
+- a later feature-level requirement.
+
+If no verification path exists, the item is too vague or out of scope.
+
+---
+
+##### 3. Scope, Granularity, and Cohesion
 
 Each user story MUST be minimal in scope relative to its delivered value.
 
@@ -523,7 +769,7 @@ User story decomposition MUST NOT:
 
 ---
 
-##### 3. Independence, Incremental Viability, and Continuity
+##### 4. Independence, Incremental Viability, and Continuity
 
 Each user story MUST be self-sufficient, independently implementable, and independently testable.
 
@@ -554,7 +800,7 @@ User story decomposition MUST NOT:
 
 ---
 
-##### 4. Validation
+##### 5. Validation
 
 For each candidate user story, you MUST verify:
 
