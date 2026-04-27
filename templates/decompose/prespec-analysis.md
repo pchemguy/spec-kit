@@ -229,54 +229,6 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ---
 
-### 🔁 Iteration Behavior
-
-User story decomposition (Phase 1), semantic coverage auditing (Phase 2), and feature synthesis (Phase 3) are iterative refinement processes.
-
-Phase 2 follows the Semantic Coverage Audit protocol because it validates semantic completeness rather than proposing decomposition or feature boundaries.
-
-Phase 1 and Phase 3 follow the structural iteration protocol below:
-
-1. Propose a candidate structure:  
-    - user story decomposition following User Story Decomposition Rules (Phase 1)  
-    - feature grouping following Feature Synthesis Rules (Phase 3)
-2. Critically evaluate the structure against the applicable rules.
-3. Identify:
-    - ambiguity,
-    - improper granularity,
-    - weak cohesion,
-    - invalid ordering,
-    - unjustified separation or grouping
-4. Revise:
-    - Ask targeted clarification questions where decisions cannot be made deterministically.
-    - Accompany each targeted clarification question with sensible options sorted in descending suitability order.
-    - Refine the structure.
-5. Reject and rework the structure if it violates any mandatory rule or produces ambiguous or weak user story or feature boundaries.
-
-Repeat until the result is:
-
-- correctly scoped:
-    - minimal (Phase 1)
-    - minimal but viable / coherent functional slice (Phase 3)
-- well-structured:
-    - well-separated user stories (Phase 1)
-    - cohesive features (Phase 3)
-- correctly ordered:
-    - dependency-safe and value-prioritized (Phase 1)
-    - strictly contiguous and progression-preserving (Phase 3)
-- fully aligned with the applicable rule set.
-
-Shared System Semantics (SSS) MUST be developed incrementally during Phase 1 and refined during Phase 2 and 3. After Phases 1-3 are considered complete, the LLM MUST perform a dedicated SSS validation and refinement pass:
-
-- review the full accepted user story list and feature grouping;
-- identify missing shared rules, implicit assumptions, or duplicated logic;
-- promote cross-cutting rules into SSS;
-- remove duplicated or conflicting definitions from user stories and features;
-- revise SSS and affected user stories/features as necessary to ensure consistency, completeness, and absence of duplication;
-- ensure all user stories and features can rely on SSS without redefining shared behavior.
-
----
-
 ### ⚖️ Shared System Semantics (SSS)
 
 The Shared System Semantics (SSS) is the authoritative home for global definitions, conventions, behavioral policies, invariants, and cross-cutting assumptions that apply to multiple user stories or constrain multiple features. User stories and features MUST rely on the SSS by reference and MUST NOT restate, fork, override, or weaken SSS rules locally.
@@ -1138,93 +1090,168 @@ If these criteria are not satisfied, feature synthesis MUST NOT begin.
 
 ### 🧱 Phase 3 — Feature Synthesis
 
-Using the finalized, semantically audited user story list and revised SSS from Phase 2, iteratively synthesize features as cohesive Spec Kit work packets.
+Using the finalized, semantically audited user story list and revised SSS from Phase 2, synthesize features as cohesive Spec Kit work packets.
 
-Your goal is to partition the ordered user story list into a sequence of features that define a valid execution plan for the Spec Kit core workflow (`specify → plan → tasks → implement`), where each feature produces a coherent, bounded, and actionable specification input.
+A feature is a bounded, coherent specification input for one execution of the Spec Kit core workflow:
 
-Feature synthesis operates by introducing explicit boundaries ("cuts") in the ordered user story list. Each cut defines the end of one feature and the beginning of the next. All synthesis decisions MUST be expressed as placement, removal, or adjustment of these boundaries.
+`specify → plan → tasks → implement`
 
-You MUST:
+Features are synthesized by partitioning the ordered user story list into contiguous feature slices. Each boundary between features is a deliberate cut in the user story sequence.
+
+---
+
+#### Process
+
+The LLM MUST synthesize features by partitioning the finalized user story list.
+
+The LLM MUST:
 
 - operate strictly on the finalized, ordered, semantically audited user story list produced by Phases 1 and 2;
 - treat feature synthesis as a partitioning problem over a linear user story queue;
-- propose an initial feature grouping that covers the full user story list based on the Feature Synthesis Rules below;
-- explicitly justify feature boundaries in terms of MVP formation, functional slice definition, or extension semantics;
-- ensure that each proposed feature defines a coherent, self-contained specification scope suitable for a single `/speckit.specify` execution;
-- verify that user story order is preserved exactly within and across features;
-- ensure that every user story is assigned to exactly one feature;
+- preserve user story order exactly within and across features;
+- assign every user story to exactly one feature;
+- propose feature boundaries as explicit cuts in the ordered user story list;
+- justify each feature boundary in terms of:
+    - MVP formation;
+    - functional slice definition; or
+    - extension semantics;
 - identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
-- refine feature boundaries when cohesion, scope, or execution clarity is compromised;
-- ensure that
-    - the first feature forms a defensible MVP when the system is introduced from an empty or initial state;
-    - all subsequent features are valid extensions;
 - ask targeted clarification questions when grouping decisions depend on unstated assumptions;
-- ensure each feature's Agent Override references all SSS sections and rules required by the Phase 2 audit;
+- accompany each targeted clarification question with sensible options sorted in descending suitability order;
+- refine feature boundaries when cohesion, scope, or execution clarity is compromised.
 
-You MUST NOT:
+The LLM MUST NOT:
 
-- reorder user stories under any circumstances;
+- reorder user stories;
 - split a user story across multiple features;
-- group user stories without a clear justification in terms of MVP formation, functional cohesion, or extension semantics;
-- produce features that are too broad to serve as focused `/speckit.specify` inputs;
-- produce features that are too narrow to represent meaningful functionality;
 - leave gaps in the user story sequence;
 - finalize features prematurely without evaluating boundary quality and execution suitability.
 
-A valid feature set is complete only when:
-
-- all user stories are assigned to exactly one feature;
-- all features are contiguous subsets of the user story list;
-- the first feature forms a defensible MVP (when applicable);
-- each subsequent feature is a valid extension slice;
-- all features satisfy the Feature Synthesis Rules;
-- the full sequence defines a valid execution plan for the Spec Kit workflow.
+The LLM MUST repeat this synthesis-and-refinement process until all Completion Criteria are satisfied.
 
 ---
 
-#### Feature Synthesis Rules
+#### Rules
+
+##### Scope and Cohesion
+
+Each feature MUST define a cohesive, bounded, user-visible unit of functionality suitable for a single `/speckit.specify` execution.
 
 Each feature MUST:
 
-- encapsulate a cohesive group of user stories that together define a meaningful, user-visible unit of functionality;
-- include user stories in contiguous roadmap order;
+- encapsulate a cohesive group of user stories that together define meaningful user-visible functionality;
+- include only contiguous user stories from the accepted user story order;
+- define a coherent, self-contained specification scope;
 - extend the system established by all prior features without requiring redefinition of previously delivered functionality;
-- preserve all shared definitions, conventions, and policies from the roadmap SSS.
+- preserve all shared definitions, conventions, policies, and rules from SSS.
+
+Feature synthesis MUST strike a practical balance between:
+
+- **scope sufficiency** — each feature is large enough to represent meaningful user-visible functionality and, for the first greenfield feature, a defensible MVP;
+- **scope focus** — each feature is bounded enough to serve as a focused `/speckit.specify` input;
+- **cohesion** — closely related, tightly coupled, or structurally similar sequential user stories are grouped when separate treatment would create unnecessary repetition or reduce delivery confidence;
+- **separation** — unrelated, weakly related, or materially different functional slices are separated when grouping them would dilute specification focus or produce an oversized work packet.
+
+Candidate user stories SHOULD be grouped into the same feature when they are:
+
+- narrowly scoped sequential refinements of the same capability;
+- tightly coupled or strongly parallel;
+- dependent on substantially similar implementation, validation, or acceptance workflows;
+- clearer and safer to specify together than separately.
+
+Candidate user stories SHOULD be separated into different features when grouping them would:
+
+- dilute the feature's specification focus;
+- combine unrelated or weakly related behavior;
+- produce an oversized Spec Kit work packet;
+- obscure a clean MVP or extension boundary.
 
 ---
 
-Feature synthesis MUST strike a practical balance:
+##### Boundary Placement
 
-- the first feature in a greenfield roadmap MUST form a defensible MVP: minimal, but fully usable and testable as an end-to-end functional slice;
-- subsequent features MUST define cohesive functional slices, each meaningful in the context of prior features;
-- feature grouping MUST NOT be fragmented so aggressively that closely related or structurally similar sequential user stories are separated without justification, causing unnecessary repetition of context, logic, or validation effort;
-- each feature MUST be bounded in scope, sufficient for a single `/speckit.specify` execution, while avoiding arbitrary consolidation that dilutes focus.
+Feature synthesis operates by placing boundaries between contiguous user stories in the accepted user story order.
+
+Feature boundaries MUST be placed only where they improve at least one of:
+
+- specification clarity;
+- delivery confidence;
+- workflow focus;
+- MVP formation;
+- extension sequencing.
+
+A feature boundary is justified when it separates:
+
+- a defensible MVP from later extensions;
+- one coherent functional slice from another;
+- a completed capability from a later extension that adds materially different behavior;
+- user stories whose implementation, validation, or specification context would be clearer if handled in separate Spec Kit work packets.
+
+A feature boundary is weak or invalid when it:
+
+- separates tightly coupled user stories whose behavior must be specified together;
+- separates strongly parallel user stories that share substantially similar implementation, validation, or acceptance workflows;
+- causes unnecessary repetition of SSS, context, requirements, validation logic, or task structure;
+- creates a feature too narrow to represent meaningful user-visible functionality;
+- creates a feature too broad to remain focused and actionable;
+- causes a later feature to redefine, repair, or complete behavior that should have been completed earlier.
 
 ---
 
-Feature progression MUST preserve continuity:
+##### Independence, Incremental Viability, and Continuity
 
-- each feature MUST operate as a valid extension of the system produced by all prior features;
-- the system state after each feature must remain internally consistent and testable.
+Feature progression MUST preserve system continuity.
 
----
+The ordered feature sequence MUST satisfy:
 
-Feature cohesion MUST be evaluated across included user stories:
-
-- candidate user stories that are narrowly scoped and represent sequential refinements of the same capability, or
-- candidate user stories that are tightly coupled, strongly parallel, or require substantially similar implementation, validation, or acceptance workflows
-
-SHOULD be grouped together into a single feature when separate treatment would not meaningfully improve clarity, validation, or delivery confidence.
-
-Reject or refine any feature that violates these constraints.
+- the first feature forms a defensible MVP when the target system is greenfield;
+- every subsequent feature operates as a valid extension of the system produced by all prior features;
+- the system state after each feature remains internally consistent, executable, and testable;
+- no feature requires a later feature to become meaningful, complete, or valid;
+- no feature redefines, weakens, or bypasses SSS or previously delivered behavior.
 
 ---
 
-**Notes / Practical Guidance**
+##### Agent Override
 
-1. MVP feature (first in roadmap) must be minimal but viable, demonstrating end-to-end value with the smallest coherent subset of user stories.
-2. Extension features must be defensible functional slices, strictly ordered after prior features.
-3. Ordering, completeness, and adherence to Shared System Semantics policies are mandatory for all features.
+Each feature MUST include an `Agent Override` section according to the Feature Subtemplate.
+
+The Agent Override MUST:
+
+- inherit SSS as authoritative shared context;
+- reference all SSS sections and rules required by the feature, including those identified during the Phase 2 audit;
+- include the canonical user story set assigned to the feature;
+- preserve the accepted user story order;
+- prohibit downstream `/speckit.specify` execution from merging, splitting, reordering, renaming, or reprioritizing the assigned user stories.
+
+The LLM MUST NOT use Agent Override to:
+
+- redefine SSS locally;
+- weaken cross-cutting rules;
+- introduce new user stories;
+- change the accepted user story decomposition;
+- hide feature-scope ambiguity instead of resolving it.
+
+---
+
+#### Completion Criteria
+
+Phase 3 is complete only when:
+
+- every user story is assigned to exactly one feature;
+- every feature contains a contiguous subset of the accepted user story list;
+- user story order is preserved exactly within and across features;
+- the first feature forms a defensible MVP when applicable;
+- every subsequent feature is a valid extension slice;
+- every feature defines a coherent, bounded, user-visible specification scope;
+- every feature is suitable for a single `/speckit.specify` execution;
+- every feature satisfies all Phase 3 Rules;
+- every feature includes a complete Agent Override section;
+- every feature Agent Override references all applicable SSS sections and rules;
+- the full feature sequence defines a valid execution plan for the Spec Kit workflow;
+- the user has accepted the feature grouping.
+
+If these criteria are not satisfied, Phase 4 MUST NOT begin.
 
 ---
 
