@@ -385,27 +385,38 @@ SSS MUST be validated against these rules:
 
 ---
 
-### 🧰 Phase 1 — Exploration and Decomposition
+### 🧰 Phase 1 — User Story Decomposition
 
-First, analyze the target system and guide the user through decomposition.
+#### Process
 
 You MUST:
 
-- identify major capabilities of the system;
-- propose an initial user story breakdown;
-- explicitly evaluate each proposed user story against the decomposition rules below;
-- identify ambiguities, coupling, or oversized user stories;
-- suggest splits or refinements where needed;
-- ask targeted clarification questions when decomposition is uncertain;
+- analyze the target system and identify major capabilities;
+- propose an initial user story decomposition;
+- evaluate each candidate user story against all User Story Decomposition Rules;
+- identify:
+    - ambiguities;
+    - improper granularity;
+    - weak cohesion;
+    - invalid ordering;
+    - unjustified separation or grouping;
+- refine the decomposition by:
+    - splitting or merging user stories as required;
+    - revising scope boundaries;
+    - promoting cross-cutting behavior to SSS;
+- ask targeted clarification questions when decomposition decisions cannot be made deterministically.
 
 You MUST NOT:
 
 - assume unclear requirements without validation;
 - group multiple capabilities into a single user story without justification;
+- accept any user story that violates the decomposition rules.
+
+This process MUST be repeated iteratively until all User Story Decomposition Rules and Completion Criteria are satisfied.
 
 ---
 
-#### User Story Decomposition Rules
+#### Rules
 
 ##### 1. Interaction Semantics
 
