@@ -545,7 +545,7 @@ User story decomposition MUST NOT:
 
 ---
 
-##### 4. Scope Construction Rules
+##### 4. Scope Construction
 
 Each user story MUST include a `#### Scope` section that defines the exact responsibility boundary of the story.
 
@@ -566,7 +566,7 @@ Every `Included Behavior` item MUST be traceable to the declared `Scope`.
 
 ---
 
-##### 5. Included Behavior Construction Rules
+##### 5. Included Behavior Construction
 
 The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
 
@@ -576,7 +576,7 @@ Each item MUST be specific enough to support later edge-class enumeration, SSS c
 
 The LLM MUST create `Included Behavior` items according to the following rules.
 
-###### 1. Accepted-Behavior Rule
+###### 1. Accepted Behavior
 
 Each item MUST describe behavior that occurs when the user story succeeds.
 
@@ -593,7 +593,7 @@ The item MUST NOT describe only:
 
 Invalid, rejected, and exceptional behavior belongs in `Exception Scenarios` or SSS, unless the item describes the successful behavior whose invalid classes must later be audited.
 
-###### 2. Execution-Semantics Rule
+###### 2. Execution Semantics
 
 Each item MUST describe a concrete system action that occurs in response to the user interaction.
 
@@ -642,7 +642,7 @@ Avoid vague capability phrasing such as:
 
 Each item MUST instead describe a specific, observable, and auditable behavior.
 
-###### 3. Atomicity Rule
+###### 3. Atomicity
 
 Each item SHOULD describe a single auditable behavior.
 
@@ -662,7 +662,7 @@ Do NOT split merely for mechanical verbosity when multiple behaviors share:
 - identical execution semantics; and
 - identical edge-class coverage.
 
-###### 4. Behavior Grouping Rule
+###### 4. Behavior Grouping
 
 Multiple behaviors MAY be grouped into a single `Included Behavior` item only when they share the same execution semantics.
 
@@ -698,7 +698,7 @@ the LLM MUST either:
 
 A justification alone is insufficient unless it identifies the shared semantic rule that makes grouping valid.
 
-###### 5. State Interaction Clarity Rule
+###### 5. State Interaction Clarity
 
 Each `Included Behavior` item MUST make clear which part of the system state it acts upon.
 
@@ -716,7 +716,7 @@ The detailed declaration of state interaction belongs in `#### State Interaction
 
 However, each `Included Behavior` item MUST be specific enough that its state interaction can be derived without ambiguity or inference.
 
-###### 6. SSS Trigger Rule
+###### 6. SSS Trigger
 
 While creating each `Included Behavior` item, the LLM MUST determine whether the behavior depends on a shared rule.
 
@@ -749,7 +749,7 @@ If a rule:
 
 it MUST be promoted to SSS.
 
-###### 7. Edge-Class Prompting Rule
+###### 7. Edge-Class Prompting
 
 For every `Included Behavior` item, the LLM MUST ensure that the item is phrased so that the following question can be answered directly:
 
@@ -757,7 +757,7 @@ For every `Included Behavior` item, the LLM MUST ensure that the item is phrased
 
 If the answer is unclear, the item is too vague and MUST be rewritten before Phase 1 is accepted.
 
-###### 8. Scope Boundary Rule
+###### 8. Scope Boundary
 
 `Included Behavior` MUST remain strictly within the boundary defined in the `#### Scope` section.
 
@@ -788,7 +788,7 @@ If a behavior appears necessary but does not clearly fit within the current scop
 - move the behavior to a different user story; or
 - promote the concern to SSS if it is cross-cutting.
 
-###### 9. Exception Separation Rule
+###### 9. Exception Separation
 
 `Included Behavior` MUST define accepted behavior only.
 
@@ -799,7 +799,7 @@ Rejected behavior MUST be represented by:
 
 However, if an accepted behavior has known invalid classes, the behavior item MUST be specific enough for those invalid classes to be audited.
 
-###### 10. Verifiability Rule
+###### 10. Verifiability
 
 Each `Included Behavior` item MUST be verifiable through at least one of:
 
@@ -812,7 +812,7 @@ If no verification path exists, the item is too vague or out of scope.
 
 ---
 
-##### 6. State Interaction Construction Rules
+##### 6. State Interaction Construction
 
 Each user story MUST include a `#### State Interaction` section that explicitly defines how the story interacts with system state.
 
