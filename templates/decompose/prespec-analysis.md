@@ -1,13 +1,10 @@
 ---
-notes: >-
-  Without specific targeted instructions, modern LLMs tend to optimize for
-  conciseness, pattern completion, and token efficiency. LLMs may treats
-  templates as guidance and collapses “redundant” structure.
-  The STRICT OUTPUT CONTRACT section is designed to counteract this behavior.
+notes: Without specific targeted instructions, modern LLMs tend to optimize for conciseness, pattern completion, and token efficiency. LLMs may treats templates as guidance and collapses “redundant” structure. The STRICT OUTPUT CONTRACT section is designed to counteract this behavior.
 urls:
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
   - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
+  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ee3260-0510-83eb-a940-ecee9b09259f
 ---
 
 # Pre-specification Analysis
@@ -484,7 +481,77 @@ Each user story MUST NOT:
 
 ---
 
-##### 2. Included Behavior Creation Rules
+##### 2. Scope, Granularity, and Cohesion
+
+Each user story MUST be minimal in scope relative to its delivered value.
+
+User story decomposition MUST strike a practical balance between:
+
+- **granularity** — stories are small enough to support focused implementation, bounded context, and deterministic agent behavior; and
+- **cohesion** — stories are not fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple user stories whose implementation would substantially duplicate:
+    - logic;
+    - state handling;
+    - workflow shape;
+    - architectural structure; or
+    - Spec Kit process overhead.
+
+User story cohesion MUST be evaluated across candidate user stories.
+
+The LLM MUST identify cases where:
+
+- candidate stories represent sequential refinements of the same capability; or
+- candidate stories are tightly coupled or strongly parallel; or
+- candidate stories would require substantially similar:
+    - implementation workflows;
+    - validation workflows; and
+    - execution structure and state interaction patterns.
+
+Such stories SHOULD be combined into a single user story when separate treatment would not meaningfully improve:
+
+- clarity;
+- validation;
+- delivery confidence.
+
+User story decomposition MUST NOT:
+
+- split a single coherent interaction or capability into multiple stories without clear justification;
+- create multiple stories that differ only by minor variation in operation while sharing identical semantics;
+- introduce artificial boundaries that increase duplication or coordination overhead without improving specification quality.
+
+---
+
+##### 3. Independence, Incremental Viability, and Continuity
+
+Each user story MUST be self-sufficient, independently implementable, and independently testable.
+
+Self-sufficiency and independence mean that a user story:
+
+- can be implemented as a coherent increment on top of all previously accepted user stories;
+- does not depend on any future user stories to become meaningful, complete, correct, or testable.
+
+User story progression MUST preserve incremental system validity.
+
+The ordered user story list MUST satisfy:
+
+- after each user story is implemented, the resulting system MUST be:
+    - internally consistent;
+    - executable;
+    - testable at that stage;
+- each user story MUST
+    - operate as a valid extension of the system produced by prior user stories;
+    - introduce a complete interaction capability, not a partial fragment of one;
+    - NOT defer essential parts of an interaction (e.g., execution, visibility, or state mutation) to a later story;
+    - NOT introduce behavior that requires a later story to become usable or meaningful.
+
+User story decomposition MUST NOT:
+
+- create intermediate system states that are structurally valid but unusable;
+- split a single interaction cycle across multiple user stories;
+- rely on future user stories to “complete” the behavior introduced in the current story.
+
+---
+
+##### 4. Included Behavior Construction Rules
 
 The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
 
@@ -730,77 +797,9 @@ If no verification path exists, the item is too vague or out of scope.
 
 ---
 
-##### 3. Scope, Granularity, and Cohesion
+##### 5. Qualification
 
-Each user story MUST be minimal in scope relative to its delivered value.
-
-User story decomposition MUST strike a practical balance between:
-
-- **granularity** — stories are small enough to support focused implementation, bounded context, and deterministic agent behavior; and
-- **cohesion** — stories are not fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple user stories whose implementation would substantially duplicate:
-    - logic;
-    - state handling;
-    - workflow shape;
-    - architectural structure; or
-    - Spec Kit process overhead.
-
-User story cohesion MUST be evaluated across candidate user stories.
-
-The LLM MUST identify cases where:
-
-- candidate stories represent sequential refinements of the same capability; or
-- candidate stories are tightly coupled or strongly parallel; or
-- candidate stories would require substantially similar:
-    - implementation workflows;
-    - validation workflows; and
-    - execution structure and state interaction patterns.
-
-Such stories SHOULD be combined into a single user story when separate treatment would not meaningfully improve:
-
-- clarity;
-- validation;
-- delivery confidence.
-
-User story decomposition MUST NOT:
-
-- split a single coherent interaction or capability into multiple stories without clear justification;
-- create multiple stories that differ only by minor variation in operation while sharing identical semantics;
-- introduce artificial boundaries that increase duplication or coordination overhead without improving specification quality.
-
----
-
-##### 4. Independence, Incremental Viability, and Continuity
-
-Each user story MUST be self-sufficient, independently implementable, and independently testable.
-
-Self-sufficiency and independence mean that a user story:
-
-- can be implemented as a coherent increment on top of all previously accepted user stories;
-- does not depend on any future user stories to become meaningful, complete, correct, or testable.
-
-User story progression MUST preserve incremental system validity.
-
-The ordered user story list MUST satisfy:
-
-- after each user story is implemented, the resulting system MUST be:
-    - internally consistent;
-    - executable;
-    - testable at that stage;
-- each user story MUST
-    - operate as a valid extension of the system produced by prior user stories;
-    - introduce a complete interaction capability, not a partial fragment of one;
-    - NOT defer essential parts of an interaction (e.g., execution, visibility, or state mutation) to a later story;
-    - NOT introduce behavior that requires a later story to become usable or meaningful.
-
-User story decomposition MUST NOT:
-
-- create intermediate system states that are structurally valid but unusable;
-- split a single interaction cycle across multiple user stories;
-- rely on future user stories to “complete” the behavior introduced in the current story.
-
----
-
-##### 5. Validation
+This section determines whether a candidate qualifies as a valid user story within the decomposition model.
 
 For each candidate user story, you MUST verify:
 
