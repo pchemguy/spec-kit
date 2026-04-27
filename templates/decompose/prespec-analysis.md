@@ -336,6 +336,39 @@ Phase 2 MUST NOT begin unless:
 
 ---
 
+#### Lifecycle and Refinement
+
+SSS MUST be developed and refined across phases as follows:
+
+- during Phase 1, the LLM MUST identify and accumulate SSS rules incrementally;
+- during Phase 2, the LLM MUST refine SSS through semantic coverage audit and promote all cross-cutting rules;
+- during Phase 3, the LLM MUST ensure that feature grouping does not introduce new implicit shared semantics.
+
+After Phases 1–3 are complete, the LLM MUST perform a dedicated SSS validation and refinement pass.
+
+During this pass, the LLM MUST:
+
+- review the full accepted user story list and feature grouping;
+- identify:
+    - missing shared rules;
+    - implicit assumptions;
+    - duplicated or conflicting definitions;
+- promote all cross-cutting rules into SSS;
+- remove duplicated or conflicting definitions from user stories and features;
+- revise SSS and affected user stories/features as necessary to ensure:
+    - consistency;
+    - completeness;
+    - absence of duplication;
+- ensure that all user stories and features rely on SSS by reference and do not redefine shared behavior.
+
+The final SSS MUST:
+
+- fully capture all cross-cutting semantics required for specification;
+- be internally consistent and non-contradictory;
+- be sufficient to support all user stories and features without implicit assumptions.
+
+---
+
 #### Essential Categories
 
 Include the following categories when applicable to the system. Sections that are not applicable MUST be omitted.
@@ -853,50 +886,49 @@ All later phases MUST operate on and refine this model, not rederive it.
 
 ### 🔎 Phase 2 — Semantic Coverage Audit and SSS Elaboration
 
-Using the finalized ordered user story list from Phase 1, perform a semantic coverage audit before feature synthesis.
+Using the finalized ordered user story list and preliminary SSS from Phase 1, perform a semantic coverage audit before feature synthesis.
 
-The purpose of this phase is to ensure that every user-story-level behavior is semantically complete, that all domain edge classes are identified, and that all cross-cutting rules required for consistent downstream specifications are captured in Shared System Semantics (SSS).
+The purpose of this phase is to ensure that every user-story-level behavior is semantically complete, that all relevant domain edge classes are identified, and that all cross-cutting rules required for consistent downstream specifications are captured in Shared System Semantics (SSS).
 
 This phase MUST be completed before feature synthesis begins.
 
-You MUST:
+---
+
+#### Process
+
+The LLM MUST audit the finalized Phase 1 user story set against the current SSS.
+
+The LLM MUST:
 
 - inspect every user story in order;
 - inspect every item listed under that user story's `#### Included Behavior`;
-- enumerate domain-relevant edge cases, boundary classes, state classes, invalid classes, exceptional classes, and continuity classes for each included behavior item;
-- assess whether each edge case or class is covered by existing SSS;
-- classify SSS coverage for each edge case or class as:
-    - Covered;
-    - Partially Covered;
-    - Not Covered;
-    - Not Applicable;
-- identify whether missing or partial coverage should be resolved by:
-    - adding or revising an SSS rule;
-    - revising the affected user story;
-    - adding an exception scenario;
-    - adding or revising state interaction declarations;
-    - asking a clarification question;
-    - explicitly deferring the decision with justification;
-- promote all cross-cutting rules into SSS rather than duplicating them in user stories;
-- remove or avoid local restatement of rules that belong in SSS;
+- enumerate applicable edge classes for each included behavior item using the Audit Taxonomy;
+- assess whether each edge class is covered by current SSS;
+- classify coverage using the Coverage Assessment Rules;
+- resolve every Partially Covered or Not Covered class using the Resolution Rules;
+- promote cross-cutting rules into SSS rather than duplicating them in user stories;
 - revise affected user stories so that they reference the relevant SSS sections or rules;
 - verify that every user story remains interaction-driven and does not become a container for global policy.
 
-You MUST NOT:
+The LLM MUST NOT:
 
-- proceed to feature synthesis while any material edge class remains uncovered without explicit justification;
+- proceed to feature synthesis while any material edge class remains unresolved without explicit justification;
 - leave cross-cutting semantic rules embedded only in user stories;
 - duplicate SSS rules inside user story descriptions, included behavior, acceptance scenarios, or exception scenarios;
 - introduce implementation-specific details unless they are already required by project constraints or constitution;
 - convert edge cases into separate user stories unless they define independent user-initiated, value-producing interactions.
 
+The LLM MUST repeat this audit-and-revision process until all Completion Criteria are satisfied.
+
 ---
 
-#### Semantic Coverage Audit Rules
+#### Audit Taxonomy
 
 For each user story, perform the audit at the granularity of individual `Included Behavior` items.
 
-For each included behavior item, enumerate applicable classes from the following taxonomy. The LLM MUST apply only the taxonomy classes relevant to the target system, but MUST explicitly mark a class as Not Applicable when omission could otherwise appear accidental.
+For each included behavior item, enumerate applicable classes from the taxonomy below.
+
+The LLM MUST apply only the taxonomy classes relevant to the target system, but MUST explicitly mark a class as Not Applicable when omission could otherwise appear accidental.
 
 ##### 1. Valid Input / Valid Action Classes
 
@@ -966,18 +998,18 @@ When behavior affects visibility or feedback, identify:
 - non-modal vs blocking feedback constraints;
 - accessibility or keyboard interaction if already in scope.
 
-##### 6. Cross-Environment / Packaging Classes
+##### 6. Cross-Context / Cross-Environment Classes
 
-When behavior spans environments or packaging modes, identify:
+When behavior spans execution contexts, deployment modes, environments, or packaging modes, identify:
 
-- first launch;
-- subsequent launch;
-- launch after previous use;
-- portable operation requirements;
-- unsupported environment behavior;
-- persistence or non-persistence across launches;
-- environment-specific affordances that must not alter semantics;
-- behavioral parity between environments.
+- first use or first launch;
+- subsequent use or subsequent launch;
+- behavior after prior use;
+- portability or context-transfer requirements;
+- unsupported context or environment behavior;
+- persistence or non-persistence across sessions;
+- context-specific affordances that must not alter semantics;
+- behavioral parity across supported contexts or environments.
 
 ##### 7. Continuity Classes
 
@@ -985,7 +1017,7 @@ For every user story after the first, identify:
 
 - assumptions inherited from prior user stories;
 - behavior that must remain unchanged from prior stories;
-- state compatibility with prior features;
+- state compatibility with prior completed behavior;
 - whether the story extends, refines, or generalizes prior behavior;
 - whether acceptance requires previous behavior to remain valid.
 
@@ -993,14 +1025,22 @@ For every user story after the first, identify:
 
 #### Coverage Assessment Rules
 
-For each enumerated edge case or class, determine coverage using the following definitions.
+For each enumerated edge class, determine coverage using the following definitions.
 
-- **Covered**: Existing SSS explicitly defines the required rule or invariant.
-- **Partially Covered**: Existing SSS implies the behavior but leaves material ambiguity.
-- **Not Covered**: Existing SSS does not define the behavior or relevant constraint.
+- **Covered**: Current SSS explicitly defines the required rule or invariant.
+- **Partially Covered**: Current SSS implies the behavior but leaves material ambiguity.
+- **Not Covered**: Current SSS does not define the behavior or relevant constraint.
 - **Not Applicable**: The edge class does not apply to the target system or current user story, and the reason is clear.
 
-A class marked **Partially Covered** or **Not Covered** MUST produce one of the following actions:
+The LLM MUST record the assessment for every material edge class.
+
+---
+
+#### Resolution Rules
+
+A class marked **Partially Covered** or **Not Covered** MUST be resolved before Phase 2 is complete.
+
+The LLM MUST resolve each such class by one or more of the following actions:
 
 1. Add a new SSS rule.
 2. Revise an existing SSS rule.
@@ -1011,6 +1051,14 @@ A class marked **Partially Covered** or **Not Covered** MUST produce one of the 
 7. Defer explicitly with justification.
 
 If the same uncovered or partially covered class appears in more than one user story, it MUST be resolved through SSS unless it is intentionally story-specific.
+
+The LLM MUST NOT use local user-story revisions to avoid defining a shared rule that belongs in SSS.
+
+A deferred item MUST include:
+
+- the unresolved question or edge class;
+- why it is safe to defer;
+- where it must be resolved later.
 
 ---
 
@@ -1044,7 +1092,7 @@ The LLM MUST ensure that new or revised SSS rules:
 
 ---
 
-#### User Story Revision Rules After Audit
+#### User Story Revision Rules
 
 After SSS elaboration, the LLM MUST revise user stories as needed.
 
@@ -1053,7 +1101,7 @@ For each affected user story, the LLM MUST:
 - update `Shared System Semantics References` to include newly applicable SSS sections or rule numbers;
 - remove local restatements of rules promoted to SSS;
 - keep `Scope` focused on the user-story boundary;
-- keep `Included Behavior` focused on execution semantics of the user interaction;
+- keep `Included Behavior` focused on accepted execution semantics of the user interaction;
 - update `State Interaction` if the audit reveals missing reads, mutations, preservation, resets, or exclusions;
 - update `Acceptance Scenarios` only where the primary successful behavior needs clearer observable outcomes;
 - update `Exception Scenarios` where rejected behavior is story-specific and not fully covered by SSS.
@@ -1062,22 +1110,25 @@ The LLM MUST NOT expand user stories into global policy containers.
 
 ---
 
-#### Required Phase 2 Audit Output During Iteration
+#### Output
 
 During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the Semantic Coverage Audit Template.
 
+The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
+
 ---
 
-#### Phase 2 Completion Criteria
+#### Completion Criteria
 
 Phase 2 is complete only when:
 
 - every user story has been audited;
 - every `Included Behavior` item has been audited;
-- every material edge class is classified;
+- every material edge class has been classified;
 - every Partially Covered or Not Covered class has a resolution;
 - all accepted SSS changes have been integrated into the current SSS;
 - all affected user stories have been updated to reference the revised SSS;
+- no cross-cutting rule remains duplicated only in user stories;
 - all unresolved decisions have either been clarified with the user or explicitly deferred with justification;
 - the user has accepted the audited user story set and revised SSS.
 
