@@ -24,19 +24,25 @@ The LLM MUST repeat this **audit-and-revision process** until all Phase 2 Comple
 
 ---
 
-#### 2. Audit Taxonomy
+#### 1. Enumerate and Categorize Edge Cases
 
-For each included behavior item, the LLM MUST classify edge classes according to the following table. Only relevant classes apply; mark others as **Not Applicable**.
+The LLM MUST audit each user story in order.
 
-| Class                             | Description                                  | Examples / Notes                                                                                                                                                            |
-| --------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Valid Input / Valid Action        | Ordinary valid cases and meaningful variants | empty / non-empty prior state, single vs multi-value, first vs later use, repeated use, minimum/maximum valid input                                                         |
-| Invalid Input / Invalid Action    | Invalid cases                                | malformed input, missing input, insufficient state, domain-invalid values, forbidden operation combinations, non-finite results, invalid actions after reset/undo/rejection |
-| Boundary / Numeric                | Numeric edge classes                         | zero, positive/negative zero, very small/large finite values, overflow/non-finite, underflow/subnormal, integer vs non-integer, precision & comparison                      |
-| State & History                   | State read/write and historical behavior     | initial state, reset state, post-action state, post-rejection state, undo, history boundaries, feedback inclusion/exclusion                                                 |
-| Display / Feedback / UX           | Visibility and user feedback                 | empty, normal, large/overflowing display, ordering, orientation, accepted/rejected feedback, non-modal vs blocking, accessibility                                           |
-| Cross-Context / Cross-Environment | Environment, context, deployment, packaging  | first/subsequent use, persistence across sessions, unsupported environments, portability, behavioral parity                                                                 |
-| Continuity                        | Cross-story behavior                         | assumptions inherited from prior stories, state compatibility, extension/refinement/generalization, acceptance dependencies                                                 |
+1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
+2. For each `#### Included Behavior` item, perform comprehensive enumeration of applicable edge cases.
+3. For each identified edge case, the LLM MUST categorize it according to the following Edge Case Categories table. Only relevant categories apply; mark others as **Not Applicable**.
+
+##### Edge Case Categories
+
+| Category                          | Description                                  | Examples / Notes                                                                                                                                                                                                                                                                    |
+| --------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Valid Input / Valid Action        | Ordinary valid cases and meaningful variants | - empty / non-empty prior state,<br>- single vs multi-value state, <br>- first vs later use, <br>- repeated use, <br>- minimum valid input,<br>- maximum or practically large valid input,<br>- ordinary representative examples,<br>- duplicate or repeated values where relevant. |
+| Invalid Input / Invalid Action    | Invalid cases                                | - malformed input, <br>- missing input, <br>- insufficient state, <br>- domain-invalid values, <br>- forbidden operation combinations, <br>- non-finite results or otherwise invalid results, <br>- invalid actions after reset/undo/rejection/initialization/other state boundary  |
+| Boundary / Numeric                | Numeric edge cases                           | - zero, <br>- positive/negative zero, <br>- very small/large finite values, <br>- overflow/non-finite, <br>- underflow/subnormal, <br>- integer vs non-integer, <br>- precision/representation/comparison,<br>- values that parse differently from how they display                 |
+| State & History                   | State read/write and historical behavior     | initial state, reset state, post-action state, post-rejection state, undo, history boundaries, feedback inclusion/exclusion                                                                                                                                                         |
+| Display / Feedback / UX           | Visibility and user feedback                 | empty, normal, large/overflowing display, ordering, orientation, accepted/rejected feedback, non-modal vs blocking, accessibility                                                                                                                                                   |
+| Cross-Context / Cross-Environment | Environment, context, deployment, packaging  | first/subsequent use, persistence across sessions, unsupported environments, portability, behavioral parity                                                                                                                                                                         |
+| Continuity                        | Cross-story behavior                         | assumptions inherited from prior stories, state compatibility, extension/refinement/generalization, acceptance dependencies                                                                                                                                                         |
 
 ---
 
