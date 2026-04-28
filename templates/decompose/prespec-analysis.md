@@ -1266,12 +1266,6 @@ Final roadmap generation MUST be a structural rendering step only. The LLM MUST 
 
 ## 📄 Report Templates (STRICT)
 
-### Semantic Coverage Audit Template
-
-
-
----
-
 ### Roadmap Template - Top-Level Structure
 
 ```markdown
