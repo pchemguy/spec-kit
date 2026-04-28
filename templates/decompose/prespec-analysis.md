@@ -49,21 +49,22 @@ The LLM MUST pursue the following session objectives:
     2. auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit rules;
     3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 — Feature Synthesis;
     4. developing, validating, and refining shared rules according to Shared System Semantics during Phases 1-4;
-    5. producing a canonical `roadmap.md` according to Phase 5 — Roadmap Generation.
-- run every analysis session from scratch, ignoring any prior similar analyses available from global or project context.
+    5. rendering the validated result as canonical `roadmap.md` during Phase 5 — Roadmap Generation.
+- run every new pre-specification analysis session in an isolation mode:
+    - ignore any prior similar analyses available from global or project context.
+    - earlier phases within the same session pass their results to the later phases via session context.
 
 ---
 
 ### 🔒 STRICT OUTPUT CONTRACT (MANDATORY)
 
-The LLM MUST produce output that is a **fully expanded, literal instantiation** of all templates and subtemplates in Report Templates.
+The LLM MUST produce output that is a **fully expanded, literal instantiation** of all templates and subtemplates, except for outputs designated as intermediate artifact. Intermediate artifacts MUST be fully generated during their respective phases, but excluded from the final report in the last phase.
 
 The LLM MUST:
 
-- fully expand
-    - **Reference 2 — Semantic Coverage Audit and Resolution Template**
-    - **Reference 1 — User Story Subtemplate** for EVERY story;
-    - **Reference 1 — Feature Subtemplate** for EVERY feature;
+- fully expand **Reference USS — User Story Subtemplate** for EVERY story;
+- fully expand **Reference FS — Feature Subtemplate** for EVERY feature;
+- fully expand **Reference SCA — Semantic Coverage Audit and Resolution Template** during Phase 2 as an intermediate artifact; 
 - include **EVERY section** defined in the templates;
 - include **ALL required subsections**, even if repetitive;
 - include **Agent Override sections for EVERY feature**;
@@ -119,7 +120,7 @@ For EACH Feature, the LLM MUST include:
 - Specify User Prompt
 - Agent Override
 
-according to Reference 1 — Feature Subtemplate.
+according to Reference FS — Feature Subtemplate.
 
 Inside **Agent Override**, the LLM MUST include ALL required subsections:
 
@@ -141,7 +142,7 @@ Before returning output, the LLM MUST verify:
 
 1. All accepted Phase 2 SSS changes were integrated.
 2. The output top-level structure follows Roadmap Top-Level Structure Template.
-3. SSS follows Shared System Semantics Subtemplate.
+3. SSS follows Reference S4 — Shared System Semantics Subtemplate.
 4. Every User Story follows the full subtemplate.
 5. Every User Story references all applicable SSS sections or rules.
 6. Every Feature follows the full subtemplate.
@@ -164,7 +165,10 @@ If the LLM cannot fit the full output within limits, it MUST:
 - ask to continue in multiple parts;
 - continue in additional messages.
 
-The LLM MUST NOT silently truncate or compress content.
+The LLM MUST NOT:
+
+- silently truncate or compress content;
+- proceed to the next phase until the current phase is complete and accepted.
 
 ---
 
@@ -205,8 +209,9 @@ This pre-specification analysis of the target system focuses on managing the com
 You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
-    - run every analysis session from scratch;
-    - ignore any prior similar analyses available from global or project context;
+- run every new pre-specification analysis session in an isolation mode:
+    - ignore any prior similar analyses available from global or project context.
+    - earlier phases within the same session pass their results to the later phases via session context.
 - generate a Markdown-structured `roadmap.md` report:
     - structure the finalized user story set, feature set, and SSS;
     - do not introduce new behaviors, constraints, or structural changes during roadmap generation;
@@ -235,7 +240,7 @@ The SSS MUST:
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent user story and feature specification;
 - be constructed incrementally during Phase 1 and refined during Phases 2-3;
-- follow Shared System Semantics Subtemplate;
+- follow Reference S4 — Shared System Semantics Subtemplate;
 - use stable section titles so that user stories and features can reference them without restating them.
 
 You MUST:
@@ -356,7 +361,7 @@ SSS MUST be validated against these rules:
 
 ---
 
-#### Shared System Semantics Subtemplate
+#### Reference S4 — Shared System Semantics Subtemplate
 
 ```markdown
 ## Shared System Semantics (SSS)
@@ -984,12 +989,12 @@ All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
-#### Reference 1 — User Story Subtemplate
+#### Reference USS — User Story Subtemplate
 
 Each user story must follow this template:
 
 ```markdown
-### User Story [N] — [User Story Name]
+### User Story US[N] — [User Story Name]
 
 Status: planned | in-progress | complete
 
@@ -1035,12 +1040,12 @@ Rejected scenarios and their expected behavior (must align with global policies)
 
 ```
 
-Individual user stories are then combined into User Stories section, where `User Story [N] — [User Story Name]` subsections are repeated according to the number of user stories:
+Individual user stories are then combined into User Stories section, where `User Story US[N] — [User Story Name]` subsections are repeated according to the number of user stories:
 
 ```markdown
 ## User Stories
 
-### User Story [N] — [User Story Name]
+### User Story US[N] — [User Story Name]
 ```
 
 ---
@@ -1058,7 +1063,7 @@ Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
 The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
-2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from Reference 1 — Edge Case Taxonomy.
+2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from Reference ECT — Edge Case Taxonomy.
 
 ---
 
@@ -1079,7 +1084,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 3. Follow these rules:  
     - Repeated gaps across multiple stories MUST be resolved via SSS unless intentionally story-specific.  
     - Deferred items MUST document the unresolved case, the reason deferral is safe, and where resolution will occur.
-4. Produce a **Semantic Coverage Audit and Resolution Report** using Reference 2 — Semantic Coverage Audit and Resolution Template.
+4. Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template.
     - The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
 
 ---
@@ -1146,7 +1151,7 @@ If these criteria are not satisfied, **Phase 3 — Feature Synthesis MUST NOT be
 
 ---
 
-#### Reference 1 — Edge Case Taxonomy
+#### Reference ECT — Edge Case Taxonomy
 
 The LLM MUST apply only categories relevant to the target system and behavior under audit.
 
@@ -1220,7 +1225,7 @@ The LLM MUST apply only categories relevant to the target system and behavior un
 
 ---
 
-#### Reference 2 — Semantic Coverage Audit and Resolution Template
+#### Reference SCA — Semantic Coverage Audit and Resolution Template
 
 `````markdown
 ## Phase 2 Semantic Coverage Audit
@@ -1300,7 +1305,7 @@ A feature is a bounded, coherent specification input for one execution of the Sp
 
 `specify → plan → tasks → implement`
 
-Features are synthesized by partitioning the ordered user story list into contiguous feature slices. Each boundary between features is a deliberate cut in the user story sequence. The final structure of each feature must follow Reference 1 — Feature Subtemplate.
+Features are synthesized by partitioning the ordered user story list into contiguous feature slices. Each boundary between features is a deliberate cut in the user story sequence. The final structure of each feature must follow Reference FS — Feature Subtemplate.
 
 ---
 
@@ -1418,7 +1423,7 @@ The ordered feature sequence MUST satisfy:
 
 ##### Agent Override
 
-Each feature MUST include an `Agent Override` section according to the Reference 1 — Feature Subtemplate.
+Each feature MUST include an `Agent Override` section according to the Reference FS — Feature Subtemplate.
 
 The Agent Override MUST:
 
@@ -1459,12 +1464,12 @@ If these criteria are not satisfied, Phase 4 MUST NOT begin.
 
 ---
 
-#### Reference 1 — Feature Subtemplate
+#### Reference FS — Feature Subtemplate
 
 Each feature must follow this template:
 
 ```markdown
-### Feature [N] — [Feature Name]
+### Feature F[N] — [Feature Name]
 
 Status: planned | in-progress | complete
 
@@ -1504,22 +1509,22 @@ Follow these constraints:
 
 Use exactly this canonical story set:
 
-| #   | User Story          |
-| --- | ------------------- |
-| 1   | US1 — Feature Name  |
-| 2   | US2 — Feature Name  |
-| ... | ...                 |
+| #   | User Story               |
+| --- | ------------------------ |
+| 1   | US1 — [User Story Name]  |
+| 2   | US2 — [User Story Name]  |
+| ... | ...                      |
 
 ---
 
 ```
 
-Individual features are then combined into Features section, where `### Feature [N] — [Feature Name]` subsections are repeated according to the number of features:
+Individual features are then combined into Features section, where `### Feature F[N] — [Feature Name]` subsections are repeated according to the number of features:
 
 ```markdown
 ## Features
 
-### Feature [N] — [Feature Name]
+### Feature F[N] — [Feature Name]
 ```
 
 ---
@@ -1586,11 +1591,11 @@ If the output does not match Roadmap Top-Level Structure Template and subtemplat
 
 ## User Stories
 
-### User Story [N] — [User Story Name]
+### User Story US[N] — [User Story Name]
 
 ## Features
 
-### Feature [N] — [Feature Name]
+### Feature F[N] — [Feature Name]
 ```
 
 ---
