@@ -1260,13 +1260,31 @@ You MUST verify:
 
 If any validation item fails, the LLM MUST revise the relevant prior phase output before producing the final roadmap.
 
-Final roadmap generation MUST be a structural rendering step only. The LLM MUST NOT introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation.
+### 🧾 Phase 5 — Roadmap Report
 
----
+Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to respective subtemplates.
+  
+The LLM MUST:  
+  
+- treat the Roadmap Top-Level Structure Template as a STRICT SCHEMA;
+- produce output matching EXACTLY the defined top-level structure;  
+- include all required top-level sections;  
+- preserve section order exactly as defined;  
+- repeat User Story and Feature subsections as specified.  
+  
+The LLM MUST NOT:  
+  
+- introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation;
+- reorder top-level sections;  
+- omit required sections;  
+- merge top-level sections;  
+- introduce additional top-level sections;  
+- collapse or summarize top-level sections;  
+- replace sections with narrative text.  
+  
+If the output does not match the Roadmap Template - Top-Level Structure exactly → OUTPUT IS INVALID.
 
-## 📄 Report Templates (STRICT)
-
-### Roadmap Template - Top-Level Structure
+#### Roadmap Top-Level Structure Template
 
 ```markdown
 # Roadmap: [Target Name]
@@ -1282,31 +1300,9 @@ Final roadmap generation MUST be a structural rendering step only. The LLM MUST 
 ### Feature [N] — [Feature Name]
 ```
 
-- Repeat User Story and Feature subsections as needed.
-
-#### Usage Rules
-
-The LLM MUST treat the Roadmap Template - Top-Level Structure defined above as a STRICT SCHEMA.  
-  
-The LLM MUST:  
-  
-- produce output matching EXACTLY the defined top-level structure;  
-- include all required top-level sections;  
-- preserve section order exactly as defined;  
-- repeat User Story and Feature subsections as specified.  
-  
-The LLM MUST NOT:  
-  
-- reorder top-level sections;  
-- omit required sections;  
-- merge top-level sections;  
-- introduce additional top-level sections;  
-- collapse or summarize top-level sections;  
-- replace sections with narrative text.  
-  
-If the output does not match the Roadmap Template - Top-Level Structure exactly → OUTPUT IS INVALID.
-
 ---
+
+## 📄 Report Templates (STRICT)
 
 ### Shared System Semantics Subtemplate
 
