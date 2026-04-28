@@ -6,30 +6,12 @@ Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
 
 ---
 
-#### 1. Audit Execution
-
-The LLM MUST audit each user story in order. For each user story:
-
-* Inspect every item listed under its `#### Included Behavior` individually.
-* Enumerate applicable edge cases/classes using the Audit Taxonomy for each item.
-* For each identified edge case/class:
-    * Assess coverage against the current SSS.
-    * Classify coverage using the Coverage Assessment Rules.
-    * Resolve gaps using the Resolution Rules.
-* Promote cross-cutting rules to SSS instead of duplicating them in user stories.
-* Revise affected user stories to reference all relevant SSS sections.
-* Verify that each user story remains interaction-driven and does not become a container for global policy.
-
-The LLM MUST repeat this **audit-and-revision process** until all Phase 2 Completion Criteria are satisfied.
-
----
-
 #### 1. Edge Case Enumeration
 
 The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
-2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from the Edge Case Taxonomy below.
+2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from the Edge Case Taxonomy.
 
 **Edge Case Taxonomy**
 
@@ -101,22 +83,11 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 
 #### 2. Coverage Assessment and Proposed Resolution
 
-1. Grade SSS coverage of each identified edge case on scale:
+1. For each each identified edge case, grade its SSS coverage on the scale:
     * **Covered** — current SSS explicitly defines the required rule or invariant.
     * **Partial** — SSS implies behavior but leaves material ambiguity.
     * **Not Covered** — SSS does not define the rule.
-2. Generate a detailed report listing
-
-#### 3. Coverage Assessment & Gap Resolution
-
-For each enumerated edge class:
-
-* Classify coverage:
-    * **Covered** — current SSS explicitly defines the required rule or invariant.
-    * **Partially Covered** — SSS implies behavior but leaves material ambiguity.
-    * **Not Covered** — SSS does not define the rule.
-    * **Not Applicable** — class is irrelevant to this system or story.
-* Resolve **Partially Covered / Not Covered** classes by:
+2. Propose resolutions for **Partial / Not Covered** cases by:
     - Adding a new SSS rule.
     - Revising an existing SSS rule.
     - Revising the affected user story.
@@ -124,12 +95,15 @@ For each enumerated edge class:
     - Adding or revising state interaction declarations.
     - Asking a clarification question.
     - Deferring explicitly with justification.
-* Repeated gaps across multiple stories MUST be resolved via SSS unless intentionally story-specific.
-* Deferred items MUST document the unresolved class, reason for safe deferral, and where resolution will occur.
+    - Following the rules:
+        * Repeated gaps across multiple stories are be resolved via SSS unless intentionally story-specific.
+        * Deferred items document the unresolved case, reason for safe deferral, and where resolution will occur.
+3. Produce a **Semantic Coverage Audit and Resolution Report** using Semantic Coverage Audit and Resolution Template.
 
 ---
 
-#### 4. SSS Elaboration
+#### 3. Revise User Story List and Preliminary SSS from Phase 1
+##### SSS Elaboration
 
 * Revise SSS using stable, numbered rules.
 * Create/revise sections for recurring concerns, e.g.:
@@ -149,7 +123,7 @@ For each enumerated edge class:
 
 ---
 
-#### 5. User Story Revision
+##### User Story Revision
 
 For each audited story:
 
@@ -166,14 +140,7 @@ For each audited story:
 
 ---
 
-#### 6. Output Artifact
-
-* Produce a **Semantic Coverage Audit Report** using Semantic Coverage Audit Template.
-* The report is an **intermediate artifact**; it does **not** replace the final `roadmap.md`.
-
----
-
-#### 7. Completion Criteria
+#### 4. Completion Criteria
 
 Phase 2 is complete only when:
 
@@ -193,3 +160,74 @@ Phase 2 is complete only when:
  If these criteria are not satisfied, **Phase 3 — Feature Synthesis MUST NOT begin**.
 
 ---
+
+#### 5. Semantic Coverage Audit and Resolution
+
+`````markdown
+## Phase 2 Semantic Coverage Audit
+
+### Audit Summary
+
+### User Story Audit
+
+#### US[N] — [User Story Name]
+
+##### Included Behavior: [Behavior Item]
+
+| Edge case | Coverage | Assessment | Required resolution |
+| --------- | -------- | ---------- | ------------------- |
+| [Case]    | Covered / Partial / Not Covered | [Assessment] | [Resolution] |
+
+##### Required SSS Changes
+
+- Add / revise / none: [SSS section or rule]
+
+##### Required User Story Changes
+
+- [Change or none]
+
+---
+
+### Proposed SSS Changes
+
+#### Add SSS Section: [Section Name]
+
+```markdown
+### [Section Name]
+
+**Definition**: [Definition]
+
+1. [Normative rule]
+2. [Normative rule]
+3. [Normative rule]
+```
+
+#### Revise SSS Section: [Section Name]
+
+```markdown
+### [Section Name]
+
+**Definition**: [Definition]
+
+1. [Revised normative rule]
+2. [Revised normative rule]
+3. [Revised normative rule]
+```
+
+### Clarification Questions
+
+1. [Question, if needed]
+2. [Question, if needed]
+
+### Phase 2 Validation Result
+
+* [ ] Every user story was audited.
+* [ ] Every `Included Behavior` item was audited.
+* [ ] Every uncovered cross-cutting rule was promoted to SSS or explicitly deferred.
+* [ ] Every affected user story references the appropriate SSS sections or rules.
+* [ ] No user story duplicates SSS rules.
+* [ ] No material semantic ambiguity remains before feature synthesis.
+`````
+
+The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
+

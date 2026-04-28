@@ -1053,7 +1053,7 @@ The LLM MUST NOT expand user stories into global policy containers.
 
 During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the following Template.
 
-````markdown
+`````markdown
 ## Phase 2 Semantic Coverage Audit
 
 ### Audit Summary
@@ -1117,7 +1117,7 @@ During Phase 2, before asking the user to accept the audited user story set, the
 * [ ] Every affected user story references the appropriate SSS sections or rules.
 * [ ] No user story duplicates SSS rules.
 * [ ] No material semantic ambiguity remains before feature synthesis.
-````
+`````
 
 The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
 
