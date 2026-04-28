@@ -31,7 +31,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
 2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from the Edge Case Taxonomy below.
 
-##### Edge Case Taxonomy
+**Edge Case Taxonomy**
 
 - **Valid Input / Valid Action**: Ordinary valid cases and meaningful variants
     - empty / non-empty prior state,
