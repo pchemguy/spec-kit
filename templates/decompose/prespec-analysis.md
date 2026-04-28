@@ -1058,26 +1058,15 @@ During Phase 2, before asking the user to accept the audited user story set, the
 
 ### Audit Summary
 
-- User stories audited:
-- Included behavior items audited:
-- Edge classes identified:
-- Covered:
-- Partially covered:
-- Not covered:
-- SSS sections added:
-- SSS sections revised:
-- User stories revised:
-- Clarifications required:
-
 ### User Story Audit
 
 #### US[N] — [User Story Name]
 
 ##### Included Behavior: [Behavior Item]
 
-| Edge case / class | Coverage | Assessment | Required resolution |
-| ----------------- | -------- | ---------- | ------------------- |
-| [Case/class]      | Covered / Partially Covered / Not Covered / Not Applicable | [Assessment] | [Resolution] |
+| Edge case | Coverage | Assessment | Required resolution |
+| --------- | -------- | ---------- | ------------------- |
+| [Case]    | Covered / Partial / Not Covered | [Assessment] | [Resolution] |
 
 ##### Required SSS Changes
 

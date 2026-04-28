@@ -24,27 +24,54 @@ The LLM MUST repeat this **audit-and-revision process** until all Phase 2 Comple
 
 ---
 
-#### 1. Enumerate and Categorize Edge Cases
+#### 1. Edge Case Enumeration
 
-The LLM MUST audit each user story in order.
+The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
-2. For each `#### Included Behavior` item, perform comprehensive enumeration of applicable edge cases.
-3. For each identified edge case, the LLM MUST categorize it according to the following Edge Case Categories table. Only relevant categories apply; mark others as **Not Applicable**.
+2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from the Edge Case Taxonomy below.
 
-##### Edge Case Categories
+##### Edge Case Taxonomy
 
-| Category                          | Description                                  | Examples / Notes                                                                                                                                                                                                                                                                    |
-| --------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Valid Input / Valid Action        | Ordinary valid cases and meaningful variants | - empty / non-empty prior state,<br>- single vs multi-value state, <br>- first vs later use, <br>- repeated use, <br>- minimum valid input,<br>- maximum or practically large valid input,<br>- ordinary representative examples,<br>- duplicate or repeated values where relevant. |
-| Invalid Input / Invalid Action    | Invalid cases                                | - malformed input, <br>- missing input, <br>- insufficient state, <br>- domain-invalid values, <br>- forbidden operation combinations, <br>- non-finite results or otherwise invalid results, <br>- invalid actions after reset/undo/rejection/initialization/other state boundary  |
-| Boundary / Numeric                | Numeric edge cases                           | - zero, <br>- positive/negative zero, <br>- very small/large finite values, <br>- overflow/non-finite, <br>- underflow/subnormal, <br>- integer vs non-integer, <br>- precision/representation/comparison,<br>- values that parse differently from how they display                 |
-| State & History                   | State read/write and historical behavior     | initial state, reset state, post-action state, post-rejection state, undo, history boundaries, feedback inclusion/exclusion                                                                                                                                                         |
-| Display / Feedback / UX           | Visibility and user feedback                 | empty, normal, large/overflowing display, ordering, orientation, accepted/rejected feedback, non-modal vs blocking, accessibility                                                                                                                                                   |
-| Cross-Context / Cross-Environment | Environment, context, deployment, packaging  | first/subsequent use, persistence across sessions, unsupported environments, portability, behavioral parity                                                                                                                                                                         |
-| Continuity                        | Cross-story behavior                         | assumptions inherited from prior stories, state compatibility, extension/refinement/generalization, acceptance dependencies                                                                                                                                                         |
+- **Valid Input / Valid Action**: Ordinary valid cases and meaningful variants
+    - empty / non-empty prior state,
+    - single vs multi-value state, 
+    - first vs later use, 
+    - repeated use, 
+    - minimum valid input,
+    - maximum or practically large valid input,
+    - ordinary representative examples,
+    - duplicate or repeated values where relevant.
+- **Invalid Input / Invalid Action**: Invalid cases
+    - malformed input, 
+    - missing input, 
+    - insufficient state, 
+    - domain-invalid values, 
+    - forbidden operation combinations, 
+    - non-finite results or otherwise invalid results, 
+    - invalid actions after reset/undo/rejection/initialization/other state boundary.
+
+
+| Category                          | Description                                  | Examples                                                                                                                                                                                                                                                                                                                                     |
+| --------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Valid Input / Valid Action        | Ordinary valid cases and meaningful variants | - empty / non-empty prior state,<br>- single vs multi-value state, <br>- first vs later use, <br>- repeated use, <br>- minimum valid input,<br>- maximum or practically large valid input,<br>- ordinary representative examples,<br>- duplicate or repeated values where relevant.                                                          |
+| Invalid Input / Invalid Action    | Invalid cases                                | - malformed input, <br>- missing input, <br>- insufficient state, <br>- domain-invalid values, <br>- forbidden operation combinations, <br>- non-finite results or otherwise invalid results, <br>- invalid actions after reset/undo/rejection/initialization/other state boundary                                                           |
+| Boundary / Numeric                | Numeric edge cases                           | - zero, <br>- positive/negative zero, <br>- positive and negative values;<br>- very small/large finite values, <br>- overflow/non-finite, <br>- underflow/subnormal, <br>- integer vs non-integer, <br>- precision/representation/comparison,<br>- values that parse differently from how they display                                       |
+| State & History                   | State read/write and historical behavior     | - initial state, <br>- reset state, <br>- post-action state, <br>- post-rejection state, <br>- state after undo or other history traversal, <br>- empty vs non-empty history;<br>- history boundaries, <br>- whether the action itself is recorded;<br>- whether feedback/status is part of state or excluded from state                     |
+| Data Structures                   | Data structures used in data model or state  | - stack overflow/underflow                                                                                                                                                                                                                                                                                                                   |
+| Display / Feedback / UX           | Visibility and user feedback                 | - empty display, <br>- normal display, <br>- large/overflowing display, <br>- ordering and orientation, <br>- user-visible distinction between different states, <br>- accepted/rejected feedback, <br>- non-modal vs blocking, <br>- accessibility or keyboard interaction                                                                  |
+| Cross-Context / Cross-Environment | Environment, context, deployment, packaging  | - first/subsequent use, <br>- behavior after prior use,<br>- portability or context-transfer requirements,<br>- unsupported context or environment behavior,<br>- persistence across sessions, <br>- context-specific affordances that must not alter semantics,<br>- behavioral parity across supported contexts or environments            |
+| Continuity                        | Cross-story behavior                         | - assumptions inherited from prior stories, <br>- behavior that must remain unchanged from prior stories,<br>- state compatibility with prior completed behavior, <br>- whether the story extends, refines, or generalizes prior behavior, <br>- acceptance dependencies,<br>- whether acceptance requires previous behavior to remain valid |
 
 ---
+
+#### 2. Coverage Assessment and Proposed Resolution
+
+1. Grade SSS coverage of each identified edge case on scale:
+    * **Covered** — current SSS explicitly defines the required rule or invariant.
+    * **Partial** — SSS implies behavior but leaves material ambiguity.
+    * **Not Covered** — SSS does not define the rule.
+2. Generate a detailed report listing
 
 #### 3. Coverage Assessment & Gap Resolution
 
