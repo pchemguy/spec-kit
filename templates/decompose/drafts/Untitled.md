@@ -50,18 +50,52 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
     - forbidden operation combinations, 
     - non-finite results or otherwise invalid results, 
     - invalid actions after reset/undo/rejection/initialization/other state boundary.
-
-
-| Category                          | Description                                  | Examples                                                                                                                                                                                                                                                                                                                                     |
-| --------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Valid Input / Valid Action        | Ordinary valid cases and meaningful variants | - empty / non-empty prior state,<br>- single vs multi-value state, <br>- first vs later use, <br>- repeated use, <br>- minimum valid input,<br>- maximum or practically large valid input,<br>- ordinary representative examples,<br>- duplicate or repeated values where relevant.                                                          |
-| Invalid Input / Invalid Action    | Invalid cases                                | - malformed input, <br>- missing input, <br>- insufficient state, <br>- domain-invalid values, <br>- forbidden operation combinations, <br>- non-finite results or otherwise invalid results, <br>- invalid actions after reset/undo/rejection/initialization/other state boundary                                                           |
-| Boundary / Numeric                | Numeric edge cases                           | - zero, <br>- positive/negative zero, <br>- positive and negative values;<br>- very small/large finite values, <br>- overflow/non-finite, <br>- underflow/subnormal, <br>- integer vs non-integer, <br>- precision/representation/comparison,<br>- values that parse differently from how they display                                       |
-| State & History                   | State read/write and historical behavior     | - initial state, <br>- reset state, <br>- post-action state, <br>- post-rejection state, <br>- state after undo or other history traversal, <br>- empty vs non-empty history;<br>- history boundaries, <br>- whether the action itself is recorded;<br>- whether feedback/status is part of state or excluded from state                     |
-| Data Structures                   | Data structures used in data model or state  | - stack overflow/underflow                                                                                                                                                                                                                                                                                                                   |
-| Display / Feedback / UX           | Visibility and user feedback                 | - empty display, <br>- normal display, <br>- large/overflowing display, <br>- ordering and orientation, <br>- user-visible distinction between different states, <br>- accepted/rejected feedback, <br>- non-modal vs blocking, <br>- accessibility or keyboard interaction                                                                  |
-| Cross-Context / Cross-Environment | Environment, context, deployment, packaging  | - first/subsequent use, <br>- behavior after prior use,<br>- portability or context-transfer requirements,<br>- unsupported context or environment behavior,<br>- persistence across sessions, <br>- context-specific affordances that must not alter semantics,<br>- behavioral parity across supported contexts or environments            |
-| Continuity                        | Cross-story behavior                         | - assumptions inherited from prior stories, <br>- behavior that must remain unchanged from prior stories,<br>- state compatibility with prior completed behavior, <br>- whether the story extends, refines, or generalizes prior behavior, <br>- acceptance dependencies,<br>- whether acceptance requires previous behavior to remain valid |
+- **Boundary / Numeric**: Numeric edge cases
+    - zero, 
+    - positive/negative zero, 
+    - positive and negative values;
+    - very small/large finite values, 
+    - overflow/non-finite, 
+    - underflow/subnormal, 
+    - integer vs non-integer, 
+    - precision/representation/comparison,
+    - values that parse differently from how they display.
+- **State & History**: State read/write and historical behavior
+    - initial state, 
+    - reset state, 
+    - post-action state, 
+    - post-rejection state, 
+    - state after undo or other history traversal, 
+    - empty vs non-empty history;
+    - history boundaries, 
+    - whether the action itself is recorded;
+    - whether feedback/status is part of state or excluded from state.
+- **Data Structures**: Data structures used in data model or state
+    - stack overflow/underflow.
+- **Display / Feedback / UX**: Visibility and user feedback
+    - empty display, 
+    - normal display, 
+    - large/overflowing display, 
+    - ordering and orientation, 
+    - user-visible distinction between different states, 
+    - accepted/rejected feedback, 
+    - non-modal vs blocking, 
+    - accessibility or keyboard interaction.
+- **Cross-Context / Cross-Environment**: Environment, context, deployment, packaging
+    - first/subsequent use, 
+    - behavior after prior use,
+    - portability or context-transfer requirements,
+    - unsupported context or environment behavior,
+    - persistence across sessions, 
+    - context-specific affordances that must not alter semantics,
+    - behavioral parity across supported contexts or environments.
+- **Continuity**: Cross-story behavior
+    - assumptions inherited from prior stories, 
+    - behavior that must remain unchanged from prior stories,
+    - state compatibility with prior completed behavior, 
+    - whether the story extends, refines, or generalizes prior behavior, 
+    - acceptance dependencies,
+    - whether acceptance requires previous behavior to remain valid.
 
 ---
 
