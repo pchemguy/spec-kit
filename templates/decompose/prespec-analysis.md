@@ -51,7 +51,7 @@ The LLM MUST pursue the following session objectives:
     4. developing, validating, and refining shared rules according to Shared System Semantics during Phases 1-4;
     5. rendering the validated result as canonical `roadmap.md` during Phase 5 — Roadmap Generation.
 - run every new pre-specification analysis session in an isolation mode:
-    - ignore any prior similar analyses available from global or project context.
+    - ignore any prior similar analyses available from global or project context;
     - earlier phases within the same session pass their results to the later phases via session context.
 
 ---
@@ -141,8 +141,8 @@ Omission of ANY subsection is a **hard violation**.
 Before returning output, the LLM MUST verify:
 
 1. All accepted Phase 2 SSS changes were integrated.
-2. The output top-level structure follows Roadmap Top-Level Structure Template.
-3. SSS follows Reference S4 — Shared System Semantics Subtemplate.
+2. The final roadmap skeleton in Phase 5 follows Reference RM — Roadmap Skeletal Template.
+3. SSS follows Reference SSS — Shared System Semantics Subtemplate.
 4. Every User Story follows the full subtemplate.
 5. Every User Story references all applicable SSS sections or rules.
 6. Every Feature follows the full subtemplate.
@@ -163,7 +163,7 @@ If the LLM cannot fit the full output within limits, it MUST:
 - stop BEFORE truncation;
 - explicitly state that output would exceed limits and continuation is required;
 - ask to continue in multiple parts;
-- continue in additional messages.
+- continue producing remaining parts in additional messages after user confirmation.
 
 The LLM MUST NOT:
 
@@ -185,6 +185,20 @@ The LLM MUST NOT:
 - produce a roadmap before Phase 4 is completed and validated.
 
 Premature roadmap generation is INVALID.
+
+---
+
+###  📉 Output Mode by Phase
+
+The LLM MUST produce different outputs depending on the active phase:
+
+- Phase 1 output: candidate / revised user story set and preliminary SSS.
+- Phase 2 output: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
+- Phase 3 output: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
+- Phase 4 output: validation findings and required corrections, if any.
+- Phase 5 output: final `roadmap.md` only.
+
+Intermediate phase reports MUST NOT be inserted into final `roadmap.md` unless explicitly requested.
 
 ---
 
@@ -210,7 +224,7 @@ You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
 - run every new pre-specification analysis session in an isolation mode:
-    - ignore any prior similar analyses available from global or project context.
+    - ignore any prior similar analyses available from global or project context;
     - earlier phases within the same session pass their results to the later phases via session context.
 - generate a Markdown-structured `roadmap.md` report:
     - structure the finalized user story set, feature set, and SSS;
@@ -240,7 +254,7 @@ The SSS MUST:
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent user story and feature specification;
 - be constructed incrementally during Phase 1 and refined during Phases 2-3;
-- follow Reference S4 — Shared System Semantics Subtemplate;
+- follow Reference SSS — Shared System Semantics Subtemplate;
 - use stable section titles so that user stories and features can reference them without restating them.
 
 You MUST:
@@ -361,14 +375,14 @@ SSS MUST be validated against these rules:
 
 ---
 
-#### Reference S4 — Shared System Semantics Subtemplate
+#### Reference SSS — Shared System Semantics Subtemplate
 
 ```markdown
 ## Shared System Semantics (SSS)
 
 The following rules define shared system semantics and apply to all user stories and features.
 
-User stories and features MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
+User stories and features MAY add story-specific or feature-specific constraints only when those constraints do not apply across multiple user stories or features. Any repeated or cross-cutting constraint MUST be promoted to SSS. If a story-specific or feature-specific constraint later appears in another story or feature, it MUST be promoted to SSS and removed from local definitions.
 
 ---
 
@@ -545,6 +559,11 @@ You MUST:
     - splitting or merging user stories as required;
     - revising scope boundaries;
     - promoting cross-cutting behavior to SSS.
+- define sections of the Reference USS — User Story Subtemplate:
+    - Template sections not required by Phase 1 Completion Criteria MAY remain preliminary during Phase 1.
+    - Acceptance Scenarios and Exception Scenarios
+        - MAY be preliminary during Phase 1;
+        - MUST be completed and aligned with the semantic coverage audit during Phase 2.
 
 You MUST NOT:
 
@@ -691,8 +710,8 @@ The declared state interaction MUST:
 
 The LLM MUST ensure that:  
   
-- every `Included Behavior` item corresponds to at least one declared state interaction; and  
-- no declared state interaction lacks a corresponding `Included Behavior` item or SSS rule.
+- every `Included Behavior` item corresponds to at least one declared state interaction, observable output, or applicable SSS rule;
+- no declared state interaction lacks a corresponding `Included Behavior` item or SSS rule, except for `Preserves` and `Must Not Affect` declarations, which MAY be justified by SSS invariants rather than by local Included Behavior items.
 
 ---
 
@@ -996,7 +1015,7 @@ Each user story must follow this template:
 ```markdown
 ### User Story US[N] — [User Story Name]
 
-Status: planned | in-progress | complete
+Status: planned | in-progress | complete [Use `Status: planned` by default]
 
 #### Description
 
@@ -1063,7 +1082,7 @@ Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
 The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
-2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from Reference ECT — Edge Case Taxonomy.
+2. For each `#### Included Behavior` item and applicable categories/examples from Reference ECT — Edge Case Taxonomy, perform a materially comprehensive enumeration of edge cases reasonably implied by the behavior, SSS, and target domain.
 
 ---
 
@@ -1084,6 +1103,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 3. Follow these rules:  
     - Repeated gaps across multiple stories MUST be resolved via SSS unless intentionally story-specific.  
     - Deferred items MUST document the unresolved case, the reason deferral is safe, and where resolution will occur.
+    - Only non-material, out-of-scope, or explicitly future-feature edge cases may be deferred. Any deferral that affects current user story correctness, acceptance, rejection, state mutation, or feature grouping blocks Phase 3.
 4. Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template.
     - The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
 
@@ -1153,7 +1173,7 @@ If these criteria are not satisfied, **Phase 3 — Feature Synthesis MUST NOT be
 
 #### Reference ECT — Edge Case Taxonomy
 
-The LLM MUST apply only categories relevant to the target system and behavior under audit.
+The LLM MUST apply every taxonomy category that is relevant to the target system and audited behavior, and MUST omit categories that are not relevant.
 
 - **Valid Input / Valid Action**: Ordinary valid cases and meaningful variants
     - empty / non-empty prior state,
@@ -1293,7 +1313,9 @@ The LLM MUST apply only categories relevant to the target system and behavior un
 * [ ] No material semantic ambiguity remains before feature synthesis.
 `````
 
-The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
+- Repeat the `#### US[N]` block for every accepted user story.
+- Repeat the `##### Included Behavior: [Behavior Item]` block for every Included Behavior item in the user story.
+- The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
 
 ---
 
@@ -1344,7 +1366,7 @@ The LLM MUST repeat this synthesis-and-refinement process until all Completion C
 
 ##### Scope and Cohesion
 
-Each feature MUST define a cohesive, bounded, user-visible unit of functionality suitable for a single `/speckit.specify` execution.
+Each feature MUST define a cohesive, bounded, user-relevant unit of deliverable system behavior suitable for a single `/speckit.specify` execution.
 
 Each feature MUST:
 
@@ -1471,7 +1493,7 @@ Each feature must follow this template:
 ```markdown
 ### Feature F[N] — [Feature Name]
 
-Status: planned | in-progress | complete
+Status: planned | in-progress | complete [Use `Status: planned` by default]
 
 #### Metadata
 
@@ -1529,7 +1551,7 @@ Individual features are then combined into Features section, where `### Feature 
 
 ---
 
-### 🧬 Phase 4 — Final SSS Validation
+### 🧬 Phase 4 — Final Cross-Artifact Validation
 
 After feature synthesis is complete and before producing the final roadmap, perform a final validation pass across:
 
@@ -1560,11 +1582,11 @@ If any validation item fails, the LLM MUST revise the relevant prior phase outpu
 
 ### 🧾 Phase 5 — Roadmap Generation
 
-Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to subtemplates defined in respective sections.
+Final roadmap generation MUST be a structural rendering step only. Use Reference RM — Roadmap Skeletal Template as top-level structure of the report. The second-level (`##`) sections must be generated according to subtemplates defined in respective sections.
   
 The LLM MUST:  
   
-- treat the Roadmap Top-Level Structure Template as a STRICT SCHEMA;
+- treat the Reference RM — Roadmap Skeletal Template as a STRICT SCHEMA;
 - produce output matching EXACTLY the defined top-level structure;  
 - include all required top-level sections;  
 - preserve section order exactly as defined;  
@@ -1580,22 +1602,24 @@ The LLM MUST NOT:
 - collapse or summarize top-level sections;  
 - replace sections with narrative text.  
   
-If the output does not match Roadmap Top-Level Structure Template and subtemplates exactly → OUTPUT IS INVALID.
+If the output does not match Reference RM — Roadmap Skeletal Template and subtemplates exactly → OUTPUT IS INVALID.
 
-#### Roadmap Top-Level Structure Template
+#### Reference RM — Roadmap Skeletal Template
 
 ```markdown
 # Roadmap: [Target Name]
 
 ## Shared System Semantics (SSS)
 
+[Fully expanded according to Reference SSS]
+
 ## User Stories
 
-### User Story US[N] — [User Story Name]
+[Fully expanded according to Reference USS]
 
 ## Features
 
-### Feature F[N] — [Feature Name]
+[Fully expanded according to Reference FS]
 ```
 
 ---
