@@ -230,6 +230,7 @@ The SSS MUST:
 - be developed as part of pre-specification analysis;
 - capture all shared system-level definitions, conventions, and policies required for consistent user story and feature specification;
 - be constructed incrementally during Phase 1 and refined during Phases 2-3;
+- follow Shared System Semantics Subtemplate;
 - use stable section titles so that user stories and features can reference them without restating them.
 
 You MUST:
@@ -350,6 +351,168 @@ SSS MUST be validated against these rules:
 
 ---
 
+#### Shared System Semantics Subtemplate
+
+```markdown
+## Shared System Semantics (SSS)
+
+The following rules define shared system semantics and apply to all user stories and features.
+
+User stories and features MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
+
+---
+
+### [Policy / Convention Name]
+
+**Definition**: Short statement describing the purpose and scope of this rule group.
+
+1. Normative rule statement
+2. Normative rule statement
+3. Normative rule statement
+
+Optional:
+
+N+1. Clarifying rule
+N+2. Constraint
+N+3. Boundary condition
+
+---
+
+### [Policy / Convention Name]
+
+**Definition**: Short statement describing the purpose and scope of this rule group.
+
+1. Normative rule statement
+2. Normative rule statement
+
+Optional:
+
+N+1. Explicit evaluation rules
+N+2. Ordering rules
+
+- Examples (only when needed to disambiguate semantics)
+
+---
+
+### [Interaction / Evaluation Convention]
+
+**Definition**: Defines how operations are interpreted or executed.
+
+1. Rule defining evaluation order / semantics
+2. Rule defining operand roles or interaction structure
+3. Rule defining interpretation constraints
+
+Optional:
+
+- Examples illustrating interpretation
+
+---
+
+### [Error / Rejection Policy]
+
+**Definition**: Defines how invalid actions are handled.
+
+1. Conditions under which actions are rejected
+2. Guarantee that rejected actions do not mutate state
+3. Requirement for user-visible feedback
+4. Constraints on feedback mechanism (e.g., non-modal, non-blocking)
+
+---
+
+### [State Model Assumptions]
+
+**Definition**: Defines the conceptual structure of system state.
+
+The system state MAY include, as applicable:
+
+1. State component
+2. State component
+3. State component
+
+User stories MUST explicitly declare:
+
+- which state components they read;
+- which state components they mutate;
+- which state components they preserve;
+- which state components they reset.
+
+---
+
+### [State Mutation Policy]
+
+**Definition**: Defines global guarantees about state transitions.
+
+1. State changes occur only through accepted operations.
+2. Rejected operations MUST NOT mutate any state.
+3. State transitions MUST be atomic from the user perspective.
+
+---
+
+### [History / Reversibility Policy]
+
+**Definition**: Defines undo/redo or historical behavior.
+
+1. Rule defining what actions are recorded
+2. Rule defining what actions are reversible
+3. Explicit exclusions (e.g., rejected actions, resets)
+
+---
+
+### [Interaction and UX Conventions]
+
+**Definition**: Defines user interaction and feedback expectations.
+
+1. Input model assumptions
+2. Feedback model (status, warnings, etc.)
+3. Visibility constraints
+
+---
+
+### [Cross-Environment Consistency Constraint]
+
+**Definition**: Defines invariants across deployment environments.
+
+1. Behavior that MUST remain identical across environments
+2. Explicit list of preserved semantics
+
+---
+
+```
+
+##### Usage Rules
+
+1. Inclusion Rule
+    A section MUST be included only if:
+    - it applies to more than one user story, or
+    - it defines a shared/global invariant
+    Otherwise → it belongs in a user story.
+2. Coverage Rule
+    - applicable shared semantic concerns MUST be captured in an existing or newly named SSS section
+    - sections or items that do not apply MUST be excluded
+3. Atomic Rule Style
+    Each rule statement MUST:
+    - express a single enforceable rule
+    - be testable or checkable
+    - avoid vague language ("should", "generally", etc.)
+4. No User Story Leakage
+    The SSS MUST NOT:
+    - describe specific user story workflows
+    - include acceptance scenarios
+    - include UI layout or implementation details
+    - encode user story sequencing
+5. No Duplication Rule
+    - User stories and features MUST reference applicable SSS sections or rules in accordance with SSS Reference and Consistency Rules when those rules materially affect behavior.
+6. Naming Rule
+    Each section name MUST:
+    - reflect a distinct semantic concern
+    - be reusable across systems (e.g., "Numeric Policy" → "Data Validity Policy" in another domain)
+7. List Format Rule
+    Sections MUST use:
+    - numbered lists for rules to support specific references
+    - bulleted lists for examples (no specific references)
+
+---
+
 ### 🧰 Phase 1 — User Story Decomposition
 
 #### Process
@@ -383,7 +546,7 @@ This process MUST be repeated iteratively until all Phase 1 rules and Completion
 
 ---
 
-#### Rules
+#### General Rules
 
 ##### 1. Interaction Semantics
 
@@ -498,7 +661,56 @@ Every `Included Behavior` item MUST be traceable to the declared `Scope`.
 
 ---
 
-##### 5. Included Behavior Construction
+##### 5. State Interaction Construction
+
+Each user story MUST include a `#### State Interaction` section that explicitly defines how the story interacts with system state.
+
+The `State Interaction` section MUST declare, for each relevant state component:
+
+- Reads: state accessed without modification;
+- Mutates: state modified as part of execution;
+- Preserves: state guaranteed to remain unchanged;
+- Resets: state reinitialized or cleared;
+- Must Not Affect: state that must remain untouched.
+
+The declared state interaction MUST:
+
+- be consistent with all `Included Behavior` items;
+- be sufficient to derive the effects of each behavior without ambiguity;
+- not rely on implicit or inferred state changes.
+
+The LLM MUST ensure that:  
+  
+- every `Included Behavior` item corresponds to at least one declared state interaction; and  
+- no declared state interaction lacks a corresponding `Included Behavior` item or SSS rule.
+
+---
+
+##### 6. Qualification
+
+This section determines whether a candidate qualifies as a valid user story within the decomposition model.
+
+For each candidate user story, you MUST verify:
+
+- what explicit user action initiates this story;
+- what successful outcome the user is trying to achieve;
+- whether the story still makes sense if all other stories are removed.
+
+If no clear user action exists, or the story only defines failure modes or constraints, it MUST be rejected or absorbed into SSS.
+
+Classify each candidate as one of:  
+  
+- Interaction-driven behavior → valid user story;  
+- Cross-cutting constraint → SSS;  
+- Internal mechanism → invalid (must be merged or removed).  
+  
+Only the first category is allowed as user stories.
+
+Reject or refine any user story that violates these constraints.
+
+---
+
+#### Included Behavior Construction Rules
 
 The `#### Included Behavior` section of each user story is a semantic execution contract, not a loose capability list.
 
@@ -508,7 +720,7 @@ Each item MUST be specific enough to support later edge-class enumeration, SSS c
 
 The LLM MUST create `Included Behavior` items according to the following rules.
 
-###### 1. Accepted Behavior
+##### 1. Accepted Behavior
 
 Each item MUST describe behavior that occurs when the user story succeeds.
 
@@ -525,7 +737,7 @@ The item MUST NOT describe only:
 
 Invalid, rejected, and exceptional behavior belongs in `Exception Scenarios` or SSS, unless the item describes the successful behavior whose invalid classes must later be audited.
 
-###### 2. Execution Semantics
+##### 2. Execution Semantics
 
 Each item MUST describe a concrete system action that occurs in response to the user interaction.
 
@@ -574,7 +786,7 @@ Avoid vague capability phrasing such as:
 
 Each item MUST instead describe a specific, observable, and auditable behavior.
 
-###### 3. Atomicity
+##### 3. Atomicity
 
 Each item SHOULD describe a single auditable behavior.
 
@@ -594,7 +806,7 @@ Do NOT split merely for mechanical verbosity when multiple behaviors share:
 - identical execution semantics; and
 - identical edge-class coverage.
 
-###### 4. Behavior Grouping
+##### 4. Behavior Grouping
 
 Multiple behaviors MAY be grouped into a single `Included Behavior` item only when they share the same execution semantics.
 
@@ -630,7 +842,7 @@ the LLM MUST either:
 
 A justification alone is insufficient unless it identifies the shared semantic rule that makes grouping valid.
 
-###### 5. State Interaction Clarity
+##### 5. State Interaction Clarity
 
 Each `Included Behavior` item MUST make clear which part of the system state it acts upon.
 
@@ -648,7 +860,7 @@ The detailed declaration of state interaction belongs in `#### State Interaction
 
 However, each `Included Behavior` item MUST be specific enough that its state interaction can be derived without ambiguity or inference.
 
-###### 6. SSS Trigger
+##### 6. SSS Trigger
 
 While creating each `Included Behavior` item, the LLM MUST determine whether the behavior depends on a shared rule.
 
@@ -681,7 +893,7 @@ If a rule:
 
 it MUST be promoted to SSS.
 
-###### 7. Edge-Class Prompting
+##### 7. Edge-Class Prompting
 
 For every `Included Behavior` item, the LLM MUST ensure that the item is phrased so that the following question can be answered directly:
 
@@ -689,7 +901,7 @@ For every `Included Behavior` item, the LLM MUST ensure that the item is phrased
 
 If the answer is unclear, the item is too vague and MUST be rewritten before Phase 1 is accepted.
 
-###### 8. Scope Boundary
+##### 8. Scope Boundary
 
 `Included Behavior` MUST remain strictly within the boundary defined in the `#### Scope` section.
 
@@ -720,7 +932,7 @@ If a behavior appears necessary but does not clearly fit within the current scop
 - move the behavior to a different user story; or
 - promote the concern to SSS if it is cross-cutting.
 
-###### 9. Exception Separation
+##### 9. Exception Separation
 
 `Included Behavior` MUST define accepted behavior only.
 
@@ -731,7 +943,7 @@ Rejected behavior MUST be represented by:
 
 However, if an accepted behavior has known invalid classes, the behavior item MUST be specific enough for those invalid classes to be audited.
 
-###### 10. Verifiability
+##### 10. Verifiability
 
 Each `Included Behavior` item MUST be verifiable through at least one of:
 
@@ -741,55 +953,6 @@ Each `Included Behavior` item MUST be verifiable through at least one of:
 - a state interaction declaration.
 
 If no verification path exists, the item is too vague or out of scope.
-
----
-
-##### 6. State Interaction Construction
-
-Each user story MUST include a `#### State Interaction` section that explicitly defines how the story interacts with system state.
-
-The `State Interaction` section MUST declare, for each relevant state component:
-
-- Reads: state accessed without modification;
-- Mutates: state modified as part of execution;
-- Preserves: state guaranteed to remain unchanged;
-- Resets: state reinitialized or cleared;
-- Must Not Affect: state that must remain untouched.
-
-The declared state interaction MUST:
-
-- be consistent with all `Included Behavior` items;
-- be sufficient to derive the effects of each behavior without ambiguity;
-- not rely on implicit or inferred state changes.
-
-The LLM MUST ensure that:  
-  
-- every `Included Behavior` item corresponds to at least one declared state interaction; and  
-- no declared state interaction lacks a corresponding `Included Behavior` item or SSS rule.
-
----
-
-##### 7. Qualification
-
-This section determines whether a candidate qualifies as a valid user story within the decomposition model.
-
-For each candidate user story, you MUST verify:
-
-- what explicit user action initiates this story;
-- what successful outcome the user is trying to achieve;
-- whether the story still makes sense if all other stories are removed.
-
-If no clear user action exists, or the story only defines failure modes or constraints, it MUST be rejected or absorbed into SSS.
-
-Classify each candidate as one of:  
-  
-- Interaction-driven behavior → valid user story;  
-- Cross-cutting constraint → SSS;  
-- Internal mechanism → invalid (must be merged or removed).  
-  
-Only the first category is allowed as user stories.
-
-Reject or refine any user story that violates these constraints.
 
 ---
 
@@ -1262,7 +1425,7 @@ If any validation item fails, the LLM MUST revise the relevant prior phase outpu
 
 ### 🧾 Phase 5 — Roadmap Report
 
-Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to respective subtemplates.
+Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to subtemplates defined in respective sections.
   
 The LLM MUST:  
   
@@ -1304,167 +1467,6 @@ If the output does not match the Roadmap Template - Top-Level Structure exactly 
 
 ## 📄 Report Templates (STRICT)
 
-### Shared System Semantics Subtemplate
-
-```markdown
-## Shared System Semantics (SSS)
-
-The following rules define shared system semantics and apply to all user stories and features.
-
-User stories and features MAY further constrain these rules but MUST NOT contradict, weaken, or bypass them.
-
----
-
-### [Policy / Convention Name]
-
-**Definition**: Short statement describing the purpose and scope of this rule group.
-
-1. Normative rule statement
-2. Normative rule statement
-3. Normative rule statement
-
-Optional:
-
-N+1. Clarifying rule
-N+2. Constraint
-N+3. Boundary condition
-
----
-
-### [Policy / Convention Name]
-
-**Definition**: Short statement describing the purpose and scope of this rule group.
-
-1. Normative rule statement
-2. Normative rule statement
-
-Optional:
-
-N+1. Explicit evaluation rules
-N+2. Ordering rules
-
-- Examples (only when needed to disambiguate semantics)
-
----
-
-### [Interaction / Evaluation Convention]
-
-**Definition**: Defines how operations are interpreted or executed.
-
-1. Rule defining evaluation order / semantics
-2. Rule defining operand roles or interaction structure
-3. Rule defining interpretation constraints
-
-Optional:
-
-- Examples illustrating interpretation
-
----
-
-### [Error / Rejection Policy]
-
-**Definition**: Defines how invalid actions are handled.
-
-1. Conditions under which actions are rejected
-2. Guarantee that rejected actions do not mutate state
-3. Requirement for user-visible feedback
-4. Constraints on feedback mechanism (e.g., non-modal, non-blocking)
-
----
-
-### [State Model Assumptions]
-
-**Definition**: Defines the conceptual structure of system state.
-
-The system state MAY include, as applicable:
-
-1. State component
-2. State component
-3. State component
-
-User stories MUST explicitly declare:
-
-- which state components they read;
-- which state components they mutate;
-- which state components they preserve;
-- which state components they reset.
-
----
-
-### [State Mutation Policy]
-
-**Definition**: Defines global guarantees about state transitions.
-
-1. State changes occur only through accepted operations.
-2. Rejected operations MUST NOT mutate any state.
-3. State transitions MUST be atomic from the user perspective.
-
----
-
-### [History / Reversibility Policy]
-
-**Definition**: Defines undo/redo or historical behavior.
-
-1. Rule defining what actions are recorded
-2. Rule defining what actions are reversible
-3. Explicit exclusions (e.g., rejected actions, resets)
-
----
-
-### [Interaction and UX Conventions]
-
-**Definition**: Defines user interaction and feedback expectations.
-
-1. Input model assumptions
-2. Feedback model (status, warnings, etc.)
-3. Visibility constraints
-
----
-
-### [Cross-Environment Consistency Constraint]
-
-**Definition**: Defines invariants across deployment environments.
-
-1. Behavior that MUST remain identical across environments
-2. Explicit list of preserved semantics
-
----
-
-```
-
-#### Usage Rules
-
-1. Inclusion Rule
-    A section MUST be included only if:
-    - it applies to more than one user story, or
-    - it defines a shared/global invariant
-    Otherwise → it belongs in a user story.
-2. Coverage Rule
-    - applicable shared semantic concerns MUST be captured in an existing or newly named SSS section
-    - sections or items that do not apply MUST be excluded
-3. Atomic Rule Style
-    Each rule statement MUST:
-    - express a single enforceable rule
-    - be testable or checkable
-    - avoid vague language ("should", "generally", etc.)
-4. No User Story Leakage
-    The SSS MUST NOT:
-    - describe specific user story workflows
-    - include acceptance scenarios
-    - include UI layout or implementation details
-    - encode user story sequencing
-5. No Duplication Rule
-    - User stories and features MUST reference applicable SSS sections or rules in accordance with SSS Reference and Consistency Rules when those rules materially affect behavior.
-6. Naming Rule
-    Each section name MUST:
-    - reflect a distinct semantic concern
-    - be reusable across systems (e.g., "Numeric Policy" → "Data Validity Policy" in another domain)
-7. List Format Rule
-    Sections MUST use:
-    - numbered lists for rules to support specific references
-    - bulleted lists for examples (no specific references)
-
----
 
 ### User Story Subtemplate
 
