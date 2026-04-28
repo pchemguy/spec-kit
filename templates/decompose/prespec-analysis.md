@@ -48,8 +48,8 @@ The LLM MUST pursue the following session objectives:
     1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 — User Story Decomposition;
     2. auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 and the Semantic Coverage Audit rules;
     3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 — Feature Synthesis;
-    4. developing, validating, and refining shared rules according to Shared System Semantics;
-    5. producing a canonical `roadmap.md` according to the Report Templates.
+    4. developing, validating, and refining shared rules according to Shared System Semantics during Phases 1-4;
+    5. producing a canonical `roadmap.md` according to Phase 5 — Roadmap Generation.
 - run every analysis session from scratch, ignoring any prior similar analyses available from global or project context.
 
 ---
@@ -60,10 +60,12 @@ The LLM MUST produce output that is a **fully expanded, literal instantiation** 
 
 The LLM MUST:
 
+- fully expand
+    - **Reference 2 — Semantic Coverage Audit and Resolution Template**
+    - **Reference 1 — User Story Subtemplate** for EVERY story;
+    - **Reference 1 — Feature Subtemplate** for EVERY feature;
 - include **EVERY section** defined in the templates;
 - include **ALL required subsections**, even if repetitive;
-- fully expand **User Story Subtemplate** for EVERY story;
-- fully expand **Feature Subtemplate** for EVERY feature;
 - include **Agent Override sections for EVERY feature**;
 - include **ALL nested Agent Override subsections**;
 - preserve **exact structure and hierarchy**.
@@ -117,6 +119,8 @@ For EACH Feature, the LLM MUST include:
 - Specify User Prompt
 - Agent Override
 
+according to Reference 1 — Feature Subtemplate.
+
 Inside **Agent Override**, the LLM MUST include ALL required subsections:
 
 1. Shared Definitions, Conventions, and Policies
@@ -136,15 +140,16 @@ Omission of ANY subsection is a **hard violation**.
 Before returning output, the LLM MUST verify:
 
 1. All accepted Phase 2 SSS changes were integrated.
-2. The output top-level structure follows Roadmap Template - Top-Level Structure.
-3. Every User Story follows the full subtemplate.
-4. Every User Story references all applicable SSS sections or rules.
-5. Every Feature follows the full subtemplate.
-6. EVERY Feature contains Agent Override.
-7. EVERY Agent Override contains ALL required subsections.
-8. EVERY Feature Agent Override references all applicable SSS sections or rules.
-9. No section is summarized or omitted.
-10. No user story or feature duplicates an SSS rule locally.
+2. The output top-level structure follows Roadmap Top-Level Structure Template.
+3. SSS follows Shared System Semantics Subtemplate.
+4. Every User Story follows the full subtemplate.
+5. Every User Story references all applicable SSS sections or rules.
+6. Every Feature follows the full subtemplate.
+7. EVERY Feature contains Agent Override.
+8. EVERY Agent Override contains ALL required subsections.
+9. EVERY Feature Agent Override references all applicable SSS sections or rules.
+10. No section is summarized or omitted.
+11. No user story or feature duplicates an SSS rule locally.
 
 If any check fails → the LLM MUST fix the output before returning.
 
@@ -167,7 +172,7 @@ The LLM MUST NOT silently truncate or compress content.
   
 The LLM MUST follow the defined phase sequence strictly:
 
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → roadmap generation
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
 
 The LLM MUST NOT:
 
@@ -979,6 +984,67 @@ All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
+#### Reference 1 — User Story Subtemplate
+
+Each user story must follow this template:
+
+```markdown
+### User Story [N] — [User Story Name]
+
+Status: planned | in-progress | complete
+
+#### Description
+
+Short statement of intent and user-visible value.
+
+#### Shared System Semantics References  
+  
+List applicable Shared System Semantics sections and rules:  
+  
+- SSS - [Section Title]  
+- SSS - [Section Title] - (Rule Number)
+
+#### Scope  
+  
+Defines the responsibility boundary of this user story.  
+  
+#### Included Behavior  
+  
+Lists accepted execution behaviors included in this user story.
+
+#### State Interaction
+
+Declare how this story interacts with system state.
+
+- Reads:  
+- Mutates:  
+- Preserves:  
+- Resets:  
+- Must Not Affect:
+
+#### Acceptance Scenarios
+
+1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+2. ...
+
+#### Exception Scenarios
+
+Rejected scenarios and their expected behavior (must align with global policies).
+
+---
+
+```
+
+Individual user stories are then combined into User Stories section, where `User Story [N] — [User Story Name]` subsections are repeated according to the number of user stories:
+
+```markdown
+## User Stories
+
+### User Story [N] — [User Story Name]
+```
+
+---
+
 ### 🔎 Phase 2 — Semantic Coverage Audit and SSS Elaboration
 
 Using the finalized, ordered user story list and preliminary SSS from Phase 1, perform a semantic coverage audit before feature synthesis. This phase ensures that all user-story-level behaviors are semantically complete, domain edge classes are enumerated, and cross-cutting rules are captured in Shared System Semantics (SSS).
@@ -987,7 +1053,7 @@ Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
 
 ---
 
-#### 1. Edge Case Enumeration
+#### Edge Case Enumeration
 
 The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
@@ -996,7 +1062,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 
 ---
 
-#### 2. Coverage Assessment and Proposed Resolution
+#### Coverage Assessment and Proposed Resolution
 
 1. For each identified edge case, classify its SSS coverage using the following scale:
     * **Covered** — current SSS explicitly defines the required rule or invariant.
@@ -1018,7 +1084,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 
 ---
 
-#### 3. Revise User Story List and Preliminary SSS from Phase 1
+#### Revise User Story List and Preliminary SSS from Phase 1
 ##### SSS Elaboration
 
 * Revise SSS using stable, numbered rules.
@@ -1058,7 +1124,7 @@ For each audited story:
 
 ---
 
-#### 4. Completion Criteria
+#### Completion Criteria
 
 Phase 2 is complete only when:
 
@@ -1234,7 +1300,7 @@ A feature is a bounded, coherent specification input for one execution of the Sp
 
 `specify → plan → tasks → implement`
 
-Features are synthesized by partitioning the ordered user story list into contiguous feature slices. Each boundary between features is a deliberate cut in the user story sequence.
+Features are synthesized by partitioning the ordered user story list into contiguous feature slices. Each boundary between features is a deliberate cut in the user story sequence. The final structure of each feature must follow Reference 1 — Feature Subtemplate.
 
 ---
 
@@ -1352,7 +1418,7 @@ The ordered feature sequence MUST satisfy:
 
 ##### Agent Override
 
-Each feature MUST include an `Agent Override` section according to the Feature Subtemplate.
+Each feature MUST include an `Agent Override` section according to the Reference 1 — Feature Subtemplate.
 
 The Agent Override MUST:
 
@@ -1393,133 +1459,9 @@ If these criteria are not satisfied, Phase 4 MUST NOT begin.
 
 ---
 
-### 🧬 Phase 4 — Final SSS and Roadmap Validation
+#### Reference 1 — Feature Subtemplate
 
-After feature synthesis is complete and before producing the final roadmap, perform a final validation pass across:
-
-- SSS;
-- user stories;
-- feature grouping;
-- feature Specify User Prompts;
-- feature Agent Override sections.
-
-You MUST verify:
-
-1. Every user story is valid under Phase 1 — User Story Decomposition.
-2. Every user story was covered by Phase 2 semantic audit.
-3. Every `Included Behavior` item has either:
-    - sufficient SSS coverage;
-    - story-local acceptance or exception coverage;
-    - explicit justified deferral.
-4. Every SSS section is referenced by at least one applicable user story or feature, unless justified as a global invariant.
-5. No user story duplicates SSS rules.
-6. No feature Specify User Prompt duplicates SSS rules unnecessarily.
-7. Every feature Agent Override includes all applicable SSS sections and rule references.
-8. Every feature includes only contiguous user stories from the accepted user story order.
-9. Every user story is assigned to exactly one feature.
-10. The first feature forms a defensible MVP when the target system is greenfield.
-11. Later features are valid extensions of prior features.
-12. The final roadmap follows the Roadmap Template and subtemplates exactly.
-
-If any validation item fails, the LLM MUST revise the relevant prior phase output before producing the final roadmap.
-
-### 🧾 Phase 5 — Roadmap Report
-
-Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to subtemplates defined in respective sections.
-  
-The LLM MUST:  
-  
-- treat the Roadmap Top-Level Structure Template as a STRICT SCHEMA;
-- produce output matching EXACTLY the defined top-level structure;  
-- include all required top-level sections;  
-- preserve section order exactly as defined;  
-- repeat User Story and Feature subsections as specified.  
-  
-The LLM MUST NOT:  
-  
-- introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation;
-- reorder top-level sections;  
-- omit required sections;  
-- merge top-level sections;  
-- introduce additional top-level sections;  
-- collapse or summarize top-level sections;  
-- replace sections with narrative text.  
-  
-If the output does not match the Roadmap Template - Top-Level Structure exactly → OUTPUT IS INVALID.
-
-#### Roadmap Top-Level Structure Template
-
-```markdown
-# Roadmap: [Target Name]
-
-## Shared System Semantics (SSS)
-
-## User Stories
-
-### User Story [N] — [User Story Name]
-
-## Features
-
-### Feature [N] — [Feature Name]
-```
-
----
-
-## 📄 Report Templates (STRICT)
-
-
-### User Story Subtemplate
-
-```markdown
-### User Story [N] — [User Story Name]
-
-Status: planned | in-progress | complete
-
-#### Description
-
-Short statement of intent and user-visible value.
-
-#### Shared System Semantics References  
-  
-List applicable Shared System Semantics sections and rules:  
-  
-- SSS - [Section Title]  
-- SSS - [Section Title] - (Rule Number)
-
-#### Scope  
-  
-Defines the responsibility boundary of this user story.  
-  
-#### Included Behavior  
-  
-Lists accepted execution behaviors included in this user story.
-
-#### State Interaction
-
-Declare how this story interacts with system state.
-
-- Reads:  
-- Mutates:  
-- Preserves:  
-- Resets:  
-- Must Not Affect:
-
-#### Acceptance Scenarios
-
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. ...
-
-#### Exception Scenarios
-
-Rejected scenarios and their expected behavior (must align with global policies).
-
----
-
-```
-
----
-
-### Feature Subtemplate
+Each feature must follow this template:
 
 ```markdown
 ### Feature [N] — [Feature Name]
@@ -1570,6 +1512,85 @@ Use exactly this canonical story set:
 
 ---
 
+```
+
+Individual features are then combined into Features section, where `### Feature [N] — [Feature Name]` subsections are repeated according to the number of features:
+
+```markdown
+## Features
+
+### Feature [N] — [Feature Name]
+```
+
+---
+
+### 🧬 Phase 4 — Final SSS Validation
+
+After feature synthesis is complete and before producing the final roadmap, perform a final validation pass across:
+
+- SSS;
+- user stories;
+- feature grouping;
+- feature Specify User Prompts;
+- feature Agent Override sections.
+
+You MUST verify:
+
+1. Every user story is valid under Phase 1 — User Story Decomposition.
+2. Every user story was covered by Phase 2 semantic audit.
+3. Every `Included Behavior` item has either:
+    - sufficient SSS coverage;
+    - story-local acceptance or exception coverage;
+    - explicit justified deferral.
+4. Every SSS section is referenced by at least one applicable user story or feature, unless justified as a global invariant.
+5. No user story duplicates SSS rules.
+6. No feature Specify User Prompt duplicates SSS rules unnecessarily.
+7. Every feature Agent Override includes all applicable SSS sections and rule references.
+8. Every feature includes only contiguous user stories from the accepted user story order.
+9. Every user story is assigned to exactly one feature.
+10. The first feature forms a defensible MVP when the target system is greenfield.
+11. Later features are valid extensions of prior features.
+
+If any validation item fails, the LLM MUST revise the relevant prior phase output before proceeding to Phase 5.
+
+### 🧾 Phase 5 — Roadmap Generation
+
+Final roadmap generation MUST be a structural rendering step only. Use Roadmap Top-Level Structure Template as top-level structure of the report. The second-level (`##`) sections must be generated according to subtemplates defined in respective sections.
+  
+The LLM MUST:  
+  
+- treat the Roadmap Top-Level Structure Template as a STRICT SCHEMA;
+- produce output matching EXACTLY the defined top-level structure;  
+- include all required top-level sections;  
+- preserve section order exactly as defined;  
+- repeat User Story and Feature subsections as needed.  
+  
+The LLM MUST NOT:  
+  
+- introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation;
+- reorder top-level sections;  
+- omit required sections;  
+- merge top-level sections;  
+- introduce additional top-level sections;  
+- collapse or summarize top-level sections;  
+- replace sections with narrative text.  
+  
+If the output does not match Roadmap Top-Level Structure Template and subtemplates exactly → OUTPUT IS INVALID.
+
+#### Roadmap Top-Level Structure Template
+
+```markdown
+# Roadmap: [Target Name]
+
+## Shared System Semantics (SSS)
+
+## User Stories
+
+### User Story [N] — [User Story Name]
+
+## Features
+
+### Feature [N] — [Feature Name]
 ```
 
 ---
