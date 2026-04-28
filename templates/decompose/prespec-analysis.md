@@ -818,240 +818,180 @@ All later phases MUST operate on and refine this model, not rederive it.
 
 ### 🔎 Phase 2 — Semantic Coverage Audit and SSS Elaboration
 
-Using the finalized ordered user story list and preliminary SSS from Phase 1, perform a semantic coverage audit before feature synthesis.
+Using the finalized, ordered user story list and preliminary SSS from Phase 1, perform a semantic coverage audit before feature synthesis. This phase ensures that all user-story-level behaviors are semantically complete, domain edge classes are enumerated, and cross-cutting rules are captured in Shared System Semantics (SSS).
 
-The purpose of this phase is to ensure that every user-story-level behavior is semantically complete, that all relevant domain edge classes are identified, and that all cross-cutting rules required for consistent downstream specifications are captured in Shared System Semantics (SSS).
-
-This phase MUST be completed before feature synthesis begins.
+Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
 
 ---
 
-#### Process
+#### 1. Edge Case Enumeration
 
-The LLM MUST audit the finalized Phase 1 user story set against the current SSS.
+The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
 
-The LLM MUST:
-
-- inspect every user story in order;
-- inspect every item listed under that user story's `#### Included Behavior`;
-- enumerate applicable edge classes for each included behavior item using the Audit Taxonomy;
-- assess whether each edge class is covered by current SSS;
-- classify coverage using the Coverage Assessment Rules;
-- resolve every Partially Covered or Not Covered class using the Resolution Rules;
-- promote cross-cutting rules into SSS rather than duplicating them in user stories;
-- revise affected user stories so that they reference the relevant SSS sections or rules;
-- verify that every user story remains interaction-driven and does not become a container for global policy.
-
-The LLM MUST NOT:
-
-- proceed to feature synthesis while any material edge class remains unresolved without explicit justification;
-- leave cross-cutting semantic rules embedded only in user stories;
-- duplicate SSS rules inside user story descriptions, included behavior, acceptance scenarios, or exception scenarios;
-- introduce implementation-specific details unless they are already required by project constraints or constitution;
-- convert edge cases into separate user stories unless they define independent user-initiated, value-producing interactions.
-
-The LLM MUST repeat this audit-and-revision process until all Completion Criteria are satisfied.
+1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
+2. For each `#### Included Behavior` item, perform comprehensive enumeration of edge cases for each applicable category/example from Reference 1 — Edge Case Taxonomy.
 
 ---
 
-#### Audit Taxonomy
+#### 2. Coverage Assessment and Proposed Resolution
 
-For each user story, perform the audit at the granularity of individual `Included Behavior` items.
-
-For each included behavior item, enumerate applicable classes from the taxonomy below.
-
-The LLM MUST apply only the taxonomy classes relevant to the target system, but MUST explicitly mark a class as Not Applicable when omission could otherwise appear accidental.
-
-##### 1. Valid Input / Valid Action Classes
-
-Identify ordinary valid cases and meaningful variants, including:
-
-- empty vs non-empty prior state;
-- single-value vs multi-value state;
-- first use vs later use;
-- repeated use;
-- minimum valid input;
-- maximum or practically large valid input;
-- ordinary representative examples;
-- duplicate or repeated values where relevant.
-
-##### 2. Invalid Input / Invalid Action Classes
-
-Identify invalid cases, including:
-
-- malformed input;
-- missing input;
-- insufficient state;
-- domain-invalid values;
-- forbidden operation combinations;
-- non-finite or otherwise invalid results;
-- invalid action after reset, undo, rejection, initialization, or other state boundary.
-
-##### 3. Boundary and Numeric Classes
-
-When the system involves numeric behavior, identify relevant numeric edge classes, including:
-
-- zero;
-- positive zero and negative zero, if floating-point semantics are relevant;
-- positive and negative values;
-- very small finite values;
-- very large finite values;
-- overflow to non-finite values;
-- underflow to zero or subnormal values;
-- integer vs non-integer values;
-- precision, representation, and comparison expectations;
-- values that parse differently from how they display.
-
-##### 4. State and History Classes
-
-When the behavior reads, mutates, preserves, resets, or records state, identify:
-
-- initial state;
-- reset state;
-- state after accepted action;
-- state after rejected action;
-- state after undo or other history traversal;
-- empty vs non-empty history;
-- history boundaries;
-- whether the action itself is recorded;
-- whether feedback/status is part of state or excluded from state.
-
-##### 5. Display / Feedback / UX Classes
-
-When behavior affects visibility or feedback, identify:
-
-- empty display;
-- normal display;
-- large or overflowing display;
-- ordering and orientation;
-- user-visible distinction between different states;
-- feedback after accepted action;
-- feedback after rejected action;
-- non-modal vs blocking feedback constraints;
-- accessibility or keyboard interaction if already in scope.
-
-##### 6. Cross-Context / Cross-Environment Classes
-
-When behavior spans execution contexts, deployment modes, environments, or packaging modes, identify:
-
-- first use or first launch;
-- subsequent use or subsequent launch;
-- behavior after prior use;
-- portability or context-transfer requirements;
-- unsupported context or environment behavior;
-- persistence or non-persistence across sessions;
-- context-specific affordances that must not alter semantics;
-- behavioral parity across supported contexts or environments.
-
-##### 7. Continuity Classes
-
-For every user story after the first, identify:
-
-- assumptions inherited from prior user stories;
-- behavior that must remain unchanged from prior stories;
-- state compatibility with prior completed behavior;
-- whether the story extends, refines, or generalizes prior behavior;
-- whether acceptance requires previous behavior to remain valid.
+1. For each identified edge case, classify its SSS coverage using the following scale:
+    * **Covered** — current SSS explicitly defines the required rule or invariant.
+    * **Partial** — SSS implies behavior but leaves material ambiguity.
+    * **Not Covered** — SSS does not define the rule.
+2. Propose resolutions for **Partial / Not Covered** cases by:
+    - Adding a new SSS rule.
+    - Revising an existing SSS rule.
+    - Revising the affected user story.
+    - Adding or revising an exception scenario.
+    - Adding or revising state interaction declarations.
+    - Asking a clarification question.
+    - Deferring explicitly with justification.
+3. Follow these rules:  
+    - Repeated gaps across multiple stories MUST be resolved via SSS unless intentionally story-specific.  
+    - Deferred items MUST document the unresolved case, the reason deferral is safe, and where resolution will occur.
+4. Produce a **Semantic Coverage Audit and Resolution Report** using Reference 2 — Semantic Coverage Audit and Resolution Template.
+    - The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
 
 ---
 
-#### Rules
-
-##### Coverage Assessment
-
-For each enumerated edge class, determine coverage using the following definitions.
-
-- **Covered**: Current SSS explicitly defines the required rule or invariant.
-- **Partially Covered**: Current SSS implies the behavior but leaves material ambiguity.
-- **Not Covered**: Current SSS does not define the behavior or relevant constraint.
-- **Not Applicable**: The edge class does not apply to the target system or current user story, and the reason is clear.
-
-The LLM MUST record the assessment for every material edge class.
-
----
-
-##### Gap Resolution
-
-A class marked **Partially Covered** or **Not Covered** MUST be resolved before Phase 2 is complete.
-
-The LLM MUST resolve each such class by one or more of the following actions:
-
-1. Add a new SSS rule.
-2. Revise an existing SSS rule.
-3. Revise the affected user story.
-4. Add or revise an exception scenario.
-5. Add or revise state interaction declarations.
-6. Ask a clarification question.
-7. Defer explicitly with justification.
-
-If the same uncovered or partially covered class appears in more than one user story, it MUST be resolved through SSS unless it is intentionally story-specific.
-
-The LLM MUST NOT use local user-story revisions to avoid defining a shared rule that belongs in SSS.
-
-A deferred item MUST include:
-
-- the unresolved question or edge class;
-- why it is safe to defer;
-- where it must be resolved later.
-
----
-
+#### 3. Revise User Story List and Preliminary SSS from Phase 1
 ##### SSS Elaboration
 
-When Phase 2 identifies missing shared semantics, the LLM MUST revise SSS using stable, reusable sections and numbered normative rules.
-
-The LLM SHOULD create or revise SSS sections for recurring concerns such as:
-
-- input validity, parsing, or normalization;
-- value representation and comparison;
-- state structure, capacity, or visibility;
-- operation or action domain rules;
-- rejected action behavior;
-- initialization, reset, or baseline-state boundaries;
-- history, reversibility, or recovery behavior;
-- display, feedback, or observability semantics;
-- cross-context or cross-environment consistency;
-- deployment, packaging, or runtime-environment boundaries;
-- persistence or non-persistence expectations.
-
-The LLM MUST ensure that new or revised SSS rules:
-
-- are atomic;
-- are enforceable;
-- are testable or checkable;
-- avoid implementation details unless required by project constraints;
-- are referenced by every applicable user story;
-- do not duplicate acceptance scenarios;
-- do not encode user-story sequencing except as cross-feature continuity assumptions.
+* Revise SSS using stable, numbered rules.
+* Create/revise sections for recurring concerns, e.g.:
+    * input validity, parsing, normalization
+    * value representation and comparison
+    * state structure, capacity, visibility
+    * operation/action domain rules
+    * rejected action behavior
+    * initialization, reset, baseline boundaries
+    * history, reversibility, recovery
+    * display, feedback, observability
+    * cross-context / cross-environment consistency
+    * deployment, packaging, runtime environment
+    * persistence expectations
+* Each new/revised SSS rule MUST be atomic, enforceable, checkable, referenced by all applicable user stories, and avoid duplication of Acceptance Scenarios.
+* SSS MUST NOT encode user-story sequencing except as cross-feature continuity.
 
 ---
 
 ##### User Story Revision
 
-For each audited user story, the LLM MUST ensure that:
+For each audited story:
 
-- `Acceptance Scenarios` cover the primary successful behavior represented by `Included Behavior`;
-- `Exception Scenarios` cover rejected or invalid behavior identified during semantic coverage audit;
-- exception scenarios align with SSS rejection, no-mutation, feedback, and state-transition rules;
-- acceptance scenarios do not duplicate SSS rules, but reference or rely on them where applicable.
-
-After SSS elaboration, the LLM MUST revise user stories as needed.
-
-For each affected user story, the LLM MUST:
-
-- update `Shared System Semantics References` to include newly applicable SSS sections or rule numbers;
-- remove local restatements of rules promoted to SSS;
-- keep `Scope` focused on the user-story boundary;
-- keep `Included Behavior` focused on accepted execution semantics of the user interaction;
-- update `State Interaction` if the audit reveals missing reads, mutations, preservation, resets, or exclusions;
-
-The LLM MUST NOT expand user stories into global policy containers.
+* Ensure `Acceptance Scenarios` cover primary successful behaviors in `Included Behavior`.
+* Ensure `Exception Scenarios` cover rejected or invalid behaviors identified during audit.
+* Align exception scenarios with SSS rules (rejection, no-mutation, feedback, state transitions).
+* Acceptance scenarios should reference SSS where applicable, not duplicate it.
+* Update:
+    * `Shared System Semantics References`
+    * `Scope` (focus on user-story boundary)
+    * `Included Behavior` (reflect accepted behaviors)
+    * `State Interaction` (reads, mutates, preserves, resets, must not affect)
+    * `Acceptance Scenarios`
+    * `Exception Scenarios`
+* LLM MUST NOT expand stories into global policy containers.
 
 ---
 
-#### Output Template
+#### 4. Completion Criteria
 
-During Phase 2, before asking the user to accept the audited user story set, the LLM MUST produce an audit report using the following Template.
+Phase 2 is complete only when:
+
+* Every user story has been audited.
+* Every `Included Behavior` item has been audited.
+* The Semantic Coverage Audit and Resolution Report has been produced.
+* Every material edge case has been classified as Covered, Partial, or Not Covered.
+* Every Partial / Not Covered case has a resolution.
+* Every accepted user story contains:
+    * Acceptance Scenarios derived from Included Behavior.
+    * Exception Scenarios derived from audit and SSS rules.
+* All accepted SSS changes are integrated into the current SSS.
+* All affected user stories reference the revised SSS.
+* No cross-cutting rule remains duplicated in user stories.
+* All unresolved decisions are clarified or explicitly deferred.
+* The user has accepted the audited user story set and revised SSS.
+
+If these criteria are not satisfied, **Phase 3 — Feature Synthesis MUST NOT begin**.
+
+---
+
+#### Reference 1 — Edge Case Taxonomy
+
+The LLM MUST apply only categories relevant to the target system and behavior under audit.
+
+- **Valid Input / Valid Action**: Ordinary valid cases and meaningful variants
+    - empty / non-empty prior state,
+    - single vs multi-value state, 
+    - first vs later use, 
+    - repeated use, 
+    - minimum valid input,
+    - maximum or practically large valid input,
+    - ordinary representative examples,
+    - duplicate or repeated values where relevant.
+- **Invalid Input / Invalid Action**: Invalid cases
+    - malformed input, 
+    - missing input, 
+    - insufficient state, 
+    - domain-invalid values, 
+    - forbidden operation combinations, 
+    - non-finite results or otherwise invalid results, 
+    - invalid actions after reset/undo/rejection/initialization/other state boundary.
+- **Boundary / Numeric**: Numeric edge cases
+    - zero, 
+    - positive/negative zero, 
+    - positive and negative values,
+    - very small/large finite values, 
+    - overflow/non-finite, 
+    - underflow/subnormal, 
+    - integer vs non-integer, 
+    - precision/representation/comparison,
+    - values that parse differently from how they display.
+- **State & History**: State read/write and historical behavior
+    - initial state, 
+    - reset state, 
+    - post-action state, 
+    - post-rejection state, 
+    - state after undo or other history traversal, 
+    - empty vs non-empty history,
+    - history boundaries, 
+    - whether the action itself is recorded,
+    - whether feedback/status is part of state or excluded from state.
+- **Data Structures**: Data structures used in data model or state
+    - capacity limits,
+    - empty/full structure behavior,
+    - insertion/removal boundaries,
+    - ordering or indexing boundaries,
+    - overflow/underflow where applicable.
+- **Display / Feedback / UX**: Visibility and user feedback
+    - empty display, 
+    - normal display, 
+    - large/overflowing display, 
+    - ordering and orientation, 
+    - user-visible distinction between different states, 
+    - accepted/rejected feedback, 
+    - non-modal vs blocking, 
+    - accessibility or keyboard interaction.
+- **Cross-Context / Cross-Environment**: Environment, context, deployment, packaging
+    - first/subsequent use, 
+    - behavior after prior use,
+    - portability or context-transfer requirements,
+    - unsupported context or environment behavior,
+    - persistence across sessions, 
+    - context-specific affordances that must not alter semantics,
+    - behavioral parity across supported contexts or environments.
+- **Continuity**: Cross-story behavior
+    - assumptions inherited from prior stories, 
+    - behavior that must remain unchanged from prior stories,
+    - state compatibility with prior completed behavior, 
+    - whether the story extends, refines, or generalizes prior behavior, 
+    - acceptance dependencies,
+    - whether acceptance requires previous behavior to remain valid.
+
+---
+
+#### Reference 2 — Semantic Coverage Audit and Resolution Template
 
 `````markdown
 ## Phase 2 Semantic Coverage Audit
@@ -1120,27 +1060,6 @@ During Phase 2, before asking the user to accept the audited user story set, the
 `````
 
 The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
-
----
-
-#### Completion Criteria
-
-Phase 2 is complete only when:
-
-- every user story has been audited;
-- every `Included Behavior` item has been audited;
-- every accepted user story contains
-    - Acceptance Scenarios derived from its Included Behavior;
-    - Exception Scenarios derived from the audit results and applicable SSS rules;
-- every material edge class has been classified;
-- every Partially Covered or Not Covered class has a resolution;
-- all accepted SSS changes have been integrated into the current SSS;
-- all affected user stories have been updated to reference the revised SSS;
-- no cross-cutting rule remains duplicated only in user stories;
-- all unresolved decisions have either been clarified with the user or explicitly deferred with justification;
-- the user has accepted the audited user story set and revised SSS.
-
-If these criteria are not satisfied, feature synthesis MUST NOT begin.
 
 ---
 
