@@ -138,14 +138,14 @@ Omission of ANY subsection is a **hard violation**.
 
 ### ✅ PRE-OUTPUT VALIDATION (MANDATORY)
 
-Before returning output, the LLM MUST verify:
+Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase.
 
 1. All accepted Phase 2 SSS changes were integrated.
 2. The final roadmap skeleton in Phase 5 follows Reference RM — Roadmap Skeletal Template.
 3. SSS follows Reference SSS — Shared System Semantics Subtemplate.
 4. Every User Story follows the full subtemplate.
 5. Every User Story references all applicable SSS sections or rules.
-6. Every Feature follows the full subtemplate.
+6. During Phase 3 and Phase 5, every Feature follows the full subtemplate.
 7. EVERY Feature contains Agent Override.
 8. EVERY Agent Override contains ALL required subsections.
 9. EVERY Feature Agent Override references all applicable SSS sections or rules.
@@ -162,8 +162,8 @@ If the LLM cannot fit the full output within limits, it MUST:
 
 - stop BEFORE truncation;
 - explicitly state that output would exceed limits and continuation is required;
-- ask to continue in multiple parts;
-- continue producing remaining parts in additional messages after user confirmation.
+- ask the user to confirm continuation in multiple parts;
+- continue producing remaining parts only after user confirmation.
 
 The LLM MUST NOT:
 
@@ -1015,7 +1015,7 @@ Each user story must follow this template:
 ```markdown
 ### User Story US[N] — [User Story Name]
 
-Status: planned | in-progress | complete [Use `Status: planned` by default]
+Status: planned
 
 #### Description
 
@@ -1474,7 +1474,7 @@ Phase 3 is complete only when:
 - user story order is preserved exactly within and across features;
 - the first feature forms a defensible MVP when applicable;
 - every subsequent feature is a valid extension slice;
-- every feature defines a coherent, bounded, user-visible specification scope;
+- every feature defines a coherent, bounded, user-relevant specification scope;
 - every feature is suitable for a single `/speckit.specify` execution;
 - every feature satisfies all Phase 3 rules;
 - every feature includes a complete Agent Override section;
@@ -1493,7 +1493,7 @@ Each feature must follow this template:
 ```markdown
 ### Feature F[N] — [Feature Name]
 
-Status: planned | in-progress | complete [Use `Status: planned` by default]
+Status: planned
 
 #### Metadata
 
@@ -1595,6 +1595,7 @@ The LLM MUST:
 The LLM MUST NOT:  
   
 - introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation;
+- include the Phase 2 Semantic Coverage Audit;
 - reorder top-level sections;  
 - omit required sections;  
 - merge top-level sections;  
