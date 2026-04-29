@@ -1053,7 +1053,7 @@ Declare how this story interacts with system state.
 
 #### Exception Scenarios
 
-Rejected scenarios and their expected behavior (must align with global policies).
+Rejected scenarios and their expected behavior.
 
 ---
 
@@ -1503,7 +1503,7 @@ Status: planned
 
 #### Specify User Prompt
 
-[Feature description for the `/speckit.specify` command, defining the behavior of the included user stories as a coherent specification]
+Feature description for the `/speckit.specify` command, defining the behavior of the included user stories as a coherent specification.
 
 ##### Agent Override
 
