@@ -1119,12 +1119,23 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
     - Repeated gaps across multiple stories MUST be resolved via SSS unless intentionally story-specific.  
     - Deferred items MUST document the unresolved case, the reason deferral is safe, and where resolution will occur.
     - Only non-material, out-of-scope, or explicitly future-feature edge cases may be deferred. Any deferral that affects current user story correctness, acceptance, rejection, state mutation, or feature grouping blocks Phase 3.
-4. Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template.
-    - The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
 
 ---
 
-#### Revise User Story List and Preliminary SSS from Phase 1
+#### Semantic Coverage Audit and Resolution Report
+
+Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template.
+
+The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
+
+---
+
+#### User Story List and Preliminary SSS Revision
+
+Revise user story list and preliminary SSS from phase 1.
+
+---
+
 ##### SSS Elaboration
 
 * Revise SSS using stable, numbered rules.
