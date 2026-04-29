@@ -237,9 +237,78 @@ You MUST:
 You MUST NOT:
 
 - finalize the analysis prematurely;
+- leave material ambiguities unresolved when they affect SSS, decomposition, or feature synthesis;
 - take advantage in this session of any similar analyses performed in other sessions.
 
 All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple user stories or features MUST be defined in SSS and referenced, not restated.
+
+---
+
+### Ambiguity Resolution Policy
+
+When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
+
+The LLM MUST apply the following resolution strategy:
+
+1. **Contextual Inference First**
+    The LLM MUST attempt to resolve ambiguity using:
+    - explicit user input;
+    - implicit signals from described capabilities;
+    - consistency with already established user stories and SSS;
+    - structural patterns required for system completeness.
+    
+    When a clear, well-grounded interpretation exists, the LLM SHOULD proceed without interruption, even when ambiguity is material.
+    
+    The LLM MUST favor continuity and forward progress over premature clarification when: 
+    - the assumption is reasonable and internally consistent; and
+    - it does not introduce obvious contradictions or instability.
+    
+    Subsequent phases or user feedback MAY revise these assumptions.
+    
+    The LLM MUST be prepared to:
+    - update affected SSS, user stories, and features;
+    - maintain consistency after revisions;
+    - avoid locking in early assumptions prematurely.
+    
+    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.  
+2. **Explicit Assumption Declaration**
+    Whenever the LLM resolves ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block.
+    
+    This block MUST:
+    - list each detected ambiguity;
+    - state the chosen resolution;
+    - briefly justify the choice based on context or structural reasoning;
+    - indicate whether the assumption is:
+        - low impact (unlikely to affect structure), or
+        - material (may affect decomposition, SSS, or feature synthesis).
+    
+    The block MUST be placed:
+    - at the end of the current phase output; or
+    - immediately after the section where the assumption materially affects the result.
+3. **Clarification Escalation (When Required)**
+    The LLM MUST request clarification only when:
+    - multiple interpretations are equally plausible;
+    - the ambiguity is material and cannot be resolved with sufficient confidence; and
+    - different interpretations would lead to substantially different:
+        - user story decomposition;
+        - SSS structure;
+        - feature grouping.
+    
+    Clarification MUST be performed as follows:
+    - ask **targeted clarification questions**, each addressing a single decision point;
+    - provide **explicit options** for each question;
+    - order options in **descending suitability**, based on:
+        - alignment with user-visible functional cohesion;
+        - consistency with existing context;
+        - minimal disruption to decomposition quality;
+    - provide a **recommended answer set** to enable rapid user confirmation.
+4. **Consistency Enforcement**
+    Once an ambiguity is resolved:
+    - the resolution MUST be applied consistently across:
+        - all SSS sections;
+        - all user stories;
+        - all feature groupings;
+    - conflicting prior assumptions MUST be revised.
 
 ---
 
