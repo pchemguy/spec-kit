@@ -1714,21 +1714,19 @@ Follow these constraints:
 
 Use exactly this canonical story set:
 
-| #   | User Story               |
-| --- | ------------------------ |
-| 1   | US1 — [User Story Name]  |
-| 2   | US2 — [User Story Name]  |
-| ... | ...                      |
+| #   | User Story               | Brief Scope         |
+| --- | ------------------------ | ------------------- |
+| 1   | US1 — [User Story Name]  | [Terse scope label] |
+| 2   | US2 — [User Story Name]  | [Terse scope label] |
+| ... | ...                      | ...                 |
 
 ---
 
 ```
 
-Individual features are combined into the `## Features` section.
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain only the minimum text needed for an LLM to quickly identify the story boundary. Full sentences are not required.
 
-The section MUST begin with a concise `### Summary` table, followed by fully expanded `### Feature F[N] — [Feature Name]` subsections (one for each accepted feature).
-
-The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain the list of included user story numbers (e.g., `{US3, US4, US5}`) and only the minimum text needed to quickly identify the feature boundary. Full sentences are not required.
+Individual features are combined into the `## Features` section. This section MUST begin with a concise `### Summary` table, followed by fully expanded `### Feature F[N] — [Feature Name]` subsections (one for each accepted feature).
 
 ```markdown
 ## Features
@@ -1743,6 +1741,8 @@ The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain th
 
 ### Feature F[N] — [Feature Name]
 ```
+
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain the list of included user story numbers (e.g., `{US3, US4, US5}`) and only the minimum text needed to quickly identify the feature boundary. Full sentences are not required.
 
 ---
 
