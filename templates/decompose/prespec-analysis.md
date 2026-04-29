@@ -275,6 +275,14 @@ The LLM MUST apply the following resolution strategy:
 2. **Explicit Assumption Declaration**
     Whenever the LLM resolves ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block.
     
+    ```markdown
+    ### Assumptions and Resolved Ambiguities
+    
+    | Ambiguity  | Resolution  | Justification | Impact   |
+    | ---------- | ----------- | ------------- | -------- |
+    | ...        | ...         | ...           | ...      |
+    ```
+    
     This block MUST:
     - list each detected ambiguity;
     - state the chosen resolution;
