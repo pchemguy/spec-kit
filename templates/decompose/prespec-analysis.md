@@ -555,6 +555,7 @@ You MUST:
 - clarify unresolved decisions by:  
     - asking targeted clarification questions where decisions cannot be made deterministically;  
     - accompanying each targeted clarification question with sensible options sorted in descending suitability order;
+    - providing a set of recommended answers for quick user acceptance;
 - refine the decomposition by:
     - splitting or merging user stories as required;
     - revising scope boundaries;
@@ -1394,6 +1395,7 @@ The LLM MUST:
 - identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
 - ask targeted clarification questions when grouping decisions depend on unstated assumptions;
 - accompany each targeted clarification question with sensible options sorted in descending suitability order;
+- provide a set of recommended answers for quick user acceptance;
 - refine feature boundaries when cohesion, scope, or execution clarity is compromised.
 
 The LLM MUST NOT:
