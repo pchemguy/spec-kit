@@ -631,7 +631,6 @@ You MUST:
     - revising order as necessary to ensure optimal alignment with functional priority (explicitly specified or inferred from context);
     - promoting cross-cutting behavior to SSS;
 - define sections of the Reference USS — User Story Subtemplate:
-    - Template sections not required by Phase 1 Completion Criteria MAY remain preliminary during Phase 1.
     - Acceptance Scenarios and Exception Scenarios
         - MAY be preliminary during Phase 1;
         - MUST be completed and aligned with the semantic coverage audit during Phase 2.
