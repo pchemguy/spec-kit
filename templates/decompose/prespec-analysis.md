@@ -558,7 +558,8 @@ You MUST:
 - refine the decomposition by:
     - splitting or merging user stories as required;
     - revising scope boundaries;
-    - promoting cross-cutting behavior to SSS.
+    - revising order as necessary to ensure optimal alignment with functional priority (explicitly specified or inferred from context);
+    - promoting cross-cutting behavior to SSS;
 - define sections of the Reference USS — User Story Subtemplate:
     - Template sections not required by Phase 1 Completion Criteria MAY remain preliminary during Phase 1.
     - Acceptance Scenarios and Exception Scenarios
@@ -659,7 +660,9 @@ The ordered user story list MUST satisfy:
     - operate as a valid extension of the system produced by prior user stories;
     - introduce a complete interaction capability, not a partial fragment of one;
     - NOT defer essential parts of an interaction (e.g., execution, visibility, or state mutation) to a later story;
-    - NOT introduce behavior that requires a later story to become usable or meaningful.
+    - NOT introduce behavior that requires a later story to become usable or meaningful;
+- user story ordering MUST:
+    - be optimally aligned with functional priority (explicitly specified or inferred from context).
 
 User story decomposition MUST NOT:
 
