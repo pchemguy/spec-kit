@@ -1,6 +1,9 @@
 ---
 url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e917ff-7b60-83eb-9576-4ab09f528dc1
 ---
+> [!NOTE] Prompt
+> 
+> I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, ln, and trig functions. I also want to have undo capability.
 
 # Roadmap
 

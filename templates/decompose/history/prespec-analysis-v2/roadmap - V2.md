@@ -1,6 +1,9 @@
 ---
 url: https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
 ---
+> [!NOTE] Prompt
+> 
+> Help me perform feature decomposition. I want to build an RPN calculator web app and have a packaged portable desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability.
 
 # Roadmap
 
