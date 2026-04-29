@@ -192,7 +192,8 @@ Premature roadmap generation is INVALID.
 
 The LLM MUST produce different outputs depending on the active phase:
 
-- Phase 1 output: candidate / revised user story set and preliminary SSS.
+- Phase 1 Stage 1 output: revised candidate user story summary table only.
+- Phase 1 Stage 2 output: preliminary SSS and fully expanded accepted user stories.
 - Phase 2 output: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
 - Phase 3 output: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
 - Phase 4 output: validation findings and required corrections, if any.
@@ -244,7 +245,7 @@ All outputs produced under this framework MUST be internally consistent, non-dup
 
 ---
 
-### Ambiguity Resolution Policy
+### 🔬 Ambiguity Resolution Policy
 
 When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
 
@@ -610,30 +611,61 @@ User stories MUST explicitly declare:
 
 #### Process
 
-You MUST:
+Phase 1 MUST be performed in two stages:
+
+1. **Stage 1 — Candidate Decomposition and Critical Revision**
+2. **Stage 2 — Full Phase 1 Materialization**
+
+The LLM MUST NOT fully materialize `Reference USS — User Story Subtemplate` during Stage 1.
+
+---
+
+##### Stage 1 — Candidate Decomposition and Critical Revision
+
+The LLM MUST first perform candidate decomposition internally.
+
+The LLM MUST:
 
 - analyze the target system and identify major capabilities;
-- propose an initial user story decomposition;
-- evaluate each candidate user story against all Phase 1 rules;
+- follow Ambiguity Resolution Policy throughout Stage 1 as necessary;
+- create an initial candidate user story set;
+- critically evaluate the initial candidate set against all Phase 1 general rules, and Completion Criteria that relate to user story decomposition and story scope and boundaries definition;
 - identify:
-    - ambiguities;
+    - invalid candidates;
+    - missing user stories;
     - improper granularity;
     - weak cohesion;
     - invalid ordering;
     - unjustified separation or grouping;
-- clarify unresolved decisions by:  
-    - asking targeted clarification questions where decisions cannot be made deterministically;  
-    - accompanying each targeted clarification question with sensible options sorted in descending suitability order;
-    - providing a set of recommended answers for quick user acceptance;
-- refine the decomposition by:
-    - splitting or merging user stories as required;
-    - revising scope boundaries;
-    - revising order as necessary to ensure optimal alignment with functional priority (explicitly specified or inferred from context);
-    - promoting cross-cutting behavior to SSS;
-- define sections of the Reference USS — User Story Subtemplate:
-    - Acceptance Scenarios and Exception Scenarios
-        - MAY be preliminary during Phase 1;
-        - MUST be completed and aligned with the semantic coverage audit during Phase 2.
+    - ambiguities that materially affect decomposition;
+- revise the initial candidate set into a second candidate set before presenting it to the user:
+    - split or merge user stories as required;
+    - revise scope boundaries;
+    - revise order as necessary to ensure optimal alignment with functional priority (explicitly specified or inferred from context);
+
+The LLM MUST be critical, objective, and adversarial toward its first decomposition attempt, assuming there is at least a 50% probability that the first candidate set is not optimal.
+
+The LLM MUST NOT present the first candidate set unless explicitly asked.
+
+The LLM MUST NOT output full user story subtemplates during Stage 1.
+
+The LLM MUST present the revised candidate user story set using only the following format:
+
+```markdown
+## User Stories
+
+| #   | User Story               | Brief Scope         |
+| --- | ------------------------ | ------------------- |
+| 1   | US1 — [User Story Name]  | [Terse scope label] |
+| 2   | US2 — [User Story Name]  | [Terse scope label] |
+| ... | ...                      | ...                 |
+```
+
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain only the minimum text needed to quickly identify the story boundary. Full sentences are not required.
+
+After presenting the revised candidate set, the LLM MUST ask the user to accept or revise the decomposition.
+
+If ambiguities remain that materially affect decomposition, the LLM MUST include targeted clarification questions with options sorted in descending suitability and a recommended answer set.
 
 You MUST NOT:
 
@@ -641,7 +673,43 @@ You MUST NOT:
 - group multiple capabilities into a single user story without justification;
 - accept any user story that violates the decomposition rules.
 
-This process MUST be repeated iteratively until all Phase 1 rules and Completion Criteria are satisfied.
+This Stage 1 process MUST repeat until the user accepts the candidate user story set.
+
+---
+
+##### Stage 2 — Full Phase 1 Materialization
+
+After the user accepts the candidate user story set, the LLM MUST complete Phase 1 by fully materializing the accepted stories and preliminary SSS.
+
+The LLM MUST:
+
+* generate the preliminary SSS;
+* expand `Reference USS — User Story Subtemplate` for every accepted user story:
+    * Acceptance Scenarios and Exception Scenarios
+        * MAY remain preliminary during Phase 1;
+        * MUST be present in the full USS structure and MUST be completed and aligned during Phase 2.
+* complete all Phase 1-required user story sections:
+    * Description;
+    * Shared System Semantics References;
+    * Scope;
+    * Included Behavior;
+    * State Interaction;
+* ensure every user story satisfies all Phase 1 rules;
+* ensure cross-cutting behavior is promoted to SSS instead of duplicated locally;
+* ensure all user stories reference applicable SSS sections or rules.
+
+You MUST NOT:
+
+- assume unclear requirements without validation;
+- group multiple capabilities into a single user story without justification;
+- accept any user story that violates the decomposition rules.
+
+The LLM MUST NOT begin Phase 2 until:
+
+* the full Phase 1 materialization is complete;
+* the preliminary SSS is complete;
+* all Phase 1 rules and Completion Criteria are satisfied;
+* the user accepts the fully materialized Phase 1 output.
 
 ---
 
