@@ -602,17 +602,31 @@ Each user story MUST NOT:
 
 ##### 2. Scope, Granularity, and Cohesion
 
-Each user story MUST be minimal in scope relative to its delivered value.
+Each user story MUST be minimal in scope relative to its delivered value, while avoiding excessive fragmentation.
 
 User story decomposition MUST strike a practical balance between:
 
-- **granularity** — stories are small enough to support focused implementation, bounded context, and deterministic agent behavior; and
-- **cohesion** — stories are not fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple user stories whose implementation would substantially duplicate:
+- **granularity** — stories are small enough to support focused implementation, bounded context, and deterministic agent behavior;
+- **cohesion** — stories are not fragmented so aggressively that closely related, strongly parallel, or structurally similar behavior is split into multiple excessively narrow user stories; and
+- **fragmentation overhead** — reasonably cohesive stories are split into multiple stories whose implementation would substantially duplicate:
     - logic;
     - state handling;
     - workflow shape;
     - architectural structure; or
     - Spec Kit process overhead.
+
+When defining or evaluating user story boundaries, the LLM MUST consider the following factors in order of precedence:
+
+1. **user-visible functional capability** — what coherent capability the user perceives and intentionally uses;  
+2. **domain and behavioral semantics** — whether operations belong to the same conceptual family and share edge-class behavior;  
+3. **interaction workflow** — whether the operations form a natural, unified interaction from the user’s perspective;  
+4. **implementation cohesion** — shared execution structure, internal mechanisms and logic, or state mutation patterns.
+
+These factors MUST be applied in the specified priority order, prioritizing user-visible functional cohesion as the primary organizing principle. When these concerns are in tension:
+
+- preserving **user-visible functional cohesion** MUST take priority over aggressive fragmentation;
+- fragmentation driven primarily by implementation differences MUST be avoided;
+- implementation cohesion MUST be treated as a secondary optimization only.
 
 User story cohesion MUST be evaluated across candidate user stories.
 
@@ -737,6 +751,13 @@ Classify each candidate as one of:
 - Internal mechanism → invalid (must be merged or removed).  
   
 Only the first category is allowed as user stories.
+
+If a candidate decomposition:
+
+- fragments a coherent user-visible capability primarily due to implementation concerns; or
+- groups behaviors that users would perceive as distinct capabilities;
+
+the LLM MUST revise the decomposition before proceeding.
 
 Reject or refine any user story that violates these constraints.
 
@@ -1005,9 +1026,7 @@ Phase 1 is complete only when:
 
 If these criteria are not satisfied, Phase 2 MUST NOT begin.
 
-The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases.
-
-All later phases MUST operate on and refine this model, not rederive it.
+The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases. All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
