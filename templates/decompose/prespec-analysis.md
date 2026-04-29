@@ -1059,10 +1059,22 @@ Rejected scenarios and their expected behavior.
 
 ```
 
-Individual user stories are then combined into User Stories section, where `User Story US[N] — [User Story Name]` subsections are repeated according to the number of user stories:
+Individual user stories are combined into the `## User Stories` section.
+
+The section MUST begin with a concise `### Summary` table, followed by fully expanded `### User Story US[N] — [User Story Name]` subsections (one for each accepted user story).
+
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain only the minimum text needed to quickly identify the story boundary. Full sentences are not required.
 
 ```markdown
 ## User Stories
+
+### Summary
+
+| #   | User Story               | Brief Scope         |
+| --- | ------------------------ | ------------------- |
+| 1   | US1 — [User Story Name]  | [Terse scope label] |
+| 2   | US2 — [User Story Name]  | [Terse scope label] |
+| ... | ...                      | ...                 |
 
 ### User Story US[N] — [User Story Name]
 ```
@@ -1541,10 +1553,22 @@ Use exactly this canonical story set:
 
 ```
 
-Individual features are then combined into Features section, where `### Feature F[N] — [Feature Name]` subsections are repeated according to the number of features:
+Individual features are combined into the `## Features` section.
+
+The section MUST begin with a concise `### Summary` table, followed by fully expanded `### Feature F[N] — [Feature Name]` subsections (one for each accepted feature).
+
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain the list of included user story numbers (e.g., `{US3, US4, US5}`) and only the minimum text needed to quickly identify the feature boundary. Full sentences are not required.
 
 ```markdown
 ## Features
+
+### Summary
+
+| #   | User Story             | Brief Scope         |
+| --- | ---------------------- | ------------------- |
+| 1   | F[N] — [Feature Name]  | [Terse scope label] |
+| 2   | F[N] — [Feature Name]  | [Terse scope label] |
+| ... | ...                    | ...                 |
 
 ### Feature F[N] — [Feature Name]
 ```
