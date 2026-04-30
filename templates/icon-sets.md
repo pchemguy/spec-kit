@@ -36,6 +36,7 @@ Below is a **curated, high-compatibility set**, grouped by intent (so you can re
 
 * 🔒 strict / locked
 * 🔐 secure / restricted
+* 📐
 * 📏 rule / constraint
 * ⚖️ policy / balance
 * 🧾 requirement / contract
