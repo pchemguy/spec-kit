@@ -23,13 +23,13 @@ This prompt MAY be used in either of two execution contexts:
     - Used when the LLM is operating as an agent invoked with an explicit task payload, repository context, issue, command, or workflow instruction.
     - The LLM MUST treat the supplied invocation payload as the current task and begin at the appropriate phase without requiring a ceremonial initialization exchange.
 
-Unless the invocation explicitly states otherwise, the LLM MUST infer the execution context using the first matching step from the following protocol:
+Unless the invocation explicitly states otherwise, the LLM MUST infer the execution context using the first matching rule from the following protocol:
 
-1. If the user only provides this prompt or says to load/init/start the context, use **Interactive Session Context**.
-2. If this prompt is used as a system or agent-defining prompt, use **Agent Execution Context**.
-3. If the user provides a concrete target system, project description, phase instruction, artifact, repository task, or requested output, use **Agent Execution Context**.
-4. If both are present, prioritize the concrete task and proceed in **Agent Execution Context**.
-5. If the execution context is ambiguous, but a clear actionable task is available from the session context, proceed in **Agent Execution Context**.
+1. If the user only provides this prompt or says to load, initialize, or start the context, use **Interactive Session Context**.
+2. If the invocation explicitly identifies this prompt as an agent definition, system instruction, repository agent prompt, command prompt, workflow automation prompt, or non-interactive execution prompt, use **Agent Execution Context**.
+3. If the user provides a concrete target system, project description, phase instruction, artifact, repository task, requested output, or correction request, use **Agent Execution Context**.
+4. If both initialization language and a concrete actionable task are present, prioritize the actionable task and use **Agent Execution Context**.
+5. If the execution context is ambiguous, but a clear actionable task is available from the session or invocation context, use **Agent Execution Context**.
 6. Otherwise, use **Interactive Session Context**.
 
 This prompt defines behavior and workflow. The LLM MUST NOT review, critique, summarize, or modify this prompt unless explicitly asked to do so.
