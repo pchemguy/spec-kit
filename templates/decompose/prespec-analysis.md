@@ -42,7 +42,7 @@ The LLM MUST NOT begin analysis, decomposition, synthesis, review, or roadmap ge
 The LLM MUST pursue the following session objectives:
 
 - operate strictly within the Spec Kit workflow;
-- follow the Analysis Protocol and Report Templates;
+- follow the Analysis Protocol;
 - treat templates as strict schemas, not guidance;
 - assist user in performing a structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
     1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 — User Story Decomposition;
@@ -53,6 +53,113 @@ The LLM MUST pursue the following session objectives:
 - run every new pre-specification analysis session in an isolation mode:
     - ignore any prior similar analyses available from global or project context;
     - earlier phases within the same session pass their results to the later phases via session context.
+
+### 🎯 Session and Agent Objectives
+
+The LLM MUST pursue the following objectives in both Interactive Session Context and Agent Execution Context:
+
+- operate strictly within the Spec Kit workflow;
+- follow the Analysis Protocol and Report Templates;
+- treat templates as strict schemas, not guidance;
+- assist in performing structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
+      1. decomposing the system into minimal, self-sufficient user stories according to Phase 1 — User Story Decomposition;
+      2. auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules according to Phase 2 — Semantic Coverage Audit and SSS Elaboration;
+      3. synthesizing a sequence of cohesive features from the audited user stories according to Phase 3 — Feature Synthesis;
+      4. developing, validating, and refining shared rules according to Shared System Semantics during Phases 1-4;
+      5. rendering the validated result as canonical `roadmap.md` during Phase 5 — Roadmap Generation.
+
+The LLM MUST preserve the distinction between:
+
+- **workflow control behavior**: how the LLM starts, waits, proceeds, or asks clarifying questions; and
+- **artifact generation behavior**: how the LLM decomposes, audits, synthesizes, validates, and renders outputs.
+
+Workflow control behavior MAY differ between Interactive Session Context and Agent Execution Context.
+
+Artifact generation behavior MUST remain identical in both contexts.
+
+
+---
+## 🧭 Operating Framework
+
+### 🔬 Ambiguity Resolution Policy
+
+When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
+
+The LLM MUST:
+
+- Systematically and proactively assess and surface ambiguities and gaps in the user input and context.
+- Guide exploration, identify ambiguity, propose refinements, and help establish constraints and structure before finalization, when the problem definition is incomplete.
+- Deliberately, explicitly, and meticulously handle any identified ambiguities and gaps, while prioritizing continuous flow, via the Ambiguity Resolution Policy.
+
+The LLM MUST apply the following resolution strategy:
+
+1. **Contextual Inference First**
+    The LLM MUST attempt to resolve ambiguity using:
+    - explicit user input;
+    - implicit signals from described capabilities;
+    - consistency with already established user stories and SSS;
+    - structural patterns required for system completeness.
+    
+    When a clear, well-grounded interpretation exists, the LLM SHOULD proceed without interruption, even when ambiguity is material.
+    
+    The LLM MUST favor continuity and forward progress over premature clarification when: 
+    - the assumption is reasonable and internally consistent; and
+    - it does not introduce obvious contradictions or instability.
+    
+    Subsequent phases or user feedback MAY revise these assumptions.
+    
+    The LLM MUST be prepared to:
+    - update affected SSS, user stories, and features;
+    - maintain consistency after revisions;
+    - avoid locking in early assumptions prematurely.
+    
+    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.  
+2. **Explicit Assumption Declaration**
+    Whenever the LLM resolves ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block.
+    
+    ```markdown
+    ### Assumptions and Resolved Ambiguities
+    
+    | Ambiguity  | Resolution  | Justification | Impact   |
+    | ---------- | ----------- | ------------- | -------- |
+    | ...        | ...         | ...           | ...      |
+    ```
+    
+    This block MUST:
+    - list each detected ambiguity;
+    - state the chosen resolution;
+    - briefly justify the choice based on context or structural reasoning;
+    - indicate whether the assumption is:
+        - low impact (unlikely to affect structure), or
+        - material (may affect decomposition, SSS, or feature synthesis).
+        
+    The block MUST be placed:
+    - at the end of the current phase output; or
+    - immediately after the section where the assumption materially affects the result.
+3. **Clarification Escalation (When Required)**
+    The LLM MUST request clarification only when:
+    - multiple interpretations are equally plausible;
+    - the ambiguity is material and cannot be resolved with sufficient confidence; and
+    - different interpretations would lead to substantially different:
+        - user story decomposition;
+        - SSS structure;
+        - feature grouping.
+        
+    Clarification MUST be performed as follows:
+    - ask **targeted clarification questions**, each addressing a single decision point;
+    - provide **explicit options** for each question;
+    - order options in **descending suitability**, based on:
+        - alignment with user-visible functional cohesion;
+        - consistency with existing context;
+        - minimal disruption to decomposition quality;
+    - provide a **recommended answer set** to enable rapid user confirmation.
+4. **Consistency Enforcement**
+    Once an ambiguity is resolved:
+    - the resolution MUST be applied consistently across:
+        - all SSS sections;
+        - all user stories;
+        - all feature groupings;
+    - conflicting prior assumptions MUST be revised.
 
 ---
 
@@ -84,7 +191,7 @@ If an applicable SSS Essential Category is missing from SSS without explicit jus
 
 ---
 
-### 🧭 DO NOT OPTIMIZE FOR BREVITY
+### 📤 DO NOT OPTIMIZE FOR BREVITY
 
 This task prioritizes **structural correctness over brevity**.
 
@@ -242,82 +349,6 @@ You MUST NOT:
 - take advantage in this session of any similar analyses performed in other sessions.
 
 All outputs produced under this framework MUST be internally consistent, non-duplicative, and reference-driven. Any rule that applies across multiple user stories or features MUST be defined in SSS and referenced, not restated.
-
----
-
-### 🔬 Ambiguity Resolution Policy
-
-When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
-
-The LLM MUST apply the following resolution strategy:
-
-1. **Contextual Inference First**
-    The LLM MUST attempt to resolve ambiguity using:
-    - explicit user input;
-    - implicit signals from described capabilities;
-    - consistency with already established user stories and SSS;
-    - structural patterns required for system completeness.
-    
-    When a clear, well-grounded interpretation exists, the LLM SHOULD proceed without interruption, even when ambiguity is material.
-    
-    The LLM MUST favor continuity and forward progress over premature clarification when: 
-    - the assumption is reasonable and internally consistent; and
-    - it does not introduce obvious contradictions or instability.
-    
-    Subsequent phases or user feedback MAY revise these assumptions.
-    
-    The LLM MUST be prepared to:
-    - update affected SSS, user stories, and features;
-    - maintain consistency after revisions;
-    - avoid locking in early assumptions prematurely.
-    
-    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.  
-2. **Explicit Assumption Declaration**
-    Whenever the LLM resolves ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block.
-    
-    ```markdown
-    ### Assumptions and Resolved Ambiguities
-    
-    | Ambiguity  | Resolution  | Justification | Impact   |
-    | ---------- | ----------- | ------------- | -------- |
-    | ...        | ...         | ...           | ...      |
-    ```
-    
-    This block MUST:
-    - list each detected ambiguity;
-    - state the chosen resolution;
-    - briefly justify the choice based on context or structural reasoning;
-    - indicate whether the assumption is:
-        - low impact (unlikely to affect structure), or
-        - material (may affect decomposition, SSS, or feature synthesis).
-    
-    The block MUST be placed:
-    - at the end of the current phase output; or
-    - immediately after the section where the assumption materially affects the result.
-3. **Clarification Escalation (When Required)**
-    The LLM MUST request clarification only when:
-    - multiple interpretations are equally plausible;
-    - the ambiguity is material and cannot be resolved with sufficient confidence; and
-    - different interpretations would lead to substantially different:
-        - user story decomposition;
-        - SSS structure;
-        - feature grouping.
-    
-    Clarification MUST be performed as follows:
-    - ask **targeted clarification questions**, each addressing a single decision point;
-    - provide **explicit options** for each question;
-    - order options in **descending suitability**, based on:
-        - alignment with user-visible functional cohesion;
-        - consistency with existing context;
-        - minimal disruption to decomposition quality;
-    - provide a **recommended answer set** to enable rapid user confirmation.
-4. **Consistency Enforcement**
-    Once an ambiguity is resolved:
-    - the resolution MUST be applied consistently across:
-        - all SSS sections;
-        - all user stories;
-        - all feature groupings;
-    - conflicting prior assumptions MUST be revised.
 
 ---
 
