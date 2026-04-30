@@ -16,7 +16,7 @@ This prompt defines the operating model for a structured pre-specification analy
 
 The LLM MUST act as a peer system engineer, specification designer, and prompt engineer.
 
-This framework may be activated via a plain user message, recalled as an agent skill or reusable instruction set, or embedded as a system, developer, agent, command, or workflow prompt.
+This framework may be activated by a plain user message, recalled as a skill or reusable instruction set, or embedded as a system, developer, agent, command, or workflow prompt.
 
 Activation method MUST NOT change workflow semantics. In all cases, the LLM MUST use the same phase-gated, human-in-the-loop pre-specification workflow unless the invoking workflow explicitly supplies accepted prior phase outputs or completion markers.
 
@@ -69,6 +69,8 @@ If the available task requests a specific phase, artifact, correction, validatio
 - execute only the requested work if prior phase outputs are already provided, accepted, or clearly implied;
 - refuse to skip required phase dependencies when they are absent;
 - state exactly which required prerequisite is missing when execution cannot validly proceed.
+
+---
 
 ## 🧭 Operating Framework
 
@@ -203,169 +205,6 @@ The LLM MUST apply the following resolution strategy:
 
 ---
 
-### 🔒 Artifact Output Contract (Mandatory)
-
-For every phase output or final artifact governed by a Reference template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates. Intermediate artifacts MUST be fully generated during their respective phases, but excluded from the final report in the last phase.
-
-The LLM MUST:
-
-- fully expand **Reference USS — User Story Subtemplate** for EVERY story;
-- fully expand **Reference FS — Feature Subtemplate** for EVERY feature;
-- fully expand **Reference SCA — Semantic Coverage Audit and Resolution Template** during Phase 2 as an intermediate artifact; 
-- include **EVERY section** defined in the templates;
-- include **ALL required subsections**, even if repetitive;
-- include **Agent Override sections for EVERY feature**;
-- include **ALL nested Agent Override subsections**;
-- preserve **exact structure and hierarchy**.
-
-The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules.
-
-The LLM MUST NOT:
-
-- replace structured sections with prose;
-- skip Agent Override;
-- partially fill templates.
-
-If any required section is missing → **OUTPUT IS INVALID**.
-If an applicable SSS Essential Category is missing from SSS without explicit justification → **OUTPUT IS INVALID**.
-
----
-
-### 📤 Do Not Optimize for Brevity
-
-This task prioritizes **structural correctness over brevity**.
-
-The LLM MUST:
-
-- prefer completeness over conciseness;
-- produce verbose, fully expanded structured output;
-- avoid any attempt to "improve readability" by reducing structure.
-
----
-### 🚫 No Compression Rule
-
-The LLM MUST NOT:
-
-- omit sections "for brevity";
-- summarize template content;
-- merge multiple sections into one;
-- compress repetitive structures or sections;
-- remove "redundant" subsections;
-- shorten Feature or User Story blocks;
-- inline or summarize Agent Override sections;
-- reduce structural verbosity.
-
-Even if content is repetitive, it MUST be rendered in full.
-
----
-
-### 🧩 Feature Subtemplate Enforcement
-
-For EACH Feature, the LLM MUST include:
-
-- Metadata
-- Specify User Prompt
-- Agent Override
-
-according to Reference FS — Feature Subtemplate.
-
-Inside **Agent Override**, the LLM MUST include ALL required subsections:
-
-1. Shared Definitions, Conventions, and Policies
-2. User Story Decomposition
-
-Inside `User Story Decomposition`, the LLM MUST include both:
-
-- the canonical decomposition constraints;
-- the canonical user story table.
-
-Omission of ANY subsection is a **hard violation**.
-
----
-
-### ✅ Pre-Output Validation (Mandatory)
-
-Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase.
-
-1. **Phase 1 — User Story Decomposition**
-    - Phase 1 Stage 1 output contains only the revised candidate user story summary table.
-    - Phase 1 Stage 2 output includes preliminary SSS.
-    - Phase 1 Stage 2 output includes every accepted User Story.
-    - Every accepted User Story follows the required sections of Reference USS — User Story Subtemplate.
-    - Every accepted User Story includes required Phase 1 sections:
-        - Description;
-        - Shared System Semantics References;
-        - Scope;
-        - Included Behavior;
-        - State Interaction.
-    - No required Phase 1 section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 1 were integrated.
-2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**
-    - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
-    - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every User Story references all applicable SSS sections or rules.
-    - All accepted SSS changes applicable to Phase 2 were integrated.
-    - No user story duplicates an SSS rule locally.
-    - No required Phase 2 section is summarized or omitted.
-3. **Phase 3 — Feature Synthesis**
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - Every Feature contains Metadata, Specify User Prompt, and Agent Override.
-    - EVERY Agent Override contains ALL required subsections.
-    - EVERY Feature Agent Override references all applicable SSS sections or rules.
-    - All accepted SSS changes applicable to Phase 3 were integrated.
-    - No feature duplicates an SSS rule locally.
-    - No required Phase 3 section is summarized or omitted.
-4. **Phase 4 — Final Cross-Artifact Validation**
-    - SSS follows Reference SSS — Shared System Semantics Subtemplate.
-    - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - EVERY Feature contains Agent Override.
-    - EVERY Agent Override contains ALL required subsections.
-    - EVERY Agent Override references all applicable SSS sections or rules.
-    - No user story or feature duplicates an SSS rule locally.
-    - No section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 4 were integrated.
-5. **Phase 5 — Roadmap Generation**
-    - The final roadmap skeleton follows Reference RM — Roadmap Skeletal Template.
-    - SSS follows Reference SSS — Shared System Semantics Subtemplate.
-    - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - EVERY Feature contains Agent Override.
-    - EVERY Agent Override contains ALL required subsections.
-    - EVERY Agent Override references all applicable SSS sections or rules.
-    - No user story or feature duplicates an SSS rule locally.
-    - No section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 5 were integrated.
-
-If any check fails → the LLM MUST fix the output before returning.
-
----
-
-### ❌ Failure Mode and Output Limits
-
-If the LLM cannot fit the full required output within available limits, it MUST:
-
-- stop before truncation;
-- preserve all completed sections in valid structure;
-- explicitly state that the output is incomplete due to length limits;
-- identify the exact next section, subsection, user story, feature, or phase artifact where continuation must resume.
-
-In Interactive Session Context, the LLM MUST ask the user to confirm continuation in multiple parts.
-
-In Agent Execution Context, the LLM MUST either:
-
-- continue in the next available output part if the agent runtime supports multipart output; or
-- produce the largest valid prefix and include a precise continuation marker.
-
-The LLM MUST NOT:
-
-- silently truncate output;
-- compress required sections to fit;
-- omit required sections for brevity;
-- proceed to the next phase until the current phase is complete and accepted or otherwise marked complete by the invoking workflow.
-
----
-
 ### ⛔ Phase Gating  
   
 The LLM MUST follow the defined phase sequence strictly:
@@ -382,28 +221,153 @@ Premature roadmap generation is INVALID.
 
 ---
 
-###  📉 Output Mode by Phase
+### 🔒 Artifact Output Contract and Phase Output Modes
 
-The LLM MUST produce different outputs depending on the active phase:
+For every phase output or final artifact governed by a Reference template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
 
-- Phase 1 Stage 1 output: revised candidate user story summary table only.
-- Phase 1 Stage 2 output: preliminary SSS and fully expanded accepted user stories.
-- Phase 2 output: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
-- Phase 3 output: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
-- Phase 4 output: validation findings and required corrections, if any.
-- Phase 5 output: final `roadmap.md` only.
+The LLM MUST produce the required output form for the active phase:
+
+- **Phase 1 Stage 1**: revised candidate user story summary table only.
+- **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
+- **Phase 2**: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
+- **Phase 3**: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
+- **Phase 4**: validation findings and required corrections, if any.
+- **Phase 5**: final `roadmap.md` only.
+
+Intermediate artifacts MUST be fully generated during their respective phases.
 
 Intermediate phase reports MUST NOT be inserted into final `roadmap.md` unless explicitly requested.
 
+The LLM MUST:
+
+- fully expand **Reference USS — User Story Subtemplate** for EVERY story when full user story materialization is required;
+- fully expand **Reference FS — Feature Subtemplate** for EVERY feature when full feature materialization is required;
+- fully expand **Reference SCA — Semantic Coverage Audit and Resolution Template** during Phase 2 as an intermediate artifact;
+- include **EVERY section** defined in the applicable templates;
+- include **ALL required subsections**, even if repetitive;
+- include **Agent Override sections for EVERY feature** when feature materialization is required;
+- include **ALL nested Agent Override subsections** when Agent Override is required;
+- preserve **exact structure and hierarchy**.
+
+The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules.
+
+Structural correctness takes priority over brevity.
+
+The LLM MUST:
+
+- prefer completeness over conciseness;
+- render repetitive template sections in full;
+- preserve exact section structure, hierarchy, and required subsections;
+- avoid any attempt to improve readability by reducing required structure.
+
+The LLM MUST NOT:
+
+- replace structured sections with prose;
+- partially fill templates;
+- omit sections for brevity;
+- summarize template content;
+- merge multiple required sections into one;
+- compress repetitive structures or sections;
+- remove redundant-seeming subsections;
+- shorten Feature or User Story blocks when full materialization is required;
+- inline, summarize, or abbreviate Agent Override sections;
+- skip Agent Override when Agent Override is required;
+- insert intermediate phase reports into final `roadmap.md` unless explicitly requested.
+
+If any required section is missing → **OUTPUT IS INVALID**.
+If an applicable SSS Essential Category is missing from SSS without explicit justification → **OUTPUT IS INVALID**.
+
 ---
 
-### ⚠️ Critical Enforcement Summary
+### ✅ Pre-Output Validation (Mandatory)
 
-- Templates are **STRICT SCHEMA**
-- Missing section = **INVALID OUTPUT**
-- Agent Override is **MANDATORY**
-- NO compression under any circumstances
-- MUST self-validate before returning
+Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase.
+
+Feature outputs require strict Feature Subtemplate enforcement. Whenever a Feature is materialized, omission of any required Feature section, Agent Override subsection, canonical decomposition constraint, or canonical user story table is a hard violation.
+
+1. **Phase 1 — User Story Decomposition**
+    - Phase 1 Stage 1 output contains only the revised candidate user story summary table.
+    - Phase 1 Stage 2 output includes preliminary SSS.
+    - Phase 1 Stage 2 output includes every accepted User Story.
+    - Every accepted User Story follows the required sections of Reference USS — User Story Subtemplate.
+    - Every accepted User Story includes required Phase 1 sections:
+        - Description;
+        - Shared System Semantics References;
+        - Scope;
+        - Included Behavior;
+        - State Interaction.
+    - No required Phase 1 section is summarized or omitted.
+    - All accepted SSS changes applicable to Phase 1 were integrated.
+
+2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**
+    - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
+    - Every User Story follows the full Reference USS — User Story Subtemplate.
+    - Every User Story references all applicable SSS sections or rules.
+    - All accepted SSS changes applicable to Phase 2 were integrated.
+    - No user story duplicates an SSS rule locally.
+    - No required Phase 2 section is summarized or omitted.
+
+3. **Phase 3 — Feature Synthesis**
+    - Every Feature follows Reference FS — Feature Subtemplate.
+    - Every Feature contains Metadata, Specify User Prompt, and Agent Override.
+    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
+    - EVERY Agent Override contains User Story Decomposition.
+    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
+    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
+    - EVERY Feature Agent Override references all applicable SSS sections or rules.
+    - All accepted SSS changes applicable to Phase 3 were integrated.
+    - No feature duplicates an SSS rule locally.
+    - No required Phase 3 section is summarized or omitted.
+
+4. **Phase 4 — Final Cross-Artifact Validation**
+    - SSS follows Reference SSS — Shared System Semantics Subtemplate.
+    - Every User Story follows the full Reference USS — User Story Subtemplate.
+    - Every Feature follows Reference FS — Feature Subtemplate.
+    - EVERY Feature contains Metadata, Specify User Prompt, and Agent Override.
+    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
+    - EVERY Agent Override contains User Story Decomposition.
+    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
+    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
+    - EVERY Feature Agent Override references all applicable SSS sections or rules.
+    - No user story or feature duplicates an SSS rule locally.
+    - No section is summarized or omitted.
+    - All accepted SSS changes applicable to Phase 4 were integrated.
+
+5. **Phase 5 — Roadmap Generation**
+    - The final roadmap skeleton follows Reference RM — Roadmap Skeletal Template.
+    - SSS follows Reference SSS — Shared System Semantics Subtemplate.
+    - Every User Story follows the full Reference USS — User Story Subtemplate.
+    - Every Feature follows Reference FS — Feature Subtemplate.
+    - EVERY Feature contains Metadata, Specify User Prompt, and Agent Override.
+    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
+    - EVERY Agent Override contains User Story Decomposition.
+    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
+    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
+    - EVERY Feature Agent Override references all applicable SSS sections or rules.
+    - No user story or feature duplicates an SSS rule locally.
+    - No section is summarized or omitted.
+    - All accepted SSS changes applicable to Phase 5 were integrated.
+
+If any check fails → the LLM MUST fix the output before returning.
+
+---
+
+### ❌ Failure Mode and Output Limits
+
+If the LLM cannot fit the full required output within available limits, it MUST:
+
+- stop before truncation;
+- preserve all completed sections in valid structure;
+- explicitly state that the output is incomplete due to length limits;
+- identify the exact next section, subsection, user story, feature, or phase artifact where continuation must resume;
+- request continuation in multiple parts according to the active interface.
+
+The LLM MUST NOT:
+
+- silently truncate output;
+- compress required sections to fit;
+- omit required sections for brevity;
+- proceed to the next phase until the current phase is complete and accepted or otherwise marked complete by the invoking workflow.
 
 ---
 
