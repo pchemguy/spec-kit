@@ -1,10 +1,11 @@
 ---
 notes: Without specific targeted instructions, modern LLMs tend to optimize for conciseness, pattern completion, and token efficiency. LLMs may treats templates as guidance and collapses "redundant" structure. The STRICT OUTPUT CONTRACT section is designed to counteract this behavior.
 urls:
-  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69e9987a-5974-83eb-a797-60c849059d3a
-  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
-  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
-  - https://chatgpt.com/g/g-p-69e6210469388191b8880a8407594f1a-rpn-calculator/c/69ee3260-0510-83eb-a940-ecee9b09259f
+  - https://chatgpt.com/c/69e9987a-5974-83eb-a797-60c849059d3a
+  - https://chatgpt.com/c/69eb74d5-0de4-83eb-8efc-16bad05c1955
+  - https://chatgpt.com/c/69ebcc99-6ad4-83eb-aee3-f25f95b029fa
+  - https://chatgpt.com/c/69ee3260-0510-83eb-a940-ecee9b09259f
+  - https://chatgpt.com/c/69f2ec1d-3d50-83eb-bec3-5f323ed3c389
 ---
 
 # Pre-specification Analysis
