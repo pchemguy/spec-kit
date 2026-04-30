@@ -236,7 +236,8 @@ The LLM MUST produce the required output form for the active phase:
 - **Phase 1 Stage 1**: revised candidate user story summary table only.
 - **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
 - **Phase 2**: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
-- **Phase 3**: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
+- **Phase 3 Stage 1**: revised candidate feature grouping summary table only.
+- **Phase 3 Stage 2**: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
 - **Phase 4**: validation findings and required corrections, if any.
 - **Phase 5**: final `roadmap.md` only.
 
@@ -302,16 +303,18 @@ Feature outputs require strict Feature Subtemplate enforcement. Whenever a Featu
         - Scope;
         - Included Behavior;
         - State Interaction.
-    - No required Phase 1 section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 1 were integrated.
+    - All accepted SSS changes were integrated.
+    - No required section is summarized or omitted.
 2. **Phase 2**
     - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
     - Every User Story follows the full Reference USS — User Story Subtemplate.
     - Every User Story references all applicable SSS sections or rules.
-    - All accepted SSS changes applicable to Phase 2 were integrated.
+    - All accepted SSS changes were integrated.
     - No user story duplicates an SSS rule locally.
-    - No required Phase 2 section is summarized or omitted.
-3. **Phases 3-5**
+    - No required section is summarized or omitted.
+3. **Phase 3 Stage 1**
+    - Phase 3 Stage 1 output contains only the revised candidate feature grouping summary table.
+4. **Phase 3 Stage 2, Phase 4, Phase 5**
     - Every Feature follows Reference FS — Feature Subtemplate.
     - Every Feature contains Metadata, Specify User Prompt, and Agent Override subsection.
     - EVERY Agent Override contains
@@ -323,11 +326,11 @@ Feature outputs require strict Feature Subtemplate enforcement. Whenever a Featu
     - EVERY Feature Agent Override references all applicable SSS sections or rules.
     - All accepted SSS changes were integrated.
     - No feature duplicates an SSS rule locally.
-    - No section is summarized or omitted.
-4. **Phase 4-5**
+    - No required section is summarized or omitted.
+5. **Phase 4-5**
     - SSS follows Reference SSS — Shared System Semantics Subtemplate.
     - Every User Story follows the full Reference USS — User Story Subtemplate.
-5. **Phase 5 — Roadmap Generation**
+6. **Phase 5 — Roadmap Generation**
     - The final roadmap skeleton follows Reference RM — Roadmap Skeletal Template.
 
 If any check fails → the LLM MUST fix the output before returning.
@@ -1579,33 +1582,123 @@ Features are synthesized by partitioning the ordered user story list into contig
 
 #### Process
 
-The LLM MUST synthesize features by partitioning the finalized user story list.
+Phase 3 MUST be performed in two stages:
+
+1. **Stage 1 — Candidate Feature Grouping and Critical Revision**
+2. **Stage 2 — Full Phase 3 Materialization**
+
+The LLM MUST NOT fully materialize `Reference FS — Feature Subtemplate` during Stage 1.
+
+---
+
+##### Stage 1 — Candidate Feature Grouping and Critical Revision
+
+The LLM MUST first perform feature synthesis internally.
 
 The LLM MUST:
 
 - operate strictly on the finalized, ordered, semantically audited user story list produced by Phases 1 and 2;
 - treat feature synthesis as a partitioning problem over a linear user story queue;
 - preserve user story order exactly within and across features;
-- assign every user story to exactly one feature;
-- propose feature boundaries as explicit cuts in the ordered user story list;
-- justify each feature boundary in terms of:
+- assign every user story to exactly one candidate feature;
+- propose candidate feature boundaries as explicit cuts in the ordered user story list;
+- justify each candidate feature boundary in terms of:
     - MVP formation;
     - functional slice definition; or
     - extension semantics;
 - identify ambiguous or weak boundaries where grouping may be incorrect or unstable;
-- ask targeted clarification questions when grouping decisions depend on unstated assumptions;
-- accompany each targeted clarification question with sensible options sorted in descending suitability order;
-- provide a set of recommended answers for quick user acceptance;
-- refine feature boundaries when cohesion, scope, or execution clarity is compromised.
+- follow Ambiguity Resolution Policy throughout Stage 1 as necessary;
+- create an initial candidate feature grouping;
+- critically evaluate the initial candidate grouping against all Phase 3 Rules and applicable Completion Criteria related to feature contiguity, cohesion, scope, MVP formation, extension sequencing, and execution suitability;
+- identify:
+    - invalid/missing feature boundaries;
+    - overly broad/narrow feature groupings;
+    - weak cohesion;
+    - invalid non-contiguous grouping;
+    - invalid user story reordering;
+    - unjustified separation or grouping;
+    - ambiguous or unstable MVP/extension boundaries;
+    - ambiguities that materially affect feature synthesis;
+- revise the initial candidate grouping into a second candidate grouping before presenting it to the user:
+    - merge adjacent candidate features when separation creates unnecessary fragmentation, repetition, or weak delivery value;
+    - split candidate features when grouping dilutes focus, weakens execution suitability, or combines materially different functional slices;
+    - revise feature boundaries as necessary to improve MVP formation, functional-slice clarity, extension sequencing, and Spec Kit execution suitability.
+
+The LLM MUST be critical, objective, and adversarial toward its first feature grouping attempt, assuming there is at least a 50% probability that the first candidate grouping is not optimal.
+
+The LLM MUST NOT present the first candidate grouping unless explicitly asked.
+
+The LLM MUST NOT output full feature subtemplates during Stage 1.
+
+The LLM MUST present the revised candidate feature grouping using only the following format:
+
+```markdown
+## Feature Grouping
+
+| #   | Feature                | User Stories Included | Brief Scope         | Boundary Rationale |
+| --- | ---------------------- | --------------------- | ------------------- | ------------------ |
+| 1   | F1 — [Feature Name]    | US1, US2              | [Terse scope label] | [MVP / slice / extension rationale] |
+| 2   | F2 — [Feature Name]    | US3, US4              | [Terse scope label] | [MVP / slice / extension rationale] |
+| ... | ...                    | ...                   | ...                 | ...                |
+```
+
+The `User Stories Included` column MUST list contiguous user story identifiers.
+
+The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain only the minimum text needed to quickly identify the feature boundary. Full sentences are not required.
+
+The `Boundary Rationale` column MUST briefly justify why the feature boundary is valid in terms of MVP formation, functional slice definition, or extension semantics.
+
+After presenting the revised candidate grouping, the LLM MUST ask the user to accept or revise the feature grouping.
+
+If ambiguities remain that materially affect feature synthesis, the LLM MUST include targeted clarification questions with options sorted in descending suitability and a recommended answer set.
 
 The LLM MUST NOT:
 
-- reorder user stories;
-- split a user story across multiple features;
-- leave gaps in the user story sequence;
-- finalize features prematurely without evaluating boundary quality and execution suitability.
+* silently assume unclear feature-boundary requirements without applying the Ambiguity Resolution Policy;
+* reorder user stories;
+* split a user story across multiple features;
+* assign a user story to more than one feature;
+* leave any accepted user story unassigned;
+* leave gaps in the user story sequence;
+* group non-contiguous user stories into the same feature;
+* finalize features prematurely without evaluating boundary quality and execution suitability;
+* accept any feature grouping that violates the Phase 3 Rules.
 
-The LLM MUST repeat this synthesis-and-refinement process until all Completion Criteria are satisfied.
+This Stage 1 process MUST repeat until the user accepts the candidate feature grouping.
+
+---
+
+##### Stage 2 — Full Phase 3 Materialization
+
+After the user accepts the candidate feature grouping, the LLM MUST complete Phase 3 by fully materializing the accepted features.
+
+The LLM MUST:
+
+* expand `Reference FS — Feature Subtemplate` for every accepted feature;
+* ensure every feature contains:
+    * Metadata;
+    * Specify User Prompt;
+* ensure every `Specify User Prompt` contains Agent Override;
+* ensure every `Agent Override` contains:
+    * Shared Definitions, Conventions, and Policies;
+    * User Story Decomposition;
+* ensure every `Agent Override` `User Story Decomposition` contains:
+    * the canonical decomposition constraints;
+    * the canonical user story table;
+* ensure every feature references all applicable SSS sections and rules;
+* ensure every feature satisfies all Phase 3 Rules.
+
+The LLM MUST NOT:
+
+* omit `Agent Override` from any feature;
+* omit any required nested `Agent Override` subsection;
+* accept any feature that violates the Phase 3 Rules.
+
+The LLM MUST NOT begin Phase 4 until:
+
+* the full Phase 3 materialization is complete;
+* all Phase 3 Rules and Completion Criteria are satisfied;
+* the user accepts the fully materialized Phase 3 output.
 
 ---
 
