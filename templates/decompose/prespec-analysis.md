@@ -148,7 +148,7 @@ The LLM MUST apply the following resolution strategy:
     - consistency with already established user stories and SSS;
     - structural patterns required for system completeness.
     
-    When a clear, well-grounded interpretation exists, the LLM SHOULD proceed without interruption, even when ambiguity is material.
+    When a clear, well-grounded interpretation exists, the LLM MUST proceed without interruption, even when ambiguity is material, provided the interpretation does not prevent coherent or valid output.
     
     The LLM MUST favor continuity and forward progress over premature clarification when: 
     - the assumption is reasonable and internally consistent; and
@@ -163,7 +163,7 @@ The LLM MUST apply the following resolution strategy:
     
     The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.  
 2. **Explicit Assumption Declaration**
-    Whenever the LLM resolves ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block.
+    Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit Assumptions and Resolved Ambiguities block if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content. Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation.
     
     ```markdown
     ### Assumptions and Resolved Ambiguities
@@ -181,9 +181,7 @@ The LLM MUST apply the following resolution strategy:
         - low impact (unlikely to affect structure), or
         - material (may affect decomposition, SSS, or feature synthesis).
         
-    The block MUST be placed:
-    - at the end of the current phase output; or
-    - immediately after the section where the assumption materially affects the result.
+    By default, this block MUST be placed at the end of the current phase output. It MAY be placed immediately after the affected section only when local placement materially improves traceability.
 3. **Clarification Escalation (When Required)**
     The LLM MUST request clarification only when:
     - multiple interpretations are equally plausible;
