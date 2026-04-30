@@ -62,13 +62,19 @@ The LLM MUST:
 4. determine the earliest valid phase or workflow step that can be executed from the available inputs;
 5. proceed according to the Analysis Protocol and applicable phase rules;
 6. ask targeted clarification questions only when required by the Ambiguity Resolution Policy or Phase Gating rules;
-7. avoid blocking execution merely because optional context is missing.
+7. avoid blocking execution merely because optional context is missing, unless the missing context is required by Phase Gating, Ambiguity Resolution Policy, or the applicable phase Completion Criteria.
 
 If the available task requests a specific phase, artifact, correction, validation, review, or continuation, the LLM MUST:
 
 - execute only the requested work if prior phase outputs are already provided, accepted, or clearly implied;
 - refuse to skip required phase dependencies when they are absent;
 - state exactly which required prerequisite is missing when execution cannot validly proceed.
+
+---
+
+## 🧨 Motivation
+
+This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the Spec Kit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets: first a defensible MVP (if applicable), then compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
 
 ---
 
@@ -97,7 +103,7 @@ Every new pre-specification analysis run MUST operate in isolation.
 The LLM MUST:
 
 - ignore prior similar analyses from global, project, or memory context unless the current invocation explicitly imports them;
-- use only the current session, invocation payload, provided artifacts, and accepted phase outputs as authoritative working context;
+- use only the current session, available invocation/workflow context, provided artifacts, and accepted phase outputs as authoritative working context;
 - pass earlier accepted phase results forward to later phases within the same run.
 
 The LLM MUST NOT:
@@ -281,11 +287,11 @@ If an applicable SSS Essential Category is missing from SSS without explicit jus
 
 ### ✅ Pre-Output Validation (Mandatory)
 
-Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase.
+Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase. Pre-output validation supplements phase Completion Criteria and does not replace them.
 
 Feature outputs require strict Feature Subtemplate enforcement. Whenever a Feature is materialized, omission of any required Feature section, Agent Override subsection, canonical decomposition constraint, or canonical user story table is a hard violation.
 
-1. **Phase 1 — User Story Decomposition**
+1. **Phase 1**
     - Phase 1 Stage 1 output contains only the revised candidate user story summary table.
     - Phase 1 Stage 2 output includes preliminary SSS.
     - Phase 1 Stage 2 output includes every accepted User Story.
@@ -298,55 +304,31 @@ Feature outputs require strict Feature Subtemplate enforcement. Whenever a Featu
         - State Interaction.
     - No required Phase 1 section is summarized or omitted.
     - All accepted SSS changes applicable to Phase 1 were integrated.
-
-2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**
+2. **Phase 2**
     - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
     - Every User Story follows the full Reference USS — User Story Subtemplate.
     - Every User Story references all applicable SSS sections or rules.
     - All accepted SSS changes applicable to Phase 2 were integrated.
     - No user story duplicates an SSS rule locally.
     - No required Phase 2 section is summarized or omitted.
-
-3. **Phase 3 — Feature Synthesis**
+3. **Phases 3-5**
     - Every Feature follows Reference FS — Feature Subtemplate.
-    - Every Feature contains Metadata, Specify User Prompt, and Agent Override.
-    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
-    - EVERY Agent Override contains User Story Decomposition.
-    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
-    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
+    - Every Feature contains Metadata, Specify User Prompt, and Agent Override subsection.
+    - EVERY Agent Override contains
+        - Shared Definitions, Conventions, and Policies.
+        - User Story Decomposition.
+    - EVERY Agent Override User Story Decomposition includes
+        - canonical decomposition constraints.
+        - canonical user story table.
     - EVERY Feature Agent Override references all applicable SSS sections or rules.
-    - All accepted SSS changes applicable to Phase 3 were integrated.
+    - All accepted SSS changes were integrated.
     - No feature duplicates an SSS rule locally.
-    - No required Phase 3 section is summarized or omitted.
-
-4. **Phase 4 — Final Cross-Artifact Validation**
+    - No section is summarized or omitted.
+4. **Phase 4-5**
     - SSS follows Reference SSS — Shared System Semantics Subtemplate.
     - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - EVERY Feature contains Metadata, Specify User Prompt, and Agent Override.
-    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
-    - EVERY Agent Override contains User Story Decomposition.
-    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
-    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
-    - EVERY Feature Agent Override references all applicable SSS sections or rules.
-    - No user story or feature duplicates an SSS rule locally.
-    - No section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 4 were integrated.
-
 5. **Phase 5 — Roadmap Generation**
     - The final roadmap skeleton follows Reference RM — Roadmap Skeletal Template.
-    - SSS follows Reference SSS — Shared System Semantics Subtemplate.
-    - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - EVERY Feature contains Metadata, Specify User Prompt, and Agent Override.
-    - EVERY Agent Override contains Shared Definitions, Conventions, and Policies.
-    - EVERY Agent Override contains User Story Decomposition.
-    - EVERY Agent Override User Story Decomposition includes the canonical decomposition constraints.
-    - EVERY Agent Override User Story Decomposition includes the canonical user story table.
-    - EVERY Feature Agent Override references all applicable SSS sections or rules.
-    - No user story or feature duplicates an SSS rule locally.
-    - No section is summarized or omitted.
-    - All accepted SSS changes applicable to Phase 5 were integrated.
 
 If any check fails → the LLM MUST fix the output before returning.
 
@@ -371,24 +353,16 @@ The LLM MUST NOT:
 
 ---
 
-## 🧨 Motivation
-
-This pre-specification analysis of the target system focuses on managing the complexity of individual runs of the Spec Kit core development loop (`specify → plan → tasks → implement`). The user story decomposition workflow yields a list of user stories ordered first by implementation dependency requirements, then by value/functionality priority where dependencies permit, forming a user story development queue. Features are then formed by slicing this queue into cohesive, focused subsets: first a defensible MVP (if applicable), then compact, coherent functional slices. Once a defensible MVP or coherent functional slice is defined, additional user stories MUST NOT be included in the same feature and MUST be deferred to subsequent features.
-
----
-
 ## 🧵 Analysis Protocol
 
 You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
-- run every new pre-specification analysis session in an isolation mode:
-    - ignore any prior similar analyses available from global or project context;
-    - earlier phases within the same session pass their results to the later phases via session context.
+- follow Context Isolation rules defined in the Operating Framework;
 - generate a Markdown-structured `roadmap.md` report:
     - structure the finalized user story set, feature set, and SSS;
     - do not introduce new behaviors, constraints, or structural changes during roadmap generation;
-    - strictly follow the "Report Templates", including all:
+    - strictly follow all templates, including:
         - required top-level sections;  
         - subtemplate-defined sections;  
         - applicable rules and constraints defined in this document.
@@ -719,7 +693,7 @@ The LLM MUST:
 - analyze the target system and identify major capabilities;
 - follow Ambiguity Resolution Policy throughout Stage 1 as necessary;
 - create an initial candidate user story set;
-- critically evaluate the initial candidate set against all Phase 1 general rules, and Completion Criteria that relate to user story decomposition and story scope and boundaries definition;
+- critically evaluate the initial candidate set against all Phase 1 General Rules and applicable Completion Criteria related to user story decomposition, story scope, and story boundaries;
 - identify:
     - invalid candidates;
     - missing user stories;
@@ -759,7 +733,7 @@ If ambiguities remain that materially affect decomposition, the LLM MUST include
 
 You MUST NOT:
 
-- assume unclear requirements without validation;
+- silently assume unclear requirements without applying the Ambiguity Resolution Policy;
 - group multiple capabilities into a single user story without justification;
 - accept any user story that violates the decomposition rules.
 
@@ -1823,7 +1797,7 @@ Individual features are combined into the `## Features` section. This section MU
 
 ### Summary
 
-| #   | User Story             | Brief Scope         |
+| #   | Feature                | Brief Scope         |
 | --- | ---------------------- | ------------------- |
 | 1   | F[N] — [Feature Name]  | [Terse scope label] |
 | 2   | F[N] — [Feature Name]  | [Terse scope label] |
