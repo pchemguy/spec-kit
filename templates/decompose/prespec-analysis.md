@@ -1820,6 +1820,8 @@ After feature synthesis is complete and before producing the final roadmap, perf
 - feature Specify User Prompts;
 - feature Agent Override sections.
 
+Use chars ✅ and ❌ to mark passes and failures.
+
 You MUST verify:
 
 1. Every user story is valid under Phase 1 — User Story Decomposition.
