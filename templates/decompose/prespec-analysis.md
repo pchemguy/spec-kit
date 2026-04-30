@@ -142,7 +142,9 @@ The LLM MUST:
 The LLM MUST apply the following resolution strategy:
 
 1. **Contextual Inference First**
+    
     The LLM MUST attempt to resolve ambiguity using:
+    
     - explicit user input;
     - implicit signals from described capabilities;
     - consistency with already established user stories and SSS;
@@ -150,48 +152,61 @@ The LLM MUST apply the following resolution strategy:
     
     When a clear, well-grounded interpretation exists, the LLM MUST proceed without interruption, even when ambiguity is material, provided the interpretation does not prevent coherent or valid output.
     
-    The LLM MUST favor continuity and forward progress over premature clarification when: 
+    The LLM MUST favor continuity and forward progress over premature clarification when:
+    
     - the assumption is reasonable and internally consistent; and
     - it does not introduce obvious contradictions or instability.
-    
+
     Subsequent phases or user feedback MAY revise these assumptions.
-    
+
     The LLM MUST be prepared to:
+    
     - update affected SSS, user stories, and features;
     - maintain consistency after revisions;
     - avoid locking in early assumptions prematurely.
     
-    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.  
+    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.
+    
 2. **Explicit Assumption Declaration**
-    Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit Assumptions and Resolved Ambiguities block if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content. Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation.
+    
+    Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content.
+    
+    Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation.
     
     ```markdown
     ### Assumptions and Resolved Ambiguities
-    
-    | Ambiguity  | Resolution  | Justification | Impact   |
-    | ---------- | ----------- | ------------- | -------- |
-    | ...        | ...         | ...           | ...      |
+
+    | Ambiguity | Resolution | Justification | Impact |
+    | --------- | ---------- | ------------- | ------ |
+    | ...       | ...        | ...           | ...    |
     ```
     
     This block MUST:
-    - list each detected ambiguity;
+    
+    - list each detected material ambiguity resolved by inference;
     - state the chosen resolution;
     - briefly justify the choice based on context or structural reasoning;
     - indicate whether the assumption is:
-        - low impact (unlikely to affect structure), or
-        - material (may affect decomposition, SSS, or feature synthesis).
-        
-    By default, this block MUST be placed at the end of the current phase output. It MAY be placed immediately after the affected section only when local placement materially improves traceability.
+        - low impact: unlikely to affect structure; or
+        - material: may affect decomposition, SSS, feature synthesis, validation, or roadmap content.
+    
+    By default, this block MUST be placed at the end of the current phase output.
+    
+    The block MAY be placed immediately after the affected section only when local placement materially improves traceability.
+    
 3. **Clarification Escalation (When Required)**
+    
     The LLM MUST request clarification only when:
+    
     - multiple interpretations are equally plausible;
     - the ambiguity is material and cannot be resolved with sufficient confidence; and
     - different interpretations would lead to substantially different:
         - user story decomposition;
         - SSS structure;
         - feature grouping.
-        
+    
     Clarification MUST be performed as follows:
+    
     - ask **targeted clarification questions**, each addressing a single decision point;
     - provide **explicit options** for each question;
     - order options in **descending suitability**, based on:
@@ -199,8 +214,11 @@ The LLM MUST apply the following resolution strategy:
         - consistency with existing context;
         - minimal disruption to decomposition quality;
     - provide a **recommended answer set** to enable rapid user confirmation.
+    
 4. **Consistency Enforcement**
+    
     Once an ambiguity is resolved:
+        
     - the resolution MUST be applied consistently across:
         - all SSS sections;
         - all user stories;
