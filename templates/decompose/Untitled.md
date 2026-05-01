@@ -15,3 +15,9 @@ It seems that both US1 and US4 would also pass this test.
 ---
 
 How do I change the prompt to force LLM critically assess each functionality grouping considerations against the rules. Should I be asking first to articulate candidate grouping criteria and assess those against their priority? Should I also require that an LLM would derive from the described problem what would be the main/core needs/objectives/etc. of a target user of the specified app or functionality?
+
+
+---
+---
+
+I need a prompt snippet to be used at phase 1 stage 1. I want LLM, before creating US candidates, to derive key capabilities from target description, something the end user would care about. I would want to have the opposite extreme of user stories - small number of high level bullets covering the key capabilities in the target description, yet each capability should still be functionally cohesive, rather than having a single bullet with a copy of input. What I want is to have LLM articulate a reference against which individual user stories will then be checked. User story boundaries and functionality grouping axes should be preferably aligned with user-centric capability needs, slicing those bullets where appropriate to form justified minimal functionality increments.
