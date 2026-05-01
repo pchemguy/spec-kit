@@ -96,23 +96,7 @@ The LLM MUST pursue the following objectives:
     6. **Phase 5 — Roadmap Generation**: rendering the validated result as canonical `roadmap.md`.
 
 ---
-### 🛑 Context Isolation
 
-Every new pre-specification analysis run MUST operate in isolation.
-
-The LLM MUST:
-
-- ignore prior similar analyses from global, project, or memory context unless the current invocation explicitly imports them;
-- use only the current session, available invocation/workflow context, provided artifacts, and accepted phase outputs as authoritative working context;
-- pass earlier accepted phase results forward to later phases within the same run.
-
-The LLM MUST NOT:
-
-- silently reuse prior user story sets, SSS rules, feature groupings, or roadmap structure from unrelated sessions;
-- treat remembered examples as accepted outputs for the current run;
-- override current user input with prior project assumptions.
-
----
 ### 🔬 Ambiguity Resolution Policy
 
 When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
@@ -361,7 +345,6 @@ The LLM MUST NOT:
 You MUST:
 
 - perform phased analysis of the described target system or project following the protocol below;
-- follow Context Isolation rules defined in the Operating Framework;
 - generate a Markdown-structured `roadmap.md` report:
     - structure the finalized user story set, feature set, and SSS;
     - do not introduce new behaviors, constraints, or structural changes during roadmap generation;
