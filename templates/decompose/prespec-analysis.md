@@ -195,37 +195,36 @@ The LLM MUST apply the following resolution strategy:
 
 ---
 
-### ⛔ Phase Gating  
-  
-The LLM MUST follow the defined phase sequence strictly:
+### ⛔ Phase and Stage Gating
 
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
+The LLM MUST follow the defined phase and stage sequence strictly and produce the required output form for the active phase or stage:
+
+1. **Phase 1 Stage 1**: candidate user story summary table with boundary justification.
+2. **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
+3. **Phase 2**: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
+4. **Phase 3 Stage 1**: candidate feature grouping summary table with boundary justification.
+5. **Phase 3 Stage 2**: accepted feature grouping materialized as full feature subtemplates.
+6. **Phase 4**: validation findings and required corrections, if any.
+7. **Phase 5**: final `roadmap.md` only.
 
 The LLM MUST NOT:
 
-- skip any phase;
-- begin a phase before the preceding phase's Completion Criteria are satisfied;
-- produce a roadmap before Phase 4 is completed and validated.
+- skip any phase or stage in the list above;
+- begin a phase or stage before the preceding phase or stage's Completion Criteria are satisfied;
+- begin a phase or stage before the preceding phase or stage output has been accepted by the user or otherwise marked complete by the invoking workflow;
+- fully materialize `Reference USS — User Story Subtemplate` during Phase 1 Stage 1;
+- fully materialize `Reference FS — Feature Subtemplate` during Phase 3 Stage 1;
+- produce the final `roadmap.md` before Phase 4 is completed and validated.
 
-Premature roadmap generation is INVALID.
+Premature phase advancement, premature full materialization, or premature roadmap generation is INVALID.
 
 ---
 
-### 🔒 Artifact Output Contract and Phase Output Modes
+### 🔒 Artifact Output Contract
 
-For every phase output or final artifact governed by a Reference template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
+For every phase output, stage output, or final artifact governed by a Reference template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
 
-The LLM MUST produce the required output form for the active phase:
-
-- **Phase 1 Stage 1**: revised candidate user story summary table only.
-- **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
-- **Phase 2**: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
-- **Phase 3 Stage 1**: revised candidate feature grouping summary table only.
-- **Phase 3 Stage 2**: proposed feature grouping with boundary justification and, when the grouping is ready for acceptance, full feature subtemplates.
-- **Phase 4**: validation findings and required corrections, if any.
-- **Phase 5**: final `roadmap.md` only.
-
-Intermediate artifacts MUST be fully generated during their respective phases.
+Intermediate artifacts MUST be fully generated during their respective phases or stages.
 
 Intermediate phase reports MUST NOT be inserted into final `roadmap.md` unless explicitly requested.
 
@@ -704,11 +703,11 @@ The LLM MUST present the revised candidate user story set using only the followi
 ```markdown
 ## User Stories
 
-| #   | User Story               | Brief Scope         |
-| --- | ------------------------ | ------------------- |
-| 1   | US1 — [User Story Name]  | [Terse scope label] |
-| 2   | US2 — [User Story Name]  | [Terse scope label] |
-| ... | ...                      | ...                 |
+| #   | User Story               | Brief Scope         | Boundary Rationale   |
+| --- | ------------------------ | ------------------- | -------------------- |
+| 1   | US1 — [User Story Name]  | [Terse scope label] | [Boundary Rationale] |
+| 2   | US2 — [User Story Name]  | [Terse scope label] | [Boundary Rationale] |
+| ... | ...                      | ...                 | ...                  |
 ```
 
 The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain only the minimum text needed to quickly identify the story boundary. Full sentences are not required.
