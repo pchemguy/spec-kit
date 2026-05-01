@@ -6,7 +6,13 @@ I want to build an RPN calculator web app. I am thinking of supporting *add*, *s
 
 ### Full - No Trig
 
+==``
 I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability.
+_==
+
+> [!NOTE] Prompt
+> 
+> I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability.
 
 ### Extra (Trig)
 
