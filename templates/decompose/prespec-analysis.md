@@ -130,13 +130,13 @@ The LLM MUST apply the following resolution strategy:
     
 2. **Explicit Assumption Declaration**
     
-    Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content.
+    Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit **Ambiguities Resolution Record** if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content.
     
     Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation. 
     
     ```markdown
-    ### Assumptions and Resolved Ambiguities
-
+    ### Ambiguities Resolution Record
+    
     | Ambiguity | Resolution | Justification | Impact |
     | --------- | ---------- | ------------- | ------ |
     | ...       | ...        | ...           | ...    |
@@ -153,7 +153,7 @@ The LLM MUST apply the following resolution strategy:
     
 3. **Assumption Block Placement**
     
-    The required **Assumptions and Resolved Ambiguities** block MUST be placed at the relevant gating boundary, before the LLM asks the user to accept, revise, continue, clarify, or otherwise approve transition to the next phase or stage. The block MAY also be placed immediately after the affected section when local placement materially improves traceability. Local placement is optional and supplementary; it does not replace the required gating-boundary block.
+    The required **Ambiguities Resolution Record** MUST be placed at the relevant gating boundary, before the LLM asks the user to accept, revise, continue, clarify, or otherwise approve transition to the next phase or stage. The block MAY also be placed immediately after the affected section when local placement materially improves traceability. Local placement is optional and supplementary; it does not replace the required gating-boundary block.
     
 4. **Clarification Escalation (When Required)**
     
@@ -260,49 +260,43 @@ If an applicable SSS Essential Category is missing from SSS without explicit jus
 
 ### ✅ Pre-Output Validation (Mandatory)
 
-Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase. Pre-output validation supplements phase Completion Criteria and does not replace them.
+Before returning output for the applicable phase, the LLM MUST verify all checks relevant to that phase. Pre-output validation supplements phase Completion Criteria and does not replace them. Feature outputs require strict Feature Subtemplate enforcement. Whenever a Feature is materialized, omission of any required Feature section, Agent Override subsection, canonical decomposition constraint, or canonical user story table is a hard violation.
 
-Feature outputs require strict Feature Subtemplate enforcement. Whenever a Feature is materialized, omission of any required Feature section, Agent Override subsection, canonical decomposition constraint, or canonical user story table is a hard violation.
-
-1. **Phase 1**
-    - Phase 1 Stage 1 output contains only the revised candidate user story summary table.
-    - Phase 1 Stage 2 output includes preliminary SSS.
-    - Phase 1 Stage 2 output includes every accepted User Story.
-    - Every accepted User Story follows the required sections of Reference USS — User Story Subtemplate.
-    - Every accepted User Story includes required Phase 1 sections:
+1. **Phases 1-5**
+    - All accepted SSS changes were integrated.
+    - No required section is summarized or omitted.
+    - No user story or feature duplicates an SSS rule locally.
+2. **Phase 1 Stage 1**
+    - Candidate user story summary table and Ambiguities Resolution Record, as necessary.
+3. **Phase 1 Stage 2**
+    - Preliminary SSS.
+    - Every accepted User Story includes required Phase 1 sections of Reference USS — User Story Subtemplate:
         - Description;
         - Shared System Semantics References;
         - Scope;
         - Included Behavior;
         - State Interaction.
-    - All accepted SSS changes were integrated.
-    - No required section is summarized or omitted.
-2. **Phase 2**
+4. **Phase 2**
     - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
-    - Every User Story follows the full Reference USS — User Story Subtemplate.
-    - Every User Story references all applicable SSS sections or rules.
-    - All accepted SSS changes were integrated.
-    - No user story duplicates an SSS rule locally.
-    - No required section is summarized or omitted.
-3. **Phase 3 Stage 1**
-    - Phase 3 Stage 1 output contains only the revised candidate feature grouping summary table.
-4. **Phase 3 Stage 2, Phase 4, Phase 5**
+    - Every User Story
+        - follows the full Reference USS — User Story Subtemplate;
+        - references all applicable SSS sections or rules.
+5. **Phase 3 Stage 1**
+    - Candidate feature grouping summary table and Ambiguities Resolution Record, as necessary.
+6. **Phase 3 Stage 2, Phase 4, Phase 5**
     - Every Feature follows Reference FS — Feature Subtemplate.
     - Every Feature contains Metadata, Specify User Prompt, and Agent Override subsection.
     - EVERY Agent Override contains
-        - Shared Definitions, Conventions, and Policies.
-        - User Story Decomposition.
+        - Shared Definitions, Conventions, and Policies;
+        - User Story Decomposition;
+        - references to all applicable SSS sections or rules.
     - EVERY Agent Override User Story Decomposition includes
         - canonical decomposition constraints.
         - canonical user story table.
-    - EVERY Feature Agent Override references all applicable SSS sections or rules.
-    - All accepted SSS changes were integrated.
-    - No feature duplicates an SSS rule locally.
-    - No required section is summarized or omitted.
-5. **Phase 4-5**
+7. **Phases 4-5**
     - SSS follows Reference SSS — Shared System Semantics Subtemplate.
     - Every User Story follows the full Reference USS — User Story Subtemplate.
-6. **Phase 5 — Roadmap Generation**
+8. **Phase 5 — Roadmap Generation**
     - The final roadmap skeleton follows Reference RM — Roadmap Skeletal Template.
 
 If any check fails → the LLM MUST fix the output before returning.
