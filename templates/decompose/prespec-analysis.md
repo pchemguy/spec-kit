@@ -111,35 +111,28 @@ The LLM MUST apply the following resolution strategy:
 
 1. **Contextual Inference First**
     
+    The LLM MUST prefer forward progress over blocking clarification requests when a reasonable, internally consistent interpretation can be inferred without preventing coherent or valid output. This applies even when the ambiguity is material, provided the inferred interpretation is clearly declared when required by this policy.
+    
     The LLM MUST attempt to resolve ambiguity using:
     
     - explicit user input;
     - implicit signals from described capabilities;
     - consistency with already established user stories and SSS;
     - structural patterns required for system completeness.
-    
-    When a clear, well-grounded interpretation exists, the LLM MUST proceed without interruption, even when ambiguity is material, provided the interpretation does not prevent coherent or valid output.
-    
-    The LLM MUST favor continuity and forward progress over premature clarification when:
-    
-    - the assumption is reasonable and internally consistent; and
-    - it does not introduce obvious contradictions or instability.
-
-    Subsequent phases or user feedback MAY revise these assumptions.
-
-    The LLM MUST be prepared to:
+       
+    Subsequent phases or user feedback MAY revise these assumptions. The LLM MUST be prepared to:
     
     - update affected SSS, user stories, and features;
     - maintain consistency after revisions;
     - avoid locking in early assumptions prematurely.
     
-    The LLM MUST NOT block phase progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output.
+    The LLM MUST NOT block phase or stage progression solely due to unresolved ambiguity unless the ambiguity prevents coherent or valid output. 
     
 2. **Explicit Assumption Declaration**
     
     Whenever the LLM resolves a detected ambiguity through inference, it MUST produce an explicit **Assumptions and Resolved Ambiguities** block if the ambiguity is material, affects interpretation of requirements, or could reasonably affect decomposition, SSS, feature synthesis, validation, or roadmap content.
     
-    Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation.
+    Minor wording, formatting, or non-substantive interpretation choices MAY be omitted when they do not affect artifact structure, semantics, or validation. 
     
     ```markdown
     ### Assumptions and Resolved Ambiguities
@@ -158,11 +151,11 @@ The LLM MUST apply the following resolution strategy:
         - low impact: unlikely to affect structure; or
         - material: may affect decomposition, SSS, feature synthesis, validation, or roadmap content.
     
-    By default, this block MUST be placed at the end of the current phase output.
+3. **Assumption Block Placement**
     
-    The block MAY be placed immediately after the affected section only when local placement materially improves traceability.
+    The required **Assumptions and Resolved Ambiguities** block MUST be placed at the relevant gating boundary, before the LLM asks the user to accept, revise, continue, clarify, or otherwise approve transition to the next phase or stage. The block MAY also be placed immediately after the affected section when local placement materially improves traceability. Local placement is optional and supplementary; it does not replace the required gating-boundary block.
     
-3. **Clarification Escalation (When Required)**
+4. **Clarification Escalation (When Required)**
     
     The LLM MUST request clarification only when:
     
@@ -183,15 +176,11 @@ The LLM MUST apply the following resolution strategy:
         - minimal disruption to decomposition quality;
     - provide a **recommended answer set** to enable rapid user confirmation.
     
-4. **Consistency Enforcement**
+    Clarification questions MUST be placed at the same gating boundary as the assumption block when both are present.
     
-    Once an ambiguity is resolved:
-        
-    - the resolution MUST be applied consistently across:
-        - all SSS sections;
-        - all user stories;
-        - all feature groupings;
-    - conflicting prior assumptions MUST be revised.
+5. **Consistency Enforcement**
+    
+    Resolved ambiguities MUST be applied consistently across SSS, user stories, and feature groupings. Conflicting prior assumptions MUST be revised.
 
 ---
 
