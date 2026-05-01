@@ -1,17 +1,20 @@
-The LLM MUST derive a small set of high-level user-centric capability anchors from the target description. A capability anchor is a coarse functional area that reflects something an end user would recognize, intentionally use, or care about.
+The LLM MUST derive a set of high-level user-centric capability anchors from the target description. A capability anchor is a coarse functional area that reflects something an end user would recognize, intentionally use, or care about.
 
 The capability anchor set MUST:
 
-- cover all meaningful capabilities as well as specified or highly implied usability, access, and environment aspects from the target description;
+- cover all meaningful capabilities as well as specified or strongly implied usability, access, and environment aspects from the target description;
 - describe cohesive user-facing capability areas, not isolated implementation mechanisms;
 - translate indicated architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, or interacts with the system;
-- avoid grouping unrelated capabilities merely because they were mentioned together;
+- avoid grouping
+    - unrelated capabilities merely because they were mentioned together;
+    - potentially related capabilities where the target description signals that such capabilities should be implemented separately;
 - prefer end-user value and functional intent over implementation structure.
 
 Each capability anchor MUST be expressed as a concise bullet using this form:
+
 ```markdown
 - **[Capability Name]** — [End-user value / functional intent].  
-  Scope signal:[brief statement of what kinds of behavior this capability includes and excludes].
+  Scope signal:[brief statement of what kinds of behavior this capability includes].
 ```
 
 ***
