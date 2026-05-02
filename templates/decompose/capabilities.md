@@ -22,7 +22,7 @@ The LLM MUST identify:
 - major user-recognizable capability areas;
 - the user value or functional intent of each capability;
 - specified or strongly implied usability, access, launch, delivery, environment, or runtime concerns;
-- natural capability boundaries indicated by the target description;
+- natural capability boundaries indicated by the target scope;
 - capability areas that are distinct enough that combining them would obscure user intent.
 
 ---
@@ -38,7 +38,7 @@ The LLM MUST derive capability anchors from:
 
 The capability anchor set MUST:
 
-- cover all meaningful user-facing capabilities from the target description;
+- cover all meaningful user-facing capabilities from the target scope;
 - cover specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects;
 - describe cohesive user-facing capability areas;
 - translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the system;
@@ -62,25 +62,52 @@ The capability anchor set MUST NOT:
 When deciding whether to split or group capability anchors, the LLM MUST evaluate the following factors in order:
 
 1. **User-recognizable intent** — whether users would understand the behaviors as serving the same purpose.
-2. **User-facing experience** — whether the behaviors are used, accessed, or experienced as part of the same broad activity.
-3. **Domain cohesion** — whether the behaviors belong to the same conceptual capability area.
-4. **Access or environment distinction** — whether the target description indicates materially different access, launch, delivery, runtime, or environment expectations.
-5. **Coverage clarity** — whether the anchor makes the target description easier to inspect for omitted, overloaded, or conflated capability areas.
+2. **User mental model** — whether users would naturally categorize the behaviors together when deciding what they want to do.
+3. **User-facing experience** — whether the behaviors are used, accessed, discovered, or experienced as part of the same broad activity. 
+4. **Domain cohesion** — whether the behaviors belong to the same conceptual capability area.
+5. **Access or environment distinction** — whether the target scope indicates materially different access, launch, delivery, runtime, or environment expectations.
+6. **Coverage clarity** — whether the anchor makes the target scope easier to inspect for omitted, overloaded, or conflated capability areas.
 
 The LLM SHOULD split capability anchors when:
 
-- users would perceive the areas as different reasons to use the system;
-- the target description signals distinct access, launch, delivery, environment, or runtime expectations;
+- users would perceive the areas as different reasons to use the target scope;
+- behaviors imply materially different user intents, even if they are domain-related;
+- behaviors belong to different user mental models or expertise levels;
+- behaviors have materially different discoverability, access, or usage-frequency expectations;
+- the target scope signals distinct access, launch, delivery, environment, or runtime expectations;
 - one capability represents baseline use and another represents a materially different extension of use;
 - grouping would hide a meaningful capability boundary;
-- grouping would create a vague umbrella that merely restates the target description.
+- grouping would create a vague umbrella that merely restates the target scope.
 
 The LLM SHOULD group capability anchors when:
 
 - the behaviors serve the same user-recognizable purpose;
-- separation would merely mirror implementation structure;
+- users would naturally look for, learn, access, or use the behaviors as one capability area;
+- separation would merely mirror implementation structure or formal domain taxonomy;
 - separation would create anchors that are too narrow to represent meaningful user-facing capability areas;
 - the distinction is only a variation within the same broader user intent.
+
+The separation is not based only on formal domain taxonomy. It is based on user expectations, interaction patterns, discoverability, cognitive category, and capability-level cohesion. The LLM MAY use common product conventions for the target domain as evidence when evaluating user mental model, discoverability, and capability boundaries.
+
+---
+
+### Grouping vs. Splitting Test
+
+For each proposed grouped capability anchor, the LLM MUST ask:
+
+> Would a typical target user reasonably expect these behaviors to belong together as one recognizable capability area?
+
+If the answer is unclear, the LLM MUST test whether the grouped behaviors differ materially in:
+
+- user intent;
+- user mental model;
+- access or discoverability;
+- interaction frequency;
+- required expertise;
+- environment or runtime context;
+- baseline versus advanced use.
+
+If one or more material differences exist, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
 
 ---
 
