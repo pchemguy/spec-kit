@@ -211,11 +211,9 @@ Premature phase advancement, premature full materialization, or premature roadma
 
 ### 🔒 Artifact Output Contract
 
-For every phase output, stage output, or final artifact governed by a Reference template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
+The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules. For every output governed by a template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
 
 Intermediate artifacts MUST be fully generated during their respective phases or stages.
-
-Intermediate phase reports MUST NOT be inserted into final `roadmap.md` unless explicitly requested.
 
 The LLM MUST:
 
@@ -228,7 +226,7 @@ The LLM MUST:
 - include **ALL nested Agent Override subsections** when Agent Override is required;
 - preserve **exact structure and hierarchy**.
 
-The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules.
+
 
 Structural correctness takes priority over brevity.
 
@@ -254,7 +252,6 @@ The LLM MUST NOT:
 - insert intermediate phase reports into final `roadmap.md` unless explicitly requested.
 
 If any required section is missing → **OUTPUT IS INVALID**.
-If an applicable SSS Essential Category is missing from SSS without explicit justification → **OUTPUT IS INVALID**.
 
 ---
 
@@ -277,15 +274,16 @@ Before returning output for the applicable phase, the LLM MUST verify all checks
         - Included Behavior;
         - State Interaction.
 4. **Phase 2**
-    - The Semantic Coverage Audit follows Reference SCA — Semantic Coverage Audit and Resolution Template.
+    - The phase report follows Reference SCA — Semantic Coverage Audit and Resolution Template.
     - Every User Story
         - follows the full Reference USS — User Story Subtemplate;
         - references all applicable SSS sections or rules.
 5. **Phase 3 Stage 1**
     - Candidate feature grouping summary table and Ambiguities Resolution Record, as necessary.
 6. **Phase 3 Stage 2, Phase 4, Phase 5**
-    - Every Feature follows Reference FS — Feature Subtemplate.
-    - Every Feature contains Metadata, Specify User Prompt, and Agent Override subsection.
+    - Every Feature
+        - follows Reference FS — Feature Subtemplate.
+        - contains Metadata, Specify User Prompt, and Agent Override subsection.
     - EVERY Agent Override contains
         - Shared Definitions, Conventions, and Policies;
         - User Story Decomposition;
@@ -1180,7 +1178,7 @@ If no verification path exists, the item is too vague or out of scope.
 
 #### Completion Criteria
 
-Phase 1 is complete only when:
+This phase is complete only when:
 
 - a preliminary SSS has been generated;
 - every candidate user story has been accepted, rejected, merged, or promoted to SSS;
@@ -1190,12 +1188,12 @@ Phase 1 is complete only when:
     - Scope;
     - Included Behavior;
     - State Interaction;
-- every accepted user story satisfies all Phase 1 rules;
-- the user has accepted the Phase 1 user story set and preliminary SSS.
+- every accepted user story satisfies all phase rules;
+- the user has accepted the ordered user story list and preliminary SSS.
 
-If these criteria are not satisfied, Phase 2 MUST NOT begin.
+If these criteria are not satisfied, next phase MUST NOT begin.
 
-The user story set and SSS produced in Phase 1 constitute the authoritative working model for all subsequent phases. All later phases MUST operate on and refine this model, not rederive it.
+The ordered user story list and preliminary SSS produced in this phase constitute the authoritative working model for all subsequent phases. All later phases MUST operate on and refine this model, not rederive it.
 
 ---
 
@@ -1274,15 +1272,15 @@ The `Brief Scope` column MUST be terse and analysis-oriented. It MUST contain on
 
 ### 🔎 Phase 2 — Semantic Coverage Audit and SSS Elaboration
 
-Using the finalized, ordered user story list and preliminary SSS from Phase 1, perform a semantic coverage audit before feature synthesis. This phase ensures that all user-story-level behaviors are semantically complete, domain edge classes are enumerated, and cross-cutting rules are captured in Shared System Semantics (SSS).
+Using the finalized, ordered user story list and preliminary SSS from the preceding phase, perform a semantic coverage audit before feature synthesis. This phase ensures that all user-story-level behaviors are semantically complete, domain edge classes are enumerated, and cross-cutting rules are captured in Shared System Semantics (SSS).
 
-Phase 2 MUST be **completed before Phase 3 — Feature Synthesis** begins.
+This phase MUST be **completed before Phase 3 — Feature Synthesis** begins.
 
 ---
 
 #### Edge Case Enumeration
 
-The LLM MUST audit all user stories from the ordered user story list from Phase 1 following the list order:
+The LLM MUST audit all user stories from the ordered user story list following the list order:
 
 1. For each user story, inspect every item listed under its `#### Included Behavior` individually.
 2. For each `#### Included Behavior` item and applicable categories/examples from Reference ECT — Edge Case Taxonomy, perform a materially comprehensive enumeration of edge cases reasonably implied by the behavior, SSS, and target domain.
@@ -1312,9 +1310,7 @@ The LLM MUST audit all user stories from the ordered user story list from Phase 
 
 #### Semantic Coverage Audit and Resolution Report
 
-Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template.
-
-The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
+Produce a **Semantic Coverage Audit and Resolution Report** using Reference SCA — Semantic Coverage Audit and Resolution Template. The report records audit findings and proposed resolutions before accepted revisions are applied to SSS and user stories.
 
 ---
 
@@ -1461,8 +1457,10 @@ The LLM MUST apply every taxonomy category that is relevant to the target system
 
 #### Reference SCA — Semantic Coverage Audit and Resolution Template
 
+The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
+
 `````markdown
-## Phase 2 Semantic Coverage Audit
+## Semantic Coverage Audit and Resolution Report
 
 ### Audit Summary
 
@@ -1529,7 +1527,6 @@ The LLM MUST apply every taxonomy category that is relevant to the target system
 
 - Repeat the `#### US[N]` block for every accepted user story.
 - Repeat the `##### Included Behavior: [Behavior Item]` block for every Included Behavior item in the user story.
-- The audit report is an intermediate analysis artifact. It MUST NOT replace the final `roadmap.md`.
 
 ---
 
@@ -1914,7 +1911,6 @@ The LLM MUST:
 The LLM MUST NOT:  
   
 - introduce, remove, reorder, rename, merge, split, or reinterpret user stories, features, SSS rules, or Agent Override content during final roadmap generation;
-- include the Phase 2 Semantic Coverage Audit;
 - reorder top-level sections;  
 - omit required sections;  
 - merge top-level sections;  
@@ -1922,7 +1918,7 @@ The LLM MUST NOT:
 - collapse or summarize top-level sections;  
 - replace sections with narrative text.  
   
-If the output does not match Reference RM — Roadmap Skeletal Template and subtemplates exactly → OUTPUT IS INVALID.
+If the output does not match Reference RM — Roadmap Skeletal Template and subtemplates exactly → **OUTPUT IS INVALID**.
 
 #### Reference RM — Roadmap Skeletal Template
 
