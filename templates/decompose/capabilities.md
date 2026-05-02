@@ -1,6 +1,7 @@
 ---
 url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 ---
+
 ## Capability Decomposition
 
 The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
@@ -20,8 +21,8 @@ Capability anchors create a concise user-centric map of the target scope. They i
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Decompose the target scope into a candidate capability anchor set based on defined **Rules** sets.
-3. Apply the **Grouping vs. Splitting Test** to every candidate capability anchor.
+2. Decompose the target scope into a candidate capability anchor set based on the **Rules**.
+3. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
 4. Perform candidate set **Validation** and revise it until all validation checks pass.
 5. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
 
@@ -49,7 +50,7 @@ The LLM MUST identify:
 
 The LLM MUST identify the core user capability or capabilities represented by the target scope before naming capability anchors.
 
-A **core user capability** (or capabilities) is the primary user-recognizable need or job-to-be-done that the target scope satisfies, independent of the specific domain form, interaction model, architectural approach, delivery mechanism, or implementation solution used to satisfy it.
+A **core user capability** is a primary user-recognizable need or job-to-be-done that the target scope satisfies, independent of the specific domain form, interaction model, architectural approach, delivery mechanism, or implementation solution used to satisfy it.
 
 When the target description expresses a specific solution form, the LLM MUST distinguish:
 
@@ -58,13 +59,13 @@ When the target description expresses a specific solution form, the LLM MUST dis
 - supporting correction, recovery, visibility, access, or environment capabilities;
 - delivery or runtime concerns that affect user access or experience.
 
-The capability anchor set MUST include one or more dedicated capability anchors for core user capabilities included in the target description. The LLM MUST NOT allow a domain-specific solution form, interaction convention, technology choice, packaging approach, or delivery context to subsume the core user capability. Any such aspects MUST be covered by separate capability anchors.
+The capability anchor set MUST include one or more dedicated capability anchors for core user capabilities included in the target description. The LLM MUST NOT allow a domain-specific solution form, interaction convention, technology choice, packaging approach, or delivery context to subsume the core user capability. 
 
 **Core Capability Test**
 
 For each proposed capability anchor, the LLM MUST ask:
 
-> Is this anchor named/scoped for the user need being satisfied, or for a specific way of satisfying it?
+> Is this anchor defined around the user need being satisfied, or around a specific way of satisfying it?
 
 If the anchor is named/scoped for a specific solution form, interaction model, technology, access context, or delivery mechanism, the LLM MUST verify that the underlying core user capability is represented by a separate dedicated anchor or that no distinct core user capability is being hidden.
 
@@ -200,7 +201,7 @@ The LLM MUST return only the following output structure:
 
 - ✅ Target-description coverage checked.
 - ✅ Core user capabilities are represented by dedicated capability anchors.
-- ✅ Domain forms, interaction models, and delivery contexts do not subsume core user capabilities.  
+- ✅ Domain forms, interaction models, and delivery contexts do not subsume core user capabilities.
 - ✅ User-facing capability areas checked.
 - ✅ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
 - ✅ No capability anchor merely restates the full target scope.
@@ -210,11 +211,11 @@ The LLM MUST return only the following output structure:
 - ✅ Grouping vs. Splitting Test applied to every capability anchor.
 - ✅ Capability boundaries are clear, inspectable, and non-overlapping.
 
-#### Grouping vs. Splitting Test
+#### Capability Boundary Test Result
 
-| Capability Anchor | Grouping/Splitting Assessment | Boundary Decision | Justification |
-| ----------------- | ----------------------------- | ----------------- | ------------- |
-| [Capability Name] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+| Capability Anchor | Core Capability Assessment | Grouping/Splitting Assessment | Boundary Decision | Justification |
+| ----------------- | -------------------------- | ----------------------------- | ----------------- | ------------- |
+| [Capability Name] | [Assessment of whether the anchor represents a user need or a solution form, and whether any core capability is hidden] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
 
 Result: Valid
 ```
@@ -225,24 +226,24 @@ The LLM MUST NOT include any section not shown in the Capability Decomposition R
 
 ### Validation
 
-The LLM MUST apply validation checks defined in `Capability Anchor Validation Result` and `Grouping vs. Splitting Test` to the candidate capability anchor set.
+The LLM MUST apply validation checks defined in `Capability Anchor Validation Result`, `Core Capability Test`, and `Grouping vs. Splitting Test` to the candidate capability anchor set.
 
-During execution of the `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
+During execution of the `Core Capability Test` and `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
 
-* `Keep` — the capability anchor is valid for the final report.
-* `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
-* `Merge` — the capability anchor is too narrow and MUST be combined with another anchor.
-* `Revise` — the capability anchor name, value statement, or scope signal MUST be corrected.
+- `Keep` — the capability anchor is valid for the final report.
+- `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
+- `Merge` — the capability anchor is too narrow and MUST be combined with another anchor.
+- `Revise` — the capability anchor name, value statement, or scope signal MUST be corrected.
 
 If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
 
-Validation results MUST be presented according to **Capability Decomposition Report Template**.
+Validation results MUST be presented according to **Capability Decomposition Report Template**. Testing results must be presented as the `Capability Boundary Test Result` table of the template.
 
 The LLM MUST return only an output where:
 
-* every checklist item is marked `✅`;
-* every `Boundary Decision` is `Keep`;
-* `Result` is `Valid`.
+- every checklist item is marked `✅`;
+- every `Boundary Decision` is `Keep`;
+- `Result` is `Valid`.
 
 ---
 
@@ -250,12 +251,14 @@ The LLM MUST return only an output where:
 
 This analysis is complete only when:
 
-* a capability anchor set has been produced;
-* all meaningful user-facing capabilities from the target description are represented;
-* specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects are represented where applicable;
-* every capability anchor is user-centric and functionally cohesive;
-* no capability anchor merely restates the full target scope;
-* no capability anchor is merely an implementation mechanism;
-* no capability anchor is split into isolated low-level actions;
-* capability boundaries are clear, inspectable, and non-overlapping;
-* the validation result is passing.
+- a capability anchor set has been produced;
+- all meaningful user-facing capabilities from the target description are represented;
+- core user capabilities are represented by dedicated capability anchors;
+- domain forms, interaction models, and delivery contexts do not subsume core user capabilities;
+- specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects are represented where applicable;
+- every capability anchor is user-centric and functionally cohesive;
+- no capability anchor merely restates the full target scope;
+- no capability anchor is merely an implementation mechanism;
+- no capability anchor is split into isolated low-level actions;
+- capability boundaries are clear, inspectable, and non-overlapping;
+- the validation result is passing.
