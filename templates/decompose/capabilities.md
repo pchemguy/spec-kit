@@ -133,7 +133,7 @@ The capability anchor set MUST NOT:
 
 ---
 
-#### Non-Functional and Form-Factor Aspects
+#### Non-Functional and Form-Factor Aspects (NFFF Aspects)
 
 The LLM MUST inspect all **Non-Functional and Form-Factor Aspect Taxonomy** categories before deciding whether any such aspect belongs in the capability anchor set.
 
@@ -148,13 +148,16 @@ For each explicit or strongly implied non-functional or form-factor aspect, the 
     - **Implementation constraint** — the aspect constrains implementation choices, compatibility, validation, or quality expectations but does not imply a separable workstream.
     - **No distinct implementation implication** — the aspect does not materially affect implementation structure.
 
-A non-functional or form-factor aspect MUST become a capability anchor only when its User-facing relevance classification is `Capability-relevant aspect`.
+A NFFF aspect MUST become a dedicated capability anchor when it is classified as `Capability-relevant aspect`.
 
-A non-functional or form-factor aspect MUST NOT become a capability anchor merely because its Implementation separability classification is `Implementation workstream`.
+A NFFF aspect SHOULD become a dedicated capability anchor when it is classified as both:
 
-An `Implementation workstream` MAY correspond to a capability anchor only when the same aspect is also classified as `Capability-relevant aspect`.
+- `Cross-cutting constraint`; and
+- `Implementation workstream`.
 
-The LLM MUST NOT confuse implementation separability with user-facing capability separability.
+A NFFF aspect MUST NOT be absorbed into a core user capability anchor when it materially affects product form, access, launch, delivery, interface modality, interaction style, runtime environment, portability, persistence, identity, integration, recovery, observability, privacy, ownership, or operational use.
+
+The LLM MUST prefer explicit NFFF aspect capability anchors over hiding NFFF aspect concerns inside broad domain capability anchors.
 
 ---
 
