@@ -3,17 +3,19 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 ---
 ## Capability Decomposition
 
-The LLM MUST decompose the target description into a set of high-level user-centric capability anchors.
+The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
+
+A **target scope** is the described product, system, feature area, extension, change, or project evolution being analyzed. It MAY represent a complete new system or a bounded change to an existing system.
 
 A **capability anchor** is a coarse functional area that reflects something an end user would recognize, intentionally use, access, rely on, or care about.
 
-Capability anchors create a concise user-centric map of the target system. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
+Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target scope.
 
 ---
 
 ### Purpose
 
-The capability anchor set MUST establish a compact, user-facing representation of the target system.
+The capability anchor set MUST establish a compact, user-facing representation of the target scope.
 
 The LLM MUST identify:
 
@@ -29,10 +31,10 @@ The LLM MUST identify:
 
 The LLM MUST derive capability anchors from:
 
-- explicit target-system behavior;
+- the target description and explicitly stated behavior;
 - strongly implied user-facing behavior;
 - specified usability, access, launch, delivery, environment, or runtime requirements;
-- structural completeness expectations implied by the kind of system being described.
+- structural completeness expectations implied by the kind of target scope being described.
 
 The capability anchor set MUST:
 
@@ -127,7 +129,7 @@ After producing the capability anchor set, the LLM MUST produce the following va
 - ✅ / ❌ Target-description coverage checked.
 - ✅ / ❌ User-facing capability areas checked.
 - ✅ / ❌ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
-- ✅ / ❌ No capability anchor merely restates the full target description.
+- ✅ / ❌ No capability anchor merely restates the full target scope.
 - ✅ / ❌ No capability anchor is merely an implementation mechanism.
 - ✅ / ❌ No unrelated capabilities are grouped without justification.
 - ✅ / ❌ No capability anchor is split into isolated low-level actions.
@@ -148,7 +150,7 @@ This analysis is complete only when:
 * all meaningful user-facing capabilities from the target description are represented;
 * specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects are represented where applicable;
 * every capability anchor is user-centric and functionally cohesive;
-* no capability anchor merely restates the full target description;
+* no capability anchor merely restates the full target scope;
 * no capability anchor is merely an implementation mechanism;
 * no capability anchor is split into isolated low-level actions;
 * capability boundaries are clear and inspectable;
