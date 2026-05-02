@@ -70,6 +70,17 @@ This pre-specification analysis of the target system focuses on managing the com
 
 ## 🧭 Operating Framework
 
+### 🎯 Objectives
+
+The LLM MUST pursue the following objectives:
+
+- proactively and explicitly resolve ambiguities according to the **Ambiguity Resolution Policy**;
+- strictly follow **Artifact Output Contract** rules;
+- complete **Pre-Output Validation** at each **Workflow Gating** boundary;
+- assist in performing structured pre-specification analysis for a canonical GitHub Spec Kit workflow.
+
+---
+
 ### 🔬 Ambiguity Resolution Policy
 
 When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
@@ -154,55 +165,6 @@ The LLM MUST apply the following resolution strategy:
 5. **Consistency Enforcement**
     
     Resolved ambiguities MUST be applied consistently across SSS, user stories, and feature groupings. Conflicting prior assumptions MUST be revised.
-
----
-
-### 🎯 Objectives and Workflow Gating
-
-The LLM MUST pursue the following objectives:
-
-- proactively and explicitly resolve ambiguities according to the **Ambiguity Resolution Policy**;
-- strictly follow **Artifact Output Contract** rules;
-- complete **Pre-Output**
-
-- follow the Analysis Protocol;
-- treat templates as strict schemas, not guidance;
-- assist in performing structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
-    1. **Phase 1 — User Story Decomposition**: decomposing the system into minimal, self-sufficient user stories;
-    2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**: auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules;
-    3. **Phase 3 — Feature Synthesis**: synthesizing a sequence of cohesive features from the audited user stories;
-    4. **Phases 1-4**: developing, validating, and refining shared rules according to Shared System Semantics;
-    5. **Phase 4 — Final Cross-Artifact Validation**: assessing consistency, completion, and compliance of all developed artifacts; 
-    6. **Phase 5 — Roadmap Generation**: rendering the validated result as canonical `roadmap.md`.
-
-
-### ⛔ Phase and Stage Gating
-
-The LLM MUST follow the defined phase and stage sequence strictly and produce the required output form for the active phase or stage:
-
-1. **Phase 1 Stage 1**: candidate user story summary table with boundary justification.
-2. **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
-3. **Phase 2**: fully expanded Semantic Coverage Audit and Resolution Report, followed by revised SSS and revised user stories.
-4. **Phase 3 Stage 1**: candidate feature grouping summary table with boundary justification.
-5. **Phase 3 Stage 2**: accepted feature grouping materialized as full feature subtemplates.
-6. **Phase 4**: validation findings and required corrections, if any.
-7. **Phase 5**: final `roadmap.md` only.
-
-Do NOT skip any phase or stage in the list above.
-
-The LLM MUST NOT:
-
-- begin a phase or stage before the preceding phase or stage's
-    - Completion Criteria are satisfied;
-    - output has been accepted by the user or otherwise marked complete by the invoking workflow;
-- fully materialize
-    - `Reference USS — User Story Subtemplate` during Phase 1 Stage 1;
-    - `Reference FS — Feature Subtemplate` during Phase 3 Stage 1;
-- produce the final `roadmap.md` before the final phase is unblocked.
-
-Premature phase advancement, premature full materialization, or premature roadmap generation is INVALID.
-
-
 
 ---
 
@@ -317,6 +279,36 @@ Feature outputs require strict Feature Subtemplate enforcement. Whenever a Featu
 If any check fails → the LLM MUST fix the output before returning.
 
 ---
+### ⛔ Workflow Gating
+
+The LLM MUST follow the defined phase and stage sequence strictly and produce the required output form for the active phase or stage:
+
+1. **Phase 1 — User Story Decomposition**: decomposing the system into minimal, self-sufficient user stories;
+    1. **Phase 1 Stage 1**: candidate user story summary table with boundary justification.
+    2. **Phase 1 Stage 2**: preliminary SSS and fully expanded accepted user stories.
+2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**: auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules;
+3. **Phase 3 — Feature Synthesis**: synthesizing a sequence of cohesive features from the audited user stories;
+    1. **Phase 3 Stage 1**: candidate feature grouping summary table with boundary justification.
+    2. **Phase 3 Stage 2**: accepted feature grouping materialized as full feature subtemplates.
+4. **Phase 4 — Final Cross-Artifact Validation**: assessing consistency, completion, and compliance of all developed artifacts; 
+5. **Phase 5 — Roadmap Generation**: rendering the validated result as canonical `roadmap.md`.
+
+Do NOT skip any phase or stage in the list above.
+
+The LLM MUST NOT:
+
+- begin a phase or stage before the preceding phase or stage's
+    - Completion Criteria are satisfied;
+    - output has been accepted by the user or otherwise marked complete by the invoking workflow;
+- fully materialize
+    - `Reference USS — User Story Subtemplate` during Phase 1 Stage 1;
+    - `Reference FS — Feature Subtemplate` during Phase 3 Stage 1;
+- produce the final `roadmap.md` before the final phase is unblocked.
+
+Premature phase advancement, premature full materialization, or premature roadmap generation is INVALID.
+
+---
+
 ## 🧵 Analysis Protocol
 
 You MUST:
