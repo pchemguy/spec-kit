@@ -5,11 +5,13 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
 
+The **target description** is the input text or contextual material provided for analysis.
+
 A **target scope** is the described product, system, feature area, extension, change, or project evolution being analyzed. It MAY represent a complete new system or a bounded change to an existing system.
 
 A **capability anchor** is a coarse functional area that reflects something an end user would recognize, intentionally use, access, rely on, or care about.
 
-Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target scope.
+Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
 ---
 
@@ -22,7 +24,7 @@ The LLM MUST identify:
 - major user-recognizable capability areas;
 - the user value or functional intent of each capability;
 - specified or strongly implied usability, access, launch, delivery, environment, or runtime concerns;
-- natural capability boundaries indicated by the target scope;
+- natural capability boundaries indicated by the target description;
 - capability areas that are distinct enough that combining them would obscure user intent.
 
 ---
@@ -38,10 +40,10 @@ The LLM MUST derive capability anchors from:
 
 The capability anchor set MUST:
 
-- cover all meaningful user-facing capabilities described or strongly implied by the target scope;
+- cover all meaningful user-facing capabilities described or strongly implied by the target description;
 - cover specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects;
 - describe cohesive user-facing capability areas;
-- translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the system;
+- translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the target scope;
 - prefer end-user value and functional intent over implementation structure;
 - remain coarse enough to avoid becoming a list of isolated actions;
 - remain specific enough to make capability coverage and boundaries inspectable.
@@ -63,7 +65,7 @@ When deciding whether to split or group capability anchors, the LLM MUST evaluat
 
 1. **User-recognizable intent** — whether users would understand the behaviors as serving the same purpose.
 2. **User mental model** — whether users would naturally categorize the behaviors together when deciding what they want to do.
-3. **User-facing experience** — whether the behaviors are used, accessed, discovered, or experienced as part of the same broad activity. 
+3. **User-facing experience** — whether the behaviors are used, accessed, discovered, or experienced as part of the same broad activity.
 4. **Domain cohesion** — whether the behaviors belong to the same conceptual capability area.
 5. **Access or environment distinction** — whether the target scope indicates materially different access, launch, delivery, runtime, or environment expectations.
 6. **Coverage clarity** — whether the anchor makes the target scope easier to inspect for omitted, overloaded, or conflated capability areas.
@@ -87,7 +89,9 @@ The LLM SHOULD group capability anchors when:
 - separation would create anchors that are too narrow to represent meaningful user-facing capability areas;
 - the distinction is only a variation within the same broader user intent.
 
-The separation is not based only on formal domain taxonomy. It is based on user expectations, interaction patterns, discoverability, cognitive category, and capability-level cohesion. The LLM MAY use common product conventions for the target domain as evidence when evaluating user mental model, discoverability, and capability boundaries.
+The separation is not based only on formal domain taxonomy. It is based on user expectations, interaction patterns, discoverability, cognitive category, and capability-level cohesion.
+
+The LLM MAY use common product conventions for the target domain as evidence when evaluating user mental model, discoverability, and capability boundaries.
 
 ---
 
@@ -95,9 +99,9 @@ The separation is not based only on formal domain taxonomy. It is based on user 
 
 For each proposed capability anchor, the LLM MUST ask:
 
-> Would a typical target user reasonably expect these behaviors to belong together as one recognizable capability area?
+> Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
 
-If the answer is unclear, the LLM MUST test whether the grouped behaviors differ materially in:
+The LLM MUST test whether the capability anchor differs materially from adjacent or related capability anchors in:
 
 - user intent;
 - user mental model;
@@ -107,15 +111,25 @@ If the answer is unclear, the LLM MUST test whether the grouped behaviors differ
 - environment or runtime context;
 - baseline versus advanced use.
 
-If one or more material differences exist, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
+If one or more material differences exist inside a proposed capability anchor, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
+
+If a proposed capability anchor is too narrow to represent a meaningful user-facing capability area, the LLM SHOULD merge it with the nearest cohesive anchor.
 
 ---
 
-### Validation
+### Required Output Format
 
-After producing the capability anchor set, the LLM MUST apply the **Grouping vs. Splitting Test** to every proposed capability anchor and then produce the following validation block immediately after `## Capability Anchors`:
+The LLM MUST return only the following output structure:
 
 ```markdown
+## Capability Anchors
+
+- **[Capability Name]** — [End-user value / functional intent].  
+  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
+
+- **[Capability Name]** — [End-user value / functional intent].  
+  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
+
 ### Capability Anchor Validation Result
 
 - ✅ / ❌ Target-description coverage checked.
@@ -132,37 +146,10 @@ After producing the capability anchor set, the LLM MUST apply the **Grouping vs.
 
 | Capability Anchor | Grouping/Splitting Assessment | Boundary Decision | Justification |
 | ----------------- | ----------------------------- | ----------------- | ------------- |
-| [Capability Name] | [Assessment of whether the anchor is properly grouped or should be split/merged] | Keep / Split / Merge / Revise | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+| [Capability Name] | [Assessment of whether the anchor is properly scoped or should be split, merged, or revised] | Keep / Split / Merge / Revise | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
 
 Result: Valid / Invalid.
-```
-
-**Capability Anchor Boundary Decisions**:
-
-- `Keep`: is valid as returned.
-- `Split`: is too broad and MUST be decomposed into separate anchors.
-- `Merge` is too narrow and MUST be combined with another anchor.
-- `Revise` requires corrections to name, value statement, or scope signal.
-    
-If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
-
----
-
-### Required Output Format
-
-The LLM MUST present the capability anchor set using the following format:
-
-```markdown
-## Capability Anchors
-
-- **[Capability Name]** — [End-user value / functional intent].  
-  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
-
-- **[Capability Name]** — [End-user value / functional intent].  
-  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
-
-### Capability Anchor Validation Result
-```
+````
 
 Each capability anchor MUST:
 
@@ -185,6 +172,27 @@ The `Scope signal` MUST NOT contain:
 
 ---
 
+### Validation
+
+After producing the capability anchor set, the LLM MUST apply the **Grouping vs. Splitting Test** to every proposed capability anchor and produce the validation block defined in `Required Output Format`.
+
+The `Boundary Decision` column MUST use one of the following values:
+
+* `Keep` — the capability anchor is valid as returned.
+* `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
+* `Merge` — the capability anchor is too narrow and MUST be combined with another anchor.
+* `Revise` — the capability anchor name, value statement, or scope signal MUST be corrected.
+
+If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
+
+The LLM MUST return only an output where:
+
+* every checklist item is marked `✅`;
+* every `Boundary Decision` is `Keep`;
+* `Result` is `Valid`.
+
+---
+
 ### Completion Criteria
 
 This analysis is complete only when:
@@ -196,5 +204,5 @@ This analysis is complete only when:
 * no capability anchor merely restates the full target scope;
 * no capability anchor is merely an implementation mechanism;
 * no capability anchor is split into isolated low-level actions;
-* capability boundaries are clear and inspectable;
+* capability boundaries are clear, inspectable, and non-overlapping;
 * the validation result is passing.
