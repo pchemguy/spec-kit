@@ -27,7 +27,7 @@ The LLM MUST identify:
 
 ---
 
-### Derivation Rules
+### Decomposition Rules
 
 The LLM MUST derive capability anchors from:
 
@@ -38,7 +38,7 @@ The LLM MUST derive capability anchors from:
 
 The capability anchor set MUST:
 
-- cover all meaningful user-facing capabilities from the target scope;
+- cover all meaningful user-facing capabilities described or strongly implied by the target scope;
 - cover specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects;
 - describe cohesive user-facing capability areas;
 - translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the system;
@@ -93,7 +93,7 @@ The separation is not based only on formal domain taxonomy. It is based on user 
 
 ### Grouping vs. Splitting Test
 
-For each proposed grouped capability anchor, the LLM MUST ask:
+For each proposed capability anchor, the LLM MUST ask:
 
 > Would a typical target user reasonably expect these behaviors to belong together as one recognizable capability area?
 
@@ -111,9 +111,46 @@ If one or more material differences exist, the LLM SHOULD split the anchor unles
 
 ---
 
+### Validation
+
+After producing the capability anchor set, the LLM MUST apply the **Grouping vs. Splitting Test** to every proposed capability anchor and then produce the following validation block immediately after `## Capability Anchors`:
+
+```markdown
+### Capability Anchor Validation Result
+
+- ✅ / ❌ Target-description coverage checked.
+- ✅ / ❌ User-facing capability areas checked.
+- ✅ / ❌ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
+- ✅ / ❌ No capability anchor merely restates the full target scope.
+- ✅ / ❌ No capability anchor is merely an implementation mechanism.
+- ✅ / ❌ No unrelated capabilities are grouped without justification.
+- ✅ / ❌ No capability anchor is split into isolated low-level actions.
+- ✅ / ❌ Grouping vs. Splitting Test applied to every capability anchor.
+- ✅ / ❌ Capability boundaries are clear, inspectable, and non-overlapping.
+
+#### Grouping vs. Splitting Test
+
+| Capability Anchor | Grouping/Splitting Assessment | Boundary Decision | Justification |
+| ----------------- | ----------------------------- | ----------------- | ------------- |
+| [Capability Name] | [Assessment of whether the anchor is properly grouped or should be split/merged] | Keep / Split / Merge / Revise | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+
+Result: Valid / Invalid.
+```
+
+**Capability Anchor Boundary Decisions**:
+
+- `Keep`: is valid as returned.
+- `Split`: is too broad and MUST be decomposed into separate anchors.
+- `Merge` is too narrow and MUST be combined with another anchor.
+- `Revise` requires corrections to name, value statement, or scope signal.
+    
+If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
+
+---
+
 ### Required Output Format
 
-The LLM MUST present the capability anchor set using only the following format:
+The LLM MUST present the capability anchor set using the following format:
 
 ```markdown
 ## Capability Anchors
@@ -123,7 +160,9 @@ The LLM MUST present the capability anchor set using only the following format:
 
 - **[Capability Name]** — [End-user value / functional intent].  
   Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
-````
+
+### Capability Anchor Validation Result
+```
 
 Each capability anchor MUST:
 
@@ -143,29 +182,6 @@ The `Scope signal` MUST NOT contain:
 * task details;
 * sequencing;
 * exhaustive behavior lists.
-
----
-
-### Validation
-
-After producing the capability anchor set, the LLM MUST produce the following validation block:
-
-```markdown
-### Capability Anchor Validation Result
-
-- ✅ / ❌ Target-description coverage checked.
-- ✅ / ❌ User-facing capability areas checked.
-- ✅ / ❌ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
-- ✅ / ❌ No capability anchor merely restates the full target scope.
-- ✅ / ❌ No capability anchor is merely an implementation mechanism.
-- ✅ / ❌ No unrelated capabilities are grouped without justification.
-- ✅ / ❌ No capability anchor is split into isolated low-level actions.
-- ✅ / ❌ Capability boundaries are clear enough for use.
-
-Result: Valid / Invalid.
-```
-
-If any validation item fails, the LLM MUST revise the capability anchor set before returning the output.
 
 ---
 
