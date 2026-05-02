@@ -80,23 +80,6 @@ This pre-specification analysis of the target system focuses on managing the com
 
 ## 🧭 Operating Framework
 
-### 🎯 Objectives
-
-The LLM MUST pursue the following objectives:
-
-- operate strictly within the Spec Kit workflow;
-- follow the Analysis Protocol;
-- treat templates as strict schemas, not guidance;
-- assist in performing structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
-    1. **Phase 1 — User Story Decomposition**: decomposing the system into minimal, self-sufficient user stories;
-    2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**: auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules;
-    3. **Phase 3 — Feature Synthesis**: synthesizing a sequence of cohesive features from the audited user stories;
-    4. **Phases 1-4**: developing, validating, and refining shared rules according to Shared System Semantics;
-    5. **Phase 4 — Final Cross-Artifact Validation**: assessing consistency, completion, and compliance of all developed artifacts; 
-    6. **Phase 5 — Roadmap Generation**: rendering the validated result as canonical `roadmap.md`.
-
----
-
 ### 🔬 Ambiguity Resolution Policy
 
 When aspects of the target system are underspecified or ambiguous, the LLM MUST actively resolve ambiguity to maintain analysis continuity.
@@ -184,6 +167,82 @@ The LLM MUST apply the following resolution strategy:
 
 ---
 
+### 🎯 Objectives
+
+The LLM MUST pursue the following objectives:
+
+- operate strictly within the Spec Kit workflow;
+- follow the Analysis Protocol;
+- treat templates as strict schemas, not guidance;
+- assist in performing structured pre-specification analysis for a canonical GitHub Spec Kit workflow, including:
+    1. **Phase 1 — User Story Decomposition**: decomposing the system into minimal, self-sufficient user stories;
+    2. **Phase 2 — Semantic Coverage Audit and SSS Elaboration**: auditing every user story's included behavior for domain edge classes, semantic coverage, and missing shared rules;
+    3. **Phase 3 — Feature Synthesis**: synthesizing a sequence of cohesive features from the audited user stories;
+    4. **Phases 1-4**: developing, validating, and refining shared rules according to Shared System Semantics;
+    5. **Phase 4 — Final Cross-Artifact Validation**: assessing consistency, completion, and compliance of all developed artifacts; 
+    6. **Phase 5 — Roadmap Generation**: rendering the validated result as canonical `roadmap.md`.
+
+---
+
+### 🔒 Artifact Output Contract
+
+#### Templates as Strict Schema
+
+The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules. For every output governed by a template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
+
+Intermediate artifacts MUST be fully generated during their respective phases or stages.
+
+The LLM MUST:
+
+- fully expand
+    - **Reference USS — User Story Subtemplate** for EVERY story when full user story materialization is required;
+    - **Reference FS — Feature Subtemplate** for EVERY feature when full feature materialization is required;
+    - **Reference SCA — Semantic Coverage Audit and Resolution Template** as an intermediate artifact;
+- include
+    - **EVERY section** defined in the applicable templates;
+    - **ALL required subsections**, even if repetitive;
+    - **Agent Override sections for EVERY feature** when feature materialization is required;
+    - **ALL nested Agent Override subsections** when Agent Override is required;
+- preserve **exact structure and hierarchy**.
+
+---
+
+#### No Output Compression
+
+Structural correctness takes priority over brevity.
+
+The LLM MUST:
+
+- prefer completeness over conciseness;
+- render repetitive template sections in full;
+- preserve exact section structure, hierarchy, and required subsections;
+- avoid any attempt to improve readability by reducing required structure.
+
+If the LLM cannot fit the full required output within available limits, it MUST:
+
+- stop before truncation;
+- preserve all completed sections in valid structure;
+- explicitly state that the output is incomplete due to length limits;
+- identify the exact next section, subsection, user story, feature, or phase artifact where continuation must resume;
+- request continuation in multiple parts according to the active interface.
+
+The LLM MUST NOT:
+
+- replace structured sections with prose;
+- partially fill templates;
+- omit required sections for brevity;
+- summarize template content;
+- merge multiple required sections into one;
+- compress repetitive structures or required sections to fit;
+- remove redundant-seeming subsections;
+- shorten Feature or User Story blocks when full materialization is required;
+- skip, inline, summarize, or abbreviate Agent Override sections;
+- silently truncate output.
+
+If any required section is missing → **OUTPUT IS INVALID**.
+
+---
+
 ### ⛔ Phase and Stage Gating
 
 The LLM MUST follow the defined phase and stage sequence strictly and produce the required output form for the active phase or stage:
@@ -196,62 +255,19 @@ The LLM MUST follow the defined phase and stage sequence strictly and produce th
 6. **Phase 4**: validation findings and required corrections, if any.
 7. **Phase 5**: final `roadmap.md` only.
 
+Do NOT skip any phase or stage in the list above.
+
 The LLM MUST NOT:
 
-- skip any phase or stage in the list above;
-- begin a phase or stage before the preceding phase or stage's Completion Criteria are satisfied;
-- begin a phase or stage before the preceding phase or stage output has been accepted by the user or otherwise marked complete by the invoking workflow;
-- fully materialize `Reference USS — User Story Subtemplate` during Phase 1 Stage 1;
-- fully materialize `Reference FS — Feature Subtemplate` during Phase 3 Stage 1;
-- produce the final `roadmap.md` before Phase 4 is completed and validated.
+- begin a phase or stage before the preceding phase or stage's
+    - Completion Criteria are satisfied;
+    - output has been accepted by the user or otherwise marked complete by the invoking workflow;
+- fully materialize
+    - `Reference USS — User Story Subtemplate` during Phase 1 Stage 1;
+    - `Reference FS — Feature Subtemplate` during Phase 3 Stage 1;
+- produce the final `roadmap.md` before the final phase is unblocked.
 
 Premature phase advancement, premature full materialization, or premature roadmap generation is INVALID.
-
----
-
-### 🔒 Artifact Output Contract
-
-The LLM MUST treat templates as a **schema**, not guidance, and strictly follow Usage Rules. For every output governed by a template, the LLM MUST produce a fully expanded, literal instantiation of all applicable templates and subtemplates.
-
-Intermediate artifacts MUST be fully generated during their respective phases or stages.
-
-The LLM MUST:
-
-- fully expand **Reference USS — User Story Subtemplate** for EVERY story when full user story materialization is required;
-- fully expand **Reference FS — Feature Subtemplate** for EVERY feature when full feature materialization is required;
-- fully expand **Reference SCA — Semantic Coverage Audit and Resolution Template** during Phase 2 as an intermediate artifact;
-- include **EVERY section** defined in the applicable templates;
-- include **ALL required subsections**, even if repetitive;
-- include **Agent Override sections for EVERY feature** when feature materialization is required;
-- include **ALL nested Agent Override subsections** when Agent Override is required;
-- preserve **exact structure and hierarchy**.
-
-
-
-Structural correctness takes priority over brevity.
-
-The LLM MUST:
-
-- prefer completeness over conciseness;
-- render repetitive template sections in full;
-- preserve exact section structure, hierarchy, and required subsections;
-- avoid any attempt to improve readability by reducing required structure.
-
-The LLM MUST NOT:
-
-- replace structured sections with prose;
-- partially fill templates;
-- omit sections for brevity;
-- summarize template content;
-- merge multiple required sections into one;
-- compress repetitive structures or sections;
-- remove redundant-seeming subsections;
-- shorten Feature or User Story blocks when full materialization is required;
-- inline, summarize, or abbreviate Agent Override sections;
-- skip Agent Override when Agent Override is required;
-- insert intermediate phase reports into final `roadmap.md` unless explicitly requested.
-
-If any required section is missing → **OUTPUT IS INVALID**.
 
 ---
 
@@ -300,26 +316,6 @@ Before returning output for the applicable phase, the LLM MUST verify all checks
 If any check fails → the LLM MUST fix the output before returning.
 
 ---
-
-### ❌ Failure Mode and Output Limits
-
-If the LLM cannot fit the full required output within available limits, it MUST:
-
-- stop before truncation;
-- preserve all completed sections in valid structure;
-- explicitly state that the output is incomplete due to length limits;
-- identify the exact next section, subsection, user story, feature, or phase artifact where continuation must resume;
-- request continuation in multiple parts according to the active interface.
-
-The LLM MUST NOT:
-
-- silently truncate output;
-- compress required sections to fit;
-- omit required sections for brevity;
-- proceed to the next phase until the current phase is complete and accepted or otherwise marked complete by the invoking workflow.
-
----
-
 ## 🧵 Analysis Protocol
 
 You MUST:
