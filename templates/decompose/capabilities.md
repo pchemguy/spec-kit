@@ -15,6 +15,20 @@ Capability anchors create a concise user-centric map of the target scope. They i
 
 ---
 
+### Protocol
+
+The LLM MUST execute this module in order:
+
+1. Interpret the target description and identify the target scope.
+2. Decompose the target scope into a candidate capability anchor set based on **Decomposition Rules** and **Capability Boundary Rules**.
+3. Apply the **Grouping vs. Splitting Test** to every candidate capability anchor.
+4. Perform candidate set **Validation** and revise it until all validation checks pass.
+5. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
+
+If a material ambiguity prevents valid report output, the LLM MUST ask a targeted clarification question instead of returning the Capability Decomposition Report.
+
+---
+
 ### Purpose
 
 The capability anchor set MUST establish a compact, user-facing representation of the target scope.
@@ -31,12 +45,31 @@ The LLM MUST identify:
 
 ### Decomposition Rules
 
-The LLM MUST derive capability anchors from:
+The LLM MUST derive each capability anchor, including its capability name and `Scope signal`, from:
 
 - the target description and explicitly stated behavior;
 - strongly implied user-facing behavior;
 - specified usability, access, launch, delivery, environment, or runtime requirements;
 - structural completeness expectations implied by the kind of target scope being described.
+
+Each capability anchor MUST:
+
+- use a concise user-facing name;
+- state the end-user value or functional intent in the anchor summary;
+- include a `Scope signal` that briefly identifies what belongs under the capability;
+- avoid implementation-first naming unless the target requirement is itself about user access, launch, delivery, runtime, or environment experience;
+- avoid low-level action names when a broader user-recognizable capability name is available.
+
+The `Scope signal` MUST be brief and boundary-oriented.
+
+The `Scope signal` MUST NOT contain:
+
+- implementation steps;
+- validation scenarios;
+- acceptance criteria;
+- task details;
+- sequencing;
+- exhaustive behavior lists.
 
 The capability anchor set MUST:
 
@@ -117,7 +150,7 @@ If a proposed capability anchor is too narrow to represent a meaningful user-fac
 
 ---
 
-### Required Output Format
+### Capability Decomposition Report Template
 
 The LLM MUST return only the following output structure:
 
@@ -132,58 +165,43 @@ The LLM MUST return only the following output structure:
 
 ### Capability Anchor Validation Result
 
-- ✅ / ❌ Target-description coverage checked.
-- ✅ / ❌ User-facing capability areas checked.
-- ✅ / ❌ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
-- ✅ / ❌ No capability anchor merely restates the full target scope.
-- ✅ / ❌ No capability anchor is merely an implementation mechanism.
-- ✅ / ❌ No unrelated capabilities are grouped without justification.
-- ✅ / ❌ No capability anchor is split into isolated low-level actions.
-- ✅ / ❌ Grouping vs. Splitting Test applied to every capability anchor.
-- ✅ / ❌ Capability boundaries are clear, inspectable, and non-overlapping.
+- ✅ Target-description coverage checked.
+- ✅ User-facing capability areas checked.
+- ✅ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
+- ✅ No capability anchor merely restates the full target scope.
+- ✅ No capability anchor is merely an implementation mechanism.
+- ✅ No unrelated capabilities are grouped without justification.
+- ✅ No capability anchor is split into isolated low-level actions.
+- ✅ Grouping vs. Splitting Test applied to every capability anchor.
+- ✅ Capability boundaries are clear, inspectable, and non-overlapping.
 
 #### Grouping vs. Splitting Test
 
 | Capability Anchor | Grouping/Splitting Assessment | Boundary Decision | Justification |
 | ----------------- | ----------------------------- | ----------------- | ------------- |
-| [Capability Name] | [Assessment of whether the anchor is properly scoped or should be split, merged, or revised] | Keep / Split / Merge / Revise | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+| [Capability Name] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
 
-Result: Valid / Invalid.
-````
+Result: Valid
+```
 
-Each capability anchor MUST:
-
-* use a concise user-facing name;
-* state the end-user value or functional intent;
-* include a `Scope signal` that briefly identifies what belongs under the capability;
-* avoid implementation-first naming unless the target requirement is itself about user access, launch, delivery, runtime, or environment experience;
-* avoid low-level action names when a broader user-recognizable capability name is available.
-
-The `Scope signal` MUST be brief and boundary-oriented.
-
-The `Scope signal` MUST NOT contain:
-
-* implementation steps;
-* validation scenarios;
-* acceptance criteria;
-* task details;
-* sequencing;
-* exhaustive behavior lists.
+The LLM MUST NOT include any section not shown in the Capability Decomposition Report Template.
 
 ---
 
 ### Validation
 
-After producing the capability anchor set, the LLM MUST apply the **Grouping vs. Splitting Test** to every proposed capability anchor and produce the validation block defined in `Required Output Format`.
+The LLM MUST apply validation checks defined in `Capability Anchor Validation Result` and `Grouping vs. Splitting Test` to the candidate capability anchor set.
 
-The `Boundary Decision` column MUST use one of the following values:
+During execution of the `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
 
-* `Keep` — the capability anchor is valid as returned.
+* `Keep` — the capability anchor is valid for the final report.
 * `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
 * `Merge` — the capability anchor is too narrow and MUST be combined with another anchor.
 * `Revise` — the capability anchor name, value statement, or scope signal MUST be corrected.
 
 If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
+
+Validation results MUST be presented according to **Capability Decomposition Report Template**.
 
 The LLM MUST return only an output where:
 
