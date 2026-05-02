@@ -21,10 +21,17 @@ Capability anchors create a concise user-centric map of the target scope. They i
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Decompose the target scope into a candidate capability anchor set based on the **Rules**.
-3. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
-4. Perform candidate set **Validation** and revise it until all validation checks pass.
-5. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
+2. Identify the core user capability or capabilities represented by the target scope according to **Core User Capability**.
+3. Inspect the **Non-Functional and Form-Factor Aspect Taxonomy** and extract every explicit or strongly implied **Non-Functional and Form-Factor Aspect** from the target description.
+4. Classify each extracted aspect by:
+    - **Taxonomy Category** — one or more matching categories from the taxonomy;
+    - **User-Facing Relevance** — `Capability-relevant aspect` / `Cross-cutting constraint` / `Not user-facing or not materially relevant`;
+    - **Implementation Separability** — `Implementation workstream` / `Implementation constraint` / `No distinct implementation implication`.
+5. Produce the **Non-Functional and Form-Factor Aspect Classification** table.
+6. Decompose the target scope into a candidate capability anchor set based on the **Rules**.
+7. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
+8. Perform candidate set **Validation** and revise it until all validation checks pass.
+9. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
 
 If a material ambiguity prevents valid report output, the LLM MUST ask a targeted clarification question instead of returning the Capability Decomposition Report.
 
@@ -126,6 +133,68 @@ The capability anchor set MUST NOT:
 
 ---
 
+#### Non-Functional and Form-Factor Aspects
+
+The LLM MUST inspect all **Non-Functional and Form-Factor Aspect Taxonomy** categories before deciding whether any such aspect belongs in the capability anchor set.
+
+For each explicit or strongly implied non-functional or form-factor aspect, the LLM MUST classify it on two axes:
+
+1. **User-facing relevance**
+    - **Capability-relevant aspect** — the aspect materially changes user-visible value, access, control, recovery, trust, portability, environment, ownership, or experience.
+    - **Cross-cutting constraint** — the aspect constrains one or more capability anchors but is not itself a distinct user-recognizable capability area.
+    - **Not user-facing or not materially relevant** — the aspect does not materially affect capability decomposition.
+2. **Implementation separability**
+    - **Implementation workstream** — the aspect implies separable build, packaging, integration, deployment, or delivery work.
+    - **Implementation constraint** — the aspect constrains implementation choices, compatibility, validation, or quality expectations but does not imply a separable workstream.
+    - **No distinct implementation implication** — the aspect does not materially affect implementation structure.
+
+A non-functional or form-factor aspect MUST become a capability anchor only when its User-facing relevance classification is `Capability-relevant aspect`.
+
+A non-functional or form-factor aspect MUST NOT become a capability anchor merely because its Implementation separability classification is `Implementation workstream`.
+
+An `Implementation workstream` MAY correspond to a capability anchor only when the same aspect is also classified as `Capability-relevant aspect`.
+
+The LLM MUST NOT confuse implementation separability with user-facing capability separability.
+
+---
+
+##### Classification Rules
+
+Every extracted Non-Functional and Form-Factor Aspect MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
+
+Each `Taxonomy Category` cell MAY contain multiple categories when the aspect spans more than one category.
+
+The classification table MUST NOT include aspects that are neither explicit nor strongly implied by the target description.
+
+If no explicit or strongly implied Non-Functional and Form-Factor Aspects are found, the classification table MUST contain one row with `None identified` in the `Aspect` column and `N/A` in the remaining columns.
+
+---
+
+##### Non-Functional and Form-Factor Aspect Taxonomy
+
+1. **Product Form** — application, library, service, tool, extension, workflow, configuration artifact.
+2. **Runtime Platform** — browser, desktop, mobile, terminal, server, embedded, cloud, local.
+3. **Access Model** — direct launch, integrated access, programmatic access, automated access.
+4. **User Interface Modality** — GUI, CLI, TUI, conversational UI, voice UI, API, no direct UI.
+5. **Interaction Style** — form-based, command-driven, menu-driven, editor-like, dashboard, direct manipulation, batch, real-time.
+6. **Packaging and Delivery** — hosted, installable, portable, package-manager, source-based, containerized, plugin/extension bundle.
+7. **Portability** — cross-platform runtime, portable execution, data portability, configuration portability.
+8. **Deployment and Hosting** — local-only, SaaS, self-hosted, on-premises, cloud, hybrid, air-gapped, multi-tenant.
+9. **Connectivity and Offline Behavior** — online-only, offline-first, offline-capable, sync, degraded mode, local-only.
+10. **Persistence and State** — ephemeral, local persistence, remote persistence, hybrid sync, user-managed files, autosave/versioned state.
+11. **Identity and Access Control** — no auth, local identity, account login, SSO, roles, permissions, API keys.
+12. **Integration Surface** — files, clipboard, URLs, APIs, webhooks, SDKs, plugins, OS/browser/IDE integration.
+13. **Execution Mode** — interactive, batch, streaming, scheduled, event-driven, background, asynchronous.
+14. **Reliability and Recovery** — undo, redo, retry, rollback, autosave, crash recovery, backup/restore, safe failure.
+15. **Observability and Feedback** — status, progress, warnings, errors, logs, audit trails, notifications, previews.
+16. **Performance and Resource Constraints** — latency, throughput, startup time, large-data handling, memory/CPU/battery limits.
+17. **Accessibility and Internationalization** — keyboard access, screen reader support, contrast, localization, locale/timezone behavior.
+18. **Configuration and Customization** — preferences, profiles, themes, shortcuts, config files, policies, presets.
+19. **Privacy and Data Ownership** — local-only data, cloud data, exportability, encryption, retention, third-party processing.
+20. **Target Audience and Operational Ownership** — consumer, power user, developer, admin, operator, organization, public/internal/enterprise.
+
+---
+
 #### Capability Boundary
 
 When deciding whether to split or group capability anchors, the LLM MUST evaluate the following factors in order:
@@ -197,18 +266,29 @@ The LLM MUST return only the following output structure:
 - **[Capability Name]** — [End-user value / functional intent].  
   Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
 
+### Non-Functional and Form-Factor Aspect Classification
+
+| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
+| ------ | ----------------- | --------------------- | ---------------------------- |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
+
 ### Capability Anchor Validation Result
 
 - ✅ Target-description coverage checked.
-- ✅ Core user capabilities are represented by dedicated capability anchors.
-- ✅ Domain forms, interaction models, and delivery contexts do not subsume core user capabilities.
-- ✅ User-facing capability areas checked.
-- ✅ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.
-- ✅ No capability anchor merely restates the full target scope.
-- ✅ No capability anchor is merely an implementation mechanism.
-- ✅ No unrelated capabilities are grouped without justification.
-- ✅ No capability anchor is split into isolated low-level actions.
-- ✅ Grouping vs. Splitting Test applied to every capability anchor.
+- ✅ Core user capabilities are represented by dedicated capability anchors.  
+- ✅ Domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities.  
+- ✅ Non-functional and form-factor aspects were classified before inclusion.  
+- ✅ Every explicit or strongly implied non-functional and form-factor aspect appears exactly once in the classification table.  
+- ✅ The classification table excludes aspects that are neither explicit nor strongly implied by the target description.  
+- ✅ Cross-cutting constraints are not represented as standalone capability anchors unless they define distinct user-facing value.  
+- ✅ Implementation workstreams are not represented as standalone capability anchors unless they create distinct user-facing access, interaction, operating, control, recovery, visibility, trust, ownership, or experience value.  
+- ✅ User-facing capability areas checked.  
+- ✅ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.  
+- ✅ No capability anchor merely restates the full target scope.  
+- ✅ No capability anchor is merely an implementation mechanism.  
+- ✅ No unrelated capabilities are grouped without justification.  
+- ✅ No capability anchor is split into isolated low-level actions.  
+- ✅ Grouping vs. Splitting Test applied to every capability anchor.  
 - ✅ Capability boundaries are clear, inspectable, and non-overlapping.
 
 #### Capability Boundary Test Result
@@ -226,7 +306,7 @@ The LLM MUST NOT include any section not shown in the Capability Decomposition R
 
 ### Validation
 
-The LLM MUST apply validation checks defined in `Capability Anchor Validation Result`, `Core Capability Test`, and `Grouping vs. Splitting Test` to the candidate capability anchor set.
+The LLM MUST apply validation checks defined in `Capability Anchor Validation Result`, `Non-Functional and Form-Factor Aspect Classification`, `Core Capability Test`, and `Grouping vs. Splitting Test` to the candidate capability anchor set and extracted aspect classification.
 
 During execution of the `Core Capability Test` and `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
 
@@ -237,7 +317,7 @@ During execution of the `Core Capability Test` and `Grouping vs. Splitting Test`
 
 If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
 
-Validation results MUST be presented according to **Capability Decomposition Report Template**. Testing results must be presented as the `Capability Boundary Test Result` table of the template.
+Validation results MUST be presented according to **Capability Decomposition Report Template**. Boundary test results MUST be presented as the `Capability Boundary Test Result` table of the template.
 
 The LLM MUST return only an output where:
 
@@ -254,7 +334,9 @@ This analysis is complete only when:
 - a capability anchor set has been produced;
 - all meaningful user-facing capabilities from the target description are represented;
 - core user capabilities are represented by dedicated capability anchors;
-- domain forms, interaction models, and delivery contexts do not subsume core user capabilities;
+- every explicit or strongly implied non-functional and form-factor aspect appears exactly once in the classification table;
+- the classification table excludes aspects that are neither explicit nor strongly implied by the target description;
+- domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities;
 - specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects are represented where applicable;
 - every capability anchor is user-centric and functionally cohesive;
 - no capability anchor merely restates the full target scope;
