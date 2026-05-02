@@ -17,7 +17,7 @@ Each capability anchor MUST be expressed as a concise bullet using this form:
   Scope signal:[brief statement of what kinds of behavior this capability includes].
 ```
 
-***
+---
 
 ## Target
 
