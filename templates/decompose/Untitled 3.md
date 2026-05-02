@@ -1,0 +1,1 @@
+I need taxonomy of key non-functional aspects, such as platform, portability, packaging/delivery, ui, lib vs app, what else? Each of these, in turn, may have various alternative, such as browser based web app vs desktop packaged, ui could include cli, tui, gui (and each may in turn have alternatives). The objective is to make more explicit related instructions (later).
