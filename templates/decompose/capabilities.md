@@ -50,20 +50,65 @@ The LLM MUST identify:
 
 ### Capability Model
 
-All capability anchors MUST belong to exactly one of:
+A capability MUST be classified as:
 
-1. **Core User Capability** — represents primary user intent.
-2. **Non-Functional and Form-Factor (NFFF) Aspect** — derived from NFFF aspects meeting NFFF Promotion Requirements.
-3. **Supporting Functional Capability** — domain functionality supporting the core user capability without introducing a distinct NFFF dimension.
+- **Core User Capability** — if it defines primary user intent and core state semantics.
+- **Supporting Functional Capability** — if it affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
+- **Non-Functional and Form-Factor (NFFF) Aspect** — if it defines user access, interaction form, environment, or experience without affecting core state.
+
+#### Core User Capability
+
+**Definition**
+
+Represents primary user intent and defines the core state and its transformations.
+
+**Role**
+
+* anchors *why the system exists*
+* defines domain intent and core state semantics
+* drives decomposition of domain behavior
+
+**Important**
+
+Sate semantics and its transformations are key implementation details belonging to data/domain modeling. Target description may or may not provide any desired constrains on domain modeling. Throughout the capability decomposition process, target **state** should generally remain abstract/conceptual and primarily used for identifying supporting functional capabilities as distinct from NFFF aspects.
+
+---
+
+#### Supporting Functional Capability
+
+**Definition**
+
+Represents core-state-affecting, core-state-governing, or core-state-focused functionality required to make the core user capability usable, correct, and coherent.
+
+**Role**
+
+* ensures observability, correctness, completeness, and recoverability
+* remains within the same user mental model
+
+**Important properties**
+
+* operates on or governs core state
+* includes control, validation, and recovery logic
+* MUST NOT introduce a new form, access mode, or environment
+
+
+---
 
 The LLM MUST:
 
 - identify core user capabilities first;
-- classify and promote NFFF aspects next;
-- derive supporting functional capabilities last;
+- identify supporting functional capabilities next;
+- classify and promote NFFF aspects last;
 - ensure no capability mixes multiple categories.
 
+A NFFF Capability Anchor MUST NOT:
 
+- mutate the core state;
+- define core-state transition rules;
+- participate in domain evaluation semantics;
+- govern acceptance, rejection, or transformation of core data.
+
+All such behavior beyond the primary user intent belongs to Supporting Functional Capabilities.
 
 ---
 
