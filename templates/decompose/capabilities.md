@@ -14,7 +14,7 @@ A **capability anchor** is a coarse functional area that reflects something an e
 
 Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
-Each capability stated in the target description or strongly implied MUST be classified according to **Capability Model** as:
+Each explicit or strongly implied capability MUST be identified and classified according to **Capability Model** as:
 
 - **Core User Capability** — if it defines primary user intent and core state semantics.
 - **Supporting Functional Capability** — if it affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
@@ -30,10 +30,10 @@ The LLM MUST execute this module in order:
 2. Identify explicit or strongly implied candidate capabilities from the target description.
 3. Classify each candidate capability according to the **Capability Model**:
     1) Identify the **Core User Capability** or capabilities.
-    2) Evaluate each remaining candidate capability based on its conceptual semantic interaction with state:
+    2) For each remaining candidate capability, determine its dominant semantic role:
         - If it implies mutation, validation, control, recovery, or interpretation of core state → **Supporting Functional Capability**.
-        - Otherwise → evaluate as **NFFF Aspect**.
-    3) Classify and promote NFFF Aspects according to NFFF Promotion Requirements.
+        - Otherwise → **Non-Functional and Form-Factor (NFFF) Aspect**.
+    3) Classify and promote NFFF Aspects according to **NFFF Promotion Requirements**.
     4) Produce the **Non-Functional and Form-Factor Aspect Classification** table.
     5) Ensure every capability is assigned to exactly one category and revise any ambiguous classifications until this condition holds.
 4. Construct the candidate **capability anchor set** from the classified capabilities according to the **Rules**.
@@ -61,11 +61,13 @@ The LLM MUST identify:
 
 ### Capability Model
 
+A capability is classified based on whether its semantics imply interaction with conceptual system state and its relation to primary user intent, not on its interface, presentation, or implementation form.
+
 #### Core User Capability
 
 **Definition**
 
-Represents primary user intent and defines the core state and its transformations.
+Represents primary user intent and the fundamental transformation or use of conceptual system state that fulfills that intent.
 
 **Role**
 
