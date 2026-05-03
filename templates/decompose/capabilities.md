@@ -140,7 +140,7 @@ The LLM MUST inspect all **Non-Functional and Form-Factor Aspect Taxonomy** cate
 For each explicit or strongly implied non-functional or form-factor aspect, the LLM MUST classify it on two axes:
 
 1. **User-facing relevance**
-    - **Capability-relevant aspect** — the aspect materially affects user-visible value or experience through one or more categories in the **Non-Functional and Form-Factor Aspect Taxonomy**, including product form, access, launch, delivery, interface modality, interaction style, runtime environment, portability, persistence, identity, integration, recovery, observability, privacy, ownership, trust, or operational use.
+    - **Capability-relevant aspect** — the aspect materially affects user-visible value or experience through one or more categories in the **Non-Functional and Form-Factor Aspect Taxonomy**.
     - **Cross-cutting constraint** — the aspect constrains one or more capability anchors but is not itself a distinct user-recognizable capability area.
     - **Not user-facing or not materially relevant** — the aspect does not materially affect capability decomposition.
 2. **Implementation separability**
@@ -153,11 +153,11 @@ A NFFF aspect MUST NOT be absorbed into a core user capability anchor when it is
 - `Capability-relevant aspect`; or
 - both `Cross-cutting constraint` and `Implementation workstream`.
 
-The LLM MUST prefer explicit NFFF aspect capability anchors over hiding NFFF aspect concerns inside broad domain capability anchors.
-
-Distinct NFFF aspects MUST be evaluated independently and MUST be represented by dedicated capability anchors when they materially differ in user-visible behavior or experience as defined by the **Non-Functional and Form-Factor Aspect Taxonomy**.
+Distinct NFFF aspects and distinct alternatives of the same aspect MUST be evaluated independently and represented by dedicated capability anchors when they materially differ in user-visible behavior or experience under the **Non-Functional and Form-Factor Aspect Taxonomy**.
 
 The LLM MUST NOT collapse materially distinct NFFF alternatives into a single generic capability anchor merely because they belong to the same taxonomy category, support the same core user capability, or share implementation components.
+
+The LLM MUST prefer explicit NFFF aspect capability anchors over hiding NFFF aspect concerns inside broad domain capability anchors.
 
 ---
 
@@ -278,20 +278,21 @@ The LLM MUST return only the following output structure:
 ### Capability Anchor Validation Result
 
 - ✅ Target-description coverage checked.
-- ✅ Core user capabilities are represented by dedicated capability anchors.  
-- ✅ Domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities.  
-- ✅ Non-functional and form-factor aspects were classified before inclusion.  
-- ✅ Every explicit or strongly implied non-functional and form-factor aspect appears exactly once in the classification table.  
-- ✅ The classification table excludes aspects that are neither explicit nor strongly implied by the target description.  
-- ✅ Cross-cutting constraints are not represented as standalone capability anchors unless they define distinct user-facing value.  
-- ✅ Implementation workstreams are not represented as standalone capability anchors unless they create distinct user-facing access, interaction, operating, control, recovery, visibility, trust, ownership, or experience value.  
-- ✅ User-facing capability areas checked.  
-- ✅ Usability, access, launch, delivery, environment, and runtime aspects checked where applicable.  
-- ✅ No capability anchor merely restates the full target scope.  
-- ✅ No capability anchor is merely an implementation mechanism.  
-- ✅ No unrelated capabilities are grouped without justification.  
-- ✅ No capability anchor is split into isolated low-level actions.  
-- ✅ Grouping vs. Splitting Test applied to every capability anchor.  
+- ✅ Core user capabilities are represented by dedicated capability anchors.
+- ✅ Domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities.
+- ✅ Non-functional and form-factor (NFFF) aspects were classified before inclusion.
+- ✅ Every explicit or strongly implied NFFF aspect appears exactly once in the classification table.
+- ✅ The classification table does not include aspects that are neither explicit nor strongly implied by the target description.
+- ✅ Every `Capability-relevant aspect`-classified NFFF aspect is represented by a dedicated capability anchor.
+- ✅ NFFF aspects classified as both `Cross-cutting constraint` and `Implementation workstream` were evaluated for dedicated capability-anchor representation.
+- ✅ NFFF aspects are not absorbed into core user capability anchors when classification requires or favors dedicated representation.
+- ✅ Distinct NFFF aspects and distinct alternatives of the same NFFF aspect are represented by dedicated capability anchors when they materially differ in user-visible behavior or experience under the Non-Functional and Form-Factor Aspect Taxonomy.
+- ✅ User-facing capability areas checked.
+- ✅ No capability anchor merely restates the full target scope.
+- ✅ No capability anchor is merely an implementation mechanism.
+- ✅ No unrelated capabilities are grouped without justification.
+- ✅ No capability anchor is split into isolated low-level actions.
+- ✅ Grouping vs. Splitting Test applied to every capability anchor.
 - ✅ Capability boundaries are clear, inspectable, and non-overlapping.
 
 #### Capability Boundary Test Result
