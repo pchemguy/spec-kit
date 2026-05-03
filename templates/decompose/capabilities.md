@@ -48,13 +48,32 @@ The LLM MUST identify:
 
 ---
 
+### Capability Model
+
+All capability anchors MUST belong to exactly one of:
+
+1. **Core User Capability** — represents primary user intent.
+2. **Non-Functional and Form-Factor (NFFF) Aspect** — derived from NFFF aspects meeting NFFF Promotion Requirements.
+3. **Supporting Functional Capability** — domain functionality supporting the core user capability without introducing a distinct NFFF dimension.
+
+The LLM MUST:
+
+- identify core user capabilities first;
+- classify and promote NFFF aspects next;
+- derive supporting functional capabilities last;
+- ensure no capability mixes multiple categories.
+
+
+
+---
+
 ### Rules
 
 #### Core User Capability
 
-The LLM MUST identify the core user capability or capabilities represented by the target scope before naming capability anchors.
+The LLM MUST identify the core user capability or capabilities represented by the target scope before scoping capability anchors.
 
-A **core user capability** is a primary user-recognizable need or job-to-be-done that the target scope satisfies, independent of the specific domain form, interaction model, architectural approach, delivery mechanism, or implementation solution used to satisfy it.
+A **core user capability** represents a primary user intent. It is a primary user-recognizable need or job-to-be-done that the target scope satisfies, independent of the specific domain form, interaction model, architectural approach, delivery mechanism, or implementation solution used to satisfy it.
 
 When the target description expresses a specific solution form, the LLM MUST distinguish:
 
@@ -74,59 +93,6 @@ For each proposed capability anchor, the LLM MUST ask:
 If the anchor is named/scoped for a specific solution form, interaction model, technology, access context, or delivery mechanism, the LLM MUST verify that the underlying core user capability is represented by a separate dedicated anchor or that no distinct core user capability is being hidden.
 
 If a core user capability is hidden inside a solution-form anchor, the LLM MUST split or revise the anchor set.
-
----
-
-#### Decomposition
-
-The LLM MUST derive each capability anchor, including its capability name and `Scope signal`, from:
-
-- the target description and explicitly stated behavior;
-- strongly implied user-facing behavior;
-- specified usability, access, launch, delivery, environment, or runtime requirements;
-- structural completeness expectations implied by the kind of target scope being described.
-
-Each capability anchor MUST:
-
-- use a concise user-facing name;
-- state the end-user value or functional intent in the anchor summary;
-- include a `Scope signal` that briefly identifies what belongs under the capability;
-- avoid implementation-first naming unless the target requirement is itself about user access, launch, delivery, runtime, or environment experience;
-- avoid low-level action names when a broader user-recognizable capability name is available.
-
-The `Scope signal` MUST be brief and boundary-oriented.
-
-The `Scope signal` MUST NOT contain:
-
-- implementation steps;
-- validation scenarios;
-- acceptance criteria;
-- task details;
-- sequencing;
-- exhaustive behavior lists.
-
-The capability anchor set MUST:
-
-- cover all meaningful user-facing capabilities described or strongly implied by the target description;
-- include dedicated anchors for core user capabilities that represent the primary user needs or jobs-to-be-done in the target scope;
-- cover NFFF aspects according to NFFF Promotion Requirements;
-- distinguish core user capabilities from solution forms, NFFF aspects, supporting behaviors, and implementation mechanisms;
-- describe cohesive user-facing capability areas;
-- translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the target scope;
-- prefer end-user value and functional intent over implementation structure;
-- remain coarse enough to avoid becoming a list of isolated actions;
-- remain specific enough to make capability coverage and boundaries inspectable.
-
-The capability anchor set MUST NOT:
-
-- copy the target description as a single broad capability;
-- let a domain-specific solution form or interaction model absorb the underlying user need it serves;
-- hide primary user needs inside broad umbrella anchors named after a solution form, technology choice, access context, or delivery mechanism;
-- collapse unrelated capabilities merely because they were mentioned together;
-- split capabilities into isolated operations or low-level actions;
-- group potentially related capabilities when the target description indicates distinct user intent, access mode, environment, or delivery expectation;
-- describe internal mechanisms unless they directly affect user-visible access, behavior, or experience;
-- include implementation plans, validation scenarios, acceptance criteria, task lists, or sequencing.
 
 ---
 
@@ -201,6 +167,59 @@ If no explicit or strongly implied NFFF aspects are found, the classification ta
 18. **Configuration and Customization** — preferences, profiles, themes, shortcuts, config files, policies, presets.
 19. **Privacy and Data Ownership** — local-only data, cloud data, exportability, encryption, retention, third-party processing.
 20. **Target Audience and Operational Ownership** — consumer, power user, developer, admin, operator, organization, public/internal/enterprise.
+
+---
+
+#### Decomposition
+
+The LLM MUST derive each capability anchor, including its capability name and `Scope signal`, from:
+
+- the target description and explicitly stated behavior;
+- strongly implied user-facing behavior;
+- specified usability, access, launch, delivery, environment, or runtime requirements;
+- structural completeness expectations implied by the kind of target scope being described.
+
+Each capability anchor MUST:
+
+- use a concise user-facing name;
+- state the end-user value or functional intent in the anchor summary;
+- include a `Scope signal` that briefly identifies what belongs under the capability;
+- avoid implementation-first naming unless the target requirement is itself about user access, launch, delivery, runtime, or environment experience;
+- avoid low-level action names when a broader user-recognizable capability name is available.
+
+The `Scope signal` MUST be brief and boundary-oriented.
+
+The `Scope signal` MUST NOT contain:
+
+- implementation steps;
+- validation scenarios;
+- acceptance criteria;
+- task details;
+- sequencing;
+- exhaustive behavior lists.
+
+The capability anchor set MUST:
+
+- cover all meaningful user-facing capabilities described or strongly implied by the target description;
+- include dedicated anchors for core user capabilities that represent the primary user needs or jobs-to-be-done in the target scope;
+- cover NFFF aspects according to NFFF Promotion Requirements;
+- distinguish core user capabilities from solution forms, NFFF aspects, supporting behaviors, and implementation mechanisms;
+- describe cohesive user-facing capability areas;
+- translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the target scope;
+- prefer end-user value and functional intent over implementation structure;
+- remain coarse enough to avoid becoming a list of isolated actions;
+- remain specific enough to make capability coverage and boundaries inspectable.
+
+The capability anchor set MUST NOT:
+
+- copy the target description as a single broad capability;
+- let a domain-specific solution form or interaction model absorb the underlying user need it serves;
+- hide primary user needs inside broad umbrella anchors named after a solution form, technology choice, access context, or delivery mechanism;
+- collapse unrelated capabilities merely because they were mentioned together;
+- split capabilities into isolated operations or low-level actions;
+- group potentially related capabilities when the target description indicates distinct user intent, access mode, environment, or delivery expectation;
+- describe internal mechanisms unless they directly affect user-visible access, behavior, or experience;
+- include implementation plans, validation scenarios, acceptance criteria, task lists, or sequencing.
 
 ---
 
