@@ -140,7 +140,7 @@ The LLM MUST inspect all **Non-Functional and Form-Factor Aspect Taxonomy** cate
 For each explicit or strongly implied non-functional or form-factor aspect, the LLM MUST classify it on two axes:
 
 1. **User-facing relevance**
-    - **Capability-relevant aspect** — the aspect materially changes user-visible value, access, control, recovery, trust, portability, environment, ownership, or experience.
+    - **Capability-relevant aspect** — the aspect materially affects user-visible value or experience through one or more categories in the **Non-Functional and Form-Factor Aspect Taxonomy**, including product form, access, launch, delivery, interface modality, interaction style, runtime environment, portability, persistence, identity, integration, recovery, observability, privacy, ownership, trust, or operational use.
     - **Cross-cutting constraint** — the aspect constrains one or more capability anchors but is not itself a distinct user-recognizable capability area.
     - **Not user-facing or not materially relevant** — the aspect does not materially affect capability decomposition.
 2. **Implementation separability**
@@ -148,16 +148,16 @@ For each explicit or strongly implied non-functional or form-factor aspect, the 
     - **Implementation constraint** — the aspect constrains implementation choices, compatibility, validation, or quality expectations but does not imply a separable workstream.
     - **No distinct implementation implication** — the aspect does not materially affect implementation structure.
 
-A NFFF aspect MUST become a dedicated capability anchor when it is classified as `Capability-relevant aspect`.
+A NFFF aspect MUST NOT be absorbed into a core user capability anchor when it is classified as:
 
-A NFFF aspect SHOULD become a dedicated capability anchor when it is classified as both:
-
-- `Cross-cutting constraint`; and
-- `Implementation workstream`.
-
-A NFFF aspect MUST NOT be absorbed into a core user capability anchor when it materially affects product form, access, launch, delivery, interface modality, interaction style, runtime environment, portability, persistence, identity, integration, recovery, observability, privacy, ownership, or operational use.
+- `Capability-relevant aspect`; or
+- both `Cross-cutting constraint` and `Implementation workstream`.
 
 The LLM MUST prefer explicit NFFF aspect capability anchors over hiding NFFF aspect concerns inside broad domain capability anchors.
+
+Distinct NFFF aspects MUST be evaluated independently and MUST be represented by dedicated capability anchors when they materially differ in user-visible behavior or experience as defined by the **Non-Functional and Form-Factor Aspect Taxonomy**.
+
+The LLM MUST NOT collapse materially distinct NFFF alternatives into a single generic capability anchor merely because they belong to the same taxonomy category, support the same core user capability, or share implementation components.
 
 ---
 
