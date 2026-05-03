@@ -281,10 +281,10 @@ The LLM MUST return only the following output structure:
 | ------ | ----------------- | --------------------- | ---------------------------- |
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
 
-### Capability Anchor Validation Checklist
+### Capability Anchor Validation Results
 
-- ✅ [Validation Checklist item]
-- ✅ [Validation Checklist item]
+- [Status] [Validation Checklist item]
+- [Status] [Validation Checklist item]
 
 #### Capability Boundary Test Result
 
@@ -295,7 +295,15 @@ The LLM MUST return only the following output structure:
 Result: Valid
 ```
 
-The LLM MUST NOT include any section not shown in the Capability Decomposition Report Template.
+The items in **Capability Anchor Validation Results** MUST correspond exactly, in order and content, to the items defined in the **Validation Checklist** section.  
+  
+The LLM MUST:  
+  
+- evaluate each checklist item from the **Validation Checklist**;  
+- render each `[Validation Checklist item]` here with its evaluated `[Status]` (`✅` or `❌`);  
+- NOT introduce new items;  
+- NOT omit any items;  
+- NOT rephrase checklist items.
 
 ---
 
