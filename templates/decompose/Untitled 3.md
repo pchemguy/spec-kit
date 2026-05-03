@@ -19,9 +19,10 @@ Sate semantics and its transformations are key implementation details belonging 
 
 ---
 
-#### 2. NFFF Capability Anchors (Form / Access / Experience Layer)
+#### Non-Functional and Form-Factor Aspects (NFFF Aspects)
 
 **Definition**
+
 Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience that does **not affect or govern core state**.
 
 **Role**
