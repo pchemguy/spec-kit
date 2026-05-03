@@ -109,8 +109,8 @@ The capability anchor set MUST:
 
 - cover all meaningful user-facing capabilities described or strongly implied by the target description;
 - include dedicated anchors for core user capabilities that represent the primary user needs or jobs-to-be-done in the target scope;
-- cover specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects;
-- distinguish core user capabilities from domain forms, interaction models, supporting behaviors, access contexts, and delivery mechanisms;
+- cover NFFF aspects according to NFFF Promotion Requirements;
+- distinguish core user capabilities from solution forms, NFFF aspects, supporting behaviors, and implementation mechanisms;
 - describe cohesive user-facing capability areas;
 - translate architectural, deployment, or delivery requirements into user-centric terms based on how the user accesses, launches, uses, or experiences the target scope;
 - prefer end-user value and functional intent over implementation structure;
@@ -169,13 +169,13 @@ The LLM MUST prefer explicit NFFF aspect capability anchors over hiding NFFF asp
 
 ##### NFFF Classification Rules
 
-Every extracted Non-Functional and Form-Factor Aspect MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
+Every extracted NFFF aspect or explicitly stated or strongly implied alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
 
-Each `Taxonomy Category` cell MAY contain multiple **NFFF Aspect Taxonomy** categories when the aspect spans more than one category.
+Each `Taxonomy Category` cell MAY contain multiple **NFFF Aspect Taxonomy** categories when the aspect or alternative spans more than one category.
 
-The classification table MUST NOT include aspects that are neither explicit nor strongly implied by the target description.
+The classification table MUST NOT include aspects or alternatives that are neither explicit nor strongly implied by the target description.
 
-If no explicit or strongly implied Non-Functional and Form-Factor Aspects are found, the classification table MUST contain one row with `None identified` in the `Aspect` column and `N/A` in the remaining columns.
+If no explicit or strongly implied NFFF aspects are found, the classification table MUST contain one row with `None identified` in the `Aspect` column and `N/A` in the remaining columns.
 
 ---
 
@@ -281,27 +281,16 @@ The LLM MUST return only the following output structure:
 | ------ | ----------------- | --------------------- | ---------------------------- |
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
 
-### Capability Anchor Validation Result
+### Capability Anchor Validation Checklist
 
-- ✅ Target-description coverage checked.
-- ✅ Core user capabilities are represented by dedicated capability anchors.
-- ✅ Domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities.
-- ✅ Non-functional and form-factor (NFFF) aspects were classified per NFFF Classification Rules before inclusion.
-- ✅ Every explicit or strongly implied NFFF aspect appears exactly once in the classification table.
-- ✅ The classification table does not include aspects that are neither explicit nor strongly implied by the target description.
-- ✅ NFFF aspects and distinct alternatives of the same NFFF aspect that meet NFFF Promotion Requirements are represented as separate capability anchors and are not absorbed into core user capability anchors.
-- ✅ Every capability anchor corresponds either to a core user capability or to a classified NFFF aspect.
-- ✅ No capability anchor is merely an implementation mechanism.
-- ✅ No unrelated capabilities are grouped without justification.
-- ✅ No capability anchor is split into isolated low-level actions.
-- ✅ Grouping vs. Splitting Test applied to every capability anchor.
-- ✅ Capability boundaries are clear, inspectable, and non-overlapping.
+- ✅ [Validation Checklist item]
+- ✅ [Validation Checklist item]
 
 #### Capability Boundary Test Result
 
-| Capability Anchor | Core Capability Assessment | Grouping/Splitting Assessment | Boundary Decision | Justification |
-| ----------------- | -------------------------- | ----------------------------- | ----------------- | ------------- |
-| [Capability Name] | [Assessment of whether the anchor represents a user need or a solution form, and whether any core capability is hidden] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+| Capability Anchor | Capability Source Assessment | Grouping/Splitting Assessment | Boundary Decision | Justification |
+| ----------------- | ---------------------------- | ----------------------------- | ----------------- | ------------- |
+| [Capability Name] | [Assessment of whether the anchor represents a core user capability or a classified NFFF aspect/alternative, and whether any core user capability or promoted NFFF aspect is hidden] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
 
 Result: Valid
 ```
@@ -312,7 +301,7 @@ The LLM MUST NOT include any section not shown in the Capability Decomposition R
 
 ### Validation
 
-The LLM MUST apply validation checks defined in `Capability Anchor Validation Result`, `Non-Functional and Form-Factor Aspect Classification`, `Core Capability Test`, and `Grouping vs. Splitting Test` to the candidate capability anchor set and extracted aspect classification.
+The LLM MUST apply validation checks defined in **Validation Checklist**, **Core Capability Test**, and **Grouping vs. Splitting Test** to the candidate capability anchor set and extracted aspect classification.
 
 During execution of the `Core Capability Test` and `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
 
@@ -333,20 +322,28 @@ The LLM MUST return only an output where:
 
 ---
 
+#### Validation Checklist
+
+- (✅/❌) Target-description coverage checked.
+- (✅/❌) Core user capabilities are represented by dedicated capability anchors.
+- (✅/❌) Non-functional and form-factor (NFFF) aspects were classified per NFFF Classification Rules before inclusion.
+- (✅/❌) Core user capabilities are not subsumed by solution forms or NFFF aspects.
+- (✅/❌) Every explicit or strongly implied NFFF aspect or alternative appears exactly once in the classification table.
+- (✅/❌) The classification table does not include aspects or alternatives that are neither explicit nor strongly implied by the target description.
+- (✅/❌) NFFF aspects and alternatives that meet NFFF Promotion Requirements are represented as separate capability anchors and are not absorbed into core user capability anchors.
+- (✅/❌) Every capability anchor corresponds either to a core user capability or to a classified NFFF aspect or alternative.
+- (✅/❌) No capability anchor is merely an implementation mechanism.
+- (✅/❌) No unrelated capabilities are grouped without justification.
+- (✅/❌) No capability anchor is split into isolated low-level actions.
+- (✅/❌) Grouping vs. Splitting Test applied to every capability anchor.
+- (✅/❌) Capability boundaries are clear, inspectable, and non-overlapping.
+
+---
+
 ### Completion Criteria
 
 This analysis is complete only when:
 
-- a capability anchor set has been produced;
-- all meaningful user-facing capabilities from the target description are represented;
-- core user capabilities are represented by dedicated capability anchors;
-- every explicit or strongly implied non-functional and form-factor aspect appears exactly once in the classification table;
-- the classification table excludes aspects that are neither explicit nor strongly implied by the target description;
-- domain forms, interaction models, technology choices, access contexts, packaging approaches, and delivery contexts do not subsume core user capabilities;
-- specified or strongly implied usability, access, launch, delivery, environment, and runtime aspects are represented where applicable;
-- every capability anchor is user-centric and functionally cohesive;
-- no capability anchor merely restates the full target scope;
-- no capability anchor is merely an implementation mechanism;
-- no capability anchor is split into isolated low-level actions;
-- capability boundaries are clear, inspectable, and non-overlapping;
-- the validation result is passing.
+- a capability anchor set has been produced;  
+- the **Validation Checklist** is fully satisfied;  
+- the validation result is `Valid`.
