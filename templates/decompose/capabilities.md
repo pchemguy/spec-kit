@@ -14,6 +14,12 @@ A **capability anchor** is a coarse functional area that reflects something an e
 
 Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
+Each capability stated in the target description or strongly implied MUST be classified according to **Capability Model** as:
+
+- **Core User Capability** — if it defines primary user intent and core state semantics.
+- **Supporting Functional Capability** — if it affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
+- **Non-Functional and Form-Factor (NFFF) Aspect** — if it defines user access, interaction form, environment, or experience without affecting core state.
+
 ---
 
 ### Protocol
@@ -21,14 +27,19 @@ Capability anchors create a concise user-centric map of the target scope. They i
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Identify the core user capability or capabilities represented by the target scope according to **Core User Capability**.
-3. Inspect the **NFFF Aspect Taxonomy** and extract every explicit or strongly implied **Non-Functional and Form-Factor Aspect** present in the target description.
-4. Classify each extracted NFFF aspect by **NFFF Aspect Taxonomy** category and according to **NFFF Promotion Requirements**.
-5. Produce the **Non-Functional and Form-Factor Aspect Classification** table.
-6. Decompose the target scope into a candidate capability anchor set based on the **Rules**, including the results of the Non-Functional and Form-Factor Aspect Classification.
-7. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
-8. Perform candidate set **Validation** and revise it until all validation checks pass.
-9. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
+2. Identify explicit or strongly implied candidate capabilities from the target description.
+3. Classify each candidate capability according to the **Capability Model**:
+    1) Identify the **Core User Capability** or capabilities.
+    2) Evaluate each remaining candidate capability based on its conceptual semantic interaction with state:
+        - If it implies mutation, validation, control, recovery, or interpretation of core state → **Supporting Functional Capability**.
+        - Otherwise → evaluate as **NFFF Aspect**.
+    3) Classify and promote NFFF Aspects according to NFFF Promotion Requirements.
+    4) Produce the **Non-Functional and Form-Factor Aspect Classification** table.
+    5) Ensure every capability is assigned to exactly one category and revise any ambiguous classifications until this condition holds.
+4. Construct the candidate **capability anchor set** from the classified capabilities according to the **Rules**.
+5. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
+6. Perform candidate set **Validation** and revise it until all validation checks pass.
+7. Return the Capability Decomposition Report according to **Capability Decomposition Report Template**.
 
 If a material ambiguity prevents valid report output, the LLM MUST ask a targeted clarification question instead of returning the Capability Decomposition Report.
 
@@ -49,12 +60,6 @@ The LLM MUST identify:
 ---
 
 ### Capability Model
-
-A capability MUST be classified as:
-
-- **Core User Capability** — if it defines primary user intent and core state semantics.
-- **Supporting Functional Capability** — if it affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
-- **Non-Functional and Form-Factor (NFFF) Aspect** — if it defines user access, interaction form, environment, or experience without affecting core state.
 
 #### Core User Capability
 
@@ -97,13 +102,22 @@ Represents core-state-affecting, core-state-governing, or core-state-focused fun
 * includes control, validation, and recovery logic;
 * MUST NOT introduce a new form, access mode, or environment.
 
+**Supporting Functional Capability vs. NFFF Aspect Classification**
+
+A Supporting Functional Capability MUST NOT be classified as a NFFF Aspect solely because it has a user-visible interface or interaction surface. The LLM MUST classify based on capability semantics, not surface form:
+
+- **Supporting Functional Capability**: Capability's primary purpose is to operate on, validate, control, or recover system data or execution, even if it has a user interface.
+- **NFFF Aspect**: Capability's primary purpose is to define how the user accesses, interacts with, or experiences the system, and it does not operate on core-state semantics.
+
+When both appear present, the LLM MUST classify based on the dominant semantic role.
+
 ---
 
 #### Non-Functional and Form-Factor Aspects (NFFF Aspects)
 
 **Definition**
 
-Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience that does **not affect, govern, or derive behavior from core state semantics**. A Supporting Functional Capability MUST NOT be classified as a NFFF Aspect solely because it has a user-visible interface or interaction surface.
+Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not include mutation, validation, control, recovery, or interpretation of core state.
 
 **Role**
 
@@ -111,16 +125,7 @@ Represents a distinct user-facing form, access path, interface modality, runtime
 * represents form, environment, interface, delivery, and operational context;
 * is orthogonal to domain logic and core-state behavior.
 
----
-
-The LLM MUST:
-
-- identify core user capabilities first;
-- identify supporting functional capabilities next;
-- classify and promote NFFF aspects last;
-- ensure no capability mixes multiple categories.
-
-A NFFF Capability Anchor MUST NOT:
+An NFFF aspect capability MUST NOT:
 
 - mutate the core state;
 - define core-state transition rules;
