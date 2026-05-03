@@ -15,3 +15,10 @@ What basic user needs would such a program satisfy? Give me terse narrowly focus
 "I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
 
 What basic user needs would such a program satisfy? Give me terse focused bullet(s) grounded in the provided description, each stating one simple need.  If more than 1 bullet is provided, sort them, starting with the most general.
+
+Check the order. Is the most general comes first? It should still be the most important relevant, as in a marketing feature list.
+# v4
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+What basic user needs would such a program satisfy? Give me terse focused bullet(s) grounded in the provided description, each stating one simple need.  If more than 1 bullet is provided, sort them, starting with the most general. Generate a preliminary set first, prioritize bullets, then verify that the most important/general comes first. Your objective is to attract as many potential users as possible by advertising the key feature/functionality in the least restrictive/specific manner.
