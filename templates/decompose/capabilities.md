@@ -64,13 +64,18 @@ Represents primary user intent and defines the core state and its transformation
 
 **Role**
 
-* anchors *why the system exists*
-* defines domain intent and core state semantics
-* drives decomposition of domain behavior
+* anchors *why the system exists*;
+* defines domain intent and core state semantics;
+* drives decomposition of domain behavior.
 
 **Important**
 
-Sate semantics and its transformations are key implementation details belonging to data/domain modeling. Target description may or may not provide any desired constrains on domain modeling. Throughout the capability decomposition process, target **state** should generally remain abstract/conceptual and primarily used for identifying supporting functional capabilities as distinct from NFFF aspects.
+State semantics and transformations define the conceptual domain model, not its implementation.
+
+The target description may or may not constrain domain modeling. During capability decomposition, **state MUST remain conceptual** and is used only to:
+
+- identify what constitutes core user capability; and
+- distinguish Supporting Functional Capabilities from NFFF Aspects.
 
 ---
 
@@ -82,15 +87,29 @@ Represents core-state-affecting, core-state-governing, or core-state-focused fun
 
 **Role**
 
-* ensures observability, correctness, completeness, and recoverability
-* remains within the same user mental model
+* MAY affect user-visible behavior, but only through core-state interaction (not through form, access, or environment);
+* ensures observability, correctness, completeness, and recoverability;
+* remains within the same user mental model.
 
 **Important properties**
 
-* operates on or governs core state
-* includes control, validation, and recovery logic
-* MUST NOT introduce a new form, access mode, or environment
+* operates on or governs core state;
+* includes control, validation, and recovery logic;
+* MUST NOT introduce a new form, access mode, or environment.
 
+---
+
+#### Non-Functional and Form-Factor Aspects (NFFF Aspects)
+
+**Definition**
+
+Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience that does **not affect, govern, or derive behavior from core state semantics**. A Supporting Functional Capability MUST NOT be classified as a NFFF Aspect solely because it has a user-visible interface or interaction surface.
+
+**Role**
+
+* defines *how the user accesses, interacts with, or experiences the system*;
+* represents form, environment, interface, delivery, and operational context;
+* is orthogonal to domain logic and core-state behavior.
 
 ---
 
