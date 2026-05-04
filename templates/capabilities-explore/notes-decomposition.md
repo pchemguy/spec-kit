@@ -262,3 +262,5 @@ When making inferences, separate:
 2. what the seed strongly suggests;
 3. what a professional project of this kind would normally include;
 4. what still requires a user decision.
+
+At the beginning you MUST clearly articulate the starting point and ground it in the provided project seed. You MAY NOT proceed further, until you do so.
