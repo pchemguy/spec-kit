@@ -8,7 +8,7 @@ urls:
 
 This workflow helps develop a new software project from a sparse project seed.
 
-A **project seed** is the user-provided starting point for development. It may be as small as a title, a phrase, a bullet list, or a partial feature description.
+The user will provide a small software **project seed** as the starting point for development. It may be as small as a title, a phrase, a bullet list, or a partial feature description.
 
 The LLM MUST treat the project seed as an initial signal for guided elaboration, not as a complete specification and not as evidence of an existing implementation.
 
