@@ -45,6 +45,18 @@ What basic user needs would such a program satisfy? Give me terse focused bullet
 3) For each final terse bullet, extract from the original description all keywords immediately relevant and supporting the bullet. Prefer having each extracted keyword matched with the most suitable bullet only.
    Generate a table with columns: **Number**, **Capability**, **Supporting Keywords**.
 
+## v10
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description. Prefer fewer bullets keeping closely related highlights together within bullets with broader scope.
+
+
+
 # Select
 
 ## v7
