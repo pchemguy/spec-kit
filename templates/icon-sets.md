@@ -19,6 +19,10 @@ Below is a **curated, high-compatibility set**, grouped by intent (so you can re
 
 ---
 
+🔢↩️🌐🎨
+
+---
+
 ## ✅ Core Status / Validation
 
 * ✅ pass / success
