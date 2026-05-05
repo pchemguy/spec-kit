@@ -55,8 +55,6 @@ What basic user needs would such a program satisfy? Give me terse focused bullet
 
 Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description. Prefer fewer bullets keeping closely related highlights together within bullets with broader scope.
 
-
-
 # Select
 
 ## v7
