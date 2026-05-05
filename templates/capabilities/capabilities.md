@@ -25,32 +25,11 @@ A **capability anchor** is a coarse functional area that reflects something an e
 
 Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
-Each explicit or strongly implied capability MUST be identified and classified according to the **Capability Model** as:
+A capability is classified based on whether its semantics imply interaction with conceptual system state and its relation to primary user intent, not on its interface, presentation, or implementation form. Each explicit or strongly implied capability MUST be identified and classified according to the **Capability Model** as:
 
 - **Core User Capability** — defines primary user intent and core state semantics.
 - **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
 - **Non-Functional and Form-Factor (NFFF) Aspect** — defines user access, interaction form, environment, or experience without affecting core state.
-
-
-## Capability Decomposition
-
-Capability decomposition is positioned as an early stage in a staged, iterative, interactive process aimed to perform analysis of a development target prior to proceeding to GitHub Spec Kit specification-driven development workflow. An important part of the capability decomposition is high-level classification of extracted capabilities. The objective of this classification is to provide a mental model for LLM to improve capability identification and scoping, as well as for subsequent downstream analysis, which ultimately yields well-defined specific task sets for implementation by a coding agent.
-
-The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
-
-The **target description** is the input text or contextual material provided for analysis.
-
-A **target scope** is the described product, system, feature area, extension, change, or project evolution being analyzed. It MAY represent a complete new system or a bounded change to an existing system.
-
-A **capability anchor** is a coarse functional area that reflects something an end user would recognize, intentionally use, access, rely on, or care about.
-
-Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
-
-Each explicit or strongly implied capability MUST be identified and classified according to **Capability Model** as:
-
-- **Core User Capability** — if it defines primary user intent and core state semantics.
-- **Supporting Functional Capability** — if it affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
-- **Non-Functional and Form-Factor (NFFF) Aspect** — if it defines user access, interaction form, environment, or experience without affecting core state.
 
 ---
 
