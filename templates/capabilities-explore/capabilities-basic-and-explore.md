@@ -89,3 +89,17 @@ Generate a feature/highlights list for the described target.
 **Run Analysis**
 
 Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description.
+
+## v11
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+Your objective is to describe the key functionality in a way that would attract the widest relevant set of users.
+
+- Each bullet should answer: "What user need does this satisfy?"
+- Keep bullet titles terse and to the point.
+- Add bullet description and include extracted specific keywords / short phrases from the source that elaborate the bullet.
