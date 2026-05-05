@@ -101,6 +101,6 @@ Generate a feature/highlights list for the described target GROUNDED SOLELY in t
 Your objective is to describe the key functionality in a way that would attract the widest relevant set of users.
 
 - Each bullet should answer: "What user need does this satisfy?"
-- Keep bullet titles terse and to the point.
+- Keep bullet titles terse but still meaningful and to the point.
 - Add bullet description and include extracted specific keywords / short phrases from the source that elaborate the bullet.
 - Sort the bullets in order of descending importance, starting with the most important. one The most important bullet is the one that provides the core functionality: even if only this bullet is implemented, the app should still be useful.
