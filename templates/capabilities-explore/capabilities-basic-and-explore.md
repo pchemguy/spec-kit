@@ -1,3 +1,88 @@
+# Select
+
+## v7
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+1) What basic/direct/common user needs would described target satisfy? Give me terse, focused bullet(s), articulated as capabilities grounded in the provided description, each stating one simple need. If more than 1 bullet is provided, sort them starting with the most general.
+2) Generate a preliminary bullet set first, then prioritize the bullets, then verify that the most important/general comes first. Your objective is to attract as many potential users by highlighting the key feature/functionality in the least restrictive/specific manner, without becoming vague or overly generic. Assume that the primary target audience does not care about how a particular tool is implemented, works or what conventions it uses, as long as it gets the job done.
+3) For each final terse bullet, extract from the original description all keywords or short phrases immediately relevant and supporting the bullet. Prefer assigning each extracted keyword to the single most suitable bullet. Use exact words or short phrases from the original text where possible. Do not introduce new concepts.
+   Generate a table with columns: **Number**, **Capability**, **Supporting Keywords**.
+
+## v8
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+Generate a feature/highlights list for the described target.
+
+## v9
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description.
+
+## v11
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Run Analysis**
+
+Your objective is to describe the key functionality in a way that would attract the widest relevant set of users.
+
+- Each bullet should answer: "What user need does this satisfy?"
+- Keep bullet titles terse but still meaningful and to the point.
+- Add bullet description and include extracted specific keywords / short phrases from the source that elaborate the bullet.
+- Sort the bullets in order of descending importance, starting with the most important. one The most important bullet is the one that provides the core functionality: even if only this bullet is implemented, the app should still be useful.
+
+## v12
+
+**Given Target Project Description**
+
+"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
+
+**Perform Analysis**
+
+Your task is to identify the main user-facing capabilities described by the target description. A capability is a high-level thing an end user would care about, use, access, or rely on.
+
+Avoid both extremes:
+
+- too broad: one bullet that restates the whole target;
+- too narrow: separate bullets for every small action, button, operation, or implementation step.
+
+Process:
+
+1. Read the target description.
+2. Draft a preliminary set of capability bullets.
+3. Review it critically. Assume the first version may be wrong:
+    - Is any bullet too broad?
+    - Is any bullet too narrow?
+    - Do any bullets overlap?
+4. Revise the bullets: merge, split, remove, or rewrite bullets as needed.
+5. Sort the final bullets from most general/important to most specific.
+6. For each final bullet, extract supporting keywords from the original description.
+
+Supporting keywords must be exact words or short phrases from the original description. Prefer assigning each keyword to only the most suitable capability.
+
+Return only this table:
+
+| Number | Capability | Supporting Keywords |
+| ------ | ---------- | ------------------- |
+| 1      | ...        | ...                 |
+
 # History
 
 ## v1
@@ -54,53 +139,3 @@ What basic user needs would such a program satisfy? Give me terse focused bullet
 **Run Analysis**
 
 Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description. Prefer fewer bullets keeping closely related highlights together within bullets with broader scope.
-
-# Select
-
-## v7
-
-**Given Target Project Description**
-
-"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
-
-**Run Analysis**
-
-1) What basic/direct/common user needs would described target satisfy? Give me terse, focused bullet(s), articulated as capabilities grounded in the provided description, each stating one simple need. If more than 1 bullet is provided, sort them starting with the most general.
-2) Generate a preliminary bullet set first, then prioritize the bullets, then verify that the most important/general comes first. Your objective is to attract as many potential users by highlighting the key feature/functionality in the least restrictive/specific manner, without becoming vague or overly generic. Assume that the primary target audience does not care about how a particular tool is implemented, works or what conventions it uses, as long as it gets the job done.
-3) For each final terse bullet, extract from the original description all keywords or short phrases immediately relevant and supporting the bullet. Prefer assigning each extracted keyword to the single most suitable bullet. Use exact words or short phrases from the original text where possible. Do not introduce new concepts.
-   Generate a table with columns: **Number**, **Capability**, **Supporting Keywords**.
-
-## v8
-
-**Given Target Project Description**
-
-"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
-
-**Run Analysis**
-
-Generate a feature/highlights list for the described target.
-
-## v9
-
-**Given Target Project Description**
-
-"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
-
-**Run Analysis**
-
-Generate a feature/highlights list for the described target GROUNDED SOLELY in the provided project description. Each feature item must include a concise bulleted description, followed by colon and a list of exact immediately supporting keywords or short phrases extracted from the target description.
-
-## v11
-
-**Given Target Project Description**
-
-"I want to build an RPN calculator web app and have a packaged desktop version later on. I am thinking of supporting add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. I also want to have undo capability."
-
-**Run Analysis**
-
-Your objective is to describe the key functionality in a way that would attract the widest relevant set of users.
-
-- Each bullet should answer: "What user need does this satisfy?"
-- Keep bullet titles terse but still meaningful and to the point.
-- Add bullet description and include extracted specific keywords / short phrases from the source that elaborate the bullet.
-- Sort the bullets in order of descending importance, starting with the most important. one The most important bullet is the one that provides the core functionality: even if only this bullet is implemented, the app should still be useful.
