@@ -4,6 +4,36 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 ## Capability Decomposition
 
+Capability decomposition is an early analysis activity that converts a target description into a compact, user-centric map of the target scope.
+
+A central component of capability decomposition is **capability classification**, which provides a **structural reasoning model** that the LLM MUST use to:
+
+- distinguish primary user intent from supporting behavior and system form;
+- guide identification and scoping of capabilities;
+- prevent conflation of domain logic, supporting functionality, and form-factor concerns;
+- steer boundary decisions during capability grouping and splitting.
+
+This classification is also foundational for downstream analysis, but its primary role is to **shape decomposition itself**.
+
+The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
+
+The **target description** is the input text or contextual material provided for analysis.
+
+A **target scope** is the described product, system, feature area, extension, change, or project evolution being analyzed. It MAY represent a complete new system or a bounded change to an existing system.
+
+A **capability anchor** is a coarse functional area that reflects something an end user would recognize, intentionally use, access, rely on, or care about.
+
+Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
+
+Each explicit or strongly implied capability MUST be identified and classified according to the **Capability Model** as:
+
+- **Core User Capability** — defines primary user intent and core state semantics.
+- **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
+- **Non-Functional and Form-Factor (NFFF) Aspect** — defines user access, interaction form, environment, or experience without affecting core state.
+
+
+## Capability Decomposition
+
 Capability decomposition is positioned as an early stage in a staged, iterative, interactive process aimed to perform analysis of a development target prior to proceeding to GitHub Spec Kit specification-driven development workflow. An important part of the capability decomposition is high-level classification of extracted capabilities. The objective of this classification is to provide a mental model for LLM to improve capability identification and scoping, as well as for subsequent downstream analysis, which ultimately yields well-defined specific task sets for implementation by a coding agent.
 
 The LLM MUST decompose the target scope into a set of high-level user-centric capability anchors.
