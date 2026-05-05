@@ -40,7 +40,7 @@ Each capability MUST be assigned to exactly one of:
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Perform capability decomposition as a **coupled activity**:
+2. Perform capability decomposition as a coupled activity:
     - identify explicit or strongly implied capabilities;
     - classify each capability according to the **Capability Model**;
     - construct candidate capability anchors by grouping compatible capabilities.
@@ -50,14 +50,14 @@ The LLM MUST execute this module in order:
     2) For each additional (non-core) capability, determine its dominant semantic role based on whether its primary purpose is::
         - If it implies mutation, validation, control, recovery, or interpretation of core state → **Supporting Functional Capability**.
         - Otherwise → **Non-Functional and Form-Factor (NFFF) Aspect**.
-    3) Apply classification **during grouping**, ensuring:
+    3) Apply classification during grouping, ensuring:
         - each capability is assigned to exactly one category;
         - no capability anchor mixes categories.
-    4) Classify and promote NFFF Aspects according to **NFFF Promotion Requirements**.
+    4) Classify and promote NFFF Aspects according to **NFFF Evaluation Pipeline**.
     5) Produce the **Non-Functional and Form-Factor Aspect Classification** table.
-3. Apply the **Core Capability Test** and **Grouping vs. Splitting Test** to every candidate capability anchor.
-4. Perform candidate set **Validation** and revise it until all validation checks pass.
-5. Return the Capability Decomposition Report according to **Report Template**.
+1. Apply the **Core Capability Test** and test in **Boundary and Grouping Rules** to every candidate capability anchor.
+2. Perform candidate set **Validation** and revise it until all validation checks pass.
+3. Return the Capability Decomposition Report according to **Report Template**.
 
 If a material ambiguity prevents valid report output, the LLM MUST ask a targeted clarification question instead of returning the Capability Decomposition Report.
 
@@ -252,7 +252,7 @@ The LLM MUST perform the following steps for NFFF aspects:
     The LLM MUST evaluate independently:
     - each distinct NFFF aspect;
     - each alternative of the same aspect.
-
+    
     The LLM MUST NOT collapse distinct NFFF aspects or alternatives into a single generic capability anchor merely because they:
     - belong to the same taxonomy category;
     - support the same core user capability; or
@@ -535,9 +535,9 @@ The LLM MUST:
 
 ### Validation
 
-The LLM MUST apply validation checks defined in **Validation Checklist**, **Core Capability Test**, and **Grouping vs. Splitting Test** to the candidate capability anchor set and extracted aspect classification.
+The LLM MUST apply validation checks defined in **Validation Checklist**, **Core Capability Test**, and the test in **Boundary and Grouping Rules** to the candidate capability anchor set and extracted aspect classification.
 
-During execution of the `Core Capability Test` and `Grouping vs. Splitting Test`, the `Boundary Decision` MUST use one of the following values:
+During execution of the tests, the `Boundary Decision` MUST use one of the following values:
 
 - `Keep` — the capability anchor is valid for the final report.
 - `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
@@ -558,19 +558,20 @@ The LLM MUST return only an output where:
 
 #### Validation Checklist
 
-- (✅/❌) Target-description coverage checked.
-- (✅/❌) Core user capabilities are represented by dedicated capability anchors.
-- (✅/❌) Non-functional and form-factor (NFFF) aspects were classified per NFFF Classification Rules before inclusion.
-- (✅/❌) Core user capabilities are not subsumed by solution forms or NFFF aspects.
-- (✅/❌) Every explicit or strongly implied NFFF aspect or alternative appears exactly once in the classification table.
-- (✅/❌) The classification table does not include aspects or alternatives that are neither explicit nor strongly implied by the target description.
-- (✅/❌) NFFF aspects and alternatives that meet NFFF Promotion Requirements are represented as separate capability anchors and are not absorbed into core user capability anchors.
-- (✅/❌) Every capability anchor corresponds either to a core user capability or to a classified NFFF aspect or alternative.
-- (✅/❌) No capability anchor is merely an implementation mechanism.
-- (✅/❌) No unrelated capabilities are grouped without justification.
-- (✅/❌) No capability anchor is split into isolated low-level actions.
-- (✅/❌) Grouping vs. Splitting Test applied to every capability anchor.
-- (✅/❌) Capability boundaries are clear, inspectable, and non-overlapping.
+- (✅/❌) The target description and target scope were interpreted without adding unsupported capabilities.
+- (✅/❌) Every explicit or strongly implied capability from the target description is represented by the capability anchor set.
+- (✅/❌) Each capability anchor corresponds to exactly one Capability Model category: Core User Capability, Supporting Functional Capability, or promoted NFFF Aspect.
+- (✅/❌) Every Core User Capability is represented by a dedicated capability anchor.
+- (✅/❌) No Core User Capability is subsumed by a solution form, interaction model, technology choice, access mode, delivery context, Supporting Functional Capability, or NFFF Aspect.
+- (✅/❌) Every identified NFFF aspect or alternative appears exactly once in the Non-Functional and Form-Factor Aspect Classification table.
+- (✅/❌) The Non-Functional and Form-Factor Aspect Classification table contains only explicit or strongly implied NFFF aspects or alternatives from the target description.
+- (✅/❌) Every NFFF aspect or alternative that meets NFFF promotion requirements is represented by a dedicated capability anchor.
+- (✅/❌) No promoted NFFF aspect or alternative is absorbed into a Core User Capability or Supporting Functional Capability anchor.
+- (✅/❌) No capability anchor is merely an implementation mechanism or task.
+- (✅/❌) No capability anchor groups unrelated capabilities.
+- (✅/❌) No capability anchor splits a capability into isolated low-level actions.
+- (✅/❌) The test in Boundary and Grouping Rules was applied to every capability anchor.
+- (✅/❌) Capability boundaries are clear, inspectable, category-consistent, and non-overlapping.
 
 ---
 
@@ -580,4 +581,4 @@ This analysis is complete only when:
 
 - a capability anchor set has been produced;  
 - the **Validation Checklist** is fully satisfied;  
-- the validation result is `Valid`.
+- the validation result is `VALID`.
