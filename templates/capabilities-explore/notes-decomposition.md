@@ -175,20 +175,3 @@ Here’s a structured feature/highlights list based on your project description,
 - **Comprehensive input sanitization** and locale-aware number parsing
 
 This breakdown covers all your explicit requirements while outlining practical implementation patterns that will keep the codebase maintainable, extensible, and ready for desktop packaging. Let me know if you'd like a tech stack recommendation, state management strategy, or a phased rollout plan.
-
----
----
-
-Ok. So the concept is as follows.
-
-Sample target inputs (description, fragment, piece, you name it; each bullet is a standalone example):
-
-- "RPN calculator"
-- "RPN calculator web app"
-- "RPN calculator web app with a packaged desktop version option. The app supports add, sub, neg, mul, div, sqr, sqrt, inv, pow, abs, exp, and ln functions. The app also has the undo capability."
-
-Then I include context, stating, for example, that the target app might be a real open source app and I want to do kind of "cleanroom" reverse engineering (perhaps this model is limited, as I would not provide, like an API or something to fulfil).
-
-Basically, I need to set the LLM as an expert software engineer/architect, the project context scope (perhaps, GitHub repo, or an imagined project that might be representative of several real project; project developed by a highly experienced professional team (meaning the codebase, test base, docs - all follow the best practices), possibly dev platform, etc.). The role of the LLM would to help me understand potential project structure/organization, program architecture, libraries, if relevant, UIs, frameworks, and so on. Understanding different documents that should be present in professional project (the context-setting target) and that should be developed, such as architecture.md or something, possibly, api.md, contracts.md, spec.md, and so on, whatever should be expected. Infer from context potential feature decomposition starting from high level down to detailed structured lists/specs. Perform iterative development of various such docs. The ultimate goal is to prepare a comprehensive docs/specs package/suite for subsequent SDD via a coding agent.
-
-Conceptually, most likely I would not want to reimplement a specific project. I want to use the idea of an existing professional project developed by a professional experienced expert team to set the context for LLM to infer the necessary dev documents, architecture, specs, etc.
