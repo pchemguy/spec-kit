@@ -23,7 +23,7 @@ A **target scope** is the described product, system, feature area, extension, ch
 
 A **capability anchor** is a coarse functional area that reflects something an end user would recognize, intentionally use, access, rely on, or care about. Capability anchors create a concise user-centric map of the target scope. They identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
-As part of capability decomposition, the LLM MUST identify each explicit or strongly implied capability and classify it according to the **Capability Model** before constructing the final capability anchor set.
+As part of capability decomposition, the LLM MUST identify each explicit or strongly implied capability and classify it according to the **Capability Model**.
 
 A capability is classified based on whether its semantics imply interaction with conceptual system state and its relation to primary user intent, not on its interface, presentation, or implementation form.
 
@@ -47,7 +47,7 @@ The LLM MUST execute this module in order:
     
     During this step, the LLM MUST:
     1) Identify the **Core User Capability** or capabilities.
-    2) For each additional (non-core) capability, determine its dominant semantic role:
+    2) For each additional (non-core) capability, determine its dominant semantic role based on whether its primary purpose is::
         - If it implies mutation, validation, control, recovery, or interpretation of core state → **Supporting Functional Capability**.
         - Otherwise → **Non-Functional and Form-Factor (NFFF) Aspect**.
     3) Apply classification **during grouping**, ensuring:
@@ -139,7 +139,7 @@ When the target description expresses a specific solution form, the LLM MUST dis
 
 ##### Constraints
 
-The capability anchor set MUST include one or more dedicated capability anchors representing each identified core user capability.
+The capability anchor set MUST include one or more dedicated capability anchors representing each core user capability, without fragmentation of the core intent.
 
 The LLM MUST NOT allow:
 
@@ -203,7 +203,7 @@ When both appear present, the LLM MUST classify based on the dominant semantic r
 
 ##### Definition and Role
 
-Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not include mutation, validation, control, recovery, or interpretation of core state.
+Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not operate on core state.
 
 An NFFF Aspect:
 
@@ -313,6 +313,24 @@ The LLM MUST determine capability boundaries using the following ordered evaluat
 5. **Access or environment distinction** — whether behaviors imply different access, launch, or runtime contexts.
 6. **Coverage clarity** — whether grouping improves or obscures understanding of system capabilities.
 
+For each proposed capability anchor, the LLM MUST ask:
+
+> Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
+
+The LLM MUST test whether the capability anchor differs materially from adjacent or related capability anchors in:
+
+- user intent;
+- user mental model;
+- access or discoverability;
+- interaction frequency;
+- required expertise;
+- environment or runtime context;
+- baseline versus advanced use.
+
+If one or more material differences exist inside a proposed capability anchor, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
+
+If a proposed capability anchor is too narrow to represent a meaningful user-facing capability area, the LLM SHOULD merge it with the nearest cohesive anchor.
+
 ---
 
 ##### Mandatory Constraints
@@ -379,31 +397,9 @@ The LLM MAY use established product conventions within the target domain as supp
 
 ---
 
-#### Grouping vs. Splitting Test
-
-For each proposed capability anchor, the LLM MUST ask:
-
-> Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
-
-The LLM MUST test whether the capability anchor differs materially from adjacent or related capability anchors in:
-
-- user intent;
-- user mental model;
-- access or discoverability;
-- interaction frequency;
-- required expertise;
-- environment or runtime context;
-- baseline versus advanced use.
-
-If one or more material differences exist inside a proposed capability anchor, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
-
-If a proposed capability anchor is too narrow to represent a meaningful user-facing capability area, the LLM SHOULD merge it with the nearest cohesive anchor.
-
----
-
 ### Capability Anchor Construction
 
-Capability anchors are constructed as part of the decomposition process by identifying and grouping user-recognizable capabilities derived from the target description.
+Capability anchors are constructed as part of the decomposition process by identifying and grouping capabilities while applying classification constraints.
 
 Capability identification, classification, and grouping are **interdependent activities**:
 
@@ -431,24 +427,6 @@ The LLM MUST derive anchors from:
 - strongly implied user-facing behavior;
 - usability, access, launch, delivery, environment, and runtime concerns;
 - structural completeness expectations implied by the target scope.
-
----
-
-#### Classification-Constrained Grouping
-
-During construction, the LLM MUST ensure:
-
-- each capability is classified according to the Capability Model;
-- grouping decisions respect classification boundaries.
-
-The LLM MUST NOT:
-
-- group capabilities from different Capability Model categories into a single anchor;
-- defer classification until after anchor construction;
-- construct anchors that mix:
-    - Core User Capability;
-    - Supporting Functional Capability;
-    - NFFF Aspects (when promoted).
 
 ---
 
@@ -540,7 +518,7 @@ The LLM MUST return only the following output structure:
 | ----------------- | ---------------------------- | ----------------------------- | ----------------- | ------------- |
 | [Capability Name] | [Assessment of whether the anchor represents a core user capability or a classified NFFF aspect/alternative, and whether any core user capability or promoted NFFF aspect is hidden] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
 
-Result: Valid
+Result: VALID
 ```
 
 The items in **Capability Anchor Validation Results** MUST correspond exactly, in order and content, to the items defined in the **Validation Checklist** section.  
