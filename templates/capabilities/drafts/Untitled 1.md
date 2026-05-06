@@ -101,3 +101,19 @@ As part of capability decomposition, the LLM MUST identify explicit or strongly 
 
 ---
 
+
+
+2. Extract capability signals from the target description.
+
+    During this step, the LLM MUST identify exact keywords, terms, and short phrases that can ground later capability inference and classification.
+
+    Capability signals SHOULD be retained when they help infer or scope:
+
+    - user-recognizable value or intent;
+    - user-visible behavior;
+    - conceptual state interaction;
+    - access, interface, environment, or runtime experience;
+    - form-factor or delivery concerns;
+    - correction, recovery, validation, or control behavior.
+
+    The LLM MUST discard text fragments that are unrelated, too ambiguous without immediate context, or not materially relevant to capability decomposition.
