@@ -75,30 +75,30 @@ If a material ambiguity prevents valid report output, the LLM MUST ask a targete
 
 ### Purpose
 
-The capability anchor set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
+The capability set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
 
-The LLM MUST produce a capability anchor set that:
+The LLM MUST produce a capability set that:
 
-- captures the **primary user intent** through dedicated Core User Capability anchors;
-- includes all **supporting functional capabilities** required to make the core capability usable, correct, and coherent;
-- represents all **Non-Functional and Form-Factor (NFFF) aspects** that meet promotion requirements;
-- preserves clear separation between capability categories defined by the Capability Model;
-- reflects how users **access, use, and experience** the system, not how it is implemented.
+- captures primary user intent through dedicated Core User Capabilities;
+- includes Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
+- represents NFFF Aspects that meet promotion requirements;
+- preserves clear separation between Capability Model categories;
+- reflects how users access, use, and experience the system, not how it is implemented.
 
-The capability anchor set MUST make explicit:
+The capability set MUST make explicit:
 
 - major user-recognizable capability areas;
-- the user value or functional intent of each capability anchor;
+- the user value or functional intent of each capability;
 - natural capability boundaries implied by:
     - user intent;
     - interaction patterns;
     - access and environment differences;
 - usability, access, launch, delivery, environment, and runtime concerns that materially affect user experience.
 
-The capability anchor set MUST ensure that:
+The capability set MUST ensure that:
 
-- combining anchors would obscure distinct user intent or experience;
-- splitting anchors would not produce low-value or overly narrow capability fragments;
+- combining capabilities would not obscure distinct user intent or experience;
+- splitting capabilities would not produce low-value or overly narrow fragments;
 - all meaningful capabilities from the target description are represented without redundancy or conflation.
 
 ---
