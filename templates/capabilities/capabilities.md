@@ -488,6 +488,32 @@ representation of the target scope suitable for boundary evaluation and downstre
 
 ---
 
+#### Grounding and Keyword Traceability
+
+All structured outputs produced during capability decomposition that include an `Extracted Keywords` column MUST be grounded in the target description.
+
+The `Extracted Keywords` column serves as a traceability mechanism linking each row to source signals in the target description.
+
+The `Extracted Keywords` column MUST:
+
+- contain only keywords or short phrases derived directly from the target description;
+- use verbatim text where possible, with minimal normalization;
+- include only terms that directly support identification of the corresponding row;
+- be concise and non-redundant.
+
+The `Extracted Keywords` column MUST NOT:
+
+- introduce inferred terminology not grounded in the target description;
+- restate the full row description;
+- include explanations, sentences, or interpretations;
+- mix unrelated concepts.
+
+Each keyword or phrase SHOULD be assigned to the most appropriate row only, avoiding duplication across multiple rows unless it genuinely supports multiple distinct items.
+
+When multiple tables include `Extracted Keywords`, the LLM MUST ensure consistent grounding across all tables.
+
+---
+
 ### Report Template
 
 The LLM MUST return only the following output structure:
@@ -503,11 +529,13 @@ The LLM MUST return only the following output structure:
 
 ### Non-Functional and Form-Factor Aspect Classification
 
-| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
-| ------ | ----------------- | --------------------- | ---------------------------- |
-| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
+| Aspect                                | Taxonomy Category                 | User-Facing Relevance | Implementation Separability | Extracted Keywords                                                                          |
+| ------------------------------------- | --------------------------------- | --------------------- | --------------------------- | ------------------------------------------------------------------------------------------- |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification]      | [Classification]            | [Verbatim or minimally normalized keywords or short phrases directly supporting the aspect] |
 
-### Capability Anchor Validation Results
+### **VALIDATION**
+
+#### Capability Anchor Validation Results
 
 - [Status] [Validation Checklist item]
 - [Status] [Validation Checklist item]
