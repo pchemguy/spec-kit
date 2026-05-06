@@ -629,20 +629,43 @@ The LLM MUST return only an output where:
 
 #### Validation Checklist
 
-- (✅/❌) The target description and target scope were interpreted without introducing unsupported capabilities.
-- (✅/❌) Every explicit or strongly implied capability from the target description is represented in the capability set.
-- (✅/❌) Each capability corresponds to exactly one Capability Model category: Core User Capability, Supporting Functional Capability, or promoted NFFF Aspect.
-- (✅/❌) Every Core User Capability is represented by a dedicated capability.
-- (✅/❌) No Core User Capability is subsumed by a solution form, interaction model, technology choice, access mode, delivery context, Supporting Functional Capability, or NFFF Aspect.
-- (✅/❌) Every identified NFFF aspect or alternative appears exactly once in the Non-Functional and Form-Factor Aspect Classification table.
-- (✅/❌) The NFFF classification table contains only explicit or strongly implied aspects or alternatives from the target description.
-- (✅/❌) Every NFFF aspect or alternative that meets promotion requirements is represented by a dedicated capability.
-- (✅/❌) No promoted NFFF aspect or alternative is absorbed into a Core User Capability or Supporting Functional Capability.
-- (✅/❌) No capability represents only an implementation mechanism or task.
-- (✅/❌) No capability groups unrelated capability candidates.
-- (✅/❌) No capability is fragmented into isolated low-level actions.
-- (✅/❌) The Boundary Test was applied to every capability.
-- (✅/❌) Capability boundaries are clear, inspectable, category-consistent, and non-overlapping.
+- (✅/❌) No capability is present that cannot be traced to at least one capability signal from the target description.
+- (✅/❌) Every explicit or strongly implied capability signal is represented by at least one capability.
+- (✅/❌) Every capability is assigned to exactly one Capability Model category:
+    - Core User Capability;
+    - Supporting Functional Capability;
+    - NFFF Aspect.
+- (✅/❌) At least one capability exists for each identified Core User Capability.
+- (✅/❌) No capability classified as Core User Capability includes:
+    - solution form;
+    - interaction model;
+    - technology choice;
+    - access mode;
+    - delivery context;
+    - Supporting Functional Capability semantics;
+    - NFFF Aspect semantics.
+- (✅/❌) Every identified NFFF aspect or alternative appears exactly once in the NFFF classification table.
+- (✅/❌) Every row in the NFFF classification table is supported by at least one capability signal.
+- (✅/❌) Every NFFF aspect or alternative that meets promotion conditions is represented by exactly one capability.
+- (✅/❌) No capability classified as Core User Capability or Supporting Functional Capability contains a promoted NFFF aspect.
+- (✅/❌) No capability is defined solely as:
+    - an implementation mechanism;
+    - a task;
+    - a processing step.
+- (✅/❌) No capability contains candidate fragments that:
+    - serve different user-recognizable purposes;
+    - imply materially different user intents;
+    - imply materially different access, environment, or runtime expectations.
+- (✅/❌) No two capabilities exist such that:
+    - they serve the same user-recognizable purpose; AND
+    - they share the same user intent; AND
+    - they share the same access, environment, and runtime expectations.
+- (✅/❌) Every capability has:
+    - a user-recognizable purpose;
+    - a single dominant user intent;
+    - a coherent scope signal.
+- (✅/❌) For every capability, a Boundary Decision of `Keep` is justified by absence of valid `Split`, `Merge`, or `Revise` conditions.
+- (✅/❌) The final capability set contains no overlapping capability scopes.
 
 ---
 
