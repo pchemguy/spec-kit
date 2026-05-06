@@ -107,7 +107,7 @@ The capability anchor set MUST ensure that:
 
 ##### Definition and Role
 
-Represents primary user intent and the fundamental transformation or use of conceptual system state required to fulfill it.
+Represents primary user intent and the fundamental use or transformation of conceptual system state required to fulfill it.
 
 A Core User Capability:
 
@@ -117,18 +117,18 @@ A Core User Capability:
 
 State semantics and transformations define the conceptual domain model, not its implementation.
 
-The target description may or may not constrain domain modeling. During capability decomposition, **state MUST remain conceptual** and MUST be used only to:
+During capability decomposition, state MUST remain conceptual and MUST be used only to:
 
-* identify what constitutes core user capability; and
+* identify what constitutes a Core User Capability; and
 * distinguish Supporting Functional Capabilities from NFFF Aspects.
 
 ---
 
 ##### Identification Rules
 
-The LLM MUST identify the core user capability or capabilities represented by the target scope before constructing the capability anchor set.
+The LLM MUST identify the Core User Capability or capabilities represented by the target scope before constructing the capability set.
 
-A core user capability is a primary user-recognizable need or job-to-be-done satisfied by the target scope, independent of:
+A Core User Capability is a primary user-recognizable need or job-to-be-done satisfied by the target scope, independent of:
 
 * domain form;
 * interaction model;
@@ -147,7 +147,7 @@ When the target description expresses a specific solution form, the LLM MUST dis
 
 ##### Constraints
 
-The capability anchor set MUST include one or more dedicated capability anchors representing each core user capability, without fragmentation of the core intent.
+The capability set MUST include one or more capabilities representing each Core User Capability, without fragmentation of the core intent.
 
 The LLM MUST NOT allow:
 
@@ -157,25 +157,24 @@ The LLM MUST NOT allow:
 * a packaging approach;
 * a delivery context;
 
-to subsume or obscure the core user capability.
+to subsume or obscure the Core User Capability.
 
 ---
 
 ##### Core Capability Test
 
-For each proposed capability anchor, the LLM MUST ask:
+For each proposed capability, the LLM MUST ask:
 
-> Is this anchor defined around the user need being satisfied, or around a specific way of satisfying it?
+> Is this capability defined around the user need being satisfied, or around a specific way of satisfying it?
 
-If the anchor is named or scoped in terms of a specific solution form, interaction model, technology, access context, or delivery mechanism, the LLM MUST verify that:
+If a capability is named or scoped in terms of a specific solution form, interaction model, technology, access context, or delivery mechanism, the LLM MUST verify that:
 
-* the underlying core user capability is represented by a separate dedicated anchor; or
-* no distinct core user capability is being hidden.
+* the underlying Core User Capability is represented by a separate capability; or
+* no distinct Core User Capability is being hidden.
 
-If a core user capability is hidden inside a solution-form anchor, the LLM MUST split or revise the anchor set.
+If a Core User Capability is hidden inside a solution-form capability, the LLM MUST split or revise the capability set.
 
 ---
-
 
 #### Supporting Functional Capability
 
