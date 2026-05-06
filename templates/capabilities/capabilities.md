@@ -180,16 +180,16 @@ If a Core User Capability is hidden inside a solution-form capability, the LLM M
 
 ##### Definition and Role
 
-Represents core-state-affecting, core-state-governing, or core-state-focused functionality required to make the core user capability usable, correct, and coherent.
+Represents functionality that affects, governs, validates, interprets, controls, recovers, or transforms conceptual core state in order to make the Core User Capability usable, correct, and coherent.
 
 A Supporting Functional Capability:
 
-* MAY affect user-visible behavior, but only through core-state interaction, not through form, access, or environment;
+* MAY affect user-visible behavior, but only through interaction with core state;
 * ensures observability, correctness, completeness, and recoverability;
-* remains within the same user mental model;
+* remains within the same user mental model as the Core User Capability;
 * operates on or governs core state;
-* includes control, validation, and recovery logic;
-* MUST NOT introduce a new form, access mode, or environment.
+* includes control, validation, interpretation, and recovery logic;
+* MUST NOT introduce a distinct form, access mode, interface modality, runtime environment, or operational experience.
 
 ---
 
@@ -199,7 +199,7 @@ A Supporting Functional Capability MUST NOT be classified as a NFFF Aspect solel
 
 The LLM MUST classify based on capability semantics, not surface form:
 
-* **Supporting Functional Capability** — the capability's primary purpose is to operate on, validate, control, recover, or interpret system data or execution, even if it has a user interface.
+* **Supporting Functional Capability** — the capability's primary purpose is to operate on, validate, control, recover, interpret, or transform system data, execution, or conceptual core state, even if it has a user-visible interface.
 * **NFFF Aspect** — the capability's primary purpose is to define how the user accesses, interacts with, or experiences the system, and it does not operate on core-state semantics.
 
 When both appear present, the LLM MUST classify based on the dominant semantic role.
