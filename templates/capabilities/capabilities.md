@@ -719,7 +719,7 @@ Verify NFFF handling.
 Checks:
 
 - Every identified NFFF aspect appears exactly once in the classification table.
-- Every table row is grounded in ≥1 capability signal.
+- Every table row corresponds to an NFFF aspect capability grounded in ≥1 capability signal.
 - Every promotable NFFF aspect is represented by exactly one capability.
 - No promoted NFFF aspect is embedded in non-NFFF capabilities.
 
@@ -928,7 +928,7 @@ After applying a revision, the LLM MUST restart the **Validation Algorithm** fro
 ###### Boundary Consistency
 
 - `OVERLAPPING_CAPABILITIES`  
-    → Adjust scope boundarys OR split capabilities to eliminate overlap.
+    → Adjust scope boundaries OR split capabilities to eliminate overlap.
 - `REDUNDANT_CAPABILITIES`  
     → Merge or remove duplicate capabilities.
 - `INCOHERENT_BOUNDARY`  
