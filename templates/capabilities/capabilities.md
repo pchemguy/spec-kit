@@ -439,32 +439,33 @@ The LLM MAY use established product conventions within the target domain as supp
 
 ---
 
-### Capability Anchor Construction
+### Capability Construction
 
-Capability anchors are constructed as part of the decomposition process by identifying and grouping capabilities while applying classification constraints.
+Capabilities are constructed as part of capability decomposition by identifying capability candidates, applying classification constraints, and grouping or splitting candidates into cohesive user-recognizable areas.
 
-Capability identification, classification, and grouping are **interdependent activities**:
+Capability identification, classification, and grouping are interdependent activities:
 
-- capabilities are identified from the target description;
-- classification according to the Capability Model is applied as capabilities are inferred;
-- capability anchors are formed by grouping compatible capabilities into cohesive areas.
+- capability candidates are inferred from capability signals in the target description;
+- classification according to the Capability Model is applied as candidates are inferred and scoped;
+- capabilities are formed by grouping, splitting, revising, or rejecting capability candidates.
 
-The LLM MUST use classification to **govern anchor construction**, not as a separate pre- or post-processing step.
+The LLM MUST use classification to govern capability construction, not as a separate pre- or post-processing step.
 
 ---
 
 #### Construction Principles
 
-Each capability anchor MUST:
+Each capability MUST:
 
 - use a concise, user-facing name;
 - express a clear end-user value or functional intent;
 - include a `Scope signal` that defines what belongs within the capability boundary;
-- group capabilities that are semantically cohesive and category-consistent under the Capability Model;
-- reflect user-recognizable functionality, not implementation structure.
+- be semantically cohesive and category-consistent under the Capability Model;
+- reflect user-recognizable value, behavior, access, or experience, not implementation structure.
 
-The LLM MUST derive anchors from:
+The LLM MUST construct capabilities from:
 
+- capability signals in the target description;
 - explicitly stated behavior;
 - strongly implied user-facing behavior;
 - usability, access, launch, delivery, environment, and runtime concerns;
@@ -490,12 +491,12 @@ The `Scope signal` MUST NOT contain:
 
 #### Coverage and Structure Requirements
 
-The capability anchor set MUST:
+The capability set MUST:
 
-- cover all meaningful user-facing capabilities described or strongly implied by the target description;
-- include dedicated anchors for Core User Capabilities;
-- include dedicated anchors for NFFF Aspects that meet promotion requirements;
-- preserve clear separation between capability categories;
+- cover all meaningful capabilities described or strongly implied by the target description;
+- include dedicated capabilities for Core User Capabilities;
+- include dedicated capabilities for NFFF Aspects that meet promotion requirements;
+- preserve clear separation between Capability Model categories;
 - represent cohesive, inspectable capability areas;
 - translate system concerns into user-centric terms of access, usage, and experience;
 - balance granularity:
@@ -508,7 +509,7 @@ The capability anchor set MUST:
 
 The LLM MUST NOT:
 
-- construct anchors independently of classification;
+- construct capabilities independently of classification;
 - restate the entire target scope as a single capability;
 - allow solution forms, technologies, or delivery contexts to subsume core user intent;
 - collapse distinct capabilities due to shared implementation;
@@ -520,7 +521,7 @@ The LLM MUST NOT:
 
 #### Construction Objective
 
-The resulting capability anchor set MUST form a:
+The resulting capability set MUST form a:
 
 - compact;
 - user-centric;
@@ -530,11 +531,11 @@ representation of the target scope suitable for boundary evaluation and downstre
 
 ---
 
-#### Grounding and Keyword Traceability
+### Grounding and Keyword Traceability
 
 All structured outputs produced during capability decomposition that include an `Extracted Keywords` column MUST be grounded in the target description.
 
-The `Extracted Keywords` column serves as a traceability mechanism linking each row to source signals in the target description.
+The `Extracted Keywords` column serves as a traceability mechanism linking each row to capability signals in the target description.
 
 The `Extracted Keywords` column MUST:
 
