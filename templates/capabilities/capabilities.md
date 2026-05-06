@@ -50,26 +50,40 @@ As part of capability decomposition, the LLM MUST identify explicit or strongly 
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Perform capability decomposition as a coupled activity:
-    - identify explicit or strongly implied capabilities;
-    - classify each capability according to the **Capability Model**;
-    - construct candidate capability anchors by grouping compatible capabilities.
-    
-    During this step, the LLM MUST:
-    1) Identify the **Core User Capability** or capabilities.
-    2) For each additional (non-core) capability, determine its dominant semantic role based on whether its primary purpose is::
-        - If it implies mutation, validation, control, recovery, or interpretation of core state → **Supporting Functional Capability**.
-        - Otherwise → **Non-Functional and Form-Factor (NFFF) Aspect**.
-    3) Apply classification during grouping, ensuring:
-        - each capability is assigned to exactly one category;
-        - no capability anchor mixes categories.
-    4) Classify and promote NFFF Aspects according to **NFFF Evaluation Pipeline**.
-    5) Produce the **Non-Functional and Form-Factor Aspect Classification** table.
-1. Apply the **Core Capability Test** and test in **Boundary and Grouping Rules** to every candidate capability anchor.
-2. Perform candidate set **Validation** and revise it until all validation checks pass.
-3. Return the Capability Decomposition Report according to **Report Template**.
+2. Extract capability signals from the target description.
+    During this step, the LLM MUST identify exact keywords, terms, and short phrases that provide evidence for:
+    - Core User Capabilities;
+    - Supporting Functional Capabilities;
+    - Non-Functional and Form-Factor (NFFF) Aspects;
+    - capability boundaries;
+    - user-recognizable functionality;
+    - user access, interaction, environment, runtime, or delivery characteristics;
 
-If a material ambiguity prevents valid report output, the LLM MUST ask a targeted clarification question instead of returning the Capability Decomposition Report.
+    The LLM MUST extract signals that indicate:
+    - what functionality or experience the target scope provides;
+    - what user needs or jobs-to-be-done the target scope satisfies;
+    - how users access, interact with, or experience the target scope;
+    - what supporting or governing behavior is required to make the target scope usable, correct, or coherent.
+3. Perform capability decomposition as a coupled activity. 
+    During this step, the LLM MUST:   
+    - infer capability candidates from capability signals;
+    - classify capability candidates according to the Capability Model;
+    - group, split, revise, or reject capability candidates to construct the capability set.
+    
+    The LLM MUST:
+    1. identify Core User Capabilities;  
+    2. determine the dominant semantic role of each non-core capability candidate:
+        - Supporting Functional Capability — if the candidate primarily implies mutation, validation, control, recovery, or interpretation of core state;
+        - NFFF Aspect — otherwise; 
+    3. apply classification during capability construction, ensuring:
+        - each capability belongs to exactly one Capability Model category;
+        - no capability mixes category semantics;
+    4. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
+    5. produce the **Non-Functional and Form-Factor Aspect Classification** table.
+4. Validate the capability set and extracted NFFF aspect classification according to the **Validation** section.
+5. Return the final Capability Decomposition Report according to the **Report Template**.
+
+If a material ambiguity prevents valid output, the LLM MUST ask a targeted clarification question instead of returning the report.
 
 ---
 
@@ -373,13 +387,13 @@ During boundary evaluation, each capability MUST receive one `Boundary Decision`
 - `Keep` — the capability is valid for the final output.
 - `Split` — the capability is too broad and MUST be decomposed into separate capabilities.
 - `Merge` — the capability is too narrow and MUST be combined with another capability.
-- `Revise` — the capability name, value statement, or scope signal MUST be corrected.
+- `Revise` — the capability name, value statement, or scope boundary MUST be corrected.
 
 If one or more material differences exist within a proposed capability, the LLM SHOULD assign `Split` unless doing so would produce low-value or overly narrow capabilities.
 
 If a proposed capability is too narrow to represent a meaningful user-facing area, the LLM SHOULD assign `Merge`.
 
-If the capability name, value statement, or scope signal is inaccurate or unclear, the LLM SHOULD assign `Revise`.
+If the capability name, value statement, or scope boundary is inaccurate or unclear, the LLM SHOULD assign `Revise`.
 
 The LLM MUST assign `Keep` only when no `Split`, `Merge`, or `Revise` condition applies.
 
@@ -456,11 +470,33 @@ Capabilities are constructed as part of capability decomposition by identifying 
 
 Capability identification, classification, and grouping are interdependent activities:
 
-- capability candidates are inferred from capability signals in the target description;
+- capability candidates are inferred from capability signals extracted from the target description;
 - classification according to the Capability Model is applied as candidates are inferred and scoped;
 - capabilities are formed by grouping, splitting, revising, or rejecting capability candidates.
 
 The LLM MUST use classification to govern capability construction, not as a separate pre- or post-processing step.
+
+---
+
+#### Capability Signal Constraints
+
+Capability construction MUST be grounded in capability signals extracted from the target description.
+
+Capability signals MUST:
+
+- use verbatim text where possible, with minimal normalization;
+- directly support capability identification, classification, or scoping decisions;
+- provide evidence used during grouping and splitting evaluation;
+- remain concise and non-redundant.
+
+Capability signals MUST NOT:
+
+- introduce inferred terminology not grounded in the target description;
+- restate full capability descriptions;
+- include explanations, interpretations, or sentences;
+- combine unrelated source concepts.
+
+The LLM MUST NOT construct capability semantics that exceed what is reasonably supported by the associated capability signals and their immediate context.
 
 ---
 
@@ -470,7 +506,7 @@ Each capability MUST:
 
 - use a concise, user-facing name;
 - express a clear end-user value or functional intent;
-- include a `Scope signal` that defines what belongs within the capability boundary;
+- include a `Scope boundary` that defines what belongs within the capability boundary;
 - be semantically cohesive and category-consistent under the Capability Model;
 - reflect user-recognizable value, behavior, access, or experience, not implementation structure.
 
@@ -484,14 +520,14 @@ The LLM MUST construct capabilities from:
 
 ---
 
-#### Scope Signal Requirements
+#### Scope Boundary Requirements
 
-The `Scope signal` MUST:
+The `Scope boundary` MUST:
 
 - be brief and boundary-oriented;
 - clarify inclusion boundaries without enumerating behaviors.
 
-The `Scope signal` MUST NOT contain:
+The `Scope boundary` MUST NOT contain:
 
 - implementation steps;
 - validation or acceptance logic;
@@ -542,29 +578,15 @@ representation of the target scope suitable for boundary evaluation and downstre
 
 ---
 
-### Grounding and Keyword Traceability
+### Grounding and Capability Signal Traceability
 
-All structured outputs produced during capability decomposition that include an `Extracted Keywords` column MUST be grounded in the target description.
+Any `Extracted Keywords` field MUST contain one or more capability signals.
 
-The `Extracted Keywords` column serves as a traceability mechanism linking each row to capability signals in the target description.
+The `Extracted Keywords` field provides traceability between the reported item and the target description.
 
-The `Extracted Keywords` column MUST:
+Each capability signal SHOULD be assigned to the most appropriate capability or classification row only, avoiding duplication unless the signal genuinely supports multiple distinct items.
 
-- contain only keywords or short phrases derived directly from the target description;
-- use verbatim text where possible, with minimal normalization;
-- include only terms that directly support identification of the corresponding row;
-- be concise and non-redundant.
-
-The `Extracted Keywords` column MUST NOT:
-
-- introduce inferred terminology not grounded in the target description;
-- restate the full row description;
-- include explanations, sentences, or interpretations;
-- mix unrelated concepts.
-
-Each keyword or phrase SHOULD be assigned to the most appropriate row only, avoiding duplication across multiple rows unless it genuinely supports multiple distinct items.
-
-When multiple tables include `Extracted Keywords`, the LLM MUST ensure consistent grounding across all tables.
+When multiple outputs contain `Extracted Keywords`, the LLM MUST maintain consistent grounding and signal usage across all outputs.
 
 ---
 
@@ -573,45 +595,24 @@ When multiple tables include `Extracted Keywords`, the LLM MUST ensure consisten
 The LLM MUST return only the following output structure:
 
 ```markdown
-## Capability Anchors
+## Capabilities
 
 - **[Capability Name]** — [End-user value / functional intent].  
-  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
+  Scope boundary: [Brief boundary-oriented scope statement].  
+  Extracted Keywords: [One or more capability signals].
 
 - **[Capability Name]** — [End-user value / functional intent].  
-  Scope signal: [Brief statement of what kinds of behavior, access, experience, or environment concern this capability includes].
+  Scope boundary: [Brief boundary-oriented scope statement].  
+  Extracted Keywords: [One or more capability signals].
 
 ### Non-Functional and Form-Factor Aspect Classification
 
-| Aspect                                | Taxonomy Category                 | User-Facing Relevance | Implementation Separability | Extracted Keywords                                                                          |
-| ------------------------------------- | --------------------------------- | --------------------- | --------------------------- | ------------------------------------------------------------------------------------------- |
-| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification]      | [Classification]            | [Verbatim or minimally normalized keywords or short phrases directly supporting the aspect] |
-
-### **VALIDATION**
-
-#### Capability Anchor Validation Results
-
-- [Status] [Validation Checklist item]
-- [Status] [Validation Checklist item]
-
-#### Capability Boundary Test Result
-
-| Capability Anchor | Capability Source Assessment | Grouping/Splitting Assessment | Boundary Decision | Justification |
-| ----------------- | ---------------------------- | ----------------------------- | ----------------- | ------------- |
-| [Capability Name] | [Assessment of whether the anchor represents a core user capability or a classified NFFF aspect/alternative, and whether any core user capability or promoted NFFF aspect is hidden] | [Assessment of whether the anchor is properly scoped] | Keep | [Brief justification based on user intent, mental model, access/discoverability, expertise, environment, or coverage clarity] |
+| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
+| ------- | ----------------- | --------------------- | --------------------------- |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
 
 Result: VALID
 ```
-
-The items in **Capability Anchor Validation Results** MUST correspond exactly, in order and content, to the items defined in the **Validation Checklist** section.  
-  
-The LLM MUST:  
-  
-- evaluate each checklist item from the **Validation Checklist**;  
-- render each `[Validation Checklist item]` here with its evaluated `[Status]` (`✅` or `❌`);  
-- NOT introduce new items;  
-- NOT omit any items;  
-- NOT rephrase checklist items.
 
 ---
 
@@ -745,7 +746,7 @@ Checks:
 - Every capability has:
     - one user-recognizable purpose;
     - one dominant user intent;
-    - a coherent scope signal.
+    - a coherent scope boundary.
 
 Failure Types:
 
@@ -901,7 +902,7 @@ After applying a revision, the LLM MUST restart the **Validation Algorithm** fro
 - `NO_USER_INTENT`  
     → Redefine the capability around a clear user-recognizable purpose.
 - `INVALID_SCOPE_SIGNAL`  
-    → Rewrite the scope signal to be boundary-oriented and non-procedural.
+    → Rewrite the scope boundary to be boundary-oriented and non-procedural.
 
 ---
 
@@ -927,7 +928,7 @@ After applying a revision, the LLM MUST restart the **Validation Algorithm** fro
 ###### Boundary Consistency
 
 - `OVERLAPPING_CAPABILITIES`  
-    → Adjust scope signals OR split capabilities to eliminate overlap.
+    → Adjust scope boundarys OR split capabilities to eliminate overlap.
 - `REDUNDANT_CAPABILITIES`  
     → Merge or remove duplicate capabilities.
 - `INCOHERENT_BOUNDARY`  
