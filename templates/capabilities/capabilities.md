@@ -606,42 +606,42 @@ The LLM MUST:
 
 ### Validation
 
-The LLM MUST apply validation checks defined in **Validation Checklist**, **Core Capability Test**, and the test in **Boundary and Grouping Rules** to the candidate capability anchor set and extracted aspect classification.
+The LLM MUST apply validation checks defined in the **Validation Checklist**, **Core Capability Test**, and the test in **Capability Boundary and Cohesion** to the candidate capability set and extracted NFFF aspect classification.
 
-During execution of the tests, the `Boundary Decision` MUST use one of the following values:
+During execution of boundary evaluation, the `Boundary Decision` MUST use one of the following values:
 
-- `Keep` — the capability anchor is valid for the final report.
-- `Split` — the capability anchor is too broad and MUST be decomposed into separate anchors.
-- `Merge` — the capability anchor is too narrow and MUST be combined with another anchor.
-- `Revise` — the capability anchor name, value statement, or scope signal MUST be corrected.
+- `Keep` — the capability is valid for the final output.
+- `Split` — the capability is too broad and MUST be decomposed into separate capabilities.
+- `Merge` — the capability is too narrow and MUST be combined with another capability.
+- `Revise` — the capability name, value statement, or scope signal MUST be corrected.
 
-If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability anchor set and rerun validation before returning the output.
+If any validation item fails, or if any `Boundary Decision` is `Split`, `Merge`, or `Revise`, the LLM MUST revise the capability set and rerun validation before returning the output.
 
-Validation results MUST be presented according to **Report Template**. Boundary test results MUST be presented as the `Capability Boundary Test Result` table of the template.
+Validation results MUST be presented according to the **Report Template**. Boundary test results MUST be presented in the `Capability Boundary Test Result` table.
 
 The LLM MUST return only an output where:
 
 - every checklist item is marked `✅`;
 - every `Boundary Decision` is `Keep`;
-- `Result` is `Valid`.
+- `Result` is `VALID`.
 
 ---
 
 #### Validation Checklist
 
-- (✅/❌) The target description and target scope were interpreted without adding unsupported capabilities.
-- (✅/❌) Every explicit or strongly implied capability from the target description is represented by the capability anchor set.
-- (✅/❌) Each capability anchor corresponds to exactly one Capability Model category: Core User Capability, Supporting Functional Capability, or promoted NFFF Aspect.
-- (✅/❌) Every Core User Capability is represented by a dedicated capability anchor.
+- (✅/❌) The target description and target scope were interpreted without introducing unsupported capabilities.
+- (✅/❌) Every explicit or strongly implied capability from the target description is represented in the capability set.
+- (✅/❌) Each capability corresponds to exactly one Capability Model category: Core User Capability, Supporting Functional Capability, or promoted NFFF Aspect.
+- (✅/❌) Every Core User Capability is represented by a dedicated capability.
 - (✅/❌) No Core User Capability is subsumed by a solution form, interaction model, technology choice, access mode, delivery context, Supporting Functional Capability, or NFFF Aspect.
 - (✅/❌) Every identified NFFF aspect or alternative appears exactly once in the Non-Functional and Form-Factor Aspect Classification table.
-- (✅/❌) The Non-Functional and Form-Factor Aspect Classification table contains only explicit or strongly implied NFFF aspects or alternatives from the target description.
-- (✅/❌) Every NFFF aspect or alternative that meets NFFF promotion requirements is represented by a dedicated capability anchor.
-- (✅/❌) No promoted NFFF aspect or alternative is absorbed into a Core User Capability or Supporting Functional Capability anchor.
-- (✅/❌) No capability anchor is merely an implementation mechanism or task.
-- (✅/❌) No capability anchor groups unrelated capabilities.
-- (✅/❌) No capability anchor splits a capability into isolated low-level actions.
-- (✅/❌) The test in Boundary and Grouping Rules was applied to every capability anchor.
+- (✅/❌) The NFFF classification table contains only explicit or strongly implied aspects or alternatives from the target description.
+- (✅/❌) Every NFFF aspect or alternative that meets promotion requirements is represented by a dedicated capability.
+- (✅/❌) No promoted NFFF aspect or alternative is absorbed into a Core User Capability or Supporting Functional Capability.
+- (✅/❌) No capability represents only an implementation mechanism or task.
+- (✅/❌) No capability groups unrelated capability candidates.
+- (✅/❌) No capability is fragmented into isolated low-level actions.
+- (✅/❌) The Boundary Test was applied to every capability.
 - (✅/❌) Capability boundaries are clear, inspectable, category-consistent, and non-overlapping.
 
 ---
@@ -650,6 +650,8 @@ The LLM MUST return only an output where:
 
 This analysis is complete only when:
 
-- a capability anchor set has been produced;  
-- the **Validation Checklist** is fully satisfied;  
+- a validated capability set has been produced;
+- the **Validation Checklist** is fully satisfied;
 - the validation result is `VALID`.
+
+---
