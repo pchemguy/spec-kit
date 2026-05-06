@@ -27,6 +27,8 @@ A **capability signal** is an exact keyword, term, or short phrase from the targ
 
 A **capability** is a coarse functional or form-factor area that reflects something an end user would recognize, intentionally use, access, rely on, or care about. Capabilities form a concise, user-centric map of the target scope and identify the major kinds of value, access, behavior, or experience described or strongly implied by the target description.
 
+A **capability candidate** is a provisional capability inferred from one or more capability signals during decomposition. Capability candidates are identified, classified, grouped, split, revised, or rejected before the final capability set is returned.
+
 The LLM MUST:
 
 - use capability signals as the grounding basis for all capability identification and classification;
@@ -337,7 +339,7 @@ The LLM MUST perform the following steps for NFFF aspects:
 
 ##### Boundary and Grouping Rules
 
-Capability anchors are formed by grouping or splitting classified capabilities into cohesive, user-recognizable areas.
+Capabilities are formed by grouping or splitting capability candidates into cohesive, user-recognizable areas.
 
 The LLM MUST determine capability boundaries using the following ordered evaluation factors:
 
@@ -348,11 +350,15 @@ The LLM MUST determine capability boundaries using the following ordered evaluat
 5. **Access or environment distinction** — whether behaviors imply different access, launch, or runtime contexts.
 6. **Coverage clarity** — whether grouping improves or obscures understanding of system capabilities.
 
-For each proposed capability anchor, the LLM MUST ask:
+---
+
+##### Boundary Test
+
+For each proposed capability constructed from capability candidates, the LLM MUST ask:
 
 > Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
 
-The LLM MUST test whether the capability anchor differs materially from adjacent or related capability anchors in:
+The LLM MUST evaluate whether the proposed capability differs materially from adjacent or alternative groupings of capability candidates in:
 
 - user intent;
 - user mental model;
@@ -362,26 +368,26 @@ The LLM MUST test whether the capability anchor differs materially from adjacent
 - environment or runtime context;
 - baseline versus advanced use.
 
-If one or more material differences exist inside a proposed capability anchor, the LLM SHOULD split the anchor unless doing so would create low-value, overly narrow anchors.
+If one or more material differences exist within a proposed grouping of capability candidates, the LLM SHOULD split the capability unless doing so would produce low-value or overly narrow capabilities.
 
-If a proposed capability anchor is too narrow to represent a meaningful user-facing capability area, the LLM SHOULD merge it with the nearest cohesive anchor.
+If a proposed capability is too narrow to represent a meaningful user-facing area, the LLM SHOULD merge it with the nearest cohesive grouping of capability candidates.
 
 ---
 
 ##### Mandatory Constraints
 
-The LLM MUST NOT:
+The LLM MUST enforce Capability Model consistency during grouping of capability candidates:
 
-- group capabilities that belong to different **Capability Model categories**:
+- capability candidates belonging to different **Capability Model categories** MUST NOT be grouped:
     - Core User Capability
     - Supporting Functional Capability
     - NFFF Aspect (when promoted)
-- merge a **Core User Capability** with:
-    - Supporting Functional Capabilities; or
-    - NFFF Capability Anchors
-- absorb a promoted **NFFF Aspect** into a domain capability anchor
+- a **Core User Capability** MUST NOT be merged with:
+    - Supporting Functional Capability candidates; or
+    - NFFF capability candidates
+- a promoted **NFFF Aspect** MUST NOT be absorbed into a domain capability
 
-Each capability anchor MUST remain:
+Each resulting capability MUST remain:
 
 - category-consistent;
 - semantically cohesive;
@@ -391,14 +397,14 @@ Each capability anchor MUST remain:
 
 ##### Splitting Guidance
 
-The LLM SHOULD split capability anchors when:
+The LLM SHOULD split capability candidates into separate capabilities when:
 
 - users would perceive the behaviors as different reasons to use the system;
-- behaviors imply materially different user intents;
+- capability candidates imply materially different user intents;
 - behaviors belong to different mental models or expertise levels;
 - behaviors have different discoverability or usage patterns;
 - behaviors imply different access, environment, or runtime expectations;
-- one represents baseline use and another represents an extension;
+- one represents baseline use and another represents a meaningful extension;
 - grouping would obscure a meaningful boundary;
 - grouping would create a vague umbrella that restates the target scope.
 
@@ -406,12 +412,12 @@ The LLM SHOULD split capability anchors when:
 
 ##### Grouping Guidance
 
-The LLM SHOULD group capabilities when:
+The LLM SHOULD group capability candidates into a single capability when:
 
 - behaviors serve the same user-recognizable purpose;
 - users would naturally access and use them as one capability area;
 - separation would mirror implementation structure rather than user value;
-- separation would create overly narrow or low-value anchors;
+- separation would create overly narrow or low-value capabilities;
 - differences are variations within the same broader user intent.
 
 ---
