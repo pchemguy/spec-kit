@@ -210,7 +210,7 @@ When both appear present, the LLM MUST classify based on the dominant semantic r
 
 ##### Definition and Role
 
-Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not operate on core state.
+Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not operate on conceptual core state.
 
 An NFFF Aspect:
 
@@ -229,45 +229,72 @@ All such behavior belongs to Supporting Functional Capabilities.
 
 ---
 
+##### Identification Requirement
+
+The LLM MUST explicitly identify all NFFF aspects and their alternatives from the target description using **capability signals**.
+
+Identification MUST be grounded in:
+
+- explicit statements in the target description; or
+- strongly implied user-facing access, interaction, environment, or delivery characteristics.
+
+The LLM MUST:
+
+- inspect all **NFFF Aspect Taxonomy** categories;
+- identify each distinct NFFF aspect;
+- identify each explicitly stated or strongly implied alternative of the same aspect.
+
+The LLM MUST NOT:
+
+- invent NFFF aspects not supported by capability signals;
+- omit any aspect that is explicit or strongly implied.
+
+---
+
 ##### NFFF Evaluation Pipeline
 
 The LLM MUST perform the following steps for NFFF aspects:
 
-1. **Identification**
-    The LLM MUST inspect all **NFFF Aspect Taxonomy** categories and identify every explicit or strongly implied:
+1. **Identification**  
+    Identify every explicit or strongly implied:
     - NFFF aspect;
     - alternative of the same NFFF aspect.
     
-2. **Classification**
-    For each identified NFFF aspect or alternative, the LLM MUST classify it on two axes:
+2. **Classification**  
+    For each identified NFFF aspect or alternative, classify it on two axes:
+    
     - **User-facing relevance**
         - **Capability-relevant aspect** — materially affects user-visible value or experience.
-        - **Cross-cutting constraint** — constrains capability anchors without forming a distinct user-recognizable capability area.
+        - **Cross-cutting constraint** — constrains capabilities without forming a distinct user-recognizable capability area.
         - **Not user-facing or not materially relevant** — does not materially affect capability decomposition.
     - **Implementation separability**
         - **Implementation workstream** — implies separable build, packaging, integration, deployment, or delivery work.
         - **Implementation constraint** — constrains implementation without implying a separable workstream.
         - **No distinct implementation implication** — does not materially affect implementation structure.
     
-3. **Promotion**
-    A NFFF aspect or alternative MUST become a dedicated capability anchor when it is classified as:
+3. **Promotion**  
+    A NFFF aspect or alternative MUST become a dedicated capability when it is classified as:
+    
     - `Capability-relevant aspect`; or
     - both `Cross-cutting constraint` and `Implementation workstream`.
-    A NFFF aspect or alternative MUST NOT be absorbed into a core user capability anchor when it meets either condition.
     
-4. **Separation Constraints**
+    A NFFF aspect or alternative MUST NOT be absorbed into a Core User Capability or Supporting Functional Capability when it meets either condition.
+    
+4. **Separation Constraints**  
     The LLM MUST evaluate independently:
+    
     - each distinct NFFF aspect;
     - each alternative of the same aspect.
     
-    The LLM MUST NOT collapse distinct NFFF aspects or alternatives into a single generic capability anchor merely because they:
+    The LLM MUST NOT collapse distinct NFFF aspects or alternatives into a single generic capability merely because they:
+    
     - belong to the same taxonomy category;
-    - support the same core user capability; or
+    - support the same core user capability;
     - share implementation components.
     
-    The LLM MUST prefer explicit NFFF capability anchors over embedding NFFF concerns inside domain capability anchors.
+    The LLM MUST prefer explicit NFFF capabilities over embedding NFFF concerns inside domain capabilities.
     
-5. **Classification Table Requirements**
+5. **Classification Table Requirements**  
     Every identified NFFF aspect or alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
     
     Each `Taxonomy Category` cell MAY contain multiple categories when applicable.
@@ -275,6 +302,7 @@ The LLM MUST perform the following steps for NFFF aspects:
     The table MUST NOT include aspects or alternatives that are neither explicit nor strongly implied by the target description.
     
     If no NFFF aspects are identified, the table MUST contain one row with:
+    
     - `Aspect`: `None identified`
     - all other columns: `N/A`
 
