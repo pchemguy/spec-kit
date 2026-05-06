@@ -397,28 +397,29 @@ Each resulting capability MUST remain:
 
 ##### Splitting Guidance
 
-The LLM SHOULD split capability candidates into separate capabilities when:
+The LLM SHOULD split a capability candidate when the resulting fragmented capabilities would:
 
-- users would perceive the behaviors as different reasons to use the system;
-- capability candidates imply materially different user intents;
-- behaviors belong to different mental models or expertise levels;
-- behaviors have different discoverability or usage patterns;
-- behaviors imply different access, environment, or runtime expectations;
-- one represents baseline use and another represents a meaningful extension;
-- grouping would obscure a meaningful boundary;
-- grouping would create a vague umbrella that restates the target scope.
+- serve different user-recognizable purposes;
+- imply materially different user intents, access, environment, or runtime expectations;
+- be understood by users through different mental models or expertise levels;
+- be discovered, accessed, or used by users in materially different ways;
+- separate baseline use from a meaningful extension of use;
+- clarify an otherwise obscured capability boundary;
+- replace a vague umbrella candidate with clearer, more cohesive separate capabilities.
 
 ---
 
 ##### Grouping Guidance
 
-The LLM SHOULD group capability candidates into a single capability when:
+The LLM SHOULD group capability candidates when the grouped capability would:
 
-- behaviors serve the same user-recognizable purpose;
-- users would naturally access and use them as one capability area;
-- separation would mirror implementation structure rather than user value;
-- separation would create overly narrow or low-value capabilities;
-- differences are variations within the same broader user intent.
+- serve one user-recognizable purpose;
+- support the same broader user intent;
+- be naturally accessed and used by users as one capability area;
+- treat differences among candidates as variations within the same broader use case;
+- avoid mirroring implementation structure instead of user value;
+- avoid artificial capability boundaries;
+- avoid overly narrow or low-value capabilities.
 
 ---
 
