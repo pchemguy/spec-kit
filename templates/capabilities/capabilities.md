@@ -37,7 +37,9 @@ The LLM MUST:
 
 The LLM MUST NOT expand capability semantics beyond what is reasonably supported by the associated capability signals and their immediate context.
 
-As part of capability decomposition, the LLM MUST identify explicit or strongly implied capabilities from the target description and classify them according to the **Capability Model**. The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form. The Capability Model requires each capability to be assigned to exactly one of:
+As part of capability decomposition, the LLM MUST identify explicit or strongly implied capabilities from the target description and classify them according to the **Capability Model**. The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
+
+Each capability must be assigned exactly one Capability Model class:
 
 - **Core User Capability** — defines primary user intent and core state semantics.
 - **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
@@ -81,7 +83,7 @@ The LLM MUST execute this module in order:
     4. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
     5. produce the **Non-Functional and Form-Factor Aspect Classification** table.
 4. Validate the capability set and extracted NFFF aspect classification according to the **Validation** section.
-5. Return the final Capability Decomposition Report according to the **Report Template**.
+5. Return the final **Capability Decomposition Report** according to the **Report Template**.
 
 If a material ambiguity prevents valid output, the LLM MUST ask a targeted clarification question instead of returning the report.
 
@@ -96,7 +98,7 @@ The LLM MUST produce a capability set that:
 - captures primary user intent through dedicated Core User Capabilities;
 - includes Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
 - represents NFFF Aspects that meet promotion requirements;
-- preserves clear separation between Capability Model categories;
+- preserves clear separation between Capability Model classes;
 - reflects how users access, use, and experience the system, not how it is implemented.
 
 The capability set MUST make explicit:
@@ -403,7 +405,7 @@ The LLM MUST assign `Keep` only when no `Split`, `Merge`, or `Revise` condition 
 
 The LLM MUST enforce Capability Model consistency during grouping of capability candidates:
 
-- capability candidates belonging to different **Capability Model categories** MUST NOT be grouped:
+- capability candidates belonging to different Capability Model classes MUST NOT be grouped:
     - Core User Capability
     - Supporting Functional Capability
     - NFFF Aspect (when promoted)
@@ -543,7 +545,7 @@ The capability set MUST:
 - cover all meaningful capabilities described or strongly implied by the target description;
 - include dedicated capabilities for Core User Capabilities;
 - include dedicated capabilities for NFFF Aspects that meet promotion requirements;
-- preserve clear separation between Capability Model categories;
+- preserve clear separation between Capability Model classes;
 - represent cohesive, inspectable capability areas;
 - translate system concerns into user-centric terms of access, usage, and experience;
 - balance granularity:
@@ -595,14 +597,18 @@ When multiple outputs contain `Extracted Keywords`, the LLM MUST maintain consis
 The LLM MUST return only the following output structure:
 
 ```markdown
-## Capabilities
+## Capability Decomposition Report
+
+### Capabilities
 
 - **[Capability Name]** — [End-user value / functional intent].  
   Scope boundary: [Brief boundary-oriented scope statement].  
+  Classification: [Capability Model Class].  
   Extracted Keywords: [One or more capability signals].
 
 - **[Capability Name]** — [End-user value / functional intent].  
   Scope boundary: [Brief boundary-oriented scope statement].  
+  Classification: [Capability Model Class].  
   Extracted Keywords: [One or more capability signals].
 
 ### Non-Functional and Form-Factor Aspect Classification
@@ -625,8 +631,6 @@ If the Validation Algorithm detects any failure, the LLM MUST:
 1. apply the applicable Revision Strategy;
 2. revise the capability set;
 3. restart validation from Step 1.
-
-Validation results MUST be presented according to the **Report Template**.
 
 The LLM MUST return only an output where:
 
