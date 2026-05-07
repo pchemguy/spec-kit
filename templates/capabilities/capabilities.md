@@ -89,36 +89,6 @@ If a material ambiguity prevents valid output, the LLM MUST ask a targeted clari
 
 ---
 
-### Purpose
-
-The capability set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
-
-The LLM MUST produce a capability set that:
-
-- captures primary user intent through dedicated Core User Capabilities;
-- includes Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
-- represents NFFF Aspects that meet promotion requirements;
-- preserves clear separation between Capability Model classes;
-- reflects how users access, use, and experience the system, not how it is implemented.
-
-The capability set MUST make explicit:
-
-- major user-recognizable capability areas;
-- the user value or functional intent of each capability;
-- natural capability boundaries implied by:
-    - user intent;
-    - interaction patterns;
-    - access and environment differences;
-- usability, access, launch, delivery, environment, and runtime concerns that materially affect user experience.
-
-The capability set MUST ensure that:
-
-- combining capabilities would not obscure distinct user intent or experience;
-- splitting capabilities would not produce low-value or overly narrow fragments;
-- all meaningful capabilities from the target description are represented without redundancy or conflation.
-
----
-
 ### Capability Model
 
 #### Core User Capability
@@ -221,6 +191,22 @@ The LLM MUST classify based on capability semantics, not surface form:
 * **NFFF Aspect** — the capability's primary purpose is to define how the user accesses, interacts with, or experiences the system, and it does not operate on core-state semantics.
 
 When both appear present, the LLM MUST classify based on the dominant semantic role.
+
+---
+
+##### Constraints
+
+A Supporting Functional Capability MUST:
+
+- remain semantically subordinate to at least one Core User Capability;
+- operate on or govern conceptual core state;
+- remain within the same broader user mental model as the associated Core User Capability.
+
+A Supporting Functional Capability MUST NOT:
+
+- define a distinct user-facing form, runtime environment, or delivery context;
+- subsume a Core User Capability;
+- absorb a promotable NFFF Aspect.
 
 ---
 
@@ -368,6 +354,27 @@ The LLM MUST determine capability boundaries using the following ordered evaluat
 
 ---
 
+##### Mandatory Constraints
+
+The LLM MUST enforce Capability Model consistency during grouping of capability candidates:
+
+- capability candidates belonging to different Capability Model classes MUST NOT be grouped:
+    - Core User Capability
+    - Supporting Functional Capability
+    - NFFF Aspect (when promoted)
+- a **Core User Capability** MUST NOT be merged with:
+    - Supporting Functional Capability candidates; or
+    - NFFF capability candidates
+- a promoted **NFFF Aspect** MUST NOT be absorbed into a domain capability
+
+Each resulting capability MUST remain:
+
+- category-consistent;
+- semantically cohesive;
+- user-recognizable as a distinct capability area.
+
+---
+
 ##### Boundary Test
 
 For each proposed capability, the LLM MUST ask:
@@ -398,27 +405,6 @@ If a proposed capability is too narrow to represent a meaningful user-facing are
 If the capability name, value statement, or scope boundary is inaccurate or unclear, the LLM SHOULD assign `Revise`.
 
 The LLM MUST assign `Keep` only when no `Split`, `Merge`, or `Revise` condition applies.
-
----
-
-##### Mandatory Constraints
-
-The LLM MUST enforce Capability Model consistency during grouping of capability candidates:
-
-- capability candidates belonging to different Capability Model classes MUST NOT be grouped:
-    - Core User Capability
-    - Supporting Functional Capability
-    - NFFF Aspect (when promoted)
-- a **Core User Capability** MUST NOT be merged with:
-    - Supporting Functional Capability candidates; or
-    - NFFF capability candidates
-- a promoted **NFFF Aspect** MUST NOT be absorbed into a domain capability
-
-Each resulting capability MUST remain:
-
-- category-consistent;
-- semantically cohesive;
-- user-recognizable as a distinct capability area.
 
 ---
 
@@ -538,6 +524,28 @@ The `Scope boundary` MUST NOT contain:
 
 ---
 
+#### Capability Set Requirements
+
+The capability set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
+
+The capability set MUST:
+
+- capture primary user intent through dedicated Core User Capabilities;
+- include Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
+- represent NFFF Aspects that meet promotion requirements;
+- preserve clear separation between Capability Model classes;
+- reflect how users access, use, and experience the system, not how it is implemented;
+- make explicit the user value or functional intent of each capability;
+- expose natural capability boundaries implied by user intent, interaction patterns, access differences, and environment differences;
+- represent usability, access, launch, delivery, environment, and runtime concerns that materially affect user experience;
+- represent all meaningful capabilities from the target description without redundancy or conflation.
+
+The capability set MUST NOT:
+
+- combine capabilities when doing so would obscure distinct user intent or experience;
+- split capabilities when doing so would produce low-value or overly narrow fragments.
+ ---
+ 
 #### Coverage and Structure Requirements
 
 The capability set MUST:
