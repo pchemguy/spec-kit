@@ -52,38 +52,35 @@ Capability Model classification is foundational for downstream analysis, but its
 The LLM MUST execute this module in order:
 
 1. Interpret the target description and identify the target scope.
-2. Extract capability signals from the target description.
-    During this step, the LLM MUST identify exact keywords, terms, and short phrases that provide evidence for:
-    - Core User Capabilities;
-    - Supporting Functional Capabilities;
-    - Non-Functional and Form-Factor (NFFF) Aspects;
-    - capability boundaries;
-    - user-recognizable functionality;
-    - user access, interaction, environment, runtime, or delivery characteristics;
-
-    The LLM MUST extract signals that indicate:
-    - what functionality or experience the target scope provides;
-    - what user needs or jobs-to-be-done the target scope satisfies;
-    - how users access, interact with, or experience the target scope;
-    - what supporting or governing behavior is required to make the target scope usable, correct, or coherent.
-3. Perform capability decomposition as a coupled activity. 
-    During this step, the LLM MUST:   
-    - infer capability candidates from capability signals;
-    - classify capability candidates according to the Capability Model;
-    - group, split, revise, or reject capability candidates to construct the capability set.
-    
-    The LLM MUST:
-    1. identify Core User Capabilities;  
-    2. determine the dominant semantic role of each non-core capability candidate:
+2. Extract capability signals from the target description:
+    The LLM MUST identify exact keywords, terms, and short phrases that
+    - indicate:
+        - what functionality or experience the target scope provides;
+        - what user needs or jobs-to-be-done the target scope satisfies;
+        - how users access, interact with, or experience the target scope;
+        - what supporting or governing behavior is required to make the target scope usable, correct, or coherent;
+    - provide evidence for:
+        - Core User Capabilities;
+        - Supporting Functional Capabilities;
+        - Non-Functional and Form-Factor (NFFF) Aspects;
+        - capability boundaries;
+        - user-recognizable functionality;
+        - user access, interaction, environment, runtime, or delivery characteristics.
+3. Generate capability set. 
+    1. infer capability candidates from capability signals;
+    2. identify Core User Capability candidates;
+    3. determine the dominant semantic role of each non-core capability candidate:
         - Supporting Functional Capability — if the candidate primarily implies mutation, validation, control, recovery, or interpretation of core state;
-        - NFFF Aspect — otherwise; 
-    3. apply classification during capability construction, ensuring:
-        - each capability belongs to exactly one Capability Model category;
-        - no capability mixes category semantics;
-    4. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
-    5. produce the **Non-Functional and Form-Factor Aspect Classification** table.
+        - NFFF Aspect — otherwise;
+    4. classify capability candidates according to the Capability Model, ensuring:
+        - each capability belongs to exactly one Capability Model class;
+        - no capability mixes class semantics;
+    5. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
+    6. group, split, revise, or reject capability candidates to construct the final capability set;
 4. Validate the capability set and extracted NFFF aspect classification according to the **Validation** section.
-5. Return the final **Capability Decomposition Report** according to the **Report Template**.
+5. Return the final **Capability Decomposition Report** according to the **Report Template**:
+    - complete **Capabilities** section with final capability set;
+    - produce the **Non-Functional and Form-Factor Aspect Classification** table.
 
 If a material ambiguity prevents valid output, the LLM MUST ask a targeted clarification question instead of returning the report.
 
