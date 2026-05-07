@@ -4,13 +4,9 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 ## Capability Decomposition
 
-Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**.
-
-This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine **capability candidates** according to **Capability Construction** rules and **Capability Model** classification. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
-
----
-
 ### Core Concepts
+
+Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine **capability candidates** according to **Capability Construction** rules and **Capability Model** classification. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
 
 The **target description** is the input text or contextual material provided for analysis.
 
@@ -29,23 +25,6 @@ The LLM MUST:
 The LLM MUST NOT expand capability semantics beyond what is reasonably supported by the associated capability signals and their immediate context.
 
 A **capability candidate** is a provisional capability inferred from one or more capability signals during decomposition. Capability candidates are identified, classified, grouped, split, revised, or rejected before the final capability set is returned.
-
-**Capability Model classification** is a central component of capability decomposition. It provides a structural reasoning model that the LLM MUST use to:
-
-- distinguish primary user intent from supporting behavior and system form;
-- guide identification and scoping of capabilities;
-- prevent conflation of domain logic, supporting functionality, and form-factor concerns;
-- steer boundary decisions during capability scoping.
-
-The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
-
-Each capability MUST be associated with exactly one Capability Model class:
-
-- **Core User Capability** — defines primary user intent and core state semantics.
-- **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
-- **Non-Functional and Form-Factor (NFFF) Aspect** — defines user access, interaction form, environment, or experience without affecting core state.
-
-Capability Model classification is foundational for downstream analysis, but its primary role is to shape decomposition itself.
 
 ---
 
@@ -93,6 +72,17 @@ If a material ambiguity prevents valid output, the LLM MUST ask a targeted clari
 ---
 
 ### Capability Model
+
+**Capability Model classification** is a central component of capability decomposition. It provides a structural reasoning model that the LLM MUST use to:
+
+- distinguish primary user intent from supporting behavior and system form;
+- guide identification and scoping of capabilities;
+- prevent conflation of domain logic, supporting functionality, and form-factor concerns;
+- steer boundary decisions during capability scoping.
+
+The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
+
+---
 
 #### Core User Capability
 
