@@ -22,7 +22,7 @@ A **capability candidate** is a provisional capability inferred from one or more
 
 ---
 
-### Protocol
+### Procedure
 
 The LLM MUST execute this module in the following order, applying the **Capability Model** and **Capability Construction Rules** throughout:
 
