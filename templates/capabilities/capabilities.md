@@ -343,7 +343,7 @@ Capability construction MUST be grounded in capability signals extracted from th
 The LLM MUST:
 
 - use capability signals as the grounding basis for capability identification and classification;
-- ensure that every capability remains grounded in one or more capability signals;
+- ensure that every capability is grounded in one or more capability signals;
 - infer capability semantics from the meaning and immediate context of associated capability signals.
 
 Capability signals MUST:
@@ -371,7 +371,6 @@ Each capability MUST:
 - use a concise, user-facing name;
 - express a clear end-user value or functional intent;
 - include a `Scope boundary` that defines what belongs within the capability boundary;
-- be semantically cohesive and category-consistent under the Capability Model;
 - reflect user-recognizable value, behavior, access, or experience, not implementation structure.
 
 The LLM MUST construct capabilities from:
@@ -382,50 +381,53 @@ The LLM MUST construct capabilities from:
 - usability, access, launch, delivery, environment, and runtime concerns;
 - structural completeness expectations implied by the target scope.
 
+The LLM MUST NOT:
+
+- allow solution forms, technologies, or delivery contexts to subsume core user intent;
+- collapse distinct capabilities due to shared implementation;
+- include internal mechanisms unless they directly affect user-visible behavior or experience;
+- include implementation plans, validation scenarios, or task-level detail.
+
 ---
 
 #### Boundary and Cohesion Rules
 
 Capability boundaries are determined by grouping or splitting capability candidates into cohesive, user-recognizable capability areas.
 
-The LLM MUST determine capability boundaries using the following evaluation factors:
-
-1. user-recognizable intent;
-2. user mental model;
-3. user-facing experience;
-4. domain cohesion;
-5. access, environment, or runtime distinctions;
-6. coverage clarity.
-
 For each proposed capability, the LLM MUST ask:
 
 > Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
 
-The LLM MUST evaluate whether the proposed capability differs materially from adjacent or related capabilities in:
+The LLM MUST evaluate capability boundaries using the following factors:
 
-- user intent;
-- user mental model;
-- access or discoverability;
-- interaction frequency;
-- required expertise;
-- environment or runtime context;
-- baseline versus advanced use.
+1. **User-recognizable intent** — whether the included behaviors serve the same user purpose.
+2. **User mental model** — whether users would naturally categorize the behaviors together.
+3. **User-facing experience** — whether behaviors are used or experienced as part of the same activity.
+4. **Access and discoverability** — whether behaviors are accessed, discovered, or invoked in materially different ways.
+5. **Environment or runtime context** — whether behaviors imply materially different access, launch, delivery, or runtime expectations.
+6. **Usage profile** — whether behaviors differ materially in interaction frequency, required expertise, or baseline-versus-advanced use.
+7. **Coverage clarity** — whether grouping improves or obscures understanding of the target scope.
 
-The LLM SHOULD split a capability when grouping would:
+The LLM SHOULD split a candidate capability when it:
 
-- obscure materially different user intents or experiences;
-- combine materially different access, environment, or runtime expectations;
-- merge behaviors understood through different user mental models;
-- hide meaningful extensions of use behind baseline functionality;
-- create vague or weakly cohesive umbrella capabilities.
+- combines materially different user intents, mental models, or usage experiences;
+- combines materially different access, environment, or runtime expectations;
+- obscures meaningful extensions of use behind baseline functionality;
+- lacks clear user-recognizable cohesion;
+- forms a vague or overly broad umbrella capability.
 
-The LLM SHOULD group capability candidates when grouping would:
+The LLM SHOULD group multiple capability candidates into a single capability when the resulting capability would:
 
 - preserve one coherent user-recognizable purpose;
 - reflect one broader user intent;
 - align with natural user interaction and discoverability patterns;
 - avoid artificial fragmentation;
 - avoid mirroring implementation structure instead of user value.
+
+The capability set MUST NOT:
+
+- group capabilities when doing so would obscure distinct user intent, experience, access patterns, or environment distinctions;
+- split capabilities when doing so would produce low-value, artificial, or overly narrow fragments.
 
 Capability boundaries MUST be determined primarily by:
 
@@ -435,7 +437,7 @@ Capability boundaries MUST be determined primarily by:
 - cognitive grouping;
 - capability-level cohesion;
 
-NOT by formal domain taxonomy or implementation structure alone.
+NOT primarily by formal domain taxonomy or implementation structure.
 
 The LLM MUST enforce Capability Model consistency during capability construction:
 
@@ -448,6 +450,26 @@ Each resulting capability MUST remain:
 - semantically cohesive;
 - category-consistent;
 - user-recognizable as a distinct capability area.
+
+---
+
+#### Capability Set Integrity
+
+The capability set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
+
+The capability set MUST:
+
+- cover all meaningful capabilities described or strongly implied by the target description;
+- preserve coherent separation between Capability Model classes across the overall capability set;
+- represent cohesive, non-overlapping, and inspectable capability areas;
+- balance granularity across the capability set:
+    - not fragmented into isolated low-level actions;
+    - not collapsed into overly broad umbrella capabilities.
+
+The capability set MUST NOT:
+
+- omit meaningful user-recognizable capabilities strongly implied by the target description;
+- contain redundant or conflated capabilities.
 
 ---
 
@@ -464,49 +486,6 @@ The `Scope boundary` MUST NOT contain:
 - validation or acceptance logic;
 - task sequencing;
 - exhaustive behavior lists.
-
----
-
-#### Capability Set Requirements
-
-The capability set MUST establish a compact, user-centric, and structurally coherent representation of the target scope.
-
-The capability set MUST:
-
-- capture primary user intent through dedicated Core User Capabilities;
-- include Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
-- represent NFFF Aspects that meet promotion requirements;
-- preserve coherent separation between Capability Model classes across the capability set;
-- maintain non-overlapping, inspectable capability areas across the overall decomposition;
-- express capabilities in terms of user-recognizable value, access, usage, and experience rather than implementation structure;
-- make explicit the user value or functional intent of each capability;
-- expose natural capability boundaries implied by:
-    - user intent;
-    - interaction patterns;
-    - access differences;
-    - environment differences;
-- represent usability, access, launch, delivery, environment, and runtime concerns that materially affect user experience;
-- cover all meaningful capabilities described or strongly implied by the target description without redundancy or conflation;
-- balance granularity:
-    - not fragmented into isolated low-level actions;
-    - not collapsed into overly broad umbrella capabilities.
-
-The capability set MUST NOT:
-
-- combine capabilities when doing so would obscure distinct user intent, experience, access patterns, or environment distinctions;
-- split capabilities when doing so would produce low-value, artificial, or overly narrow fragments.
-
----
-
-#### Prohibited Constructions
-
-The LLM MUST NOT:
-
-- restate the entire target scope as a single capability;
-- allow solution forms, technologies, or delivery contexts to subsume core user intent;
-- collapse distinct capabilities due to shared implementation;
-- include internal mechanisms unless they directly affect user-visible behavior or experience;
-- include implementation plans, validation scenarios, or task-level detail.
 
 ---
 
