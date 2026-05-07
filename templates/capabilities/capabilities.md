@@ -4,7 +4,7 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 ## Capability Decomposition
 
-Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer and refine **capability candidates** according to **capability construction** rules and **Capability Model classification**. After validation, the final **capability set** is reported.
+Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer and refine **capability candidates** according to **capability construction** rules and **Capability Model classification**. Later, capability signals are also used to provide grounding and traceability for final capabilities. After validation of capability candidates, the final **capability set** is reported.
 
 ---
 
@@ -49,11 +49,11 @@ Capability Model classification is foundational for downstream analysis, but its
 
 ### Protocol
 
-The LLM MUST execute this module in order:
+The LLM MUST execute this module in the following order:
 
 1. Interpret the target description and identify the target scope.
-2. Extract capability signals from the target description:
-    The LLM MUST identify exact keywords, terms, and short phrases that
+2. Extract capability signals from the target description.
+    The LLM MUST identify exact keywords, terms, and short phrases that:
     - indicate:
         - what functionality or experience the target scope provides;
         - what user needs or jobs-to-be-done the target scope satisfies;
@@ -66,21 +66,21 @@ The LLM MUST execute this module in order:
         - capability boundaries;
         - user-recognizable functionality;
         - user access, interaction, environment, runtime, or delivery characteristics.
-3. Generate capability set. 
+3. Generate the capability set.
     1. infer capability candidates from capability signals;
     2. identify Core User Capability candidates;
     3. determine the dominant semantic role of each non-core capability candidate:
         - Supporting Functional Capability — if the candidate primarily implies mutation, validation, control, recovery, or interpretation of core state;
         - NFFF Aspect — otherwise;
-    4. classify capability candidates according to the Capability Model, ensuring:
+    4. classify capability candidates according to the **Capability Model**, ensuring:
         - each capability belongs to exactly one Capability Model class;
         - no capability mixes class semantics;
     5. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
-    6. group, split, revise, or reject capability candidates to construct the final capability set;
+    6. group, split, revise, or reject capability candidates to construct the final capability set.
 4. Validate the capability set and extracted NFFF aspect classification according to the **Validation** section.
-5. Return the final **Capability Decomposition Report** according to the **Report Template**:
-    - complete **Capabilities** section with final capability set;
-    - produce the **Non-Functional and Form-Factor Aspect Classification** table.
+5. Return the final **Capability Decomposition Report** according to the **Report Template**, including:
+    - the completed **Capabilities** section containing the final capability set;
+    - the completed **Non-Functional and Form-Factor Aspect Classification** table.
 
 If a material ambiguity prevents valid output, the LLM MUST ask a targeted clarification question instead of returning the report.
 
