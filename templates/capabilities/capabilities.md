@@ -507,7 +507,7 @@ The LLM MUST return only the following output structure:
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
 ```
 
-- Any `Extracted Keywords` field MUST contain one or more capability signals.  
+- Every `Extracted Keywords` field MUST contain one or more capability signals.  
 - `Extracted Keywords` fields provide grounding and traceability between reported items and the target description.  
 - Capability signal usage and interpretation MUST remain semantically consistent across all outputs.
 
@@ -534,7 +534,7 @@ Check that:
 
 - every capability is grounded in one or more capability signals;
 - every `Extracted Keywords` field contains one or more capability signals;
-- every explicit or strongly implied material capability signal is represented by the final capability set;
+- every material capability signal used during decomposition is represented by, or traceably associated with, the final report;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
 - capability signal usage and interpretation remain consistent across the report.
 
