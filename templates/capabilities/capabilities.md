@@ -24,38 +24,18 @@ A **capability candidate** is a provisional capability inferred from one or more
 
 ### Protocol
 
-The LLM MUST execute this module in the following order:
+The LLM MUST execute this module according to **Capability Construction Rules** and **Capability Model** in the following order:
 
 1. Interpret the target description and identify the target scope.
 2. Extract capability signals from the target description.
-    The LLM MUST identify exact keywords, terms, and short phrases that:
-    - indicate:
-        - what user-recognizable functionality, experience, or jobs-to-be-done the target scope provides;
-        - how users access, interact with, or experience the target scope;
-        - what supporting or governing behavior is required to make the target scope usable, correct, or coherent;
-    - provide evidence for:
-        - Core User Capabilities;
-        - Supporting Functional Capabilities;
-        - Non-Functional and Form-Factor (NFFF) Aspects;
-        - capability boundaries;
-        - user access, interaction, environment, runtime, or delivery characteristics.
-3. Generate the capability set.
-    1. infer capability candidates from capability signals, ensuring:
-        - capability candidates are inferred as user-recognizable capability areas rather than implementation details, internal components, or low-level actions;
-        - every capability signal is associated with the single most appropriate capability candidate unless the signal genuinely supports multiple distinct capability semantics;
-        - every capability candidate is associated with one or more capability signals;
-    2. identify Core User Capability candidates;
-    3. determine the dominant semantic role of each non-core capability candidate:
-        - Supporting Functional Capability — if the candidate primarily implies mutation, validation, control, recovery, or interpretation of core state;
-        - NFFF Aspect — otherwise;
-    4. classify capability candidates according to the **Capability Model**, ensuring:
-        - each capability belongs to exactly one Capability Model class;
-        - no capability mixes class semantics;
-    5. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
-    6. group, split, revise, or reject capability candidates to construct the final capability set, while maintaining capability signal grounding and traceability throughout refinement, ensuring that capability signal associations:
-        - are updated whenever capability candidates are revised and remain preserved throughout refinement;
-        - remain semantically consistent with the current capability candidate definition and scope;
-        - support traceability from every final reported capability and classification to one or more capability signals.
+3. Generate and refine the capability set according to:  
+    1. infer capability candidates from capability signals;  
+    2. identify Core User Capability candidates;  
+    3. determine the dominant semantic role of each non-core capability candidate;  
+    4. classify capability candidates according to the Capability Model;  
+    5. evaluate and promote NFFF Aspects according to the NFFF Evaluation Pipeline;  
+    6. group, split, revise, or reject capability candidates to construct the final capability set;  
+    7. maintain capability signal grounding and traceability throughout refinement.
 4. Validate the capability set and NFFF aspect classification according to the **Validation** section.
 5. Return the final **Capability Decomposition Report** according to the **Report Template**, including:
     - the completed **Capabilities** section containing the final capability set;
@@ -324,7 +304,7 @@ The LLM MUST perform the following steps for NFFF aspects:
 
 ---
 
-### Capability Construction
+### Capability Construction Rules
 
 Capabilities are constructed as part of capability decomposition by identifying capability candidates, applying classification constraints, and grouping or splitting candidates into cohesive user-recognizable areas.
 
@@ -350,9 +330,13 @@ The LLM MUST:
 
 Capability signals MUST:
 
-- use verbatim text where possible, with minimal normalization;
+- use verbatim text (exact keywords, terms, and short phrases) where possible, with minimal normalization;
 - directly support capability identification, classification, or scoping decisions;
 - provide evidence used during grouping and splitting evaluation;
+- indicate:
+    - what user-recognizable functionality, experience, or jobs-to-be-done the target scope provides;
+    - how users access, interact with, or experience the target scope;
+    - what supporting or governing behavior is required to make the target scope usable, correct, or coherent;
 - remain concise and non-redundant.
 
 Capability signals MUST NOT:
@@ -392,7 +376,7 @@ The LLM MUST NOT:
 
 ---
 
-#### Boundary and Cohesion Rules
+#### Boundary and Cohesion
 
 Capability boundaries are determined by grouping or splitting capability candidates into cohesive, user-recognizable capability areas.
 
@@ -426,7 +410,13 @@ The LLM SHOULD group multiple capability candidates into a single capability whe
 - avoid artificial fragmentation;
 - avoid mirroring implementation structure instead of user value.
 
-The capability set MUST NOT:
+The LLM MUST maintain capability signal grounding and traceability throughout refinement, ensuring that capability signal associations:
+
+- are updated whenever capability candidates are revised and remain preserved throughout refinement;
+- remain semantically consistent with the current capability candidate definition and scope;
+- support traceability from every final reported capability and classification to one or more capability signals.
+
+The LLM MUST NOT:
 
 - group capabilities when doing so would obscure distinct user intent, experience, access patterns, or environment distinctions;
 - split capabilities when doing so would produce low-value, artificial, or overly narrow fragments.
@@ -542,7 +532,7 @@ The LLM MUST return only an output where all validation steps pass.
 
 Check that:
 
-- every capability is supported by one or more capability signals;
+- every capability is grounded in one or more capability signals;;
 - every `Extracted Keywords` field contains one or more capability signals;
 - every explicit or strongly implied capability signal is represented by the final capability set;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
