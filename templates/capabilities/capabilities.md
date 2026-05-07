@@ -16,14 +16,6 @@ A **capability** is a coarse functional or form-factor area that reflects someth
 
 A **capability signal** is an exact keyword, term, or short phrase from the target description that provides source evidence for identifying, classifying, or scoping a capability.
 
-The LLM MUST:
-
-- use capability signals as the grounding basis for capability identification and classification;
-- ensure that every capability is fully supported by one or more capability signals;
-- infer capability semantics from the meaning and immediate context of associated capability signals.
-
-The LLM MUST NOT expand capability semantics beyond what is reasonably supported by the associated capability signals and their immediate context.
-
 A **capability candidate** is a provisional capability inferred from one or more capability signals during decomposition. Capability candidates are identified, classified, grouped, split, revised, or rejected before the final capability set is returned.
 
 ---
@@ -463,6 +455,12 @@ The LLM MUST use classification to govern capability construction, not as a sepa
 
 Capability construction MUST be grounded in capability signals extracted from the target description.
 
+The LLM MUST:
+
+- use capability signals as the grounding basis for capability identification and classification;
+- ensure that every capability is fully supported by one or more capability signals;
+- infer capability semantics from the meaning and immediate context of associated capability signals.
+
 Capability signals MUST:
 
 - use verbatim text where possible, with minimal normalization;
@@ -477,7 +475,7 @@ Capability signals MUST NOT:
 - include explanations, interpretations, or sentences;
 - combine unrelated source concepts.
 
-The LLM MUST NOT construct capability semantics that exceed what is reasonably supported by the associated capability signals and their immediate context.
+The LLM MUST NOT expand capability semantics beyond what is reasonably supported by the associated capability signals and their immediate context.
 
 ---
 
