@@ -8,7 +8,7 @@ urls:
 
 ### Core Concepts
 
-Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine **capability candidates** according to **Capability Construction** rules and **Capability Model** classification. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
+Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine capability candidates according to the **Capability Construction Rules** and **Capability Model**. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
 
 The **target description** is the input text or contextual material provided for analysis.
 
@@ -24,11 +24,11 @@ A **capability candidate** is a provisional capability inferred from one or more
 
 ### Protocol
 
-The LLM MUST execute this module according to **Capability Construction Rules** and **Capability Model** in the following order:
+The LLM MUST execute this module in the following order, applying the **Capability Model** and **Capability Construction Rules** throughout:
 
 1. Interpret the target description and identify the target scope.
 2. Extract capability signals from the target description.
-3. Generate and refine the capability set according to:  
+3. Generate and refine the capability set:  
     1. infer capability candidates from capability signals;  
     2. identify Core User Capability candidates;  
     3. determine the dominant semantic role of each non-core capability candidate;  
@@ -532,7 +532,7 @@ The LLM MUST return only an output where all validation steps pass.
 
 Check that:
 
-- every capability is grounded in one or more capability signals;;
+- every capability is grounded in one or more capability signals;
 - every `Extracted Keywords` field contains one or more capability signals;
 - every explicit or strongly implied capability signal is represented by the final capability set;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
@@ -540,7 +540,7 @@ Check that:
 
 If validation fails:
 
-- remove or revise any capability that is not supported by capability signals;
+- remove or revise any capability that is not grounded in capability signals;
 - associate unmapped capability signals with the most appropriate existing capability when this preserves cohesion;
 - introduce a new capability only when an unmapped signal represents a distinct user-recognizable capability that cannot be coherently absorbed;
 - update stale or inconsistent signal associations to match the revised capability definition and scope.
