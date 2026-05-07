@@ -590,18 +590,6 @@ representation of the target scope suitable for boundary evaluation and downstre
 
 ---
 
-### Grounding and Capability Signal Traceability
-
-Any `Extracted Keywords` field MUST contain one or more capability signals.
-
-The `Extracted Keywords` field provides traceability between the reported item and the target description.
-
-Each capability signal SHOULD be assigned to the most appropriate capability or classification row only, avoiding duplication unless the signal genuinely supports multiple distinct items.
-
-When multiple outputs contain `Extracted Keywords`, the LLM MUST maintain consistent grounding and signal usage across all outputs.
-
----
-
 ### Report Template
 
 The LLM MUST return only the following output structure:
@@ -627,6 +615,10 @@ The LLM MUST return only the following output structure:
 | ------- | ----------------- | --------------------- | --------------------------- |
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
 ```
+
+- Any `Extracted Keywords` field MUST contain one or more capability signals.  
+- `Extracted Keywords` fields provide grounding and traceability between reported items and the target description.  
+- Capability signal usage and interpretation MUST remain semantically consistent across all outputs.
 
 ---
 
