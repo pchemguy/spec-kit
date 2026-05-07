@@ -1,5 +1,7 @@
 ---
-url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
+urls:
+  - https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
+  - https://chatgpt.com/c/69fc9b6e-eb4c-8390-8d38-7f1b836e7d56
 ---
 
 ## Capability Decomposition
