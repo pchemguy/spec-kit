@@ -27,7 +27,7 @@ A **capability candidate** is a provisional capability inferred from one or more
 The LLM MUST execute this module in the following order, applying the **Capability Model** and **Capability Construction Rules** throughout:
 
 1. Interpret the target description and identify the target scope.
-2. Extract capability signals from the target description.
+2. Extract capability signals from the target description according to **Capability Signal Grounding**.
 3. Generate and refine the capability set:  
     1. infer capability candidates from capability signals;  
     2. identify Core User Capability candidates;  
@@ -413,7 +413,7 @@ The LLM SHOULD group multiple capability candidates into a single capability whe
 The LLM MUST maintain capability signal grounding and traceability throughout refinement, ensuring that capability signal associations:
 
 - are updated whenever capability candidates are revised and remain preserved throughout refinement;
-- remain semantically consistent with the current capability candidate definition and scope;
+- remain semantically consistent with the current capability candidate or final capability definition and scope;
 - support traceability from every final reported capability and classification to one or more capability signals.
 
 The LLM MUST NOT:
@@ -534,7 +534,7 @@ Check that:
 
 - every capability is grounded in one or more capability signals;
 - every `Extracted Keywords` field contains one or more capability signals;
-- every explicit or strongly implied capability signal is represented by the final capability set;
+- every explicit or strongly implied material capability signal is represented by the final capability set;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
 - capability signal usage and interpretation remain consistent across the report.
 
@@ -584,7 +584,6 @@ If validation fails:
 Check that:
 
 - every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
-- every NFFF table row is grounded in capability signals;
 - every promotable NFFF aspect is represented by a dedicated NFFF capability;
 - no promoted NFFF Aspect is embedded inside a Core User Capability or Supporting Functional Capability;
 - the table contains the required `None identified` row when no NFFF aspects are identified.
@@ -620,7 +619,7 @@ If validation fails:
 
 Check that:
 
-- no capability combines materially different user intents, mental models, access paths, runtime contexts, expertise levels, or usage patterns;
+- no capability combines materially different user intents, mental models, usage experiences, access patterns, environment or runtime contexts, expertise levels, or usage profiles;
 - no pair of capabilities is artificially separated when they serve the same user-recognizable purpose and share the same access, environment, and runtime expectations;
 - every capability is cohesive, non-redundant, and category-consistent.
 
@@ -647,8 +646,6 @@ If validation fails:
 
 - apply the smallest correction needed;
 - restart validation from Step 1.
-
-Validation is complete only when all validation steps pass.
 
 ---
 
