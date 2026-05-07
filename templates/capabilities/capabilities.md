@@ -40,7 +40,7 @@ The LLM MUST execute this module in the following order:
 3. Generate the capability set.
     1. infer capability candidates from capability signals, ensuring:
         - capability candidates are inferred as user-recognizable capability areas rather than implementation details, internal components, or low-level actions;
-        - every capability signal is associated to the single most appropriate capability candidate unless the signal genuinely supports multiple distinct capability semantics;
+        - every capability signal is associated with the single most appropriate capability candidate unless the signal genuinely supports multiple distinct capability semantics;
         - every capability candidate is associated with one or more capability signals;
     2. identify Core User Capability candidates;
     3. determine the dominant semantic role of each non-core capability candidate:
@@ -322,121 +322,6 @@ The LLM MUST perform the following steps for NFFF aspects:
 
 ---
 
-#### Capability Boundary and Cohesion
-
-##### Boundary and Grouping Rules
-
-Capabilities are formed by grouping or splitting capability candidates into cohesive, user-recognizable areas.
-
-The LLM MUST determine capability boundaries using the following ordered evaluation factors:
-
-1. **User-recognizable intent** — whether users perceive the behaviors as serving the same purpose.
-2. **User mental model** — whether users would naturally categorize the behaviors together.
-3. **User-facing experience** — whether behaviors are used and experienced as part of the same activity.
-4. **Domain cohesion** — whether behaviors belong to the same conceptual capability area.
-5. **Access or environment distinction** — whether behaviors imply different access, launch, or runtime contexts.
-6. **Coverage clarity** — whether grouping improves or obscures understanding of system capabilities.
-
----
-
-##### Mandatory Constraints
-
-The LLM MUST enforce Capability Model consistency during grouping of capability candidates:
-
-- capability candidates belonging to different Capability Model classes MUST NOT be grouped:
-    - Core User Capability
-    - Supporting Functional Capability
-    - NFFF Aspect (when promoted)
-- a **Core User Capability** MUST NOT be merged with:
-    - Supporting Functional Capability candidates; or
-    - NFFF capability candidates
-- a promoted **NFFF Aspect** MUST NOT be absorbed into a domain capability
-
-Each resulting capability MUST remain:
-
-- category-consistent;
-- semantically cohesive;
-- user-recognizable as a distinct capability area.
-
----
-
-##### Boundary Test
-
-For each proposed capability, the LLM MUST ask:
-
-> Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
-
-The LLM MUST evaluate whether the proposed capability differs materially from adjacent or related capabilities in:
-
-- user intent;
-- user mental model;
-- access or discoverability;
-- interaction frequency;
-- required expertise;
-- environment or runtime context;
-- baseline versus advanced use.
-
-During boundary evaluation, each capability MUST receive one `Boundary Decision`:
-
-- `Keep` — the capability is valid for the final output.
-- `Split` — the capability is too broad and MUST be decomposed into separate capabilities.
-- `Merge` — the capability is too narrow and MUST be combined with another capability.
-- `Revise` — the capability name, value statement, or scope boundary MUST be corrected.
-
-If one or more material differences exist within a proposed capability, the LLM SHOULD assign `Split` unless doing so would produce low-value or overly narrow capabilities.
-
-If a proposed capability is too narrow to represent a meaningful user-facing area, the LLM SHOULD assign `Merge`.
-
-If the capability name, value statement, or scope boundary is inaccurate or unclear, the LLM SHOULD assign `Revise`.
-
-The LLM MUST assign `Keep` only when no `Split`, `Merge`, or `Revise` condition applies.
-
----
-
-##### Splitting Guidance
-
-The LLM SHOULD split a capability candidate when the resulting fragmented capabilities would:
-
-- serve different user-recognizable purposes;
-- imply materially different user intents, access, environment, or runtime expectations;
-- be understood by users through different mental models or expertise levels;
-- be discovered, accessed, or used by users in materially different ways;
-- separate baseline use from a meaningful extension of use;
-- clarify an otherwise obscured capability boundary;
-- replace a vague umbrella candidate with clearer, more cohesive separate capabilities.
-
----
-
-##### Grouping Guidance
-
-The LLM SHOULD group capability candidates when the grouped capability would:
-
-- serve one user-recognizable purpose;
-- support the same broader user intent;
-- be naturally accessed and used by users as one capability area;
-- treat differences among candidates as variations within the same broader use case;
-- avoid mirroring implementation structure instead of user value;
-- avoid artificial capability boundaries;
-- avoid overly narrow or low-value capabilities.
-
----
-
-##### Boundary Evaluation Principle
-
-Capability boundaries are determined by:
-
-- user expectations;
-- interaction patterns;
-- discoverability;
-- cognitive grouping;
-- capability-level cohesion;
-
-NOT by formal domain taxonomy or implementation structure alone.
-
-The LLM MAY use established product conventions within the target domain as supporting evidence.
-
----
-
 ### Capability Construction
 
 Capabilities are constructed as part of capability decomposition by identifying capability candidates, applying classification constraints, and grouping or splitting candidates into cohesive user-recognizable areas.
@@ -451,14 +336,14 @@ The LLM MUST use classification to govern capability construction, not as a sepa
 
 ---
 
-#### Capability Signal Constraints
+#### Capability Signal Grounding
 
 Capability construction MUST be grounded in capability signals extracted from the target description.
 
 The LLM MUST:
 
 - use capability signals as the grounding basis for capability identification and classification;
-- ensure that every capability is fully supported by one or more capability signals;
+- ensure that every capability remains grounded in one or more capability signals;
 - infer capability semantics from the meaning and immediate context of associated capability signals.
 
 Capability signals MUST:
@@ -499,6 +384,73 @@ The LLM MUST construct capabilities from:
 
 ---
 
+#### Boundary and Cohesion Rules
+
+Capability boundaries are determined by grouping or splitting capability candidates into cohesive, user-recognizable capability areas.
+
+The LLM MUST determine capability boundaries using the following evaluation factors:
+
+1. user-recognizable intent;
+2. user mental model;
+3. user-facing experience;
+4. domain cohesion;
+5. access, environment, or runtime distinctions;
+6. coverage clarity.
+
+For each proposed capability, the LLM MUST ask:
+
+> Would a typical target user reasonably expect the included behaviors to belong together as one recognizable capability area?
+
+The LLM MUST evaluate whether the proposed capability differs materially from adjacent or related capabilities in:
+
+- user intent;
+- user mental model;
+- access or discoverability;
+- interaction frequency;
+- required expertise;
+- environment or runtime context;
+- baseline versus advanced use.
+
+The LLM SHOULD split a capability when grouping would:
+
+- obscure materially different user intents or experiences;
+- combine materially different access, environment, or runtime expectations;
+- merge behaviors understood through different user mental models;
+- hide meaningful extensions of use behind baseline functionality;
+- create vague or weakly cohesive umbrella capabilities.
+
+The LLM SHOULD group capability candidates when grouping would:
+
+- preserve one coherent user-recognizable purpose;
+- reflect one broader user intent;
+- align with natural user interaction and discoverability patterns;
+- avoid artificial fragmentation;
+- avoid mirroring implementation structure instead of user value.
+
+Capability boundaries MUST be determined primarily by:
+
+- user expectations;
+- interaction patterns;
+- discoverability;
+- cognitive grouping;
+- capability-level cohesion;
+
+NOT by formal domain taxonomy or implementation structure alone.
+
+The LLM MUST enforce Capability Model consistency during capability construction:
+
+- capability candidates belonging to different Capability Model classes MUST NOT be grouped;
+- Core User Capabilities MUST NOT absorb Supporting Functional Capabilities or promoted NFFF Aspects;
+- promoted NFFF Aspects MUST remain distinct from domain capabilities.
+
+Each resulting capability MUST remain:
+
+- semantically cohesive;
+- category-consistent;
+- user-recognizable as a distinct capability area.
+
+---
+
 #### Scope Boundary Requirements
 
 The `Scope boundary` MUST:
@@ -524,32 +476,25 @@ The capability set MUST:
 - capture primary user intent through dedicated Core User Capabilities;
 - include Supporting Functional Capabilities required to make the core capability usable, correct, and coherent;
 - represent NFFF Aspects that meet promotion requirements;
-- preserve clear separation between Capability Model classes;
-- reflect how users access, use, and experience the system, not how it is implemented;
+- preserve coherent separation between Capability Model classes across the capability set;
+- maintain non-overlapping, inspectable capability areas across the overall decomposition;
+- express capabilities in terms of user-recognizable value, access, usage, and experience rather than implementation structure;
 - make explicit the user value or functional intent of each capability;
-- expose natural capability boundaries implied by user intent, interaction patterns, access differences, and environment differences;
+- expose natural capability boundaries implied by:
+    - user intent;
+    - interaction patterns;
+    - access differences;
+    - environment differences;
 - represent usability, access, launch, delivery, environment, and runtime concerns that materially affect user experience;
-- represent all meaningful capabilities from the target description without redundancy or conflation.
+- cover all meaningful capabilities described or strongly implied by the target description without redundancy or conflation;
+- balance granularity:
+    - not fragmented into isolated low-level actions;
+    - not collapsed into overly broad umbrella capabilities.
 
 The capability set MUST NOT:
 
-- combine capabilities when doing so would obscure distinct user intent or experience;
-- split capabilities when doing so would produce low-value or overly narrow fragments.
- ---
- 
-#### Coverage and Structure Requirements
-
-The capability set MUST:
-
-- cover all meaningful capabilities described or strongly implied by the target description;
-- include dedicated capabilities for Core User Capabilities;
-- include dedicated capabilities for NFFF Aspects that meet promotion requirements;
-- preserve clear separation between Capability Model classes;
-- represent cohesive, inspectable capability areas;
-- translate system concerns into user-centric terms of access, usage, and experience;
-- balance granularity:
-    - not fragmented into low-level actions;
-    - not collapsed into overly broad umbrellas.
+- combine capabilities when doing so would obscure distinct user intent, experience, access patterns, or environment distinctions;
+- split capabilities when doing so would produce low-value, artificial, or overly narrow fragments.
 
 ---
 
@@ -557,25 +502,11 @@ The capability set MUST:
 
 The LLM MUST NOT:
 
-- construct capabilities independently of classification;
 - restate the entire target scope as a single capability;
 - allow solution forms, technologies, or delivery contexts to subsume core user intent;
 - collapse distinct capabilities due to shared implementation;
-- split capabilities into isolated low-level actions;
 - include internal mechanisms unless they directly affect user-visible behavior or experience;
 - include implementation plans, validation scenarios, or task-level detail.
-
----
-
-#### Construction Objective
-
-The resulting capability set MUST form a:
-
-- compact;
-- user-centric;
-- structurally consistent;
-
-representation of the target scope suitable for boundary evaluation and downstream analysis.
 
 ---
 
@@ -754,8 +685,8 @@ Validation is complete only when all validation steps pass.
 
 Validation is complete only when:
 
-- no failures are detected in any step;
-- all Boundary Decisions are `Keep`;
-- the final result is marked `VALID`.
+- all validation steps pass;
+- all capabilities satisfy the declarative rules defined in this module;
+- the final output conforms to the Report Template.
 
 ---
