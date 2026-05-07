@@ -4,10 +4,11 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 ## Capability Decomposition
 
-Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer and refine **capability candidates** according to **capability construction** rules and **Capability Model classification**. Later, capability signals are also used to provide grounding and traceability for final capabilities. After validation of capability candidates, the final **capability set** is reported.
+Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**.
+
+This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine **capability candidates** according to **Capability Construction** rules and **Capability Model** classification. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
 
 ---
-
 ### Core Concepts
 
 The **target description** is the input text or contextual material provided for analysis.
