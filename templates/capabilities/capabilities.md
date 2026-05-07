@@ -56,8 +56,7 @@ The LLM MUST execute this module in the following order:
 2. Extract capability signals from the target description.
     The LLM MUST identify exact keywords, terms, and short phrases that:
     - indicate:
-        - what functionality or experience the target scope provides;
-        - what user needs or jobs-to-be-done the target scope satisfies;
+        - what user-recognizable functionality, experience, or jobs-to-be-done the target scope provides;
         - how users access, interact with, or experience the target scope;
         - what supporting or governing behavior is required to make the target scope usable, correct, or coherent;
     - provide evidence for:
@@ -68,17 +67,26 @@ The LLM MUST execute this module in the following order:
         - user-recognizable functionality;
         - user access, interaction, environment, runtime, or delivery characteristics.
 3. Generate the capability set.
-    1. infer capability candidates from capability signals;
-    2. identify Core User Capability candidates;
-    3. determine the dominant semantic role of each non-core capability candidate:
+    1. infer capability candidates from capability signals, ensuring:  
+        - every capability candidate is associated with one or more supporting capability signals;  
+        - capability signals SHOULD be assigned to the single most appropriate capability candidate unless a signal genuinely supports multiple distinct capability semantics;
+    2. infer capability candidates from capability signals;
+    3. identify Core User Capability candidates;
+    4. determine the dominant semantic role of each non-core capability candidate:
         - Supporting Functional Capability — if the candidate primarily implies mutation, validation, control, recovery, or interpretation of core state;
         - NFFF Aspect — otherwise;
-    4. classify capability candidates according to the **Capability Model**, ensuring:
+    5. classify capability candidates according to the **Capability Model**, ensuring:
         - each capability belongs to exactly one Capability Model class;
         - no capability mixes class semantics;
-    5. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
-    6. group, split, revise, or reject capability candidates to construct the final capability set.
-4. Validate the capability set and extracted NFFF aspect classification according to the **Validation** section.
+    6. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
+    7. group, split, revise, or reject capability candidates to construct the final capability set, while maintaining consistent capability signal grounding and traceability throughout refinement, ensuring:
+        - every capability candidate remains associated with one or more supporting capability signals;
+        - associated capability signal assignments are updated whenever capability candidates are revised;
+        - capability signal associations remain semantically consistent with the current capability candidate definition and scope;
+        - capability signals are preserved and carried forward throughout decomposition as the grounding and traceability basis for the final reported capabilities and classifications;
+        - capability signals SHOULD be assigned to the single most appropriate capability candidate unless a signal genuinely supports multiple distinct capability semantics;
+        - every final reported capability and classification remains traceable to one or more supporting capability signals;
+4. Validate the capability set and NFFF aspect classification according to the **Validation** section.
 5. Return the final **Capability Decomposition Report** according to the **Report Template**, including:
     - the completed **Capabilities** section containing the final capability set;
     - the completed **Non-Functional and Form-Factor Aspect Classification** table.
