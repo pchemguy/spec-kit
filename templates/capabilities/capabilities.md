@@ -624,8 +624,6 @@ The LLM MUST return only the following output structure:
 | Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
 | ------- | ----------------- | --------------------- | --------------------------- |
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
-
-Result: VALID
 ```
 
 ---
