@@ -9,6 +9,7 @@ Capability decomposition is an early analysis activity that converts a **target 
 This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer, classify, and refine **capability candidates** according to **Capability Construction** rules and **Capability Model** classification. Capability signals are also used to provide grounding and traceability for the final reported capabilities. After validation of the capability candidates, the final **capability set** is reported.
 
 ---
+
 ### Core Concepts
 
 The **target description** is the input text or contextual material provided for analysis.
@@ -38,7 +39,7 @@ A **capability candidate** is a provisional capability inferred from one or more
 
 The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
 
-Each capability MUST be assigned exactly one Capability Model class:
+Each capability MUST be associated with exactly one Capability Model class:
 
 - **Core User Capability** — defines primary user intent and core state semantics.
 - **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
@@ -68,7 +69,7 @@ The LLM MUST execute this module in the following order:
 3. Generate the capability set.
     1. infer capability candidates from capability signals, ensuring:
         - capability candidates are inferred as user-recognizable capability areas rather than implementation details, internal components, or low-level actions;
-        - every capability signal is assigned to the single most appropriate capability candidate unless the signal genuinely supports multiple distinct capability semantics;
+        - every capability signal is associated to the single most appropriate capability candidate unless the signal genuinely supports multiple distinct capability semantics;
         - every capability candidate is associated with one or more capability signals;
     2. identify Core User Capability candidates;
     3. determine the dominant semantic role of each non-core capability candidate:
@@ -78,7 +79,7 @@ The LLM MUST execute this module in the following order:
         - each capability belongs to exactly one Capability Model class;
         - no capability mixes class semantics;
     5. evaluate and promote NFFF Aspects according to the **NFFF Evaluation Pipeline**;
-    6. group, split, revise, or reject capability candidates to construct the final capability set, while maintaining capability signal grounding and traceability throughout refinement, ensuring that capability signal assignments:
+    6. group, split, revise, or reject capability candidates to construct the final capability set, while maintaining capability signal grounding and traceability throughout refinement, ensuring that capability signal associations:
         - are updated whenever capability candidates are revised and remain preserved throughout refinement;
         - remain semantically consistent with the current capability candidate definition and scope;
         - support traceability from every final reported capability and classification to one or more capability signals.
@@ -624,393 +625,140 @@ The LLM MUST return only the following output structure:
 
 ### Validation
 
-The LLM MUST validate the candidate capability set and extracted NFFF aspect classification using the **Validation Algorithm**.
+The LLM MUST validate the candidate capability set and NFFF aspect classification against the declarative rules defined in this module.
 
-If the Validation Algorithm detects any failure, the LLM MUST:
+Validation MUST proceed in the following order. If any validation step fails, the LLM MUST:
 
-1. apply the applicable Revision Strategy;
-2. revise the capability set;
-3. restart validation from Step 1.
-
-The LLM MUST return only an output where:
-
-- no validation failures remain;
-- all Boundary Decisions are `Keep`;
-- `Result` is `VALID`.
-
----
-
-#### Validation Algorithm
-
-The LLM MUST validate the capability set using the following ordered procedure.
-
-Validation MUST proceed step-by-step.  
-If any step fails, the LLM MUST:
-
-1. record the failure;
-2. classify it according to the defined **Failure Types**;
-3. revise the capability set;
+1. apply the correction defined for that step;
+2. revise only the affected capability, capability boundary, signal association, or NFFF table entry where possible;
+3. preserve unaffected valid decisions;
 4. restart validation from Step 1.
 
-The LLM MUST NOT skip steps or continue after a failure without revision.
+The LLM MUST return only an output where all validation steps pass.
 
 ---
 
-##### Step 1 — Signal Grounding Validation
+#### Step 1 — Signal Grounding and Traceability
 
-Verify that every capability is grounded in capability signals.
+Check that:
 
-Checks:
+- every capability is supported by one or more capability signals;
+- every `Extracted Keywords` field contains one or more capability signals;
+- every explicit or strongly implied capability signal is represented by the final capability set;
+- capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
+- capability signal usage and interpretation remain consistent across the report.
 
-- Every capability is supported by ≥1 capability signal.
-- Every explicit or strongly implied capability signal is represented by ≥1 capability.
+If validation fails:
 
-Failure Types:
-
-- `UNSUPPORTED_CAPABILITY` — capability has no signal support.
-- `UNMAPPED_SIGNAL` — signal not represented in any capability.
-
----
-
-##### Step 2 — Capability Model Classification Validation
-
-Verify correct and exclusive classification.
-
-Checks:
-
-- Every capability is assigned to exactly one category:
-    - Core User Capability;
-    - Supporting Functional Capability;
-    - NFFF Aspect.
-- No capability mixes category semantics.
-
-Failure Types:
-
-- `MULTI_CATEGORY_CAPABILITY`
-- `UNCLASSIFIED_CAPABILITY`
-- `CATEGORY_CONTAMINATION`
+- remove or revise any capability that is not supported by capability signals;
+- associate unmapped capability signals with the most appropriate existing capability when this preserves cohesion;
+- introduce a new capability only when an unmapped signal represents a distinct user-recognizable capability that cannot be coherently absorbed;
+- update stale or inconsistent signal associations to match the revised capability definition and scope.
 
 ---
 
-##### Step 3 — Core User Capability Integrity
+#### Step 2 — Capability Model Classification
 
-Verify that core intent is correctly isolated.
+Check that:
 
-Checks:
+- every capability is assigned exactly one Capability Model class;
+- no capability mixes Core User Capability, Supporting Functional Capability, or NFFF Aspect semantics;
+- each classification reflects the capability’s dominant semantic role.
 
-- At least one capability represents each identified Core User Capability.
-- No capability classified as Core User Capability is subsumed by or includes:
-    - solution form;
-    - interaction model;
-    - technology;
-    - access mode;
-    - delivery context;
-    - supporting functional logic;
-    - NFFF aspects.
+If validation fails:
 
-Failure Types:
-
-- `MISSING_CORE_CAPABILITY`
-- `CORE_SUBSUMED`
-- `CORE_CONTAMINATION`
+- assign any unclassified capability to the correct class;
+- split any mixed capability into separate category-consistent capabilities;
+- revise any contaminated scope boundary so that each capability reflects one dominant semantic role.
 
 ---
 
-##### Step 4 — NFFF Classification and Promotion Validation
+#### Step 3 — Core User Capability Integrity
 
-Verify NFFF handling.
+Check that:
 
-Checks:
+- each identified Core User Capability is represented by one or more dedicated capabilities;
+- no Core User Capability is obscured by solution form, interaction model, technology, access mode, delivery context, or supporting logic;
+- no Core User Capability absorbs Supporting Functional Capability or NFFF Aspect semantics.
 
-- Every identified NFFF aspect appears exactly once in the classification table.
-- Every table row corresponds to an NFFF aspect capability grounded in ≥1 capability signal.
-- Every promotable NFFF aspect is represented by exactly one capability.
-- No promoted NFFF aspect is embedded in non-NFFF capabilities.
+If validation fails:
 
-Failure Types:
-
-- `NFFF_MISSING`
-- `NFFF_DUPLICATED`
-- `NFFF_UNGROUNDED`
-- `NFFF_NOT_PROMOTED`
-- `NFFF_EMBEDDED`
+- introduce or revise a dedicated Core User Capability grounded in capability signals;
+- extract supporting logic, form-factor concerns, access concerns, or delivery concerns into separate capabilities when required;
+- revise the Core User Capability name and scope boundary around primary user intent.
 
 ---
 
-##### Step 5 — Capability Construction Integrity
+#### Step 4 — NFFF Aspect Classification and Promotion
 
-Verify structural validity of capabilities.
+Check that:
 
-Checks:
+- every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
+- every NFFF table row is grounded in capability signals;
+- every promotable NFFF aspect is represented by a dedicated NFFF capability;
+- no promoted NFFF Aspect is embedded inside a Core User Capability or Supporting Functional Capability;
+- the table contains the required `None identified` row when no NFFF aspects are identified.
 
-- No capability represents only:
-    - an implementation mechanism;
-    - a task;
-    - a processing step.
-- Every capability has:
-    - one user-recognizable purpose;
-    - one dominant user intent;
-    - a coherent scope boundary.
+If validation fails:
 
-Failure Types:
-
-- `INVALID_CAPABILITY_TYPE`
-- `NO_USER_INTENT`
-- `INVALID_SCOPE_SIGNAL`
+- add missing NFFF aspects or alternatives to the classification table;
+- remove unsupported NFFF table rows;
+- consolidate duplicated NFFF rows;
+- promote qualifying NFFF aspects into dedicated capabilities;
+- extract embedded promoted NFFF aspects from non-NFFF capabilities.
 
 ---
 
-##### Step 6 — Splitting Validation
+#### Step 5 — Capability Construction Integrity
 
-Verify that no capability is overloaded.
+Check that:
 
-Checks:
+- every capability represents a user-recognizable capability area, not an implementation mechanism, internal component, task, processing step, validation scenario, or low-level action;
+- every capability has one dominant user intent;
+- every capability has a concise user-facing name;
+- every `Scope boundary` is brief, boundary-oriented, and non-procedural.
 
-- No capability contains candidate fragments that:
-    - serve different user-recognizable purposes;
-    - imply materially different user intents;
-    - imply materially different access, environment, or runtime expectations.
+If validation fails:
 
-Failure Types:
-
-- `SHOULD_SPLIT`
-
----
-
-##### Step 7 — Grouping Validation
-
-Verify that no capabilities are artificially separated.
-
-Checks:
-
-- No pair of capabilities exists such that both:
-    - serve the same user-recognizable purpose;
-    - share the same user intent;
-    - share the same access, environment, and runtime expectations.
-
-Failure Types:
-
-- `SHOULD_MERGE`
+- remove or revise invalid capabilities into user-recognizable capability areas;
+- rewrite names around end-user value or functional intent;
+- rewrite scope boundaries to clarify inclusion boundaries without enumerating behaviors or implementation steps.
 
 ---
 
-##### Step 8 — Boundary Consistency Validation
+#### Step 6 — Splitting and Grouping
 
-Verify global boundary integrity.
+Check that:
 
-Checks:
+- no capability combines materially different user intents, mental models, access paths, runtime contexts, expertise levels, or usage patterns;
+- no pair of capabilities is artificially separated when they serve the same user-recognizable purpose and share the same access, environment, and runtime expectations;
+- every capability is cohesive, non-redundant, and category-consistent.
 
-- No capability scopes overlap.
-- All capabilities are:
-    - category-consistent;
-    - semantically cohesive;
-    - non-redundant.
+If validation fails:
 
-Failure Types:
-
-- `OVERLAPPING_CAPABILITIES`
-- `REDUNDANT_CAPABILITIES`
-- `INCOHERENT_BOUNDARY`
+- split overloaded capabilities along the material difference that caused the failure;
+- merge artificially separated capabilities when doing so preserves category consistency and user-recognizable cohesion;
+- revise overlapping scope boundaries to eliminate redundancy or ambiguity;
+- preserve all valid capability signals during any split or merge.
 
 ---
 
-##### Step 9 — Boundary Decision Validation
+#### Step 7 — Final Validity Check
 
-For each capability, assign a Boundary Decision:
+Check that:
 
-- `Keep`
-- `Split`
-- `Merge`
-- `Revise`
+- all capabilities satisfy the Capability Model;
+- all promoted NFFF aspects are represented correctly;
+- all capability boundaries are cohesive and non-overlapping;
+- all signal associations remain valid after the final revision;
+- the final report conforms exactly to the Report Template.
 
-Checks:
+If validation fails:
 
-- `Keep` is valid only if:
-    - no `SHOULD_SPLIT` condition applies;
-    - no `SHOULD_MERGE` condition applies;
-    - no structural failures apply.
+- apply the smallest correction needed;
+- restart validation from Step 1.
 
-Failure Types:
-
-- `INVALID_KEEP_DECISION`
-
----
-
-#### Revision Strategies
-
-When a validation failure is detected, the LLM MUST apply the corresponding revision strategy.
-
-Revisions MUST:
-
-- be minimal and localized;
-- preserve unaffected capabilities;
-- maintain consistency with capability signals;
-- NOT introduce new unsupported capabilities.
-
-After applying a revision, the LLM MUST restart the **Validation Algorithm** from Step 1.
-
----
-
-##### Failure Type → Revision Strategy
-
-###### Signal Grounding
-
-- `UNSUPPORTED_CAPABILITY`  
-    → Remove the capability OR replace it with one derived from valid capability signals.
-- `UNMAPPED_SIGNAL`  
-    → Introduce a new capability candidate OR extend an existing capability to cover the signal.
-
----
-
-###### Classification
-
-- `UNCLASSIFIED_CAPABILITY`  
-    → Assign the capability to exactly one Capability Model category based on dominant semantics.
-- `MULTI_CATEGORY_CAPABILITY`  
-    → Split the capability into separate capabilities, each with a single category.
-- `CATEGORY_CONTAMINATION`  
-    → Remove or extract conflicting semantics into separate capabilities.
-
----
-
-###### Core Capability Integrity
-
-- `MISSING_CORE_CAPABILITY`  
-    → Introduce a dedicated Core User Capability derived from relevant capability signals.
-- `CORE_SUBSUMED`  
-    → Extract the core user intent into a separate Core User Capability.
-- `CORE_CONTAMINATION`  
-    → Remove non-core elements (form, access, NFFF, supporting logic) from the Core capability.
-
----
-
-###### NFFF Handling
-
-- `NFFF_MISSING`  
-    → Add the missing NFFF aspect to the classification table.
-- `NFFF_DUPLICATED`  
-    → Consolidate duplicate rows into a single entry.
-- `NFFF_UNGROUNDED`  
-    → Remove the NFFF aspect OR replace it with one supported by capability signals.
-- `NFFF_NOT_PROMOTED`  
-    → Introduce a dedicated capability for the NFFF aspect.
-- `NFFF_EMBEDDED`  
-    → Extract the NFFF aspect into a separate capability.
-
----
-
-###### Capability Construction
-
-- `INVALID_CAPABILITY_TYPE`  
-    → Replace the capability with a user-recognizable capability OR remove it.
-- `NO_USER_INTENT`  
-    → Redefine the capability around a clear user-recognizable purpose.
-- `INVALID_SCOPE_SIGNAL`  
-    → Rewrite the scope boundary to be boundary-oriented and non-procedural.
-
----
-
-###### Splitting
-
-- `SHOULD_SPLIT`  
-    → Divide the capability into multiple capabilities based on:
-    - user intent;
-    - access/environment differences;
-    - mental model separation.
-
----
-
-###### Grouping
-
-- `SHOULD_MERGE`  
-    → Merge the capabilities into a single capability that:
-    - represents a unified user-recognizable purpose;
-    - preserves all valid capability signals.
-
----
-
-###### Boundary Consistency
-
-- `OVERLAPPING_CAPABILITIES`  
-    → Adjust scope boundaries OR split capabilities to eliminate overlap.
-- `REDUNDANT_CAPABILITIES`  
-    → Merge or remove duplicate capabilities.
-- `INCOHERENT_BOUNDARY`  
-    → Re-scope or split capabilities to restore cohesion.
-
----
-
-###### Boundary Decision
-
-- `INVALID_KEEP_DECISION`  
-    → Replace `Keep` with the correct action (`Split`, `Merge`, or `Revise`) and apply the corresponding revision.
-
----
-
-##### Revision Priority Rules
-
-When multiple validation failures are present, the LLM MUST resolve them in the following strict priority order:
-
-1. **Signal Grounding**
-    Resolve:
-    - `UNSUPPORTED_CAPABILITY`
-    - `UNMAPPED_SIGNAL`
-2. **Capability Model Classification**
-    Resolve:
-    - `UNCLASSIFIED_CAPABILITY`
-    - `MULTI_CATEGORY_CAPABILITY`
-    - `CATEGORY_CONTAMINATION`
-3. **Core User Capability Integrity**
-    Resolve:
-    - `MISSING_CORE_CAPABILITY`
-    - `CORE_SUBSUMED`
-    - `CORE_CONTAMINATION`
-4. **NFFF Classification and Promotion**
-    Resolve:
-    - `NFFF_MISSING`
-    - `NFFF_DUPLICATED`
-    - `NFFF_UNGROUNDED`
-    - `NFFF_NOT_PROMOTED`
-    - `NFFF_EMBEDDED`
-5. **Capability Construction Integrity**
-    Resolve:
-    - `INVALID_CAPABILITY_TYPE`
-    - `NO_USER_INTENT`
-    - `INVALID_SCOPE_SIGNAL`
-6. **Splitting and Grouping**
-    Resolve:
-    - `SHOULD_SPLIT`
-    - `SHOULD_MERGE`
-7. **Boundary Consistency**
-    Resolve:
-    - `OVERLAPPING_CAPABILITIES`
-    - `REDUNDANT_CAPABILITIES`
-    - `INCOHERENT_BOUNDARY`
-8. **Boundary Decision**
-    Resolve:
-    - `INVALID_KEEP_DECISION`
-
----
-
-###### Priority Enforcement Rules
-
-The LLM MUST:
-
-- resolve all failures at the current priority level before proceeding to the next level;
-- restart the **Validation Algorithm** after applying any revision;
-- NOT attempt to resolve lower-priority failures before higher-priority failures are cleared.
-
----
-
-###### Rationale (Non-Normative)
-
-Higher-priority failures affect the validity of lower-level reasoning:
-
-- incorrect grounding invalidates classification;
-- incorrect classification invalidates grouping;
-- incorrect grouping invalidates boundary evaluation.
-
-Therefore, resolving failures out of order produces unstable or incorrect capability sets.
+Validation is complete only when all validation steps pass.
 
 ---
 
