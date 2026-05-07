@@ -4,7 +4,7 @@ url: https://chatgpt.com/c/69f5cb12-6d14-83eb-ab10-a57b41b1aa71
 
 ## Capability Decomposition
 
-Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Extracted capability signals are then used to define and refine **capability candidates** following **capability construction** rules and **capability model classification**. After subsequent **validation** process, the final **capability** set is reported.
+Capability decomposition is an early analysis activity that converts a **target description** into a compact, user-centric map of the **target scope**. This analysis begins by extracting **capability signals** from the target description. Capability signals are then used to infer and refine **capability candidates** according to **capability construction** rules and **Capability Model classification**. After validation, the final **capability set** is reported.
 
 ---
 
@@ -20,7 +20,7 @@ A **capability signal** is an exact keyword, term, or short phrase from the targ
 
 The LLM MUST:
 
-- use capability signals as the grounding basis for all capability identification and classification;
+- use capability signals as the grounding basis for capability identification and classification;
 - ensure that every capability is fully supported by one or more capability signals;
 - infer capability semantics from the meaning and immediate context of associated capability signals.
 
@@ -28,7 +28,7 @@ The LLM MUST NOT expand capability semantics beyond what is reasonably supported
 
 A **capability candidate** is a provisional capability inferred from one or more capability signals during decomposition. Capability candidates are identified, classified, grouped, split, revised, or rejected before the final capability set is returned.
 
-**Capability Model classification** is a central component of the capability decomposition process. This classification provides a structural reasoning model that the LLM MUST use to:
+**Capability Model classification** is a central component of capability decomposition. It provides a structural reasoning model that the LLM MUST use to:
 
 - distinguish primary user intent from supporting behavior and system form;
 - guide identification and scoping of capabilities;
@@ -37,13 +37,13 @@ A **capability candidate** is a provisional capability inferred from one or more
 
 The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
 
-Each capability must be assigned exactly one Capability Model class:
+Each capability MUST be assigned exactly one Capability Model class:
 
 - **Core User Capability** — defines primary user intent and core state semantics.
 - **Supporting Functional Capability** — affects, governs, validates, or transforms core state and provides functionality required to make the core user capability usable, complete, or coherent.
 - **Non-Functional and Form-Factor (NFFF) Aspect** — defines user access, interaction form, environment, or experience without affecting core state.
 
-This classification is also foundational for downstream analysis, but its primary role is to shape decomposition itself.
+Capability Model classification is foundational for downstream analysis, but its primary role is to shape decomposition itself.
 
 ---
 
