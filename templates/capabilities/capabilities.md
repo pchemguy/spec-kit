@@ -56,6 +56,14 @@ If a material ambiguity prevents valid output, the LLM MUST ask a targeted clari
 
 The Capability Model classifies capabilities by their relation to primary user intent and by whether their semantics imply interaction with conceptual system state. It MUST NOT classify capabilities based on interface, presentation, or implementation form.
 
+The Capability Model defines three mutually exclusive capability classes:
+
+- Core User Capability
+- Supporting Functional Capability
+- NFFF Capability
+
+Every capability in the final capability set MUST be classified as exactly one of these classes.
+
 ---
 
 #### Core User Capability
@@ -177,7 +185,7 @@ A Supporting Functional Capability MUST NOT:
 
 ---
 
-#### Non-Functional and Form-Factor Capability (NFFF Capability)
+#### Non-Functional and Form-Factor Capabilities (NFFF Capabilities)
 
 ##### Definition and Role
 
@@ -185,7 +193,7 @@ A **NFFF aspect** is a user-facing form, access path, interaction mode, interfac
 
 NFFF aspects do not operate on conceptual core state. They describe how the user accesses, interacts with, receives, runs, or experiences the target scope.
 
-An NFFF Aspect:
+An identified NFFF aspect represents:
 
 * defines *how the user accesses, interacts with, or experiences the system*;
 * represents form, environment, interface, delivery, and operational context;
@@ -248,7 +256,7 @@ The LLM MUST perform the following steps for identified NFFF aspects:
         - **No distinct implementation implication** — does not materially affect implementation structure.
     
 3. **Promotion**  
-    A identified NFFF aspect or alternative MUST become a dedicated NFFF Capability when it is classified as:
+    An identified NFFF aspect or alternative MUST become a dedicated NFFF Capability when it is classified as:
     
     - `Capability-relevant aspect`; or
     - both `Cross-cutting constraint` and `Implementation workstream`.
@@ -631,14 +639,7 @@ The LLM MUST return only the following output structure:
 ```markdown
 ## Capability Decomposition Report
 
-### Capability List
-
-- **[Capability Name]** — [End-user value / functional intent].
-  Scope boundary: [Brief boundary-oriented scope statement].
-  Classification: [Capability Model Class].
-  Extracted Keywords: [One or more capability signals].
-
-### Capability Table
+### Capabilities
 
 | Capability | Classification | Scope boundary | Extracted Keywords |
 | ---------- | -------------- | -------------- | ------------------ |
@@ -661,8 +662,7 @@ Validates that the generated report completely and consistently materializes the
 
 Check that:
 
-- **Capability List** and **Capability Table** include every capability included in the final capability set, including NFFF capabilities;
-- Capability List and Capability Table contain consistent capability names, classifications, scope boundaries, and extracted keywords;
+- **Capabilities** include every capability from the final capability set, including NFFF capabilities;
 - every `Extracted Keywords` field contains one or more capability signals;
 - capability signal usage and interpretation remain semantically consistent across all outputs;
 - every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
