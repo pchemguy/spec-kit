@@ -185,15 +185,17 @@ A Supporting Functional Capability MUST NOT:
 
 ---
 
-#### Non-Functional and Form-Factor Capabilities (NFFF Capabilities)
+#### Non-Functional and Form-Factor Capability (NFFF Capability)
 
 ##### Definition and Role
+
+An **NFFF Capability** is a dedicated capability constructed from one or more promotable NFFF aspects according to the **NFFF Evaluation Pipeline**.
 
 A **NFFF aspect** is a user-facing form, access path, interaction mode, interface modality, runtime environment, delivery characteristic, or operational experience identified during capability decomposition.
 
 NFFF aspects do not operate on conceptual core state. They describe how the user accesses, interacts with, receives, runs, or experiences the target scope.
 
-An identified NFFF aspect represents:
+An identified NFFF aspect:
 
 * defines *how the user accesses, interacts with, or experiences the system*;
 * represents form, environment, interface, delivery, and operational context;
@@ -207,8 +209,6 @@ An NFFF Aspect MUST NOT:
 - govern acceptance, rejection, or transformation of core data.
 
 All such behavior belongs to Supporting Functional Capabilities.
-
-An **NFFF Capability** is a dedicated capability constructed from one or more promotable NFFF aspects according to the **NFFF Evaluation Pipeline**.
 
 ---
 
