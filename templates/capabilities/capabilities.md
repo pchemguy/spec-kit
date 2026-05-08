@@ -266,7 +266,7 @@ The LLM MUST perform the following steps for NFFF aspects:
     The LLM MUST prefer explicit NFFF capabilities over embedding NFFF concerns inside domain capabilities.
     
 5. **Classification Table Requirements**  
-    Every identified NFFF aspect or alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
+    Every identified NFFF aspect or alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table. 
     
     Each `Taxonomy Category` cell MAY contain multiple categories when applicable.
     
@@ -502,9 +502,9 @@ The LLM MUST return only the following output structure:
 
 ### Non-Functional and Form-Factor Aspect Classification
 
-| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
-| ------- | ----------------- | --------------------- | --------------------------- |
-| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
+| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability | Extracted Keywords |
+| ------- | ----------------- | --------------------- | --------------------------- | ----------------- |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] | [One or more capability signal] |
 ```
 
 - Every `Extracted Keywords` field MUST contain one or more capability signals.  
@@ -534,6 +534,7 @@ Check that:
 
 - every capability is grounded in one or more capability signals;
 - every `Extracted Keywords` field contains one or more capability signals;
+- every NFFF table row is grounded in capability signals;
 - every material capability signal used during decomposition is represented by, or traceably associated with, the final report;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
 - capability signal usage and interpretation remain consistent across the report.
