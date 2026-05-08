@@ -483,39 +483,6 @@ The `Scope boundary` MUST NOT contain:
 
 ---
 
-### Report Template
-
-The LLM MUST return only the following output structure:
-
-```markdown
-## Capability Decomposition Report
-
-### Capability List
-
-- **[Capability Name]** — [End-user value / functional intent].
-  Scope boundary: [Brief boundary-oriented scope statement].
-  Classification: [Capability Model Class].
-  Extracted Keywords: [One or more capability signals].
-
-### Capability Table
-
-| Capability | Classification | Scope boundary | Extracted Keywords |
-| ---------- | -------------- | -------------- | ------------------ |
-| [Capability Name] | [Capability Model Class] | [Brief boundary-oriented scope statement] | [One or more capability signals] |
-
-### Non-Functional and Form-Factor Aspect Classification
-
-| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability | Extracted Keywords |
-| ------ | ----------------- | --------------------- | --------------------------- | ------------------ |
-| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] | [One or more capability signals] |
-```
-
-- Every `Extracted Keywords` field MUST contain one or more capability signals.  
-- `Extracted Keywords` fields provide grounding and traceability between reported items and the target description.  
-- Capability signal usage and interpretation MUST remain semantically consistent across all outputs.
-
----
-
 ### Validation
 
 The LLM MUST validate the candidate capability set and NFFF aspect classification against the declarative rules defined in this module.
@@ -536,11 +503,8 @@ The LLM MUST return only an output where all validation steps pass.
 Check that:
 
 - every capability is grounded in one or more capability signals;
-- every `Extracted Keywords` field contains one or more capability signals;
-- every table with `Extracted Keywords` column has every row grounded in capability signals;
-- every material capability signal used during decomposition is represented by, or traceably associated with, the final report;
-- capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries;
-- capability signal usage and interpretation remain consistent across the report.
+- every material capability signal used during decomposition is represented by, or traceably associated with one capability;
+- capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries.
 
 If validation fails:
 
@@ -587,16 +551,11 @@ If validation fails:
 
 Check that:
 
-- every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
 - every promotable NFFF aspect is represented by a dedicated NFFF capability;
-- no promoted NFFF Aspect is embedded inside a Core User Capability or Supporting Functional Capability;
-- the table contains the required `None identified` row when no NFFF aspects are identified.
+- no promoted NFFF Aspect is embedded inside a Core User Capability or Supporting Functional Capability.
 
 If validation fails:
 
-- add missing NFFF aspects or alternatives to the classification table;
-- remove unsupported NFFF table rows;
-- consolidate duplicated NFFF rows;
 - promote qualifying NFFF aspects into dedicated capabilities;
 - extract embedded promoted NFFF aspects from non-NFFF capabilities.
 
@@ -643,8 +602,7 @@ Check that:
 - all capabilities satisfy the Capability Model;
 - all promoted NFFF aspects are represented correctly;
 - all capability boundaries are cohesive and non-overlapping;
-- all signal associations remain valid after the final revision;
-- the final report conforms exactly to the Report Template.
+- all signal associations remain valid after the final revision.
 
 If validation fails:
 
@@ -653,12 +611,82 @@ If validation fails:
 
 ---
 
-### Completion Condition
+#### Completion Condition
 
 Validation is complete only when:
 
 - all validation steps pass;
-- all capabilities satisfy the declarative rules defined in this module;
+- all capabilities satisfy the declarative rules defined in this module.
+
+---
+
+### Report Template
+
+The LLM MUST return only the following output structure:
+
+```markdown
+## Capability Decomposition Report
+
+### Capability List
+
+- **[Capability Name]** — [End-user value / functional intent].
+  Scope boundary: [Brief boundary-oriented scope statement].
+  Classification: [Capability Model Class].
+  Extracted Keywords: [One or more capability signals].
+
+### Capability Table
+
+| Capability | Classification | Scope boundary | Extracted Keywords |
+| ---------- | -------------- | -------------- | ------------------ |
+| [Capability Name] | [Capability Model Class] | [Brief boundary-oriented scope statement] | [One or more capability signals] |
+
+### Non-Functional and Form-Factor Aspect Classification
+
+| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability | Extracted Keywords |
+| ------ | ----------------- | --------------------- | --------------------------- | ------------------ |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] | [One or more capability signals] |
+```
+
+The LLM MUST:
+
+- validate generated output according to **Report Validation**;
+- correct any issues associated with failed validation checks until;
+- repeat `validate -> correct` workflow until all checks pass.
+
+---
+
+#### Report Validation
+
+Check that:
+
+- **Capability List** and **Capability Table** include every capability included in the final capability set, including NFFF aspects;
+- every `Extracted Keywords` field contains one or more capability signals;
+- capability signal usage and interpretation remain semantically consistent across all outputs;
+- every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
+- the table contains the required `None identified` row when no NFFF aspects are identified;
 - the final output conforms to the Report Template.
+
+If validation fails:
+
+- add missing capability items;
+- complete missing `Extracted Keywords` fields;
+- update stale or inconsistent signal associations to match the revised capability definition and scope;
+- add missing NFFF aspects or alternatives to the classification table;
+- remove unsupported NFFF table rows;
+- consolidate duplicated NFFF rows;
+- revise final output to match the Report Template.
+
+If validation fails:
+
+- apply the smallest correction needed;
+- restart report validation checks.
+
+---
+
+#### Completion Condition
+
+Validation is complete only when:
+
+- all report validation checks pass.
 
 ---
