@@ -330,7 +330,9 @@ The LLM MUST:
 
 Capability signals MUST:
 
-- use verbatim text (exact keywords, terms, and short phrases) where possible, with minimal normalization;
+- use verbatim text (exact keywords, terms, and short phrases) with minimal normalization, including:
+    - word form normalization;
+    - `[collective term] ([extracted keywords])`, if appropriate;
 - directly support capability identification, classification, or scoping decisions;
 - provide evidence used during grouping and splitting evaluation;
 - indicate:
