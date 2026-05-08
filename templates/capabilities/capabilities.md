@@ -639,6 +639,10 @@ The LLM MUST return only the following output structure:
 ```markdown
 ## Capability Decomposition Report
 
+### Extracted Keywords
+
+[List exact keywords, terms, and short phrases extracted from the Target Description]
+
 ### Capabilities
 
 | Capability | Classification | Scope boundary | Extracted Keywords |
@@ -663,6 +667,7 @@ Validates that the generated report completely and consistently materializes the
 Check that:
 
 - **Capabilities** include every capability from the final capability set, including NFFF capabilities;
+- **Extracted Keywords** section lists every extracted term identified as capability signal;
 - every `Extracted Keywords` field contains one or more capability signals;
 - capability signal usage and interpretation remain semantically consistent across all outputs;
 - every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
@@ -672,6 +677,7 @@ Check that:
 Resolve:
 
 - add missing capability items;
+- add missing extracted keywords;
 - complete missing `Extracted Keywords` fields;
 - update stale or inconsistent signal associations to match the revised capability definition and scope;
 - add missing NFFF aspects or alternatives to the classification table;
