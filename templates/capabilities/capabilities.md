@@ -490,21 +490,15 @@ The LLM MUST return only the following output structure:
 
 ### Capabilities
 
-- **[Capability Name]** — [End-user value / functional intent].  
-  Scope boundary: [Brief boundary-oriented scope statement].  
-  Classification: [Capability Model Class].  
-  Extracted Keywords: [One or more capability signals].
-
-- **[Capability Name]** — [End-user value / functional intent].  
-  Scope boundary: [Brief boundary-oriented scope statement].  
-  Classification: [Capability Model Class].  
-  Extracted Keywords: [One or more capability signals].
+| Capability | Classification | Scope boundary | Extracted Keywords |
+| ---------- | -------------- | -------------- | ------------------ |
+| [Capability Name] | [Capability Model Class] | [Brief boundary-oriented scope statement] | [One or more capability signals] |
 
 ### Non-Functional and Form-Factor Aspect Classification
 
-| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability |
-| ------- | ----------------- | --------------------- | --------------------------- |
-| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] |
+| Aspect | Taxonomy Category | User-Facing Relevance | Implementation Separability | Extracted Keywords |
+| ------ | ----------------- | --------------------- | --------------------------- | ------------------ |
+| [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] | [One or more capability signals] |
 ```
 
 - Every `Extracted Keywords` field MUST contain one or more capability signals.  
