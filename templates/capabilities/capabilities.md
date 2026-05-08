@@ -490,7 +490,14 @@ The LLM MUST return only the following output structure:
 ```markdown
 ## Capability Decomposition Report
 
-### Capabilities
+### Capability List
+
+- **[Capability Name]** — [End-user value / functional intent].
+  Scope boundary: [Brief boundary-oriented scope statement].
+  Classification: [Capability Model Class].
+  Extracted Keywords: [One or more capability signals].
+
+### Capability Table
 
 | Capability | Classification | Scope boundary | Extracted Keywords |
 | ---------- | -------------- | -------------- | ------------------ |
