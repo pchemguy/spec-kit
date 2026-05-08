@@ -36,10 +36,10 @@ The LLM MUST execute this module in the following order, applying the **Capabili
     5. evaluate and promote NFFF Aspects according to the NFFF Evaluation Pipeline;  
     6. group, split, revise, or reject capability candidates to construct the final capability set;  
     7. maintain capability signal grounding and traceability throughout refinement.
-4. Validate the capability set and NFFF aspect classification according to the **Validation** section.
-5. Return the final **Capability Decomposition Report** according to the **Report Template**, including:
-    - the completed **Capabilities** section containing the final capability set;
-    - the completed **Non-Functional and Form-Factor Aspect Classification** table.
+4. Validate the capability decomposition according to the **Validation** section.
+5. Generate the **Capability Decomposition Report** according to the **Report Template**.  
+6. Validate the generated report according to **Report Output Validation**.  
+7. Return only the validated final **Capability Decomposition Report**.
 
 If a material ambiguity prevents valid output, the LLM MUST ask a targeted clarification question instead of returning the report.
 
@@ -75,7 +75,7 @@ State semantics and transformations define the conceptual domain model, not its 
 During capability decomposition, state MUST remain conceptual and MUST be used only to:
 
 * identify what constitutes a Core User Capability; and
-* distinguish Supporting Functional Capabilities from NFFF Aspects.
+* distinguish Supporting Functional Capabilities from NFFF Capabilities.
 
 ---
 
@@ -150,12 +150,12 @@ A Supporting Functional Capability:
 
 ##### Classification Rules
 
-A Supporting Functional Capability MUST NOT be classified as a NFFF Aspect solely because it has a user-visible interface or interaction surface.
+A Supporting Functional Capability MUST NOT be classified as a NFFF Capability solely because it has a user-visible interface or interaction surface.
 
 The LLM MUST classify based on capability semantics, not surface form:
 
 * **Supporting Functional Capability** — the capability's primary purpose is to operate on, validate, control, recover, interpret, or transform system data, execution, or conceptual core state, even if it has a user-visible interface.
-* **NFFF Aspect** — the capability's primary purpose is to define how the user accesses, interacts with, or experiences the system, and it does not operate on core-state semantics.
+* **NFFF Capability** — the capability's primary purpose is to define how the user accesses, interacts with, or experiences the system, and it does not operate on core-state semantics.
 
 When both appear present, the LLM MUST classify based on the dominant semantic role.
 
@@ -177,11 +177,13 @@ A Supporting Functional Capability MUST NOT:
 
 ---
 
-#### Non-Functional and Form-Factor Aspects (NFFF Aspects)
+#### Non-Functional and Form-Factor Capability (NFFF Capability)
 
 ##### Definition and Role
 
-Represents a distinct user-facing form, access path, interface modality, runtime environment, or operational experience whose semantics do not operate on conceptual core state.
+A **NFFF aspect** is a user-facing form, access path, interaction mode, interface modality, runtime environment, delivery characteristic, or operational experience identified during capability decomposition.
+
+NFFF aspects do not operate on conceptual core state. They describe how the user accesses, interacts with, receives, runs, or experiences the target scope.
 
 An NFFF Aspect:
 
@@ -197,6 +199,8 @@ An NFFF Aspect MUST NOT:
 - govern acceptance, rejection, or transformation of core data.
 
 All such behavior belongs to Supporting Functional Capabilities.
+
+An **NFFF Capability** is a dedicated capability constructed from one or more promotable NFFF aspects according to the **NFFF Evaluation Pipeline**.
 
 ---
 
@@ -224,7 +228,7 @@ The LLM MUST NOT:
 
 ##### NFFF Evaluation Pipeline
 
-The LLM MUST perform the following steps for NFFF aspects:
+The LLM MUST perform the following steps for identified NFFF aspects:
 
 1. **Identification**  
     Identify every explicit or strongly implied:
@@ -244,12 +248,12 @@ The LLM MUST perform the following steps for NFFF aspects:
         - **No distinct implementation implication** — does not materially affect implementation structure.
     
 3. **Promotion**  
-    A NFFF aspect or alternative MUST become a dedicated capability when it is classified as:
+    A identified NFFF aspect or alternative MUST become a dedicated NFFF Capability when it is classified as:
     
     - `Capability-relevant aspect`; or
     - both `Cross-cutting constraint` and `Implementation workstream`.
     
-    A NFFF aspect or alternative MUST NOT be absorbed into a Core User Capability or Supporting Functional Capability when it meets either condition.
+    A promotable NFFF aspect or alternative MUST NOT be absorbed into a Core User Capability or Supporting Functional Capability.
     
 4. **Separation Constraints**  
     The LLM MUST evaluate independently:
@@ -257,16 +261,16 @@ The LLM MUST perform the following steps for NFFF aspects:
     - each distinct NFFF aspect;
     - each alternative of the same aspect.
     
-    The LLM MUST NOT collapse distinct NFFF aspects or alternatives into a single generic capability merely because they:
+    The LLM MUST NOT collapse distinct NFFF aspects or alternatives into a single generic NFFF Capability merely because they:
     
     - belong to the same taxonomy category;
     - support the same core user capability;
     - share implementation components.
     
-    The LLM MUST prefer explicit NFFF capabilities over embedding NFFF concerns inside domain capabilities.
+    The LLM MUST prefer explicit NFFF Capabilities over embedding NFFF concerns inside domain capabilities.
     
 5. **Classification Table Requirements**  
-    Every identified NFFF aspect or alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table. 
+    Every identified NFFF aspect or alternative MUST appear exactly once in the **Non-Functional and Form-Factor Aspect Classification** table.
     
     Each `Taxonomy Category` cell MAY contain multiple categories when applicable.
     
@@ -436,8 +440,8 @@ NOT primarily by formal domain taxonomy or implementation structure.
 The LLM MUST enforce Capability Model consistency during capability construction:
 
 - capability candidates belonging to different Capability Model classes MUST NOT be grouped;
-- Core User Capabilities MUST NOT absorb Supporting Functional Capabilities or promoted NFFF Aspects;
-- promoted NFFF Aspects MUST remain distinct from domain capabilities.
+- Core User Capabilities MUST NOT absorb Supporting Functional Capabilities or NFFF Capabilities;
+- NFFF Capabilities MUST remain distinct from functional capabilities.
 
 Each resulting capability MUST remain:
 
@@ -485,16 +489,16 @@ The `Scope boundary` MUST NOT contain:
 
 ### Validation
 
-The LLM MUST validate the candidate capability set and NFFF aspect classification against the declarative rules defined in this module.
+The LLM MUST validate the candidate capability set against the declarative rules defined in this module.
 
 Validation MUST proceed in the following order. If any validation step fails, the LLM MUST:
 
 1. apply the correction defined for that step;
-2. revise only the affected capability, capability boundary, signal association, or NFFF table entry where possible;
+2. revise only the affected capability, capability boundary, or signal association where possible;
 3. preserve unaffected valid decisions;
 4. restart validation from Step 1.
 
-The LLM MUST return only an output where all validation steps pass.
+The LLM MUST NOT generate the final report until all validation steps pass.
 
 ---
 
@@ -503,7 +507,7 @@ The LLM MUST return only an output where all validation steps pass.
 Check that:
 
 - every capability is grounded in one or more capability signals;
-- every material capability signal used during decomposition is represented by, or traceably associated with one capability;
+- every material capability signal used during decomposition is represented by, or traceably associated with, one or more capabilities;
 - capability signal associations remain semantically consistent with the final capability names, classifications, and scope boundaries.
 
 If validation fails:
@@ -520,7 +524,7 @@ If validation fails:
 Check that:
 
 - every capability is assigned exactly one Capability Model class;
-- no capability mixes Core User Capability, Supporting Functional Capability, or NFFF Aspect semantics;
+- no capability mixes Core User Capability, Supporting Functional Capability, or NFFF Capability semantics;
 - each classification reflects the capability’s dominant semantic role.
 
 If validation fails:
@@ -537,7 +541,7 @@ Check that:
 
 - each identified Core User Capability is represented by one or more dedicated capabilities;
 - no Core User Capability is obscured by solution form, interaction model, technology, access mode, delivery context, or supporting logic;
-- no Core User Capability absorbs Supporting Functional Capability or NFFF Aspect semantics.
+- no Core User Capability absorbs Supporting Functional Capability or NFFF Capability semantics.
 
 If validation fails:
 
@@ -547,7 +551,7 @@ If validation fails:
 
 ---
 
-#### Step 4 — NFFF Aspect Classification and Promotion
+#### Step 4 — NFFF Aspect Promotion
 
 Check that:
 
@@ -647,26 +651,25 @@ The LLM MUST return only the following output structure:
 | [Explicit or strongly implied aspect] | [One or more taxonomy categories] | [Classification] | [Classification] | [One or more capability signals] |
 ```
 
-The LLM MUST:
-
-- validate generated output according to **Report Validation**;
-- correct any issues associated with failed validation checks until;
-- repeat `validate -> correct` workflow until all checks pass.
+The LLM MUST validate generated output according to **Report Output Validation**;
 
 ---
 
-#### Report Validation
+#### Report Output Validation
+
+Validates that the generated report completely and consistently materializes the validated capability set according to the Report Template.
 
 Check that:
 
-- **Capability List** and **Capability Table** include every capability included in the final capability set, including NFFF aspects;
+- **Capability List** and **Capability Table** include every capability included in the final capability set, including NFFF capabilities;
+- Capability List and Capability Table contain consistent capability names, classifications, scope boundaries, and extracted keywords;
 - every `Extracted Keywords` field contains one or more capability signals;
 - capability signal usage and interpretation remain semantically consistent across all outputs;
 - every explicit or strongly implied NFFF aspect or alternative appears exactly once in the NFFF classification table;
 - the table contains the required `None identified` row when no NFFF aspects are identified;
 - the final output conforms to the Report Template.
 
-If validation fails:
+Resolve:
 
 - add missing capability items;
 - complete missing `Extracted Keywords` fields;
@@ -679,11 +682,8 @@ If validation fails:
 If validation fails:
 
 - apply the smallest correction needed;
-- restart report validation checks.
-
----
-
-#### Completion Condition
+- restart report validation checks;
+- repeat `validate -> correct` workflow until all checks pass.
 
 Validation is complete only when:
 
